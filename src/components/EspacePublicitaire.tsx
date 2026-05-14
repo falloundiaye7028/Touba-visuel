@@ -19,8 +19,14 @@ const PUBS: Pub[] = [
     lienUrl: "https://www.facebook.com/barakaimmovateur",
     format: "large",
   },
-  // Slots vides — affichent "Réservez cet espace"
-  { id: "2", partenaire: "", imageUrl: "", lienUrl: "", format: "moyen" },
+  {
+    id: "2",
+    partenaire: "Orange Sénégal",
+    imageUrl: "/images/orange-tabaski.jpg",
+    lienUrl: "https://www.facebook.com/orange.sn",
+    format: "moyen",
+  },
+  // Slot vide — affiche "Réservez cet espace"
   { id: "3", partenaire: "", imageUrl: "", lienUrl: "", format: "moyen" },
 ];
 
