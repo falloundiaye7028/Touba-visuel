@@ -16,47 +16,35 @@ type Realisation = {
 export const REALISATIONS: Realisation[] = [
   {
     id: "r1",
-    titre: "Banderole Événement Touba",
-    categorie: "Signalétique",
-    type: "image",
-    imageUrl: "/images/real-banderole.jpg",
+    titre: "Réalisation ATV",
+    categorie: "Vidéo",
+    type: "video",
+    youtubeId: "6jAZzTTjTIQ",
+    youtubeUrl: "https://youtu.be/6jAZzTTjTIQ",
   },
   {
     id: "r2",
-    titre: "Flyers Campagne Orange",
-    categorie: "Impression",
-    type: "image",
-    imageUrl: "/images/real-flyers.jpg",
+    titre: "Réalisation ATV",
+    categorie: "Vidéo",
+    type: "video",
+    youtubeId: "QZmLPrdw-VU",
+    youtubeUrl: "https://youtu.be/QZmLPrdw-VU",
   },
   {
     id: "r3",
-    titre: "Site Web Baraka Immo",
-    categorie: "Création Web",
-    type: "image",
-    imageUrl: "/images/real-siteweb.jpg",
+    titre: "Réalisation ATV",
+    categorie: "Vidéo",
+    type: "video",
+    youtubeId: "1Mb3X9dRcWw",
+    youtubeUrl: "https://youtu.be/1Mb3X9dRcWw",
   },
   {
     id: "r4",
-    titre: "Spot Publicitaire ATV",
+    titre: "Réalisation ATV",
     categorie: "Vidéo",
     type: "video",
-    youtubeId: "dQw4w9WgXcQ", // ← remplacez par votre ID YouTube
-    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  },
-  {
-    id: "r5",
-    titre: "Reportage Événement Magal",
-    categorie: "Couverture Médiatique",
-    type: "video",
-    youtubeId: "dQw4w9WgXcQ", // ← remplacez par votre ID YouTube
-    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  },
-  {
-    id: "r6",
-    titre: "T-shirts Personnalisés",
-    categorie: "Textile",
-    type: "image",
-    imageUrl: "/images/real-textile.jpg",
+    youtubeId: "Cjb4J3JHCrM",
+    youtubeUrl: "https://youtu.be/Cjb4J3JHCrM",
   },
 ];
 
@@ -155,7 +143,7 @@ export default function Realisations() {
         </div>
 
         {/* Grille */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {REALISATIONS.map((real) =>
             real.type === "video" ? (
               <VideoCard key={real.id} real={real} />
