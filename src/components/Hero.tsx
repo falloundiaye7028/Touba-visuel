@@ -35,14 +35,15 @@ export default function Hero() {
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            Tous vos{" "}
-            <span className="text-or-400">supports visuels</span>{" "}
-            en un seul endroit
+            Impression, Visuel{" "}
+            <span className="text-or-400">&amp; Site Web</span>{" "}
+            de A à Z
           </h1>
 
           <p className="text-vert-200 text-lg leading-relaxed mb-8 max-w-lg">
-            De l&apos;impression papier aux enseignes lumineuses, du textile aux visuels digitaux —
-            commandez en ligne, payez facilement, recevez rapidement.
+            De l&apos;impression papier à la conception de site web — flyers, banderoles,
+            t-shirts, logos, boutiques en ligne et applications mobiles.
+            Commandez en ligne, payez facilement, recevez rapidement.
           </p>
 
           {/* Statistiques rapides */}
@@ -91,18 +92,18 @@ export default function Hero() {
         {/* Grille de catégories à droite */}
         <div className="hidden lg:grid grid-cols-2 gap-4">
           {[
-            { emoji: "🖨️", label: "Impression & Papier", nb: "19 produits" },
-            { emoji: "🏗️", label: "Signalétique & Grand Format", nb: "14 produits" },
-            { emoji: "👕", label: "Textile & Objets", nb: "17 produits" },
-            { emoji: "💻", label: "Numérique & Digital", nb: "14 produits" },
-            { emoji: "🎉", label: "Événementiel", nb: "10 produits" },
-            { emoji: "📦", label: "Emballage", nb: "5 produits" },
-            { emoji: "🏢", label: "Corporate", nb: "5 produits" },
-            { emoji: "📰", label: "Presse & Médias", nb: "4 produits" },
+            { emoji: "🌐", label: "Création Site Web", nb: "De A à Z", lien: "/catalogue/creation-site-web" },
+            { emoji: "🖨️", label: "Impression & Papier", nb: "19 produits", lien: "/catalogue/impression-papier" },
+            { emoji: "🏗️", label: "Signalétique Grand Format", nb: "14 produits", lien: "/catalogue/signaletique-grand-format" },
+            { emoji: "👕", label: "Textile & Objets", nb: "17 produits", lien: "/catalogue/textile-objets" },
+            { emoji: "💻", label: "Numérique & Digital", nb: "14 produits", lien: "/catalogue/numerique-digital" },
+            { emoji: "🎉", label: "Événementiel", nb: "10 produits", lien: "/catalogue/evenementiel" },
+            { emoji: "🏢", label: "Corporate", nb: "5 produits", lien: "/catalogue/identite-corporate" },
+            { emoji: "📰", label: "Presse & Médias", nb: "4 produits", lien: "/catalogue/presse-media" },
           ].map((cat) => (
             <Link
               key={cat.label}
-              href="/catalogue"
+              href={cat.lien}
               className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 hover:bg-white/20 hover:border-or-400/50 transition-all duration-200 group"
             >
               <div className="text-3xl mb-2">{cat.emoji}</div>

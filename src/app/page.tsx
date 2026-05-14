@@ -30,10 +30,10 @@ const avantages = [
 ];
 
 const etapes = [
-  { num: "01", titre: "Choisissez votre support", desc: "Parcourez notre catalogue de 88+ supports de communication." },
-  { num: "02", titre: "Personnalisez votre commande", desc: "Format, quantité, fichiers à transmettre ou création par nos graphistes." },
+  { num: "01", titre: "Choisissez votre service", desc: "Impression, signalétique, textile, digital ou conception de site web — tout est disponible." },
+  { num: "02", titre: "Personnalisez votre commande", desc: "Format, quantité, fichiers à transmettre ou création complète par nos graphistes et développeurs." },
   { num: "03", titre: "Payez en toute sécurité", desc: "Carte, Wave, Orange Money ou paiement à la livraison." },
-  { num: "04", titre: "Recevez votre commande", desc: "Production rapide et livraison à votre adresse ou retrait en boutique." },
+  { num: "04", titre: "Recevez votre commande", desc: "Livraison rapide à Touba, Dakar, partout au Sénégal et à l'international." },
 ];
 
 export default function HomePage() {
@@ -99,7 +99,7 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="section-title mb-3">Tous nos domaines d&apos;expertise</h2>
             <p className="section-subtitle max-w-2xl mx-auto">
-              {CATALOGUE.length} catégories, 88+ supports pour répondre à tous vos besoins de communication
+              {CATALOGUE.length} catégories — impression, signalétique, textile, digital et <strong>conception de site web de A à Z</strong>
             </p>
           </div>
 
