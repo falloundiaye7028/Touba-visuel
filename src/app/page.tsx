@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import CategorieCard from "@/components/CategorieCard";
 import SupportCard from "@/components/SupportCard";
 import Realisations from "@/components/Realisations";
+import TikTokSection from "@/components/TikTokSection";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
 
 const avantages = [
@@ -92,6 +93,9 @@ export default function HomePage() {
 
       {/* Section réalisations */}
       <Realisations />
+
+      {/* Section TikTok */}
+      <TikTokSection />
 
       {/* Section catégories */}
       <section className="py-16 bg-white">
