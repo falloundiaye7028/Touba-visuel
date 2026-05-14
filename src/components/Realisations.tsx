@@ -61,6 +61,14 @@ export const REALISATIONS: Realisation[] = [
     type: "image",
     imageUrl: "/images/real-tabaski-2026.jpg",
   },
+  {
+    id: "r7",
+    titre: "Réalisation ATV",
+    categorie: "Vidéo",
+    type: "video",
+    youtubeId: "2n_463t8VWI",
+    youtubeUrl: "https://youtu.be/2n_463t8VWI",
+  },
 ];
 
 function VideoCard({ real }: { real: Realisation }) {
