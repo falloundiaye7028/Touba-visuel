@@ -5,7 +5,7 @@ import SupportCard from "@/components/SupportCard";
 import { CATALOGUE, getCategorieBySlug } from "@/lib/supports";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -13,7 +13,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const categorie = getCategorieBySlug(params.slug);
+  const { slug } = await params;
+  const categorie = getCategorieBySlug(slug);
   if (!categorie) return { title: "Catégorie introuvable" };
   return {
     title: `${categorie.nom} — Catalogue`,
@@ -21,8 +22,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function CategorieDetailPage({ params }: Props) {
-  const categorie = getCategorieBySlug(params.slug);
+export default async function CategorieDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const categorie = getCategorieBySlug(slug);
   if (!categorie) notFound();
 
   return (
