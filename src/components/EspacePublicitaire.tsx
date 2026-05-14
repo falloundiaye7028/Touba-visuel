@@ -90,14 +90,14 @@ export default function EspacePublicitaire() {
                 href={pubLarge.lienUrl}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="block relative rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
+                className="block relative rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group bg-white border border-gray-100"
               >
-                <div className="relative w-full aspect-[16/7]">
+                <div className="relative w-full" style={{ aspectRatio: "4/3" }}>
                   <Image
                     src={pubLarge.imageUrl}
                     alt={`Publicité — ${pubLarge.partenaire}`}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain group-hover:scale-[1.02] transition-transform duration-500"
                   />
                 </div>
                 <span className="absolute top-2 left-2 bg-black/50 text-white text-[10px] px-2 py-0.5 rounded font-medium">
@@ -118,14 +118,14 @@ export default function EspacePublicitaire() {
                   href={pub.lienUrl}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="block relative rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group flex-1"
+                  className="block relative rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group flex-1 bg-white border border-gray-100"
                 >
-                  <div className="relative w-full aspect-[4/3]">
+                  <div className="relative w-full" style={{ aspectRatio: "1/1" }}>
                     <Image
                       src={pub.imageUrl}
                       alt={`Publicité — ${pub.partenaire}`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-contain group-hover:scale-[1.02] transition-transform duration-500"
                     />
                   </div>
                   <span className="absolute top-2 left-2 bg-black/50 text-white text-[10px] px-2 py-0.5 rounded font-medium">
