@@ -28,7 +28,7 @@ export default function Footer() {
             <a href="https://web.facebook.com/agencetoubavisuel/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
               <Facebook size={16} className="text-white" />
             </a>
-            <a href="https://web.facebook.com/agencetoubavisuel/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+            <a href="https://web.facebook.com/Shootingphotodor/" target="_blank" rel="noopener noreferrer" title="Nos Reportages Photos" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
               <Instagram size={16} className="text-white" />
             </a>
             <a href="https://www.youtube.com/@toubainfostv183" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-vert-800 hover:bg-red-600 rounded-lg flex items-center justify-center transition-colors duration-200">
@@ -55,6 +55,7 @@ export default function Footer() {
               { href: "/catalogue/numerique-digital", label: "Numérique & Digital" },
               { href: "/catalogue/evenementiel", label: "Événementiel" },
               { href: "/catalogue/identite-corporate", label: "Identité Corporate" },
+              { href: "/catalogue/couverture-mediatique", label: "Couverture Médiatique" },
             ].map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="text-vert-400 hover:text-or-400 transition-colors">
@@ -62,6 +63,11 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <a href="https://web.facebook.com/Shootingphotodor/" target="_blank" rel="noopener noreferrer" className="text-vert-400 hover:text-or-400 transition-colors">
+                📸 Nos Reportages Photos
+              </a>
+            </li>
           </ul>
         </div>
 
