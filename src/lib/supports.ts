@@ -189,6 +189,28 @@ export const CATALOGUE: Categorie[] = [
       { id: "spot-radio", nom: "Visuel Accompagnement Radio", slug: "spot-radio", description: "Visuel graphique pour accompagner vos spots et campagnes radio", prixBase: 20000, unite: "par visuel", formats: ["PNG HD", "JPEG"], emoji: "📻" },
     ],
   },
+  {
+    id: "creation-site-web",
+    nom: "Création de Site Web",
+    slug: "creation-site-web",
+    emoji: "🌐",
+    description: "Conception et développement de sites web de A à Z : vitrine, e-commerce, portfolio, blog. Livraison clé en main avec hébergement et nom de domaine.",
+    couleur: "bg-indigo-500",
+    supports: [
+      { id: "site-vitrine", nom: "Site Vitrine", slug: "site-vitrine", description: "Site web de présentation de votre entreprise, moderne et responsive. Jusqu'à 5 pages : accueil, services, à propos, contact, galerie.", prixBase: 150000, unite: "clé en main", formats: ["Mobile", "Tablette", "Desktop"], emoji: "🏠", populaire: true },
+      { id: "site-ecommerce", nom: "Boutique en Ligne (E-commerce)", slug: "site-ecommerce", description: "Site de vente en ligne complet avec catalogue produits, panier, paiement Wave/Orange Money/Stripe et gestion des commandes.", prixBase: 350000, unite: "clé en main", formats: ["Mobile", "Tablette", "Desktop"], emoji: "🛒", populaire: true },
+      { id: "site-portfolio", nom: "Portfolio / Site Créatif", slug: "site-portfolio", description: "Site portfolio élégant pour artistes, photographes, designers et créatifs. Galerie photo/vidéo et formulaire de contact.", prixBase: 100000, unite: "clé en main", formats: ["Mobile", "Tablette", "Desktop"], emoji: "🎨" },
+      { id: "site-restaurant", nom: "Site Restaurant / Hôtel", slug: "site-restaurant", description: "Site web pour restaurant, hôtel ou café avec menu en ligne, galerie photos et réservation en ligne.", prixBase: 200000, unite: "clé en main", formats: ["Mobile", "Tablette", "Desktop"], emoji: "🍽️" },
+      { id: "site-association", nom: "Site Association / ONG", slug: "site-association", description: "Site web pour associations, ONG et organisations à but non lucratif avec actualités, événements et formulaire de don.", prixBase: 120000, unite: "clé en main", formats: ["Mobile", "Tablette", "Desktop"], emoji: "🤝" },
+      { id: "site-immobilier", nom: "Site Immobilier", slug: "site-immobilier", description: "Site avec catalogue de biens immobiliers, filtres de recherche, fiches détaillées et formulaire de contact.", prixBase: 250000, unite: "clé en main", formats: ["Mobile", "Tablette", "Desktop"], emoji: "🏢" },
+      { id: "application-mobile", nom: "Application Mobile", slug: "application-mobile", description: "Application mobile iOS et Android de A à Z pour votre entreprise ou service. Devis sur mesure selon vos besoins.", prixBase: 500000, unite: "sur devis", formats: ["iOS", "Android"], emoji: "📱", populaire: true },
+      { id: "refonte-site", nom: "Refonte de Site Web", slug: "refonte-site", description: "Modernisation et redesign complet de votre site existant : nouveau design, responsive, rapide et optimisé SEO.", prixBase: 100000, unite: "sur devis", formats: ["Mobile", "Tablette", "Desktop"], emoji: "🔄" },
+      { id: "maintenance-web", nom: "Maintenance & Hébergement", slug: "maintenance-web", description: "Hébergement, maintenance mensuelle, mises à jour de sécurité et modifications de contenu pour votre site web.", prixBase: 15000, unite: "par mois", formats: ["Inclus : hébergement + domaine + SSL"], emoji: "🛡️" },
+      { id: "seo-referencement", nom: "SEO & Référencement Google", slug: "seo-referencement", description: "Optimisation de votre site pour apparaître en première page de Google. Audit, mots-clés, contenu et rapport mensuel.", prixBase: 50000, unite: "par mois", formats: ["Rapport mensuel inclus"], emoji: "🔍" },
+      { id: "landing-page", nom: "Landing Page Publicitaire", slug: "landing-page", description: "Page d'atterrissage optimisée pour vos campagnes publicitaires Facebook, Google Ads ou WhatsApp.", prixBase: 75000, unite: "clé en main", formats: ["Mobile first", "Desktop"], emoji: "🎯", populaire: true },
+      { id: "blog-actualites", nom: "Blog / Site d'Actualités", slug: "blog-actualites", description: "Site blog ou portail d'actualités avec gestion de contenu simple, catégories et moteur de recherche.", prixBase: 180000, unite: "clé en main", formats: ["Mobile", "Tablette", "Desktop"], emoji: "📝" },
+    ],
+  },
 ];
 
 export function getAllSupports(): SupportItem[] {
