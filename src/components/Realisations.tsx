@@ -155,7 +155,7 @@ export default function Realisations() {
             <p className="section-subtitle">Visuels, sites web, vidéos et couvertures médiatiques</p>
           </div>
           <a
-            href="https://www.youtube.com/@toubavisuel"
+            href="https://www.youtube.com/@toubainfostv183"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:flex items-center gap-2 text-red-600 hover:text-red-500 font-semibold text-sm border border-red-200 hover:border-red-400 px-4 py-2 rounded-lg transition-colors"
@@ -179,7 +179,7 @@ export default function Realisations() {
         {/* Bouton voir plus — mobile + lien YouTube */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="https://www.youtube.com/@toubavisuel"
+            href="https://www.youtube.com/@toubainfostv183"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors shadow-md"
