@@ -26,8 +26,13 @@ const PUBS: Pub[] = [
     lienUrl: "https://www.facebook.com/orange.sn",
     format: "moyen",
   },
-  // Slot vide — affiche "Réservez cet espace"
-  { id: "3", partenaire: "", imageUrl: "", lienUrl: "", format: "moyen" },
+  {
+    id: "3",
+    partenaire: "FAO Sénégal",
+    imageUrl: "/images/fao-80ans.jpg",
+    lienUrl: "https://www.facebook.com/FAOSenegal",
+    format: "moyen",
+  },
 ];
 
 function SlotVide({ format }: { format: string }) {
