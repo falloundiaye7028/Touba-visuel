@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MockupLateral from "@/components/MockupLateral";
 
 export const metadata: Metadata = {
   title: {
@@ -37,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
+        <MockupLateral />
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
