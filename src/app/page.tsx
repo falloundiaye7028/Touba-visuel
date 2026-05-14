@@ -3,7 +3,6 @@ import { ArrowRight, CheckCircle, Truck, Shield, Headphones } from "lucide-react
 import Hero from "@/components/Hero";
 import CategorieCard from "@/components/CategorieCard";
 import SupportCard from "@/components/SupportCard";
-import EspacePublicitaire from "@/components/EspacePublicitaire";
 import Realisations from "@/components/Realisations";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
 
@@ -58,9 +57,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Espace publicitaire partenaires */}
-      <EspacePublicitaire />
 
       {/* Section supports populaires */}
       <section className="py-16 bg-gray-50">
