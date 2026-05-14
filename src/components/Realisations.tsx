@@ -46,6 +46,21 @@ export const REALISATIONS: Realisation[] = [
     youtubeId: "Cjb4J3JHCrM",
     youtubeUrl: "https://youtu.be/Cjb4J3JHCrM",
   },
+  {
+    id: "r5",
+    titre: "Social Tabaski 2026 — Touba Cak Nam",
+    categorie: "Vidéo",
+    type: "video",
+    youtubeId: "ZML4Ef6dnYs",
+    youtubeUrl: "https://www.youtube.com/watch?v=ZML4Ef6dnYs",
+  },
+  {
+    id: "r6",
+    titre: "Flyer Social Tabaski 2026 — Touba Cak Nam",
+    categorie: "Impression & Design",
+    type: "image",
+    imageUrl: "/images/real-tabaski-2026.jpg",
+  },
 ];
 
 function VideoCard({ real }: { real: Realisation }) {
@@ -143,7 +158,7 @@ export default function Realisations() {
         </div>
 
         {/* Grille */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {REALISATIONS.map((real) =>
             real.type === "video" ? (
               <VideoCard key={real.id} real={real} />
