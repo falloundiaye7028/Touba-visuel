@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle, Truck, Shield, Headphones } from "lucide-react
 import Hero from "@/components/Hero";
 import CategorieCard from "@/components/CategorieCard";
 import SupportCard from "@/components/SupportCard";
+import { BannierePromoGrande } from "@/components/BannierePromo";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
 
 const avantages = [
@@ -56,6 +57,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Bannière publicitaire */}
+      <BannierePromoGrande />
 
       {/* Section supports populaires */}
       <section className="py-16 bg-gray-50">

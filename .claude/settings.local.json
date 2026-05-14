@@ -21,7 +21,13 @@
       "Bash(git commit *)",
       "Bash(git remote *)",
       "Bash(git branch *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(npx prisma *)",
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_9AUIKZ6BeaOb@ep-falling-star-ak7411ko.c-3.us-west-2.aws.neon.tech/neondb?sslmode=require\" npx prisma db push)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/catalogue)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/commande)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/api/orders?num=TEST)"
     ]
   }
 }
