@@ -12,12 +12,11 @@ export interface Pub {
 
 /* ── Modifiez ce tableau pour gérer vos publicités ── */
 const PUBS: Pub[] = [
-  // Exemple avec votre image (remplacez par les vraies images partenaires)
   {
     id: "1",
-    partenaire: "Orange Money",
-    imageUrl: "/images/banniere-promo.jpg",
-    lienUrl: "https://orangemoney.sn",
+    partenaire: "Baraka Immo",
+    imageUrl: "/images/baraka-immo.jpg",
+    lienUrl: "https://www.facebook.com/barakaimmovateur",
     format: "large",
   },
   // Slots vides — affichent "Réservez cet espace"
