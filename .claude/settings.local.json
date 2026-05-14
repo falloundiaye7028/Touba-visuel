@@ -27,7 +27,15 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/catalogue)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/commande)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/api/orders?num=TEST)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://touba-visuel.vercel.app/api/orders?num=TEST)",
+      "Bash(sed -i '' 's/textShadow: \"0 0 10px #d4af37, 0 0 20px #d4af37\"/textShadow: \"0 0 10px #ffffff, 0 0 20px #ffffff\"/g' \"/Users/imacpro/application Touba Visuel/src/components/Hero.tsx\")",
+      "Bash(sed -i '' 's/textShadow: \"0 0 8px #d4af37\"/textShadow: \"0 0 8px #ffffff\"/g' \"/Users/imacpro/application Touba Visuel/src/components/TikTokSection.tsx\")",
+      "Bash(sed -i '' 's/textShadow: \"0 0 8px #d4af37\"/textShadow: \"0 0 8px #ffffff\"/g' \"/Users/imacpro/application Touba Visuel/src/components/Footer.tsx\")",
+      "Bash(sed -i '' 's/textShadow: \"0 0 8px #d4af37, 0 0 16px #d4af37\"/textShadow: \"0 0 8px #ffffff, 0 0 16px #ffffff\"/g' \"/Users/imacpro/application Touba Visuel/src/components/Header.tsx\")",
+      "Bash(sed -i '' 's/textShadow: \"0 0 6px rgba\\(212,175,55,0.5\\)\"/textShadow: \"0 0 6px rgba\\(255,255,255,0.5\\)\"/g' \"/Users/imacpro/application Touba Visuel/src/components/Header.tsx\")",
+      "Bash(sed -i '' 's/shadow-\\\\[0_0_12px_rgba\\(212,175,55,0.5\\)\\\\]/shadow-[0_0_12px_rgba\\(255,255,255,0.3\\)]/g' \"/Users/imacpro/application Touba Visuel/src/components/Hero.tsx\")",
+      "Bash(sed -i '' 's/shadow-\\\\[0_0_10px_rgba\\(212,175,55,0.3\\)\\\\]/shadow-[0_0_10px_rgba\\(255,255,255,0.2\\)]/g' \"/Users/imacpro/application Touba Visuel/src/components/Footer.tsx\")",
+      "Bash(sed -i '' 's/shadow-\\\\[0_0_10px_rgba\\(212,175,55,0.4\\)\\\\]/shadow-[0_0_10px_rgba\\(255,255,255,0.2\\)]/g' \"/Users/imacpro/application Touba Visuel/src/components/Header.tsx\")"
     ]
   }
 }

@@ -85,7 +85,7 @@ export default function TikTokSection() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-10 h-10 bg-gray-950/60 border border-or-500/40 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                   <span className="text-or-400 font-black text-sm"
-                    style={{ textShadow: "0 0 8px #d4af37" }}>
+                    style={{ textShadow: "0 0 8px #ffffff" }}>
                     ATV
                   </span>
                 </div>

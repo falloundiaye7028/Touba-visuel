@@ -9,9 +9,9 @@ export default function Footer() {
         {/* Colonne 1 — Logo & description */}
         <div className="lg:col-span-1">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-11 h-11 bg-gray-950 border border-or-500/60 rounded-xl flex items-center justify-center shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+            <div className="w-11 h-11 bg-gray-950 border border-or-500/60 rounded-xl flex items-center justify-center shadow-[0_0_10px_rgba(255,255,255,0.2)]">
               <span className="text-or-400 font-black text-sm tracking-tight"
-                style={{ textShadow: "0 0 8px #d4af37" }}>
+                style={{ textShadow: "0 0 8px #ffffff" }}>
                 ATV
               </span>
             </div>

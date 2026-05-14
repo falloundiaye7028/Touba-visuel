@@ -20,9 +20,9 @@ export default function Hero() {
         <div className="text-white">
           {/* Badge ATV */}
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="bg-gray-950 border border-or-500/70 rounded-xl px-3 py-1.5 shadow-[0_0_12px_rgba(212,175,55,0.5)]">
+            <div className="bg-gray-950 border border-or-500/70 rounded-xl px-3 py-1.5 shadow-[0_0_12px_rgba(255,255,255,0.3)]">
               <span className="text-or-400 font-black text-base tracking-tight"
-                style={{ textShadow: "0 0 10px #d4af37, 0 0 20px #d4af37" }}>
+                style={{ textShadow: "0 0 10px #ffffff, 0 0 20px #ffffff" }}>
                 ATV
               </span>
             </div>

@@ -39,16 +39,16 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             {/* Icône ATV style neon */}
-            <div className="w-11 h-11 bg-gray-950 border border-or-500/60 rounded-xl flex items-center justify-center shadow-[0_0_10px_rgba(212,175,55,0.4)]">
+            <div className="w-11 h-11 bg-gray-950 border border-or-500/60 rounded-xl flex items-center justify-center shadow-[0_0_10px_rgba(255,255,255,0.2)]">
               <span className="text-or-400 font-black text-sm tracking-tight"
-                style={{ textShadow: "0 0 8px #d4af37, 0 0 16px #d4af37" }}>
+                style={{ textShadow: "0 0 8px #ffffff, 0 0 16px #ffffff" }}>
                 ATV
               </span>
             </div>
             <div>
               <div className="flex items-baseline gap-0">
                 <span className="text-or-400 font-black text-lg tracking-wide leading-none"
-                  style={{ textShadow: "0 0 6px rgba(212,175,55,0.5)" }}>
+                  style={{ textShadow: "0 0 6px rgba(255,255,255,0.5)" }}>
                   AGENCE
                 </span>
               </div>
