@@ -25,13 +25,13 @@ export default function Footer() {
             Impression, signalétique, textile, digital — tout sous un même toit.
           </p>
           <div className="flex gap-3">
-            <a href="#" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+            <a href="https://web.facebook.com/agencetoubavisuel/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
               <Facebook size={16} className="text-white" />
             </a>
-            <a href="#" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+            <a href="https://web.facebook.com/agencetoubavisuel/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
               <Instagram size={16} className="text-white" />
             </a>
-            <a href="#" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+            <a href="https://web.facebook.com/agencetoubavisuel/" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-vert-800 hover:bg-or-500 rounded-lg flex items-center justify-center transition-colors duration-200">
               <Twitter size={16} className="text-white" />
             </a>
           </div>
