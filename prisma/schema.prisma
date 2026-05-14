@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  phone         String?
+  password      String?
+  role          Role      @default(CLIENT)
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  orders        Order[]
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique
+  userId          String?
+  clientName      String
+  clientEmail     String
+  clientPhone     String
+  support         String
+  category        String
+  quantity        Int
+  format          String?
+  description     String        @db.Text
+  fileUrl         String?
+  prixUnitaire    Float
+  prixTotal       Float
+  status          OrderStatus   @default(EN_ATTENTE)
+  paymentStatus   PaymentStatus @default(NON_PAYE)
+  paymentMethod   PaymentMethod?
+  paymentRef      String?
+  notes           String?       @db.Text
+  livraison       Boolean       @default(false)
+  adresseLivraison String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  user            User?         @relation(fields: [userId], references: [id])
+  payments        Payment[]
+
+  @@map("orders")
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  orderId         String
+  amount          Float
+  currency        String        @default("XOF")
+  method          PaymentMethod
+  status          PaymentStatus @default(NON_PAYE)
+  transactionId   String?
+  stripeSessionId String?
+  waveRef         String?
+  orangeRef       String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  order           Order         @relation(fields: [orderId], references: [id])
+
+  @@map("payments")
+}
+
+model Support {
+  id          String   @id @default(cuid())
+  nom         String
+  slug        String   @unique
+  categorie   String
+  description String   @db.Text
+  prixBase    Float
+  unite       String
+  imageUrl    String?
+  actif       Boolean  @default(true)
+  ordre       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@map("supports")
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  GESTIONNAIRE
+}
+
+enum OrderStatus {
+  EN_ATTENTE
+  CONFIRME
+  EN_PRODUCTION
+  PRET
+  LIVRE
+  ANNULE
+}
+
+enum PaymentStatus {
+  NON_PAYE
+  EN_ATTENTE_PAIEMENT
+  PAYE
+  REMBOURSE
+  ECHOUE
+}
+
+enum PaymentMethod {
+  CARTE_BANCAIRE
+  WAVE
+  ORANGE_MONEY
+  LIVRAISON
+}

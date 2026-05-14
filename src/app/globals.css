@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased text-gray-900 bg-white;
+  }
+
+  * {
+    @apply box-border;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-vert-700 hover:bg-vert-600 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors duration-200 shadow-sm;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 bg-or-500 hover:bg-or-400 text-vert-950 font-bold px-5 py-2.5 rounded-xl transition-colors duration-200 shadow-sm;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-vert-700 text-vert-700 hover:bg-vert-700 hover:text-white font-semibold px-5 py-2.5 rounded-xl transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl border border-gray-100 shadow-sm;
+  }
+
+  .input-field {
+    @apply w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-vert-500 focus:border-transparent transition-all duration-200;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-gray-900;
+  }
+
+  .section-subtitle {
+    @apply text-gray-500 text-lg leading-relaxed;
+  }
+}
