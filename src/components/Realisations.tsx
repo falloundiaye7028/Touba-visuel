@@ -10,6 +10,7 @@ type Realisation = {
   imageUrl?: string;
   youtubeUrl?: string;
   youtubeId?: string;
+  lienUrl?: string;
 };
 
 /* ── Ajoutez / modifiez vos réalisations ici ── */
@@ -69,6 +70,14 @@ export const REALISATIONS: Realisation[] = [
     youtubeId: "2n_463t8VWI",
     youtubeUrl: "https://youtu.be/2n_463t8VWI",
   },
+  {
+    id: "r8",
+    titre: "Logo FETT — Fondation Éducation Pour Tous à Touba",
+    categorie: "Identité Visuelle",
+    type: "image",
+    imageUrl: "/images/real-fett-logo.jpg",
+    lienUrl: "https://web.facebook.com/profile.php?id=61567266940837",
+  },
 ];
 
 function VideoCard({ real }: { real: Realisation }) {
@@ -114,7 +123,7 @@ function VideoCard({ real }: { real: Realisation }) {
 }
 
 function ImageCard({ real }: { real: Realisation }) {
-  return (
+  const content = (
     <div className="group block relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-gray-100">
       <div className="relative w-full aspect-video">
         {real.imageUrl ? (
@@ -122,7 +131,7 @@ function ImageCard({ real }: { real: Realisation }) {
             src={real.imageUrl}
             alt={real.titre}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-contain bg-white group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-vert-900 to-vert-700">
@@ -139,6 +148,15 @@ function ImageCard({ real }: { real: Realisation }) {
       </div>
     </div>
   );
+
+  if (real.lienUrl) {
+    return (
+      <a href={real.lienUrl} target="_blank" rel="noopener noreferrer">
+        {content}
+      </a>
+    );
+  }
+  return content;
 }
 
 export default function Realisations() {
