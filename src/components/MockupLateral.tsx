@@ -164,7 +164,7 @@ function BanniereVerticale({
         {/* Footer ATV */}
         <div className="absolute bottom-3 left-0 right-0 flex justify-center">
           <p className="text-white/25 text-[8px] font-bold tracking-[0.3em] uppercase">
-            touba-visuel.com
+            touba-visuel.vercel.app
           </p>
         </div>
       </a>

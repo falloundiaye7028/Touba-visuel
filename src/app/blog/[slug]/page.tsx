@@ -45,7 +45,7 @@ export default async function ArticlePage({ params }: Props) {
   const similaires = getArticlesSimilaires(article);
 
   const urlPartage = encodeURIComponent(
-    `https://toubavisuel.sn/blog/${article.slug}`
+    `https://touba-visuel.vercel.app/blog/${article.slug}`
   );
   const textePartage = encodeURIComponent(
     `${article.titre} — par Agence Touba Visuel`
