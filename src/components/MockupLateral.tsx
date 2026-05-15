@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 export default function MockupLateral() {
   return (
@@ -16,8 +17,8 @@ export default function MockupLateral() {
             {/* Écran */}
             <div className="flex-1 mx-2.5 mb-2.5 rounded-2xl overflow-hidden bg-gradient-to-b from-vert-900 to-black flex flex-col items-center justify-center gap-2.5 p-2">
               {/* Logo ATV */}
-              <div className="w-14 h-14 bg-black border border-white/20 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-black text-base" style={{ textShadow: "0 0 8px #fff" }}>ATV</span>
+              <div className="w-20 h-20 relative rounded-xl overflow-hidden shadow-lg">
+                <Image src="/images/atv-logo-3d.jpg" alt="ATV Logo" fill className="object-cover" sizes="80px" />
               </div>
               <p className="text-white/80 text-[9px] font-bold tracking-widest text-center leading-tight">TOUBA<br/>VISUEL</p>
               <p className="text-white/40 text-[7px] tracking-wider text-center">IMAGE & COMMUNICATION</p>
@@ -43,8 +44,8 @@ export default function MockupLateral() {
           <div className="w-[160px] h-[95px] bg-gradient-to-br from-vert-800 to-vert-950 rounded-xl border border-vert-600/30 shadow-2xl flex flex-col items-start justify-between p-3 overflow-hidden">
             <div className="absolute top-0 right-0 w-20 h-20 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="flex items-center gap-2">
-              <div className="w-9 h-9 bg-black border border-white/20 rounded-lg flex items-center justify-center">
-                <span className="text-white font-black text-[10px]">ATV</span>
+              <div className="w-9 h-9 relative rounded-lg overflow-hidden border border-white/10 shadow">
+                <Image src="/images/atv-logo-3d.jpg" alt="ATV" fill className="object-cover" sizes="36px" />
               </div>
               <div>
                 <p className="text-white font-black text-[10px] tracking-wide leading-none">TOUBA VISUEL</p>
@@ -62,9 +63,9 @@ export default function MockupLateral() {
         <div className="relative animate-float-slow" style={{ transform: "rotate(-4deg)" }}>
           <div className="w-[100px] h-[145px] bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200">
             {/* Header */}
-            <div className="h-14 bg-gradient-to-b from-vert-800 to-vert-700 flex flex-col items-center justify-center gap-0.5">
-              <p className="text-white font-black text-[8px] tracking-widest">TOUBA VISUEL</p>
-              <p className="text-white/60 text-[6px] tracking-wider">IMAGE & COMMUNICATION</p>
+            <div className="h-14 relative overflow-hidden">
+              <Image src="/images/atv-logo-3d.jpg" alt="ATV" fill className="object-cover object-center" sizes="100px" />
+              <div className="absolute inset-0 bg-black/20" />
             </div>
             {/* Corps */}
             <div className="p-2 space-y-1.5">
@@ -100,8 +101,8 @@ export default function MockupLateral() {
                 <p className="text-white font-black text-[8px] tracking-widest leading-tight">TOUBA<br/>VISUEL</p>
                 <p className="text-white/40 text-[6px] mt-1">IMAGE & COM.</p>
               </div>
-              <div className="w-14 h-14 border border-white/15 rounded-full flex items-center justify-center">
-                <span className="text-white/80 font-black text-[11px]">ATV</span>
+              <div className="w-14 h-14 relative rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                <Image src="/images/atv-logo-3d.jpg" alt="ATV" fill className="object-cover" sizes="56px" />
               </div>
               <div className="space-y-1 w-full">
                 <div className="h-0.5 bg-white/20 rounded-full" />
