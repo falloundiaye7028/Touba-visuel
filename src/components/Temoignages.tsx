@@ -1,4 +1,6 @@
-import { Quote } from "lucide-react";
+"use client";
+import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 const TEMOIGNAGES = [
   {
@@ -14,10 +16,26 @@ const TEMOIGNAGES = [
     bordure: "rgba(255,102,0,0.25)",
     campagne: "Campagne Zénith Touba — Décembre 2025",
   },
+  {
+    id: 2,
+    message:
+      "Je me joins à l'équipe pour vous adresser nos remerciements et nos félicitations pour le travail accompli durant le Magal en peu de temps. Votre apport a été déterminant et l'impact s'est ressenti. En attendant le bilan, nous sommes déjà rassurés qu'ensemble on pourra relever le défi de repositionner OM dans le cœur des populations et des fidèles dans la sainte ville. Après le bilan, cap sur les next step avec plus d'ambitions et d'impacts, à vos propositions ! Djeuredieuf !!",
+    auteur: "ElHadji Cheikh GAYE",
+    poste: "SNT OFMS / DBV",
+    entreprise: "Orange Money Sénégal",
+    logo: "🟠",
+    couleur: "#FF6600",
+    fond: "rgba(255,102,0,0.08)",
+    bordure: "rgba(255,102,0,0.25)",
+    campagne: "Campagne Magal Touba — Août 2025",
+  },
 ];
 
 export default function Temoignages() {
-  const t = TEMOIGNAGES[0];
+  const [idx, setIdx] = useState(0);
+  const t = TEMOIGNAGES[idx];
+  const prev = () => setIdx((i) => (i - 1 + TEMOIGNAGES.length) % TEMOIGNAGES.length);
+  const next = () => setIdx((i) => (i + 1) % TEMOIGNAGES.length);
 
   return (
     <section className="py-16 bg-white relative overflow-hidden">
@@ -40,11 +58,11 @@ export default function Temoignages() {
           <p className="section-subtitle">Partenariats, campagnes et résultats qui parlent</p>
         </div>
 
-        {/* Carte témoignage principale */}
+        {/* Carte témoignage */}
         <div className="relative rounded-3xl p-8 md:p-12 shadow-xl overflow-hidden"
           style={{ background: t.fond, border: `1.5px solid ${t.bordure}` }}>
 
-          {/* Logo entreprise en filigrane */}
+          {/* Logo en filigrane */}
           <div className="absolute top-6 right-8 text-6xl opacity-20 select-none">{t.logo}</div>
 
           {/* Guillemets */}
@@ -64,7 +82,6 @@ export default function Temoignages() {
           {/* Auteur */}
           <div className="flex items-center gap-4 pt-6"
             style={{ borderTop: `1px solid ${t.bordure}` }}>
-            {/* Avatar initiales */}
             <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-lg flex-shrink-0 shadow-lg"
               style={{ background: `linear-gradient(135deg, ${t.couleur}, #ff9933)` }}>
               {t.auteur.split(" ").map(n => n[0]).slice(0, 2).join("")}
@@ -74,7 +91,6 @@ export default function Temoignages() {
               <p className="text-sm font-semibold" style={{ color: t.couleur }}>{t.poste}</p>
               <p className="text-gray-500 text-xs mt-0.5 font-medium">{t.entreprise}</p>
             </div>
-            {/* Logo Orange Money */}
             <div className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-xl"
               style={{ background: `${t.couleur}15`, border: `1px solid ${t.couleur}30` }}>
               <span className="text-xl">🟠</span>
@@ -86,8 +102,34 @@ export default function Temoignages() {
           </div>
         </div>
 
+        {/* Navigation carousel */}
+        <div className="flex items-center justify-center gap-6 mt-6">
+          <button onClick={prev}
+            className="w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:bg-gray-50"
+            style={{ borderColor: "rgba(255,102,0,0.3)" }}>
+            <ChevronLeft size={18} style={{ color: "#FF6600" }} />
+          </button>
+          <div className="flex gap-2">
+            {TEMOIGNAGES.map((_, i) => (
+              <button key={i} onClick={() => setIdx(i)}
+                className="w-2.5 h-2.5 rounded-full transition-all"
+                style={{ background: i === idx ? "#FF6600" : "rgba(255,102,0,0.25)" }} />
+            ))}
+          </div>
+          <button onClick={next}
+            className="w-10 h-10 rounded-full border flex items-center justify-center transition-all hover:bg-gray-50"
+            style={{ borderColor: "rgba(255,102,0,0.3)" }}>
+            <ChevronRight size={18} style={{ color: "#FF6600" }} />
+          </button>
+        </div>
+
+        {/* Compteur */}
+        <p className="text-center text-xs text-gray-400 mt-2 font-medium">
+          {idx + 1} / {TEMOIGNAGES.length}
+        </p>
+
         {/* CTA */}
-        <div className="mt-10 text-center">
+        <div className="mt-8 text-center">
           <p className="text-gray-500 text-sm mb-4">
             Rejoignez nos clients satisfaits — entreprises, institutions et grandes marques
           </p>
