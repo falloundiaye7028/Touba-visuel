@@ -7,6 +7,7 @@ import Realisations from "@/components/Realisations";
 import TikTokSection from "@/components/TikTokSection";
 import BrandingSection from "@/components/BrandingSection";
 import MotDirecteur from "@/components/MotDirecteur";
+import AlbumShooting from "@/components/AlbumShooting";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
 
 const avantages = [
@@ -98,6 +99,9 @@ export default function HomePage() {
 
       {/* Mot du Directeur */}
       <MotDirecteur />
+
+      {/* Album Shooting */}
+      <AlbumShooting />
 
       {/* Section réalisations */}
       <Realisations />
