@@ -63,10 +63,7 @@ function ShareButtons({ categorie }: { categorie: Categorie }) {
   ];
 
   return (
-    <div
-      className="flex items-center gap-1.5 flex-wrap"
-      onClick={(e) => e.preventDefault()}
-    >
+    <div className="flex items-center gap-1.5 flex-wrap">
       {links.map((l) => (
         <a
           key={l.label}
