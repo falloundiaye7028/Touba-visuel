@@ -142,10 +142,9 @@ export default function AlbumShooting() {
   const [playing, setPlaying]       = useState(true);
   const [fullscreen, setFullscreen] = useState(false);
   const [progress, setProgress]     = useState(0);
-  const intervalRef  = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef  = useRef<ReturnType<typeof setInterval> | null>(null);
-  const thumbsRef    = useRef<HTMLDivElement>(null);
-  const mountedRef   = useRef(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const thumbsRef   = useRef<HTMLDivElement>(null);
 
   const filtered = filtre === "Tous" ? PHOTOS : PHOTOS.filter((p) => p.categorie === filtre);
 
@@ -194,11 +193,14 @@ export default function AlbumShooting() {
     return () => window.removeEventListener("keydown", fn);
   }, [fullscreen, prev, next]);
 
-  // Scroll thumbnail into view (skip on initial mount to avoid page scroll)
+  // Scroll thumbnail strip only — never scrolls the page
   useEffect(() => {
-    if (!mountedRef.current) { mountedRef.current = true; return; }
-    const el = thumbsRef.current?.querySelector(`[data-idx="${index}"]`) as HTMLElement;
-    el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const container = thumbsRef.current;
+    if (!container) return;
+    const el = container.querySelector(`[data-idx="${index}"]`) as HTMLElement;
+    if (!el) return;
+    const target = el.offsetLeft - container.offsetWidth / 2 + el.offsetWidth / 2;
+    container.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
   }, [index]);
 
   const photo = filtered[index];
