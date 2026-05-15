@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
   ChevronLeft, ChevronRight, Camera, ArrowRight,
@@ -28,12 +27,121 @@ const PHOTOS = [
 const CATEGORIES = ["Tous", "Orange Money × ATV", "Campagne Institutionnelle"];
 const INTERVAL = 4000;
 
+type Photo = typeof PHOTOS[number];
+
+interface SlideShowProps {
+  photo: Photo;
+  index: number;
+  total: number;
+  photos: Photo[];
+  progress: number;
+  playing: boolean;
+  isFullscreen: boolean;
+  thumbsRef: React.RefObject<HTMLDivElement>;
+  onPrev: () => void;
+  onNext: () => void;
+  onGoTo: (i: number) => void;
+  onTogglePlay: () => void;
+  onOpenFullscreen: () => void;
+}
+
+function SlideShow({
+  photo, index, total, photos, progress, playing, isFullscreen,
+  thumbsRef, onPrev, onNext, onGoTo, onTogglePlay, onOpenFullscreen,
+}: SlideShowProps) {
+  return (
+    <div className={`relative ${isFullscreen ? "w-full h-full" : "w-full"} flex flex-col`}>
+
+      {/* Image principale */}
+      <div className={`relative overflow-hidden bg-black ${isFullscreen ? "flex-1" : "aspect-[16/9] rounded-2xl"}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          key={photo.src}
+          src={photo.src}
+          alt={photo.titre}
+          className="w-full h-full object-contain"
+          style={{ maxHeight: isFullscreen ? "calc(100vh - 180px)" : undefined }}
+        />
+
+        {/* Gradient bas */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+
+        {/* Barre de progression */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-white/10">
+          <div
+            className="h-full transition-none"
+            style={{ width: `${progress}%`, background: "linear-gradient(90deg, #ffc800, #ff7a2a)" }}
+          />
+        </div>
+
+        {/* Info photo */}
+        <div className="absolute bottom-4 left-5 right-16">
+          <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full mb-1 inline-block"
+            style={{ background: "rgba(255,180,0,0.3)", color: "#ffc800", border: "1px solid rgba(255,180,0,0.4)" }}>
+            {photo.categorie}
+          </span>
+          <p className="text-white font-bold text-sm md:text-base leading-tight">{photo.titre}</p>
+          <p className="text-white/40 text-xs mt-0.5">{index + 1} / {total}</p>
+        </div>
+
+        {/* Flèches */}
+        <button onClick={onPrev}
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
+          <ChevronLeft size={20} className="text-white" />
+        </button>
+        <button onClick={onNext}
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
+          <ChevronRight size={20} className="text-white" />
+        </button>
+
+        {/* Boutons Play / Fullscreen */}
+        <div className="absolute top-3 right-3 flex gap-2">
+          <button onClick={onTogglePlay}
+            className="w-8 h-8 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
+            {playing
+              ? <Pause size={14} className="text-white" />
+              : <Play  size={14} className="text-white fill-white" />}
+          </button>
+          {!isFullscreen && (
+            <button onClick={onOpenFullscreen}
+              className="w-8 h-8 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
+              <Maximize2 size={14} className="text-white" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Vignettes */}
+      <div ref={isFullscreen ? undefined : thumbsRef}
+        className="flex gap-2 overflow-x-auto py-3 px-1"
+        style={{ scrollbarWidth: "none" }}>
+        {photos.map((p, i) => (
+          <button
+            key={p.id}
+            data-idx={i}
+            onClick={() => onGoTo(i)}
+            className="flex-shrink-0 relative rounded-lg overflow-hidden transition-all duration-200"
+            style={{
+              width: 64, height: 42,
+              outline: i === index ? "2px solid #ffc800" : "2px solid transparent",
+              opacity: i === index ? 1 : 0.5,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={p.src} alt="" className="w-full h-full object-cover" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function AlbumShooting() {
-  const [filtre, setFiltre]       = useState("Tous");
-  const [index, setIndex]         = useState(0);
-  const [playing, setPlaying]     = useState(true);
+  const [filtre, setFiltre]         = useState("Tous");
+  const [index, setIndex]           = useState(0);
+  const [playing, setPlaying]       = useState(true);
   const [fullscreen, setFullscreen] = useState(false);
-  const [progress, setProgress]   = useState(0);
+  const [progress, setProgress]     = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const thumbsRef   = useRef<HTMLDivElement>(null);
@@ -43,6 +151,7 @@ export default function AlbumShooting() {
   const goTo = useCallback((i: number) => {
     setIndex(((i % filtered.length) + filtered.length) % filtered.length);
     setProgress(0);
+    setPlaying(false);
   }, [filtered.length]);
 
   const prev = useCallback(() => goTo(index - 1), [index, goTo]);
@@ -71,7 +180,7 @@ export default function AlbumShooting() {
   // Reset index when filter changes
   useEffect(() => { setIndex(0); setProgress(0); }, [filtre]);
 
-  // Keyboard
+  // Keyboard (fullscreen)
   useEffect(() => {
     if (!fullscreen) return;
     const fn = (e: KeyboardEvent) => {
@@ -93,91 +202,16 @@ export default function AlbumShooting() {
   const photo = filtered[index];
   if (!photo) return null;
 
-  const SlideShow = ({ isFullscreen }: { isFullscreen: boolean }) => (
-    <div className={`relative ${isFullscreen ? "w-full h-full" : "w-full"} flex flex-col`}>
-
-      {/* Image principale */}
-      <div className={`relative overflow-hidden bg-black ${isFullscreen ? "flex-1" : "aspect-[16/9] rounded-2xl"}`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          key={photo.src}
-          src={photo.src}
-          alt={photo.titre}
-          className="w-full h-full object-contain animate-fade-in"
-          style={{ maxHeight: isFullscreen ? "calc(100vh - 180px)" : undefined }}
-        />
-
-        {/* Gradient bas */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
-
-        {/* Barre de progression */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-white/10">
-          <div
-            className="h-full transition-none"
-            style={{ width: `${progress}%`, background: "linear-gradient(90deg, #ffc800, #ff7a2a)" }}
-          />
-        </div>
-
-        {/* Info photo */}
-        <div className="absolute bottom-4 left-5 right-16">
-          <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full mb-1 inline-block"
-            style={{ background: "rgba(255,180,0,0.3)", color: "#ffc800", border: "1px solid rgba(255,180,0,0.4)" }}>
-            {photo.categorie}
-          </span>
-          <p className="text-white font-bold text-sm md:text-base leading-tight">{photo.titre}</p>
-          <p className="text-white/40 text-xs mt-0.5">{index + 1} / {filtered.length}</p>
-        </div>
-
-        {/* Flèches */}
-        <button onClick={prev}
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
-          <ChevronLeft size={20} className="text-white" />
-        </button>
-        <button onClick={next}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
-          <ChevronRight size={20} className="text-white" />
-        </button>
-
-        {/* Boutons Play / Fullscreen */}
-        <div className="absolute top-3 right-3 flex gap-2">
-          <button onClick={() => setPlaying((p) => !p)}
-            className="w-8 h-8 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
-            {playing
-              ? <Pause size={14} className="text-white" />
-              : <Play  size={14} className="text-white fill-white" />}
-          </button>
-          {!isFullscreen && (
-            <button onClick={() => { setFullscreen(true); setPlaying(false); }}
-              className="w-8 h-8 bg-black/40 hover:bg-black/70 rounded-full flex items-center justify-center transition-all backdrop-blur-sm">
-              <Maximize2 size={14} className="text-white" />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Vignettes */}
-      <div ref={isFullscreen ? undefined : thumbsRef}
-        className="flex gap-2 overflow-x-auto py-3 px-1 scrollbar-hide"
-        style={{ scrollbarWidth: "none" }}>
-        {filtered.map((p, i) => (
-          <button
-            key={p.id}
-            data-idx={i}
-            onClick={() => { goTo(i); setPlaying(false); }}
-            className="flex-shrink-0 relative rounded-lg overflow-hidden transition-all duration-200"
-            style={{
-              width: 64, height: 42,
-              outline: i === index ? "2px solid #ffc800" : "2px solid transparent",
-              opacity: i === index ? 1 : 0.5,
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.src} alt="" className="w-full h-full object-cover" />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
+  const slideProps: SlideShowProps = {
+    photo, index, total: filtered.length, photos: filtered, progress, playing,
+    thumbsRef,
+    onPrev: prev,
+    onNext: next,
+    onGoTo: goTo,
+    onTogglePlay: () => setPlaying((p) => !p),
+    onOpenFullscreen: () => { setFullscreen(true); setPlaying(false); },
+    isFullscreen: false,
+  };
 
   return (
     <>
@@ -199,13 +233,13 @@ export default function AlbumShooting() {
           </div>
           <div className="flex-1 flex items-center justify-center px-4 pb-2 overflow-hidden">
             <div className="w-full max-w-5xl">
-              <SlideShow isFullscreen />
+              <SlideShow {...slideProps} isFullscreen={true} thumbsRef={thumbsRef} />
               <div ref={thumbsRef}
                 className="flex gap-2 overflow-x-auto py-2 mt-2"
                 style={{ scrollbarWidth: "none" }}>
                 {filtered.map((p, i) => (
                   <button key={p.id} data-idx={i}
-                    onClick={() => { goTo(i); setPlaying(false); }}
+                    onClick={() => goTo(i)}
                     className="flex-shrink-0 rounded-md overflow-hidden transition-all"
                     style={{ width: 56, height: 38, outline: i === index ? "2px solid #ffc800" : "2px solid transparent", opacity: i === index ? 1 : 0.45 }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -265,7 +299,7 @@ export default function AlbumShooting() {
           </div>
 
           {/* Diaporama */}
-          <SlideShow isFullscreen={false} />
+          <SlideShow {...slideProps} />
 
           {/* Lien Facebook bas */}
           <div className="mt-6 flex justify-center">
