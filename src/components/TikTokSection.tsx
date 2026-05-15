@@ -2,12 +2,36 @@ import Image from "next/image";
 import { ArrowRight, Play } from "lucide-react";
 
 const TIKTOK_VIDEOS = [
-  { id: "t1", titre: "Nos créations visuelles", vues: "" },
-  { id: "t2", titre: "Reportage & Couverture", vues: "" },
-  { id: "t3", titre: "Impressions & Design", vues: "" },
-  { id: "t4", titre: "Événements à Touba", vues: "" },
-  { id: "t5", titre: "Textile personnalisé", vues: "" },
-  { id: "t6", titre: "Spots publicitaires", vues: "" },
+  {
+    id: "t1",
+    titre: "Une preuve d'amour envers Serigne Touba",
+    url: "https://www.tiktok.com/@yoonu_murid_digital/photo/7619304147199741202",
+  },
+  {
+    id: "t2",
+    titre: "Le début d'une nouvelle ère pour la Grande Mosquée",
+    url: "https://www.tiktok.com/@yoonu_murid_digital/photo/7618996814687014165",
+  },
+  {
+    id: "t3",
+    titre: "Ku fatté… Active ton transfert auto ci Max It",
+    url: "https://www.tiktok.com/@yoonu_murid_digital/photo/7618254232625417479",
+  },
+  {
+    id: "t4",
+    titre: "NJËNDAL NGIR JÀPPALE DAARA JI — Eau Maou Dianna",
+    url: "https://www.tiktok.com/@yoonu_murid_digital/photo/7638601261033590024",
+  },
+  {
+    id: "t5",
+    titre: "GRANDE ZIAR 2026 — Hizbut-Tarqiyyah",
+    url: "https://www.tiktok.com/@yoonu_murid_digital/photo/7638602338369948935",
+  },
+  {
+    id: "t6",
+    titre: "BONNE FÊTE DU 1ER MAI — Aïnou Eau minérale",
+    url: "https://www.tiktok.com/@yoonu_murid_digital/photo/7634979758236847367",
+  },
 ];
 
 export default function TikTokSection() {
@@ -63,7 +87,7 @@ export default function TikTokSection() {
           {TIKTOK_VIDEOS.map((v, i) => (
             <a
               key={v.id}
-              href="https://www.tiktok.com/@yoonu_murid_digital"
+              href={v.url}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative rounded-2xl overflow-hidden bg-gray-900 aspect-[9/16] flex items-end hover:ring-2 hover:ring-pink-500 transition-all duration-300"
