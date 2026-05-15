@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const TARGET = new Date("2026-08-24T00:00:00");
+const TARGET = new Date("2026-08-02T00:00:00");
 
 function getTimeLeft() {
   const diff = TARGET.getTime() - Date.now();
@@ -57,7 +57,7 @@ export default function MagalCountdown() {
           className="font-semibold text-base md:text-lg mb-12 tracking-wide"
           style={{ color: "#ffc800" }}
         >
-          18 Safar 1448 · Août 2026
+          18 Safar 1448 · 2 Août 2026
         </p>
 
         {/* Blocs */}

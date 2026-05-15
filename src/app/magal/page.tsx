@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 // ── Countdown ──────────────────────────────────────────────────────────────
 
-const TARGET = new Date("2026-08-24T00:00:00");
+const TARGET = new Date("2026-08-02T00:00:00");
 
 function getTimeLeft() {
   const diff = TARGET.getTime() - Date.now();
@@ -70,7 +70,7 @@ const guide = [
     icon: "🗓️",
     titre: "Dates importantes",
     texte:
-      "Le Magal 2026 est prévu le 18 Safar 1448, estimé au 24 août 2026. Les pèlerins arrivent progressivement les jours précédents. Préparez votre communication au moins 2 à 4 semaines avant l'événement.",
+      "Le Magal 2026 est prévu le 18 Safar 1448, le 2 août 2026. Les pèlerins arrivent progressivement les jours précédents. Préparez votre communication au moins 2 à 4 semaines avant l'événement.",
   },
   {
     icon: "🚌",
@@ -205,7 +205,7 @@ export default function MagalPage() {
             className="font-semibold text-base md:text-lg mb-12 tracking-wide"
             style={{ color: "#ffc800" }}
           >
-            18 Safar 1448 · Août 2026
+            18 Safar 1448 · 2 Août 2026
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-12">
