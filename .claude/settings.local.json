@@ -35,7 +35,25 @@
       "Bash(sed -i '' 's/textShadow: \"0 0 6px rgba\\(212,175,55,0.5\\)\"/textShadow: \"0 0 6px rgba\\(255,255,255,0.5\\)\"/g' \"/Users/imacpro/application Touba Visuel/src/components/Header.tsx\")",
       "Bash(sed -i '' 's/shadow-\\\\[0_0_12px_rgba\\(212,175,55,0.5\\)\\\\]/shadow-[0_0_12px_rgba\\(255,255,255,0.3\\)]/g' \"/Users/imacpro/application Touba Visuel/src/components/Hero.tsx\")",
       "Bash(sed -i '' 's/shadow-\\\\[0_0_10px_rgba\\(212,175,55,0.3\\)\\\\]/shadow-[0_0_10px_rgba\\(255,255,255,0.2\\)]/g' \"/Users/imacpro/application Touba Visuel/src/components/Footer.tsx\")",
-      "Bash(sed -i '' 's/shadow-\\\\[0_0_10px_rgba\\(212,175,55,0.4\\)\\\\]/shadow-[0_0_10px_rgba\\(255,255,255,0.2\\)]/g' \"/Users/imacpro/application Touba Visuel/src/components/Header.tsx\")"
+      "Bash(sed -i '' 's/shadow-\\\\[0_0_10px_rgba\\(212,175,55,0.4\\)\\\\]/shadow-[0_0_10px_rgba\\(255,255,255,0.2\\)]/g' \"/Users/imacpro/application Touba Visuel/src/components/Header.tsx\")",
+      "Bash(grep -E \"\\\\.png$\")",
+      "Bash(mv \"8.png\"  \"real-atv-van.jpg\")",
+      "Bash(mv \"9.png\"  \"real-atv-panneaux.jpg\")",
+      "Bash(mv \"13.png\" \"real-atv-cartes.jpg\")",
+      "Bash(mv \"15.png\" \"real-atv-dossier.jpg\")",
+      "Bash(mv \"16.png\" \"real-atv-packaging.jpg\")",
+      "Bash(cp \"/Users/imacpro/Downloads/Touba Visuel 2026/tiktok.png\" \"/Users/imacpro/application Touba Visuel/public/images/atv-tiktok-cover.jpg\")",
+      "Bash(curl -s 'https://www.tiktok.com/oembed?url=https://www.tiktok.com/@yoonu_murid_digital/video/__TRACKED_VAR__')",
+      "Bash(xargs ls -lt)",
+      "Bash(curl -s \"https://api.github.com/repos/falloundiaye7028/Touba-visuel/commits/main\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Dernier commit GitHub:', d['commit']['message'].split\\('\\\\n'\\)[0], '—', d['commit']['author']['date']\\)\")",
+      "Bash(sips -z 180 180 \"/Users/imacpro/Downloads/Touba Visuel 2026/tiktok.png\" --out \"/Users/imacpro/application Touba Visuel/public/apple-touch-icon.png\")",
+      "Bash(sips -z 192 192 \"/Users/imacpro/Downloads/Touba Visuel 2026/tiktok.png\" --out \"/Users/imacpro/application Touba Visuel/public/icon-192.png\")",
+      "Bash(sips -z 512 512 \"/Users/imacpro/Downloads/Touba Visuel 2026/tiktok.png\" --out \"/Users/imacpro/application Touba Visuel/public/icon-512.png\")",
+      "Bash(sips -z 32 32 \"/Users/imacpro/Downloads/Touba Visuel 2026/tiktok.png\" --out \"/Users/imacpro/application Touba Visuel/public/favicon.png\")",
+      "Bash(convert --version)",
+      "Bash(python3 -c \"from PIL import Image; print\\('Pillow OK'\\)\")",
+      "Bash(pip3 install *)"
     ]
   }
 }

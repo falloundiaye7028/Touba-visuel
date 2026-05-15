@@ -24,7 +24,11 @@
   }
 
   .btn-gold {
-    @apply inline-flex items-center justify-center gap-2 bg-or-500 hover:bg-or-600 text-white font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm;
+    @apply inline-flex items-center justify-center gap-2 bg-or-400 hover:bg-or-300 text-gray-900 font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm;
+  }
+
+  .btn-orange {
+    @apply inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-400 text-white font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm;
   }
 
   .btn-outline {
@@ -108,14 +112,21 @@
 
 /* ── Gradient animé ── */
 .gradient-animated {
-  background: linear-gradient(270deg, #07402b, #0a6342, #111111, #0a6342);
-  background-size: 400% 400%;
-  animation: gradientMove 10s ease infinite;
+  background: linear-gradient(270deg, #07402b, #0a6342, #1a1a1a, #e04a00, #ffc800, #07402b);
+  background-size: 500% 500%;
+  animation: gradientMove 12s ease infinite;
 }
 
 /* ── Texte dégradé ── */
 .text-gradient-green {
   background: linear-gradient(135deg, #45b485, #0a6342);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-atv {
+  background: linear-gradient(135deg, #ffc800, #ff7a2a, #0a6342);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

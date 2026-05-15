@@ -24,8 +24,8 @@ export default function Hero() {
 
       {/* Orbes décoratifs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-vert-600/20 blur-[100px] animate-pulse-slow" />
-        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-black/40 blur-[120px] animate-pulse-slow delay-500" />
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-orange-500/25 blur-[100px] animate-pulse-slow" />
+        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-or-400/15 blur-[120px] animate-pulse-slow delay-500" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-vert-800/10 blur-[80px]" />
         <div className="absolute inset-0 opacity-[0.04]"
           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
@@ -36,11 +36,11 @@ export default function Hero() {
         {/* Badge top */}
         <div className="flex justify-center mb-10 animate-fade-up">
           <div className="glass rounded-full px-5 py-2.5 flex items-center gap-2.5">
-            <Sparkles size={14} className="text-vert-300" />
-            <span className="text-white/80 text-sm font-medium tracking-widest uppercase">
+            <Sparkles size={14} className="text-or-400" />
+            <span className="text-white/90 text-sm font-medium tracking-widest uppercase">
               Agence Touba Visuel — ATV
             </span>
-            <Sparkles size={14} className="text-vert-300" />
+            <Sparkles size={14} className="text-orange-400" />
           </div>
         </div>
 
@@ -104,7 +104,10 @@ export default function Hero() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
-                <p className="text-white font-black text-2xl md:text-3xl mb-1">{s.chiffre}</p>
+                <p className="font-black text-2xl md:text-3xl mb-1"
+                  style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                  {s.chiffre}
+                </p>
                 <p className="text-white/50 text-xs uppercase tracking-wider">{s.label}</p>
               </div>
             ))}
@@ -116,7 +119,7 @@ export default function Hero() {
 
           <div className="lg:col-span-2 glass-dark rounded-3xl p-8">
             <div className="flex items-center gap-3 mb-7">
-              <div className="w-1 h-7 bg-vert-400 rounded-full" />
+              <div className="w-1 h-7 rounded-full" style={{ background: "linear-gradient(180deg, #ffc800, #ff7a2a)" }} />
               <h2 className="text-white font-black text-lg uppercase tracking-widest">Nos Services</h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
@@ -145,11 +148,13 @@ export default function Hero() {
               <p className="text-gray-500 text-xs mb-5">Devis gratuit sous 24h</p>
               <div className="space-y-2.5">
                 <a href="https://wa.me/221778001717" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-vert-700 hover:bg-vert-600 text-white font-bold text-sm px-5 py-3 rounded-xl transition-all duration-200 w-full hover:scale-[1.02]">
+                  className="flex items-center justify-center gap-2 text-white font-bold text-sm px-5 py-3 rounded-xl transition-all duration-200 w-full hover:scale-[1.02] hover:opacity-90"
+                  style={{ background: "linear-gradient(135deg, #0a6342, #1d9c68)" }}>
                   📱 WhatsApp
                 </a>
                 <Link href="/devis"
-                  className="flex items-center justify-center gap-2 border-2 border-gray-200 hover:border-vert-600 text-gray-700 hover:text-vert-700 font-semibold text-sm px-5 py-3 rounded-xl transition-all duration-200 w-full">
+                  className="flex items-center justify-center gap-2 text-gray-900 font-bold text-sm px-5 py-3 rounded-xl transition-all duration-200 w-full hover:scale-[1.02] hover:opacity-90"
+                  style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)" }}>
                   Devis en ligne →
                 </Link>
               </div>

@@ -133,10 +133,11 @@ export default function HomePage() {
             {etapes.map((etape, i) => (
               <div key={etape.num} className="relative">
                 {i < etapes.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-or-500/30 z-0" />
+                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 z-0" style={{ background: "linear-gradient(90deg, #ff7a2a40, #ffc80040)" }} />
                 )}
                 <div className="relative z-10 text-center">
-                  <div className="w-16 h-16 bg-or-500 text-vert-950 font-bold text-xl rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <div className="w-16 h-16 font-bold text-xl rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg text-gray-900"
+                    style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)" }}>
                     {etape.num}
                   </div>
                   <h3 className="font-bold text-white text-base mb-2">{etape.titre}</h3>
