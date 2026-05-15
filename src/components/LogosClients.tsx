@@ -23,28 +23,41 @@ export default function LogosClients() {
           </p>
           <div className="flex flex-col sm:flex-row gap-5 items-center justify-center">
 
-            {/* Touba Ca Kanam */}
-            <Link href="https://web.facebook.com/toubacakanam/" target="_blank" rel="noopener noreferrer"
-              className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg hover:shadow-xl transition-shadow"
-              style={{ borderColor: "#c8a200" }}>
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-black px-3 py-1 rounded-full shadow">
-                Mai 2026
-              </div>
-              <div className="absolute -left-3 -top-3 text-yellow-400 text-xl">★</div>
-              <Image
-                src="/images/touba-ca-kanam-logo.png"
-                alt="Touba Ca Kanam"
-                width={80}
-                height={80}
-                className="object-contain"
-              />
-              <div>
-                <p className="font-black text-gray-900 text-lg leading-tight">Touba Ca Kanam</p>
-                <p className="text-sm font-semibold" style={{ color: "#c8a200" }}>Nɔroud Daraïni</p>
-                <p className="text-xs text-gray-500 mt-1">Partenaire officiel ATV · Mai 2026</p>
-                <p className="text-xs text-blue-500 font-semibold mt-1">Voir sur Facebook →</p>
-              </div>
-            </Link>
+            {/* Touba Ca Kanam + bouton Wave */}
+            <div className="flex flex-col items-center gap-3">
+              <Link href="https://web.facebook.com/toubacakanam/" target="_blank" rel="noopener noreferrer"
+                className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg hover:shadow-xl transition-shadow"
+                style={{ borderColor: "#c8a200" }}>
+                <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-black px-3 py-1 rounded-full shadow">
+                  Mai 2026
+                </div>
+                <div className="absolute -left-3 -top-3 text-yellow-400 text-xl">★</div>
+                <Image
+                  src="/images/touba-ca-kanam-logo.png"
+                  alt="Touba Ca Kanam"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
+                <div>
+                  <p className="font-black text-gray-900 text-lg leading-tight">Touba Ca Kanam</p>
+                  <p className="text-sm font-semibold" style={{ color: "#c8a200" }}>Nɔroud Daraïni</p>
+                  <p className="text-xs text-gray-500 mt-1">Partenaire officiel ATV · Mai 2026</p>
+                  <p className="text-xs text-blue-500 font-semibold mt-1">Voir sur Facebook →</p>
+                </div>
+              </Link>
+              {/* Bouton Wave barkeelu */}
+              <a
+                href="https://pay.wave.com/m/M_sn_UMbi7rZ15Cq6/c/sn/?amount=1000"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 w-full justify-center px-5 py-3 rounded-2xl font-black text-white text-sm shadow-lg hover:opacity-90 transition-opacity"
+                style={{ background: "linear-gradient(135deg, #1bb6e6, #0e8fc1)" }}
+              >
+                <span className="text-lg">🌊</span>
+                Envoyer mon Barkeelu via Wave
+              </a>
+            </div>
 
             {/* Touba Techno Plus */}
             <Link href="https://web.facebook.com/ToubaTechnoPlus.ttp." target="_blank" rel="noopener noreferrer"
