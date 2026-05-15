@@ -46,17 +46,29 @@ export default function LogosClients() {
                   <p className="text-xs text-blue-500 font-semibold mt-1">Voir sur Facebook →</p>
                 </div>
               </Link>
-              {/* Bouton Wave barkeelu */}
-              <a
-                href="https://pay.wave.com/m/M_sn_UMbi7rZ15Cq6/c/sn/?amount=1000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 w-full justify-center px-5 py-3 rounded-2xl font-black text-white text-sm shadow-lg hover:opacity-90 transition-opacity"
-                style={{ background: "linear-gradient(135deg, #1bb6e6, #0e8fc1)" }}
-              >
-                <span className="text-lg">🌊</span>
-                Envoyer mon Barkeelu via Wave
-              </a>
+              {/* Boutons barkeelu */}
+              <div className="flex flex-col gap-2 w-full">
+                <a
+                  href="https://pay.wave.com/m/M_sn_UMbi7rZ15Cq6/c/sn/?amount=1000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 w-full justify-center px-5 py-3 rounded-2xl font-black text-white text-sm shadow-lg hover:opacity-90 transition-opacity"
+                  style={{ background: "linear-gradient(135deg, #1bb6e6, #0e8fc1)" }}
+                >
+                  <span className="text-lg">🌊</span>
+                  Barkeelu via Wave
+                </a>
+                <a
+                  href="https://sugu.orange-sonatel.com/mp/410818/Touba%20Ca%20Kanam"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 w-full justify-center px-5 py-3 rounded-2xl font-black text-white text-sm shadow-lg hover:opacity-90 transition-opacity"
+                  style={{ background: "linear-gradient(135deg, #FF6600, #e65c00)" }}
+                >
+                  <span className="text-lg">🟠</span>
+                  Barkeelu via Orange Money
+                </a>
+              </div>
             </div>
 
             {/* Touba Techno Plus */}
