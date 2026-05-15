@@ -142,9 +142,10 @@ export default function AlbumShooting() {
   const [playing, setPlaying]       = useState(true);
   const [fullscreen, setFullscreen] = useState(false);
   const [progress, setProgress]     = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const thumbsRef   = useRef<HTMLDivElement>(null);
+  const intervalRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+  const thumbsRef    = useRef<HTMLDivElement>(null);
+  const mountedRef   = useRef(false);
 
   const filtered = filtre === "Tous" ? PHOTOS : PHOTOS.filter((p) => p.categorie === filtre);
 
@@ -193,8 +194,9 @@ export default function AlbumShooting() {
     return () => window.removeEventListener("keydown", fn);
   }, [fullscreen, prev, next]);
 
-  // Scroll thumbnail into view
+  // Scroll thumbnail into view (skip on initial mount to avoid page scroll)
   useEffect(() => {
+    if (!mountedRef.current) { mountedRef.current = true; return; }
     const el = thumbsRef.current?.querySelector(`[data-idx="${index}"]`) as HTMLElement;
     el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, [index]);
