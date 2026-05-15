@@ -57,10 +57,10 @@ export const REALISATIONS: Realisation[] = [
   },
   {
     id: "r6",
-    titre: "Flyer Social Tabaski 2026 — Touba Cak Nam",
-    categorie: "Impression & Design",
+    titre: "Identité Visuelle & Objets Publicitaires — ATV",
+    categorie: "Branding & Corporate",
     type: "image",
-    imageUrl: "/images/real-tabaski-2026.jpg",
+    imageUrl: "/images/real-atv-mockup.jpg",
   },
   {
     id: "r7",
