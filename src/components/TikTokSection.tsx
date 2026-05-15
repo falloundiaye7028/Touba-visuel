@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowRight, Play } from "lucide-react";
 
 const TIKTOK_VIDEOS = [
@@ -65,30 +66,19 @@ export default function TikTokSection() {
               href="https://www.tiktok.com/@yoonu_murid_digital"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative rounded-2xl overflow-hidden bg-gray-800 aspect-[9/16] flex items-end hover:ring-2 hover:ring-pink-500 transition-all duration-300"
+              className="group relative rounded-2xl overflow-hidden bg-gray-900 aspect-[9/16] flex items-end hover:ring-2 hover:ring-pink-500 transition-all duration-300"
             >
-              {/* Fond dégradé coloré par carte */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: [
-                    "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
-                    "linear-gradient(135deg, #2d1b69 0%, #11998e 100%)",
-                    "linear-gradient(135deg, #134e5e 0%, #71b280 100%)",
-                    "linear-gradient(135deg, #1a1a1a 0%, #4a0072 100%)",
-                    "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)",
-                    "linear-gradient(135deg, #141e30 0%, #243b55 100%)",
-                  ][i % 6],
-                }}
-              />
-              {/* Icône ATV au centre */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-10 h-10 bg-gray-950/60 border border-or-500/40 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <span className="text-or-400 font-black text-sm"
-                    style={{ textShadow: "0 0 8px #ffffff" }}>
-                    ATV
-                  </span>
-                </div>
+              {/* Logo ATV 3D en fond */}
+              <div className="absolute inset-0">
+                <Image
+                  src="/images/atv-tiktok-cover.jpg"
+                  alt="ATV Touba Visuel"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                />
+                {/* Overlay léger pour lisibilité */}
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
               </div>
               {/* Bouton play hover */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
