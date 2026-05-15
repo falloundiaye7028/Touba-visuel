@@ -5,6 +5,14 @@ import { useState, useCallback, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Camera, ArrowRight, ZoomIn } from "lucide-react";
 
 const PHOTOS = [
+  // ── Orange Money — Campagne Zénith Touba (Décembre 2025) ──
+  ...Array.from({ length: 37 }, (_, i) => ({
+    id: 100 + i,
+    src: `/images/album/orange-zenith-${String(i + 1).padStart(2, "0")}.jpg`,
+    titre: `Campagne Zénith Touba — Orange Money`,
+    categorie: "Orange Money × ATV",
+  })),
+  // ── MASAE — Campagnes Institutionnelles ──
   {
     id: 1,
     src: "/images/album/shooting-1.jpg",
@@ -39,31 +47,31 @@ const PHOTOS = [
     id: 6,
     src: "/images/album/shooting-6.jpg",
     titre: "Communication Terrain — MASAE",
-    categorie: "Reportage Terrain",
+    categorie: "Campagne Institutionnelle",
   },
   {
     id: 7,
     src: "/images/album/shooting-7.jpg",
     titre: "MASAE Accompagne les Éleveurs",
-    categorie: "Reportage Terrain",
+    categorie: "Campagne Institutionnelle",
   },
   {
     id: 8,
     src: "/images/album/shooting-8.jpg",
     titre: "Santé Animale sur le Terrain",
-    categorie: "Reportage Terrain",
+    categorie: "Campagne Institutionnelle",
   },
   {
     id: 9,
     src: "/images/album/shooting-9.jpg",
-    titre: "Mobilisation Nationale Tabaski",
+    titre: "Mobilisation Nationale Tabaski — MASAE",
     categorie: "Campagne Institutionnelle",
   },
   {
     id: 10,
     src: "/images/album/shooting-10.jpg",
     titre: "MASAE Mobilisé sur le Terrain",
-    categorie: "Reportage Terrain",
+    categorie: "Campagne Institutionnelle",
   },
 ];
 
@@ -193,7 +201,7 @@ export default function AlbumShooting() {
                 Notre Album Photo
               </h2>
               <p className="text-gray-400 text-base">
-                Reportages, campagnes institutionnelles et couvertures médiatiques
+                Orange Money × Touba · MASAE · Campagnes institutionnelles &amp; reportages terrain
               </p>
             </div>
             <a
@@ -261,8 +269,8 @@ export default function AlbumShooting() {
             style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
             <div className="flex gap-6">
               {[
-                { val: `${PHOTOS.length}+`, label: "Photos" },
-                { val: "3+", label: "Clients institutionnels" },
+                { val: "47+", label: "Photos" },
+                { val: "Orange Money", label: "Campagne Zénith Touba" },
                 { val: "100%", label: "Qualité pro" },
               ].map((s) => (
                 <div key={s.label} className="text-center">
