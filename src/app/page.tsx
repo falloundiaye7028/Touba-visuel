@@ -16,6 +16,7 @@ import { ARTICLES } from "@/lib/blog";
 import StatsSection from "@/components/StatsSection";
 import LogosClients from "@/components/LogosClients";
 import FAQ from "@/components/FAQ";
+import MagalCountdown from "@/components/MagalCountdown";
 
 const avantages = [
   {
@@ -53,6 +54,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* Compte à rebours Magal 2026 */}
+      <MagalCountdown />
 
       {/* Section avantages */}
       <section className="py-16 bg-white">
