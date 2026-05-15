@@ -15,31 +15,55 @@ export default function LogosClients() {
     <section className="py-12 bg-gray-50 border-y border-gray-100 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
 
-        {/* Partenaire Officiel du Mois */}
+        {/* Partenaires Officiels du Mois */}
         <div className="flex flex-col items-center mb-10">
-          <p className="text-xs font-bold uppercase tracking-[0.4em] text-vert-600 mb-4">
-            Partenaire officiel du mois
+          <p className="text-xs font-bold uppercase tracking-[0.4em] text-vert-600 mb-6">
+            Partenaires officiels du mois · Mai 2026
           </p>
-          <div className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg"
-            style={{ borderColor: "#c8a200" }}>
-            {/* Badge doré */}
-            <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-black px-3 py-1 rounded-full shadow">
-              Mai 2026
+          <div className="flex flex-col sm:flex-row gap-5 items-center justify-center">
+
+            {/* Touba Ca Kanam */}
+            <div className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg"
+              style={{ borderColor: "#c8a200" }}>
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-black px-3 py-1 rounded-full shadow">
+                Mai 2026
+              </div>
+              <div className="absolute -left-3 -top-3 text-yellow-400 text-xl">★</div>
+              <Image
+                src="/images/touba-ca-kanam-logo.png"
+                alt="Touba Ca Kanam"
+                width={80}
+                height={80}
+                className="object-contain"
+              />
+              <div>
+                <p className="font-black text-gray-900 text-lg leading-tight">Touba Ca Kanam</p>
+                <p className="text-sm font-semibold" style={{ color: "#c8a200" }}>Nɔroud Daraïni</p>
+                <p className="text-xs text-gray-500 mt-1">Partenaire officiel ATV · Mai 2026</p>
+              </div>
             </div>
-            <Image
-              src="/images/touba-ca-kanam-logo.png"
-              alt="Touba Ca Kanam"
-              width={80}
-              height={80}
-              className="object-contain"
-            />
-            <div>
-              <p className="font-black text-gray-900 text-lg leading-tight">Touba Ca Kanam</p>
-              <p className="text-sm font-semibold" style={{ color: "#c8a200" }}>Nɔroud Daraïni</p>
-              <p className="text-xs text-gray-500 mt-1">Partenaire officiel ATV · Mai 2026</p>
+
+            {/* Touba Techno Plus */}
+            <div className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg"
+              style={{ borderColor: "#3b82f6" }}>
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-black px-3 py-1 rounded-full shadow">
+                Mai 2026
+              </div>
+              <div className="absolute -left-3 -top-3 text-blue-400 text-xl">★</div>
+              <Image
+                src="/images/ttp.jpg"
+                alt="Touba Techno Plus"
+                width={80}
+                height={80}
+                className="object-contain rounded-xl"
+              />
+              <div>
+                <p className="font-black text-gray-900 text-lg leading-tight">Touba Techno Plus</p>
+                <p className="text-sm font-semibold text-blue-600">Informatique · Électronique</p>
+                <p className="text-xs text-gray-500 mt-1">Partenaire officiel ATV · Mai 2026</p>
+              </div>
             </div>
-            {/* Étoiles déco */}
-            <div className="absolute -left-3 -top-3 text-yellow-400 text-xl">★</div>
+
           </div>
         </div>
 
