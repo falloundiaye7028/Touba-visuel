@@ -55,7 +55,7 @@ export default function LogosClients() {
                   className="flex items-center gap-2 w-full justify-center px-5 py-3 rounded-2xl font-black text-white text-sm shadow-lg hover:opacity-90 transition-opacity"
                   style={{ background: "linear-gradient(135deg, #1bb6e6, #0e8fc1)" }}
                 >
-                  <span className="text-lg">🌊</span>
+                  <Image src="/images/wave.png" alt="Wave" width={22} height={22} className="object-contain rounded" />
                   Barkeelu via Wave
                 </a>
                 <a
@@ -65,7 +65,7 @@ export default function LogosClients() {
                   className="flex items-center gap-2 w-full justify-center px-5 py-3 rounded-2xl font-black text-white text-sm shadow-lg hover:opacity-90 transition-opacity"
                   style={{ background: "linear-gradient(135deg, #FF6600, #e65c00)" }}
                 >
-                  <span className="text-lg">🟠</span>
+                  <Image src="/images/orange-money-logo.png" alt="Orange Money" width={22} height={22} className="object-contain rounded" />
                   Barkeelu via Orange Money
                 </a>
               </div>
