@@ -51,59 +51,59 @@ export default function BannierePromo() {
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ background: ad.bg, minHeight: 52 }}
+      style={{ background: ad.bg }}
     >
       <a
         href={ad.href}
-        className="flex items-center justify-between max-w-7xl mx-auto px-4 py-2.5 gap-4 cursor-pointer"
+        className="flex items-center justify-between max-w-7xl mx-auto px-6 py-4 md:py-5 gap-6 cursor-pointer"
         style={{ textDecoration: "none" }}
       >
         {/* Logo ATV */}
         <div
-          className="flex-shrink-0 font-black text-xl tracking-tight px-3 py-0.5 rounded-lg border-2"
+          className="flex-shrink-0 font-black text-2xl md:text-3xl tracking-tight px-4 py-1.5 rounded-xl border-[3px]"
           style={{ color: ad.logoColor, borderColor: ad.logoColor }}
         >
           {ad.logo}
         </div>
 
         {/* Texte principal */}
-        <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-4 min-w-0">
+        <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 min-w-0">
           <p
-            className="font-black text-white text-sm md:text-base leading-tight tracking-wide truncate"
-            style={{ letterSpacing: "0.04em" }}
+            className="font-black text-white text-xl md:text-3xl leading-tight tracking-wide"
+            style={{ letterSpacing: "0.03em" }}
           >
             {ad.headline}
           </p>
-          <p className="text-white/70 text-xs font-medium hidden sm:block whitespace-nowrap">
+          <p className="text-white/75 text-sm md:text-base font-semibold hidden sm:block whitespace-nowrap">
             {ad.sub}
           </p>
         </div>
 
-        {/* CTA pill */}
+        {/* CTA */}
         <div
-          className="flex-shrink-0 font-black text-xs md:text-sm px-4 py-1.5 rounded-full whitespace-nowrap shadow-lg"
+          className="flex-shrink-0 font-black text-sm md:text-lg px-5 py-2.5 rounded-xl whitespace-nowrap shadow-xl"
           style={{ background: ad.ctaBg, color: ad.ctaColor }}
         >
           {ad.cta}
         </div>
       </a>
 
-      {/* Boutons nav + fermer */}
-      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+      {/* Navigation + fermer */}
+      <div className="absolute right-3 top-2 flex items-center gap-1.5">
         {ADS.map((_, i) => (
           <button
             key={i}
             onClick={(e) => { e.preventDefault(); setAdIdx(i); }}
-            className="w-1.5 h-1.5 rounded-full transition-all"
+            className="w-2 h-2 rounded-full transition-all"
             style={{ background: i === adIdx ? "#fff" : "rgba(255,255,255,0.35)" }}
           />
         ))}
         <button
           onClick={() => setVisible(false)}
-          className="ml-2 text-white/60 hover:text-white transition-colors p-1"
+          className="ml-1 text-white/60 hover:text-white transition-colors p-1"
           aria-label="Fermer"
         >
-          <X size={14} />
+          <X size={16} />
         </button>
       </div>
     </div>
