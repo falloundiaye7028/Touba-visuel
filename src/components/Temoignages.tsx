@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
@@ -62,8 +63,10 @@ export default function Temoignages() {
         <div className="relative rounded-3xl p-8 md:p-12 shadow-xl overflow-hidden"
           style={{ background: t.fond, border: `1.5px solid ${t.bordure}` }}>
 
-          {/* Logo en filigrane */}
-          <div className="absolute top-6 right-8 text-6xl opacity-20 select-none">{t.logo}</div>
+          {/* Logo Orange Money en filigrane */}
+          <div className="absolute top-5 right-6 opacity-15 select-none pointer-events-none">
+            <Image src="/images/orange-money-logo.png" alt="Orange Money" width={110} height={110} className="rounded-xl" />
+          </div>
 
           {/* Guillemets */}
           <Quote size={40} className="mb-6 opacity-40" style={{ color: t.couleur }} />
@@ -91,13 +94,9 @@ export default function Temoignages() {
               <p className="text-sm font-semibold" style={{ color: t.couleur }}>{t.poste}</p>
               <p className="text-gray-500 text-xs mt-0.5 font-medium">{t.entreprise}</p>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-xl"
-              style={{ background: `${t.couleur}15`, border: `1px solid ${t.couleur}30` }}>
-              <span className="text-xl">🟠</span>
-              <div>
-                <p className="text-xs font-black" style={{ color: t.couleur }}>Orange</p>
-                <p className="text-xs font-black text-gray-700">Money</p>
-              </div>
+            <div className="hidden sm:flex items-center justify-center px-3 py-2 rounded-xl"
+              style={{ background: "#000", border: `1px solid ${t.couleur}40` }}>
+              <Image src="/images/orange-money-logo.png" alt="Orange Money" width={90} height={40} className="object-contain" />
             </div>
           </div>
         </div>
