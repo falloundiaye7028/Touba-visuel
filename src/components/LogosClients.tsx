@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const CLIENTS = [
   { nom: "Orange Money", emoji: "🟠", couleur: "#FF6600" },
@@ -23,7 +24,8 @@ export default function LogosClients() {
           <div className="flex flex-col sm:flex-row gap-5 items-center justify-center">
 
             {/* Touba Ca Kanam */}
-            <div className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg"
+            <Link href="https://web.facebook.com/toubacakanam/" target="_blank" rel="noopener noreferrer"
+              className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg hover:shadow-xl transition-shadow"
               style={{ borderColor: "#c8a200" }}>
               <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-xs font-black px-3 py-1 rounded-full shadow">
                 Mai 2026
@@ -40,11 +42,13 @@ export default function LogosClients() {
                 <p className="font-black text-gray-900 text-lg leading-tight">Touba Ca Kanam</p>
                 <p className="text-sm font-semibold" style={{ color: "#c8a200" }}>Nɔroud Daraïni</p>
                 <p className="text-xs text-gray-500 mt-1">Partenaire officiel ATV · Mai 2026</p>
+                <p className="text-xs text-blue-500 font-semibold mt-1">Voir sur Facebook →</p>
               </div>
-            </div>
+            </Link>
 
             {/* Touba Techno Plus */}
-            <div className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg"
+            <Link href="https://web.facebook.com/ToubaTechnoPlus.ttp." target="_blank" rel="noopener noreferrer"
+              className="relative flex items-center gap-5 bg-white border-2 rounded-3xl px-8 py-5 shadow-lg hover:shadow-xl transition-shadow"
               style={{ borderColor: "#3b82f6" }}>
               <div className="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs font-black px-3 py-1 rounded-full shadow">
                 Mai 2026
@@ -61,8 +65,9 @@ export default function LogosClients() {
                 <p className="font-black text-gray-900 text-lg leading-tight">Touba Techno Plus</p>
                 <p className="text-sm font-semibold text-blue-600">Informatique · Électronique</p>
                 <p className="text-xs text-gray-500 mt-1">Partenaire officiel ATV · Mai 2026</p>
+                <p className="text-xs text-blue-500 font-semibold mt-1">Voir sur Facebook →</p>
               </div>
-            </div>
+            </Link>
 
           </div>
         </div>
