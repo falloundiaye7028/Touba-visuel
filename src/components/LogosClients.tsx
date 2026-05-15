@@ -55,7 +55,8 @@ export default function LogosClients() {
                   className="flex items-center gap-2 w-full justify-center px-5 py-3 rounded-2xl font-black text-white text-sm shadow-lg hover:opacity-90 transition-opacity"
                   style={{ background: "linear-gradient(135deg, #1bb6e6, #0e8fc1)" }}
                 >
-                  <Image src="/images/wave.png" alt="Wave" width={22} height={22} className="object-contain rounded" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/images/wave.png" alt="Wave" width={26} height={26} className="object-contain rounded-md bg-white p-0.5" />
                   Barkeelu via Wave
                 </a>
                 <a
