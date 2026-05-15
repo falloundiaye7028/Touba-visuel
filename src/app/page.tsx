@@ -6,6 +6,7 @@ import SupportCard from "@/components/SupportCard";
 import Realisations from "@/components/Realisations";
 import TikTokSection from "@/components/TikTokSection";
 import BrandingSection from "@/components/BrandingSection";
+import MotDirecteur from "@/components/MotDirecteur";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
 
 const avantages = [
@@ -94,6 +95,9 @@ export default function HomePage() {
 
       {/* Section Branding / Identité ATV */}
       <BrandingSection />
+
+      {/* Mot du Directeur */}
+      <MotDirecteur />
 
       {/* Section réalisations */}
       <Realisations />
