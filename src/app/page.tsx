@@ -9,6 +9,7 @@ import BrandingSection from "@/components/BrandingSection";
 import MotDirecteur from "@/components/MotDirecteur";
 import AlbumShooting from "@/components/AlbumShooting";
 import Temoignages from "@/components/Temoignages";
+import { BannierePromoGrande } from "@/components/BannierePromo";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
 
 const avantages = [
@@ -62,6 +63,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Grande bannière publicitaire */}
+      <BannierePromoGrande />
 
       {/* Section supports populaires */}
       <section className="py-16 bg-gray-50">
