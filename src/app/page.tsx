@@ -11,6 +11,8 @@ import AlbumShooting from "@/components/AlbumShooting";
 import Temoignages from "@/components/Temoignages";
 import { BannierePromoGrande } from "@/components/BannierePromo";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
+import BlogCard from "@/components/BlogCard";
+import { ARTICLES } from "@/lib/blog";
 
 const avantages = [
   {
@@ -116,6 +118,38 @@ export default function HomePage() {
 
       {/* Section TikTok */}
       <TikTokSection />
+
+      {/* Section Blog */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <h2 className="section-title mb-2">Derniers articles du blog</h2>
+              <p className="section-subtitle">Conseils marketing digital &amp; communication au Sénégal</p>
+            </div>
+            <Link
+              href="/blog"
+              className="hidden md:flex items-center gap-2 text-vert-700 hover:text-vert-600 font-semibold text-sm"
+            >
+              Voir tous les articles
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {ARTICLES.slice(0, 3).map((article) => (
+              <BlogCard key={article.id} article={article} />
+            ))}
+          </div>
+
+          <div className="mt-8 text-center md:hidden">
+            <Link href="/blog" className="btn-outline">
+              Voir tous les articles
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Section catégories */}
       <section className="py-16 bg-white">

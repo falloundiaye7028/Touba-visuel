@@ -7,6 +7,7 @@ import { Menu, X, ShoppingBag, Phone, MapPin } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Accueil" },
   { href: "/catalogue", label: "Catalogue" },
+  { href: "/blog", label: "Blog" },
   { href: "/commande", label: "Commander" },
   { href: "/suivi", label: "Suivi Commande" },
 ];
