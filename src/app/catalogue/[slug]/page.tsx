@@ -16,9 +16,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const categorie = getCategorieBySlug(slug);
   if (!categorie) return { title: "Catégorie introuvable" };
+  const url = `https://touba-visuel.vercel.app/catalogue/${slug}`;
   return {
-    title: `${categorie.nom} — Catalogue`,
+    title: `${categorie.nom} — Agence Touba Visuel (ATV)`,
     description: categorie.description,
+    openGraph: {
+      title: `${categorie.emoji} ${categorie.nom} — Agence Touba Visuel`,
+      description: `${categorie.description} | ${categorie.supports.length} supports disponibles. Commandez en ligne — Livraison Touba, Dakar, Sénégal.`,
+      url,
+      siteName: "Agence Touba Visuel",
+      locale: "fr_SN",
+      type: "website",
+      images: [
+        {
+          url: "/images/atv-tiktok-cover.jpg",
+          width: 800,
+          height: 1422,
+          alt: `${categorie.nom} — ATV Touba Visuel`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${categorie.nom} — ATV`,
+      description: categorie.description,
+      images: ["/images/atv-tiktok-cover.jpg"],
+    },
   };
 }
 

@@ -11,12 +11,13 @@ interface Props {
 const BASE_URL = "https://touba-visuel.vercel.app";
 
 function ShareButtons({ categorie }: { categorie: Categorie }) {
-  const url = encodeURIComponent(`${BASE_URL}/catalogue/${categorie.slug}`);
-  const text = encodeURIComponent(
-    `🎨 ${categorie.nom} — Agence Touba Visuel (ATV)\n${categorie.description}\n👉 Commandez en ligne :`
-  );
+  const pageUrl = `${BASE_URL}/catalogue/${categorie.slug}`;
+  const url = encodeURIComponent(pageUrl);
   const textWA = encodeURIComponent(
-    `🎨 *${categorie.nom}* — Agence Touba Visuel (ATV)\n${categorie.description}\n👉 Commandez : ${BASE_URL}/catalogue/${categorie.slug}`
+    `🎨 *${categorie.nom}* — Agence Touba Visuel (ATV)\n\n${categorie.description}\n\n👉 Commander en ligne :\n${pageUrl}`
+  );
+  const textX = encodeURIComponent(
+    `🎨 ${categorie.nom} — Agence Touba Visuel (ATV)\n${categorie.description}`
   );
 
   const links = [
@@ -32,7 +33,7 @@ function ShareButtons({ categorie }: { categorie: Categorie }) {
     },
     {
       label: "WhatsApp",
-      href: `https://wa.me/?text=${textWA}`,
+      href: `https://api.whatsapp.com/send?text=${textWA}`,
       color: "#25D366",
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -52,7 +53,7 @@ function ShareButtons({ categorie }: { categorie: Categorie }) {
     },
     {
       label: "X",
-      href: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+      href: `https://twitter.com/intent/tweet?url=${url}&text=${textX}`,
       color: "#000000",
       icon: (
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
