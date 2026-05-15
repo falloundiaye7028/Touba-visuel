@@ -31,8 +31,8 @@ export default function BrandingSection() {
           <div className="relative rounded-3xl overflow-hidden group shadow-2xl">
             <div className="relative aspect-video w-full">
               <Image
-                src="/images/atv-logo-3d.jpg"
-                alt="Logo ATV — Agence Touba Visuel 3D"
+                src="/images/atv-vitrine.jpg"
+                alt="Façade Agence Touba Visuel"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -40,18 +40,18 @@ export default function BrandingSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-5">
                 <span className="bg-vert-600/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
-                  Notre Logo
+                  Notre Agence
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Vitrine agence */}
+          {/* Studio ATV */}
           <div className="relative rounded-3xl overflow-hidden group shadow-2xl">
             <div className="relative aspect-video w-full">
               <Image
-                src="/images/atv-vitrine.jpg"
-                alt="Vitrine Agence Touba Visuel"
+                src="/images/atv-studio.jpg"
+                alt="Studio Agence Touba Visuel"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -59,7 +59,7 @@ export default function BrandingSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-5">
                 <span className="bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
-                  Notre Agence
+                  Notre Studio
                 </span>
               </div>
             </div>

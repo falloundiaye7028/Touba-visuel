@@ -60,14 +60,6 @@ export const REALISATIONS: Realisation[] = [
     imageUrl: "/images/real-atv-mockup.jpg",
   },
   {
-    id: "r8",
-    titre: "Logo FETT — Fondation Éducation Pour Tous à Touba",
-    categorie: "Identité Visuelle",
-    type: "image",
-    imageUrl: "/images/real-fett-logo.jpg",
-    lienUrl: "https://web.facebook.com/profile.php?id=61567266940837",
-  },
-  {
     id: "r9",
     titre: "Enseignes Lumineuses ATV — Enseigne Extérieure, Réception, Drapeau, Acrylique",
     categorie: "Signalétique & Enseignes",
