@@ -46,6 +46,25 @@ export const metadata: Metadata = {
     description: "Conception graphique, impression, sites web. Touba, Sénégal.",
     images: ["/images/atv-tiktok-cover.jpg"],
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "ATV",
+    startupImage: "/apple-touch-icon.png",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.png",
+  },
+  themeColor: "#07402b",
 };
 
 export default function RootLayout({

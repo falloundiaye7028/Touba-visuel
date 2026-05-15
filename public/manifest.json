@@ -1,0 +1,47 @@
+{
+  "name": "Agence Touba Visuel",
+  "short_name": "ATV",
+  "description": "Conception graphique, impression tous formats, sites web professionnels. L'image qui donne de la puissance à votre marque.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07402b",
+  "theme_color": "#07402b",
+  "orientation": "portrait",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catalogue",
+      "url": "/catalogue",
+      "description": "Voir tous nos supports"
+    },
+    {
+      "name": "Devis gratuit",
+      "url": "/devis",
+      "description": "Demander un devis"
+    },
+    {
+      "name": "Commander",
+      "url": "/commande",
+      "description": "Passer une commande"
+    }
+  ]
+}
