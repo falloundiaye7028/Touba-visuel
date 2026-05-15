@@ -13,6 +13,9 @@ import { BannierePromoGrande } from "@/components/BannierePromo";
 import { CATALOGUE, getSupportsPopulaires } from "@/lib/supports";
 import BlogCard from "@/components/BlogCard";
 import { ARTICLES } from "@/lib/blog";
+import StatsSection from "@/components/StatsSection";
+import LogosClients from "@/components/LogosClients";
+import FAQ from "@/components/FAQ";
 
 const avantages = [
   {
@@ -66,6 +69,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Logos clients */}
+      <LogosClients />
+
       {/* Grande bannière publicitaire */}
       <BannierePromoGrande />
 
@@ -112,6 +118,9 @@ export default function HomePage() {
 
       {/* Témoignages */}
       <Temoignages />
+
+      {/* Stats ATV */}
+      <StatsSection />
 
       {/* Section réalisations */}
       <Realisations />
@@ -205,6 +214,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FAQ />
 
       {/* Section paiements */}
       <section className="py-12 bg-white border-t border-gray-100">

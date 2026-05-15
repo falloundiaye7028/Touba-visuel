@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MockupLateral from "@/components/MockupLateral";
 import BannierePromo from "@/components/BannierePromo";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 export const metadata: Metadata = {
   title: {
@@ -91,9 +92,43 @@ export default function RootLayout({
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <WhatsAppFloat />
         <script
           dangerouslySetInnerHTML={{
             __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}`,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "Agence Touba Visuel",
+              "alternateName": "ATV",
+              "url": "https://touba-visuel.vercel.app",
+              "telephone": "+221778001717",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Touba",
+                "addressRegion": "Diourbel",
+                "addressCountry": "SN"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 14.8505,
+                "longitude": -15.8833
+              },
+              "description": "Agence de communication à Touba — impression, signalétique, textile, digital et conception de sites web professionnels.",
+              "priceRange": "$$",
+              "openingHours": "Mo-Su 08:00-20:00",
+              "sameAs": [
+                "https://www.tiktok.com/@toubavisuel"
+              ],
+              "image": "https://touba-visuel.vercel.app/images/atv-tiktok-cover.jpg",
+              "servesCuisine": null,
+              "hasMap": "https://maps.google.com/?q=Touba,Senegal"
+            }),
           }}
         />
       </body>
