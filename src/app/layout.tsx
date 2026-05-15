@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MockupLateral from "@/components/MockupLateral";
+import BannierePromo from "@/components/BannierePromo";
 
 export const metadata: Metadata = {
   title: {
@@ -85,6 +86,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
+        <BannierePromo />
         <MockupLateral />
         <Header />
         <main className="min-h-screen">{children}</main>
