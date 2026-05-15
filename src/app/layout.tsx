@@ -22,11 +22,29 @@ export const metadata: Metadata = {
     "signalétique",
     "agence communication Touba",
   ],
+  metadataBase: new URL("https://touba-visuel.vercel.app"),
   openGraph: {
-    title: "ATV — Agence Touba Visuel",
-    description: "Votre agence de communication visuelle au Sénégal",
+    title: "ATV — Agence Touba Visuel | Image & Communication",
+    description:
+      "🎨 Conception graphique, impression tous formats, sites web professionnels. L'image qui donne de la puissance à votre marque. Touba, Sénégal.",
+    url: "https://touba-visuel.vercel.app",
+    siteName: "Agence Touba Visuel",
     locale: "fr_SN",
     type: "website",
+    images: [
+      {
+        url: "/images/atv-tiktok-cover.jpg",
+        width: 800,
+        height: 1422,
+        alt: "ATV — Agence Touba Visuel | Image & Communication",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ATV — Agence Touba Visuel",
+    description: "Conception graphique, impression, sites web. Touba, Sénégal.",
+    images: ["/images/atv-tiktok-cover.jpg"],
   },
 };
 
