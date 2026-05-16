@@ -9,10 +9,22 @@ import {
 } from "../../types/constants";
 import { Main } from "./MyComp/Main";
 import { NextLogo } from "./MyComp/NextLogo";
+import { MagalPromo } from "./MagalPromo/MagalPromo";
+
+// Durée totale : 510 frames à 30 fps = 17 secondes
+const MAGAL_DURATION = 510;
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="MagalPromo"
+        component={MagalPromo}
+        durationInFrames={MAGAL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id={COMP_NAME}
         component={Main}
