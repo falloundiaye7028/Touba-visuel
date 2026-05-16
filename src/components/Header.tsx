@@ -7,6 +7,8 @@ import { Menu, X, ShoppingBag, Phone, MapPin } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Accueil" },
   { href: "/catalogue", label: "Catalogue" },
+  { href: "/tabaski", label: "🌙 Tabaski", highlight: true },
+  { href: "/magal", label: "⏳ Magal", highlight: true },
   { href: "/blog", label: "Blog" },
   { href: "/commande", label: "Commander" },
   { href: "/suivi", label: "Suivi Commande" },
@@ -67,7 +69,11 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-vert-200 hover:text-or-400 text-sm font-medium transition-colors duration-200"
+                className={link.highlight
+                  ? "text-xs font-black px-3 py-1.5 rounded-full text-gray-900 hover:opacity-90 transition-all"
+                  : "text-vert-200 hover:text-or-400 text-sm font-medium transition-colors duration-200"
+                }
+                style={link.highlight ? { background: "linear-gradient(135deg, #ffc800, #ff7a2a)" } : {}}
               >
                 {link.label}
               </Link>
