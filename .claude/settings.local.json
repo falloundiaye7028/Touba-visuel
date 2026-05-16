@@ -53,7 +53,9 @@
       "Bash(sips -z 32 32 \"/Users/imacpro/Downloads/Touba Visuel 2026/tiktok.png\" --out \"/Users/imacpro/application Touba Visuel/public/favicon.png\")",
       "Bash(convert --version)",
       "Bash(python3 -c \"from PIL import Image; print\\('Pillow OK'\\)\")",
-      "Bash(pip3 install *)"
+      "Bash(pip3 install *)",
+      "Bash(git rm *)",
+      "Bash(rm -rf touba-video/.git)"
     ]
   }
 }
