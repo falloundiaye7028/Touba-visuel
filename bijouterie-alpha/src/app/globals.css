@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --or: #c9a84c;
+  --or-light: #e8d09e;
+  --or-dark: #8a6d2f;
+  --noir: #0a0907;
+  --noir-card: #111009;
+  --noir-border: #2a2215;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--noir);
+  color: #f5f0e8;
+  font-family: Georgia, Cambria, "Times New Roman", serif;
+  overflow-x: hidden;
+}
+
+/* ── Texte or animé ── */
+.text-gold {
+  background: linear-gradient(
+    90deg,
+    #8a6d2f 0%,
+    #c9a84c 20%,
+    #e8d09e 40%,
+    #d4af37 50%,
+    #e8d09e 60%,
+    #c9a84c 80%,
+    #8a6d2f 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Bordure or ── */
+.border-gold { border-color: var(--or); }
+
+/* ── Bouton or ── */
+.btn-gold {
+  background: linear-gradient(135deg, #8a6d2f 0%, #c9a84c 40%, #e8d09e 60%, #c9a84c 80%, #8a6d2f 100%);
+  background-size: 200% auto;
+  color: #0a0907;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: background-position 0.5s, transform 0.2s, box-shadow 0.2s;
+}
+.btn-gold:hover {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.45);
+}
+
+/* ── Card bijou ── */
+.card-bijou {
+  background: linear-gradient(145deg, #111009 0%, #1a1508 100%);
+  border: 1px solid #2a2215;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.card-bijou:hover {
+  border-color: var(--or);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(201, 168, 76, 0.15);
+}
+
+/* ── Section divider ── */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--or), transparent);
+}
+
+/* ── Scroll indicator ── */
+@keyframes scrollDown {
+  0%   { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(12px); }
+}
+
+/* ── Sparkle ── */
+.sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #e8d09e 0%, transparent 70%);
+  animation: sparkleAnim 3s ease-in-out infinite;
+}
+@keyframes sparkleAnim {
+  0%, 100% { opacity: 0.2; transform: scale(0.6); }
+  50%       { opacity: 1;   transform: scale(1.4); }
+}
+
+/* ── Particle dorée ── */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--or-light);
+  animation: floatParticle linear infinite;
+  opacity: 0;
+}
+@keyframes floatParticle {
+  0%   { opacity: 0; transform: translateY(0) scale(0); }
+  10%  { opacity: 1; transform: translateY(-20px) scale(1); }
+  90%  { opacity: 0.8; transform: translateY(-120px) scale(0.8); }
+  100% { opacity: 0; transform: translateY(-140px) scale(0); }
+}
+
+/* ── Reveal on scroll ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Nav ── */
+.nav-glass {
+  background: rgba(10, 9, 7, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+/* ── Halo ── */
+.halo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}

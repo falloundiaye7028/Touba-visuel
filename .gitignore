@@ -29,3 +29,5 @@ prisma/*.db
 
 # Vercel
 .vercel
+bijouterie-alpha/node_modules/
+bijouterie-alpha/.next/
