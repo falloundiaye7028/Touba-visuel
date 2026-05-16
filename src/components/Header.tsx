@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/tabaski", label: "🌙 Tabaski", highlight: true },
   { href: "/magal", label: "⏳ Magal", highlight: true },
   { href: "/blog", label: "Blog" },
+  { href: "/touba-infos", label: "📰 Touba Infos", highlight: true },
   { href: "/commande", label: "Commander" },
   { href: "/suivi", label: "Suivi Commande" },
 ];
