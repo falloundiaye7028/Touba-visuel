@@ -55,7 +55,9 @@
       "Bash(python3 -c \"from PIL import Image; print\\('Pillow OK'\\)\")",
       "Bash(pip3 install *)",
       "Bash(git rm *)",
-      "Bash(rm -rf touba-video/.git)"
+      "Bash(rm -rf touba-video/.git)",
+      "Bash(rm -rf /home/user/bijouterie-alpha/.git)",
+      "Bash(mv /home/user/bijouterie-alpha /home/user/Touba-visuel/bijouterie-alpha)"
     ]
   }
 }
