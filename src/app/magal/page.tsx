@@ -24,37 +24,39 @@ function getTimeLeft() {
 const packs = [
   {
     nom: "Essentiel",
-    prix: "49 999 F",
+    prix: "44 999 F",
+    detail: "Valeur réelle 45 000 F",
     couleur: "#0a6342",
     items: [
-      "Flyers A5 — 500 exemplaires",
-      "Roll-up 1 m",
-      "Livraison à Touba",
+      "Visuel MAGAL personnalisé réseaux sociaux — 5 000 F",
+      "Banderole 3m × 0,80 m — 15 000 F",
+      "50 badges personnalisés — 25 000 F",
     ],
   },
   {
     nom: "Pro",
-    prix: "99 999 F",
+    prix: "74 999 F",
+    detail: "Valeur réelle 75 000 F",
     couleur: "#1d9c68",
     star: true,
     items: [
-      "Flyers — 1 000 exemplaires",
-      "Banderole 3 m",
-      "50 t-shirts personnalisés",
-      "Création graphique incluse",
-      "Livraison à Touba",
+      "Kakémono — 30 000 F",
+      "Banderole 3m × 0,80 m — 15 000 F",
+      "50 badges personnalisés — 25 000 F",
+      "Visuel MAGAL personnalisé réseaux sociaux — 5 000 F",
     ],
   },
   {
     nom: "Premium",
-    prix: "199 999 F",
+    prix: "174 999 F",
+    detail: "Valeur réelle 175 000 F",
     couleur: "#07402b",
     items: [
-      "Tout le Pack Pro × 2",
-      "Enseignes lumineuses",
-      "Campagne réseaux sociaux",
-      "Photos & vidéo terrain",
-      "Livraison prioritaire à Touba",
+      "50 tee-shirts personnalisés — 100 000 F",
+      "Kakémono — 30 000 F",
+      "Banderole 3m × 0,80 m — 15 000 F",
+      "50 badges personnalisés — 25 000 F",
+      "Visuel MAGAL personnalisé réseaux sociaux — 5 000 F",
     ],
   },
 ];
@@ -282,7 +284,8 @@ export default function MagalPage() {
                   >
                     {pack.prix}
                   </p>
-                  <p className="text-gray-400 text-sm mb-6">TTC · livraison incluse</p>
+                  <p className="text-gray-400 text-xs mb-1">{pack.detail}</p>
+                  <p className="text-gray-400 text-sm mb-6">TTC · livraison à Touba incluse</p>
 
                   <ul className="space-y-3 mb-8 flex-1">
                     {pack.items.map((item) => (
