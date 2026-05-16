@@ -25,153 +25,117 @@ export default function TabaskiPage() {
     canvas.width = W;
     canvas.height = H;
 
-    // --- Fond dégradé vert foncé ---
-    const bg = ctx.createLinearGradient(0, 0, W, H);
-    bg.addColorStop(0, "#07402b");
-    bg.addColorStop(0.5, "#0a5535");
-    bg.addColorStop(1, "#000000");
+    // --- Fond dégradé bleu ciel ---
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, "#1a2e52");
+    bg.addColorStop(0.4, "#2a4a7f");
+    bg.addColorStop(0.75, "#4a7ab5");
+    bg.addColorStop(1, "#c8dff5");
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
 
-    // --- Cercle décoratif doré en haut ---
+    // --- Nuages bas de page ---
     ctx.save();
-    ctx.globalAlpha = 0.08;
-    ctx.beginPath();
-    ctx.arc(W / 2, -60, 420, 0, Math.PI * 2);
-    ctx.strokeStyle = "#ffc800";
-    ctx.lineWidth = 80;
-    ctx.stroke();
+    ctx.fillStyle = "rgba(255,255,255,0.18)";
+    for (const [cx2, cy2, r2] of [
+      [200, H - 60, 160], [400, H - 40, 200], [650, H - 70, 180],
+      [900, H - 50, 150], [100, H - 100, 100], [1000, H - 90, 120],
+    ]) {
+      ctx.beginPath();
+      ctx.arc(cx2, cy2, r2, 0, Math.PI * 2);
+      ctx.fill();
+    }
     ctx.restore();
 
-    // --- Cercle décoratif doré en bas ---
+    // --- Silhouette mosquée centrale ---
     ctx.save();
-    ctx.globalAlpha = 0.06;
-    ctx.beginPath();
-    ctx.arc(W / 2, H + 80, 380, 0, Math.PI * 2);
-    ctx.strokeStyle = "#ffc800";
-    ctx.lineWidth = 60;
-    ctx.stroke();
+    ctx.fillStyle = "rgba(255,255,255,0.22)";
+    dessinMosquee(ctx, W / 2, H - 80, 320);
     ctx.restore();
 
-    // --- Étoiles décoratives ---
-    const etoiles = [
-      { x: 80, y: 80, r: 18 },
-      { x: W - 80, y: 100, r: 14 },
-      { x: 60, y: H - 120, r: 12 },
-      { x: W - 60, y: H - 80, r: 16 },
-      { x: W / 2 - 200, y: 200, r: 8 },
-      { x: W / 2 + 220, y: 180, r: 10 },
-    ];
-    etoiles.forEach(({ x, y, r }) => {
-      ctx.save();
-      ctx.globalAlpha = 0.5;
-      ctx.fillStyle = "#ffc800";
-      dessinEtoile(ctx, x, y, r, 5);
-      ctx.restore();
-    });
-
-    // --- Croissant de lune ---
+    // --- Mosquées latérales gauche ---
     ctx.save();
-    ctx.globalAlpha = 0.85;
-    ctx.fillStyle = "#ffc800";
-    const cx = W / 2, cy = 170, rExt = 70, rInt = 52;
-    ctx.beginPath();
-    ctx.arc(cx, cy, rExt, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#07402b";
-    ctx.beginPath();
-    ctx.arc(cx + 26, cy - 10, rInt, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.fillStyle = "rgba(255,255,255,0.16)";
+    dessinMosquee(ctx, W / 2 - 270, H - 80, 180);
     ctx.restore();
 
-    // --- Étoile sur le croissant ---
+    // --- Mosquées latérales droite ---
     ctx.save();
-    ctx.fillStyle = "#ffc800";
-    ctx.globalAlpha = 1;
-    dessinEtoile(ctx, cx + 68, cy - 36, 14, 5);
+    ctx.fillStyle = "rgba(255,255,255,0.16)";
+    dessinMosquee(ctx, W / 2 + 270, H - 80, 180);
     ctx.restore();
 
-    // --- Ligne décorative dorée ---
-    const lgrd = ctx.createLinearGradient(100, 0, W - 100, 0);
-    lgrd.addColorStop(0, "transparent");
-    lgrd.addColorStop(0.3, "#ffc800");
-    lgrd.addColorStop(0.7, "#ff7a2a");
-    lgrd.addColorStop(1, "transparent");
-    ctx.strokeStyle = lgrd;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(100, 290);
-    ctx.lineTo(W - 100, 290);
-    ctx.stroke();
-
-    // --- TABASKI MOUBARAK ---
+    // --- Petits minarets extrêmes ---
     ctx.save();
-    ctx.fillStyle = "#ffc800";
-    ctx.font = `bold 90px Georgia, serif`;
+    ctx.fillStyle = "rgba(255,255,255,0.12)";
+    dessinMinaret(ctx, W / 2 - 430, H - 80, 90);
+    dessinMinaret(ctx, W / 2 + 430, H - 80, 90);
+    ctx.restore();
+
+    // --- Texte "Bonne fête de" ---
+    ctx.save();
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `italic 68px Georgia, serif`;
     ctx.textAlign = "center";
-    ctx.shadowColor = "rgba(255,200,0,0.3)";
-    ctx.shadowBlur = 30;
-    ctx.fillText("TABASKI", W / 2, 390);
+    ctx.shadowColor = "rgba(0,0,0,0.4)";
+    ctx.shadowBlur = 12;
+    ctx.fillText("Bonne fête de", W / 2, 160);
     ctx.restore();
 
+    // --- TABASKI en grand orange ---
     ctx.save();
-    const grtxt = ctx.createLinearGradient(W / 2 - 200, 0, W / 2 + 200, 0);
-    grtxt.addColorStop(0, "#ffc800");
-    grtxt.addColorStop(1, "#ff7a2a");
-    ctx.fillStyle = grtxt;
-    ctx.font = `bold 64px Georgia, serif`;
+    ctx.font = `bold 160px Arial Black, sans-serif`;
     ctx.textAlign = "center";
-    ctx.fillText("MOUBARAK", W / 2, 475);
+    ctx.shadowColor = "rgba(0,0,0,0.5)";
+    ctx.shadowBlur = 20;
+    const gtabaski = ctx.createLinearGradient(W / 2 - 300, 0, W / 2 + 300, 0);
+    gtabaski.addColorStop(0, "#ff8c00");
+    gtabaski.addColorStop(0.5, "#ffa500");
+    gtabaski.addColorStop(1, "#ff6600");
+    ctx.fillStyle = gtabaski;
+    ctx.fillText("TABASKI", W / 2, 310);
     ctx.restore();
 
-    // --- Ligne décorative ---
-    ctx.strokeStyle = lgrd;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(100, 510);
-    ctx.lineTo(W - 100, 510);
-    ctx.stroke();
-
-    // --- Nom de la famille ---
+    // --- Nom de famille ---
     const nomAffiche = nom.trim() || "Votre Famille";
     ctx.save();
     ctx.fillStyle = "#ffffff";
-    ctx.font = `bold 72px Arial, sans-serif`;
+    ctx.shadowColor = "rgba(0,0,80,0.5)";
+    ctx.shadowBlur = 16;
     ctx.textAlign = "center";
-    ctx.shadowColor = "rgba(255,255,255,0.2)";
-    ctx.shadowBlur = 20;
-    // Réduire si trop long
-    const maxW = W - 120;
-    let fontSize = 72;
-    ctx.font = `bold ${fontSize}px Arial, sans-serif`;
-    while (ctx.measureText(nomAffiche).width > maxW && fontSize > 32) {
-      fontSize -= 4;
-      ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+    let fs = 80;
+    ctx.font = `bold ${fs}px Arial, sans-serif`;
+    while (ctx.measureText(nomAffiche).width > W - 120 && fs > 36) {
+      fs -= 4;
+      ctx.font = `bold ${fs}px Arial, sans-serif`;
     }
-    ctx.fillText(nomAffiche, W / 2, 620);
+    ctx.fillText(nomAffiche, W / 2, 420);
     ctx.restore();
 
-    // --- Sous-titre famille ---
+    // --- "vous souhaite une belle fête" ---
     ctx.save();
-    ctx.fillStyle = "rgba(255,255,255,0.55)";
-    ctx.font = `italic 32px Georgia, serif`;
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.font = `italic 38px Georgia, serif`;
     ctx.textAlign = "center";
-    ctx.fillText("et toute sa famille", W / 2, 680);
+    ctx.shadowColor = "rgba(0,0,0,0.3)";
+    ctx.shadowBlur = 8;
+    ctx.fillText("vous souhaite une belle fête", W / 2, 482);
     ctx.restore();
 
     // --- Message personnalisé ---
     if (message.trim()) {
       ctx.save();
-      ctx.fillStyle = "rgba(255,200,0,0.85)";
-      ctx.font = `italic 30px Georgia, serif`;
+      ctx.fillStyle = "rgba(255,220,100,0.95)";
+      ctx.font = `italic 32px Georgia, serif`;
       ctx.textAlign = "center";
-      const msgMax = W - 160;
+      ctx.shadowColor = "rgba(0,0,0,0.3)";
+      ctx.shadowBlur = 6;
       const mots = message.trim().split(" ");
       const lignes: string[] = [];
       let ligne = "";
       for (const mot of mots) {
         const test = ligne ? `${ligne} ${mot}` : mot;
-        if (ctx.measureText(test).width > msgMax) {
+        if (ctx.measureText(test).width > W - 200) {
           if (ligne) lignes.push(ligne);
           ligne = mot;
         } else {
@@ -179,39 +143,70 @@ export default function TabaskiPage() {
         }
       }
       if (ligne) lignes.push(ligne);
-      lignes.forEach((l, i) => ctx.fillText(l, W / 2, 760 + i * 42));
+      lignes.forEach((l, i) => ctx.fillText(l, W / 2, 538 + i * 44));
       ctx.restore();
     }
 
-    // --- Ligne bas ---
-    ctx.strokeStyle = lgrd;
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(100, H - 120);
-    ctx.lineTo(W - 100, H - 120);
-    ctx.stroke();
-
-    // --- Logo ATV en bas ---
+    // --- Logo ATV bas ---
     ctx.save();
-    ctx.fillStyle = "rgba(255,255,255,0.35)";
+    ctx.fillStyle = "rgba(255,255,255,0.0)";
+    ctx.fillRect(0, H - 100, W, 100);
+    ctx.fillStyle = "rgba(255,255,255,0.7)";
     ctx.font = `bold 26px Arial, sans-serif`;
     ctx.textAlign = "center";
-    ctx.fillText("Carte créée sur • Agence Touba Visuel (ATV) • touba-visuel.vercel.app", W / 2, H - 68);
+    ctx.shadowColor = "rgba(0,0,0,0.3)";
+    ctx.shadowBlur = 4;
+    ctx.fillText("✦ Agence Touba Visuel (ATV) ✦ touba-visuel.vercel.app", W / 2, H - 36);
     ctx.restore();
   }
 
-  function dessinEtoile(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, pts: number) {
+  function dessinMosquee(ctx: CanvasRenderingContext2D, cx: number, base: number, taille: number) {
+    const t = taille;
+    // Dome central
     ctx.beginPath();
-    for (let i = 0; i < pts * 2; i++) {
-      const angle = (i * Math.PI) / pts - Math.PI / 2;
-      const dist = i % 2 === 0 ? r : r * 0.4;
-      const px = x + dist * Math.cos(angle);
-      const py = y + dist * Math.sin(angle);
-      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-    }
+    ctx.arc(cx, base - t * 0.55, t * 0.4, Math.PI, 0);
+    ctx.lineTo(cx + t * 0.4, base - t * 0.15);
+    ctx.lineTo(cx - t * 0.4, base - t * 0.15);
     ctx.closePath();
     ctx.fill();
+    // Corps mosquée
+    ctx.fillRect(cx - t * 0.4, base - t * 0.15, t * 0.8, t * 0.15);
+    // Minarets
+    dessinMinaret(ctx, cx - t * 0.52, base, t * 0.38);
+    dessinMinaret(ctx, cx + t * 0.52, base, t * 0.38);
+    // Croissant dome
+    dessinCroissant(ctx, cx, base - t * 0.55 - t * 0.4 - 10, t * 0.07);
   }
+
+  function dessinMinaret(ctx: CanvasRenderingContext2D, cx: number, base: number, h: number) {
+    const w = h * 0.22;
+    ctx.fillRect(cx - w / 2, base - h, w, h);
+    // Pointe
+    ctx.beginPath();
+    ctx.moveTo(cx - w / 2, base - h);
+    ctx.lineTo(cx, base - h - h * 0.18);
+    ctx.lineTo(cx + w / 2, base - h);
+    ctx.closePath();
+    ctx.fill();
+    // Croissant sommet
+    dessinCroissant(ctx, cx, base - h - h * 0.18 - 8, h * 0.055);
+  }
+
+  function dessinCroissant(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+    const prevFill = ctx.fillStyle;
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.arc(cx + r * 0.45, cy - r * 0.15, r * 0.78, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = prevFill;
+    ctx.restore();
+  }
+
 
   function telecharger() {
     const canvas = canvasRef.current;
