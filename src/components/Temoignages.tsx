@@ -133,7 +133,7 @@ export default function Temoignages() {
             Rejoignez nos clients satisfaits — entreprises, institutions et grandes marques
           </p>
           <a
-            href="https://wa.me/221778001717?text=Bonjour%20ATV%2C%20je%20souhaite%20discuter%20d%27une%20campagne%20de%20communication."
+            href="https://wa.me/221768001717?text=Bonjour%20ATV%2C%20je%20souhaite%20discuter%20d%27une%20campagne%20de%20communication."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-white font-bold px-8 py-3.5 rounded-2xl transition-all hover:opacity-90 hover:scale-[1.02] shadow-lg text-sm"

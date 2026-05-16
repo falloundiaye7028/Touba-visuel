@@ -196,7 +196,7 @@ export default async function ArticlePage({ params }: Props) {
               <ArrowRight size={18} />
             </Link>
             <a
-              href="https://wa.me/221778001717"
+              href="https://wa.me/221768001717"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-xl transition-colors"

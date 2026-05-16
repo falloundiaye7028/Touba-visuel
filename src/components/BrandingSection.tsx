@@ -92,7 +92,7 @@ export default function BrandingSection() {
               Découvrir nos services
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
-            <a href="https://wa.me/221778001717" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/221768001717" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 border border-white/20 hover:border-vert-500 text-white/70 hover:text-white font-semibold px-8 py-4 rounded-2xl transition-all duration-200 text-sm">
               📱 Nous contacter
             </a>

@@ -188,7 +188,7 @@ function SuiviContent() {
               <p className="text-vert-600 text-sm mb-3">
                 Contactez-nous par WhatsApp avec votre numéro de commande <strong>{order.orderNumber}</strong>
               </p>
-              <a href={`https://wa.me/221778001717?text=Bonjour, je voudrais des informations sur ma commande ${order.orderNumber}`}
+              <a href={`https://wa.me/221768001717?text=Bonjour, je voudrais des informations sur ma commande ${order.orderNumber}`}
                 target="_blank" rel="noopener noreferrer"
                 className="btn-primary inline-flex">
                 Contacter par WhatsApp

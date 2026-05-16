@@ -97,7 +97,7 @@ const SLIDES = [
     accent: "À TOUBA — 7J/7",
     cta: "RÉSERVER LE STUDIO",
     ctaBg: "#ff7a2a", ctaColor: "#fff",
-    href: "https://wa.me/221778001717?text=Bonjour%20ATV%2C%20je%20voudrais%20réserver%20le%20studio.",
+    href: "https://wa.me/221768001717?text=Bonjour%20ATV%2C%20je%20voudrais%20réserver%20le%20studio.",
   },
   {
     bg: "#1a0a00",
@@ -119,7 +119,7 @@ const SLIDES = [
     accent: "POUR VOS GRANDES MARQUES",
     cta: "DÉMARRER UNE CAMPAGNE",
     ctaBg: "#ffc800", ctaColor: "#111",
-    href: "https://wa.me/221778001717?text=Bonjour%20ATV%2C%20je%20souhaite%20discuter%20d%27une%20campagne.",
+    href: "https://wa.me/221768001717?text=Bonjour%20ATV%2C%20je%20souhaite%20discuter%20d%27une%20campagne.",
   },
   {
     bg: "#0a0033",

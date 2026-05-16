@@ -25,7 +25,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <Phone size={12} />
-              +221 77 800 17 17
+              +221 76 800 17 17
             </span>
             <span className="flex items-center gap-1">
               <MapPin size={12} />
@@ -126,7 +126,7 @@ export default function Header() {
             </Link>
           </nav>
           <div className="mt-4 pt-3 border-t border-vert-700 text-vert-400 text-xs space-y-1">
-            <p className="flex items-center gap-1"><Phone size={12} /> +221 77 800 17 17</p>
+            <p className="flex items-center gap-1"><Phone size={12} /> +221 76 800 17 17</p>
             <p className="flex items-center gap-1"><MapPin size={12} /> Touba, Sénégal</p>
           </div>
         </div>

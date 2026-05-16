@@ -86,7 +86,7 @@ export const ARTICLES: Article[] = [
 
 <h2>Le bilan : que faire maintenant ?</h2>
 <p>Si vous vous êtes reconnu dans une ou plusieurs de ces erreurs, pas de panique — c'est récupérable. Commencez par un audit honnête de vos 20 dernières publications : combien ont un CTA ? Combien respectent votre charte visuelle ? Combien ont été publiées aux bonnes heures ?</p>
-<p>Chez <strong>Agence Touba Visuel</strong>, nous accompagnons les entreprises sénégalaises dans la construction de stratégies digitales cohérentes et rentables. De la création graphique à la gestion des réseaux sociaux, en passant par la communication terrain à Touba — nous sommes votre partenaire de croissance. Contactez-nous sur WhatsApp au +221 77 800 17 17 pour un premier audit gratuit.</p>
+<p>Chez <strong>Agence Touba Visuel</strong>, nous accompagnons les entreprises sénégalaises dans la construction de stratégies digitales cohérentes et rentables. De la création graphique à la gestion des réseaux sociaux, en passant par la communication terrain à Touba — nous sommes votre partenaire de croissance. Contactez-nous sur WhatsApp au +221 76 800 17 17 pour un premier audit gratuit.</p>
 `,
   },
   {

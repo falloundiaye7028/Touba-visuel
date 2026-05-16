@@ -163,7 +163,7 @@ function CommandeForm() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Téléphone / WhatsApp *</label>
                   <input name="clientPhone" value={form.clientPhone} onChange={handleChange} required
-                    className="input-field" placeholder="+221 77 800 17 17" type="tel" />
+                    className="input-field" placeholder="+221 76 800 17 17" type="tel" />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>

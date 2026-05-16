@@ -66,7 +66,7 @@ export default function CataloguePage() {
               Passer une commande
             </Link>
             <a
-              href="https://wa.me/221778001717"
+              href="https://wa.me/221768001717"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline border-white text-white hover:bg-white hover:text-vert-900"

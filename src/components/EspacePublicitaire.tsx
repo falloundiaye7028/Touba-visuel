@@ -38,7 +38,7 @@ const PUBS: Pub[] = [
 function SlotVide({ format }: { format: string }) {
   return (
     <a
-      href={`https://wa.me/221778001717?text=Bonjour, je souhaite réserver un espace publicitaire sur votre site Agence Touba Visuel`}
+      href={`https://wa.me/221768001717?text=Bonjour, je souhaite réserver un espace publicitaire sur votre site Agence Touba Visuel`}
       target="_blank"
       rel="noopener noreferrer"
       className={`flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-or-400 bg-gray-50 hover:bg-or-50 rounded-xl transition-all duration-200 group ${
@@ -83,7 +83,7 @@ export default function EspacePublicitaire() {
             </div>
           </div>
           <a
-            href={`https://wa.me/221778001717?text=Bonjour, je souhaite réserver un espace publicitaire sur votre site Agence Touba Visuel`}
+            href={`https://wa.me/221768001717?text=Bonjour, je souhaite réserver un espace publicitaire sur votre site Agence Touba Visuel`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-or-600 hover:text-or-500 font-semibold border border-or-300 hover:border-or-400 px-3 py-1.5 rounded-lg transition-colors hidden sm:block"
@@ -163,7 +163,7 @@ export default function EspacePublicitaire() {
             </p>
           </div>
           <a
-            href={`https://wa.me/221778001717?text=Bonjour, je veux afficher ma publicité sur votre site`}
+            href={`https://wa.me/221768001717?text=Bonjour, je veux afficher ma publicité sur votre site`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-or-500 hover:bg-or-400 text-vert-950 font-bold text-sm px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap flex-shrink-0"

@@ -21,7 +21,7 @@ const SLIDES_LEFT = [
     sub: "Disponible 7j/7 à Touba",
     cta: "Réserver",
     ctaBg: "#ff7a2a", ctaColor: "#fff",
-    href: "https://wa.me/221778001717?text=Studio",
+    href: "https://wa.me/221768001717?text=Studio",
   },
   {
     bg: "linear-gradient(180deg, #0a0033 0%, #1a0066 100%)",

@@ -323,7 +323,7 @@ export default function TabaskiPage() {
           <p className="text-white/50 text-sm mb-6">T-shirts famille, cartes de vœux, mugs, banderoles — livraison avant Tabaski</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="https://wa.me/221778001717?text=Je veux commander des supports pour Tabaski 2026"
+              href="https://wa.me/221768001717?text=Je veux commander des supports pour Tabaski 2026"
               target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-bold px-8 py-4 rounded-2xl text-gray-900 shadow-xl hover:opacity-90 transition-all"
               style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)" }}

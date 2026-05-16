@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         orderNumber,
-        instructions: `Envoyez ${prixTotal} FCFA au +221 77 800 17 17 (Orange Money) avec la référence : ${orderNumber}`,
+        instructions: `Envoyez ${prixTotal} FCFA au +221 76 800 17 17 (Orange Money) avec la référence : ${orderNumber}`,
       });
     }
 

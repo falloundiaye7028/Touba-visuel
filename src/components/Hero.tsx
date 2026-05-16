@@ -93,7 +93,7 @@ export default function Hero() {
             Voir le catalogue
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
-          <a href="https://wa.me/221778001717" target="_blank" rel="noopener noreferrer"
+          <a href="https://wa.me/221768001717" target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 glass text-white font-semibold px-9 py-4 rounded-2xl hover:bg-white/15 transition-all duration-300 text-base border border-white/20">
             WhatsApp — Devis gratuit
           </a>
@@ -147,7 +147,7 @@ export default function Hero() {
               <p className="text-vert-950 font-black text-base uppercase tracking-wide mb-1">Démarrez maintenant</p>
               <p className="text-gray-500 text-xs mb-5">Devis gratuit sous 24h</p>
               <div className="space-y-2.5">
-                <a href="https://wa.me/221778001717" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/221768001717" target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 text-white font-bold text-sm px-5 py-3 rounded-xl transition-all duration-200 w-full hover:scale-[1.02] hover:opacity-90"
                   style={{ background: "linear-gradient(135deg, #0a6342, #1d9c68)" }}>
                   📱 WhatsApp

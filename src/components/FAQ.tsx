@@ -81,7 +81,7 @@ export default function FAQ() {
           <p className="text-gray-700 font-semibold mb-3">
             Vous ne trouvez pas la réponse à votre question ?
           </p>
-          <a href="https://wa.me/221778001717?text=Bonjour%20ATV%2C%20j%27ai%20une%20question."
+          <a href="https://wa.me/221768001717?text=Bonjour%20ATV%2C%20j%27ai%20une%20question."
             target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-lg transition-all hover:opacity-90"
             style={{ background: "linear-gradient(135deg, #25D366, #128C7E)" }}>

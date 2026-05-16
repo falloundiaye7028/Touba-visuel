@@ -102,13 +102,13 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <Phone size={16} className="text-or-400 flex-shrink-0" />
-              <a href="tel:+221778001717" className="text-vert-400 hover:text-or-400 transition-colors">
-                +221 77 800 17 17
+              <a href="tel:+221768001717" className="text-vert-400 hover:text-or-400 transition-colors">
+                +221 76 800 17 17
               </a>
             </li>
             <li className="flex items-center gap-2">
               <Phone size={16} className="text-or-400 flex-shrink-0" />
-              <a href="https://wa.me/221778001717" className="text-vert-400 hover:text-or-400 transition-colors">
+              <a href="https://wa.me/221768001717" className="text-vert-400 hover:text-or-400 transition-colors">
                 WhatsApp
               </a>
             </li>

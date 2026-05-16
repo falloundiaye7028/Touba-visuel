@@ -280,7 +280,7 @@ export default function AlbumShooting() {
                 Orange Money × Touba · MASAE · Campagnes &amp; reportages — {PHOTOS.length} photos
               </p>
             </div>
-            <a href="https://wa.me/221778001717?text=Bonjour%20ATV%2C%20je%20voudrais%20commander%20un%20shooting%20photo."
+            <a href="https://wa.me/221768001717?text=Bonjour%20ATV%2C%20je%20voudrais%20commander%20un%20shooting%20photo."
               target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm font-bold px-5 py-2.5 rounded-xl transition-all hover:opacity-90 whitespace-nowrap flex-shrink-0"
               style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)", color: "#111" }}>

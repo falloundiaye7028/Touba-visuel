@@ -109,7 +109,7 @@ export default function RootLayout({
               "name": "Agence Touba Visuel",
               "alternateName": "ATV",
               "url": "https://touba-visuel.vercel.app",
-              "telephone": "+221778001717",
+              "telephone": "+221768001717",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Touba",
