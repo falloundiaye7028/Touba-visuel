@@ -113,6 +113,41 @@ const offresRegie = [
   },
 ];
 
+// ── Bouton Partager ────────────────────────────────────────────────────────
+
+function ShareButton({ pack }: { pack: { nom: string; prix: string; items: string[] } }) {
+  const [copie, setCopie] = useState(false);
+
+  const texte = `🕌 Pack ${pack.nom} Magal 2026 — ${pack.prix}\n${pack.items.map(i => `✓ ${i}`).join("\n")}\n\n👉 Commander sur ATV : https://touba-visuel.vercel.app/magal`;
+
+  const partager = async () => {
+    if (navigator.share) {
+      await navigator.share({
+        title: `Pack ${pack.nom} Magal 2026 — ATV`,
+        text: texte,
+        url: "https://touba-visuel.vercel.app/magal",
+      });
+    } else {
+      await navigator.clipboard.writeText(texte);
+      setCopie(true);
+      setTimeout(() => setCopie(false), 2500);
+    }
+  };
+
+  return (
+    <button
+      onClick={partager}
+      className="inline-flex items-center justify-center gap-2 w-full font-semibold py-3 rounded-xl text-sm border border-gray-200 bg-gray-50 hover:bg-gray-100 transition-all text-gray-700"
+    >
+      {copie ? (
+        <><span className="text-green-600 font-bold">✓</span> Lien copié !</>
+      ) : (
+        <><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg> Partager ce pack</>
+      )}
+    </button>
+  );
+}
+
 // ── Page ───────────────────────────────────────────────────────────────────
 
 export default function MagalPage() {
@@ -300,11 +335,12 @@ export default function MagalPage() {
                     href={`https://wa.me/221778001717?text=Je veux le Pack ${pack.nom} pour le Magal 2026`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-full font-bold py-3.5 rounded-xl text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
+                    className="inline-flex items-center justify-center w-full font-bold py-3.5 rounded-xl text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] mb-3"
                     style={{ backgroundColor: pack.couleur }}
                   >
                     Commander ce pack
                   </a>
+                  <ShareButton pack={pack} />
                 </div>
               </div>
             ))}
