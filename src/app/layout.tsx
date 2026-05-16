@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import MockupLateral from "@/components/MockupLateral";
 import BannierePromo from "@/components/BannierePromo";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export const metadata: Metadata = {
   title: {
@@ -87,6 +88,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
+        <ScrollProgress />
         <BannierePromo />
         <MockupLateral />
         <Header />

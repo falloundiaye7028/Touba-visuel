@@ -61,12 +61,16 @@ export default function StatsSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {STATS.map((s) => (
             <div key={s.label}
-              className="text-center p-6 rounded-2xl border border-white/10 backdrop-blur-sm"
+              className="card-3d text-center p-6 rounded-2xl border border-white/10 backdrop-blur-sm"
               style={{ background: "rgba(255,255,255,0.06)" }}>
               <div className="text-4xl mb-3">{s.emoji}</div>
               <p className="font-black text-4xl md:text-5xl mb-2"
-                style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)",
-                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                style={{
+                  background: "linear-gradient(135deg, #ffc800, #ff7a2a)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  fontFamily: "Syne, sans-serif",
+                }}>
                 <Counter valeur={s.valeur} suffixe={s.suffixe} />
               </p>
               <p className="text-white/70 text-sm font-semibold">{s.label}</p>
