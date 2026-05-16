@@ -21,45 +21,16 @@ function getTimeLeft() {
 
 // ── Données ────────────────────────────────────────────────────────────────
 
-const packs = [
-  {
-    nom: "Essentiel",
-    prix: "44 999 F",
-    detail: "Valeur réelle 45 000 F",
-    couleur: "#0a6342",
-    items: [
-      "Visuel MAGAL personnalisé réseaux sociaux — 5 000 F",
-      "Banderole 3m × 0,80 m — 15 000 F",
-      "50 badges personnalisés — 25 000 F",
-    ],
-  },
-  {
-    nom: "Pro",
-    prix: "74 999 F",
-    detail: "Valeur réelle 75 000 F",
-    couleur: "#1d9c68",
-    star: true,
-    items: [
-      "Kakémono — 30 000 F",
-      "Banderole 3m × 0,80 m — 15 000 F",
-      "50 badges personnalisés — 25 000 F",
-      "Visuel MAGAL personnalisé réseaux sociaux — 5 000 F",
-    ],
-  },
-  {
-    nom: "Premium",
-    prix: "174 999 F",
-    detail: "Valeur réelle 175 000 F",
-    couleur: "#07402b",
-    items: [
-      "50 tee-shirts personnalisés — 100 000 F",
-      "Kakémono — 30 000 F",
-      "Banderole 3m × 0,80 m — 15 000 F",
-      "50 badges personnalisés — 25 000 F",
-      "Visuel MAGAL personnalisé réseaux sociaux — 5 000 F",
-    ],
-  },
+const PACK_ITEMS = [
+  "1 Banderole 3 m × 0,80 m",
+  "1 Kakémono événementiel",
+  "50 Badges personnalisés",
+  "50 Tee-shirts personnalisés",
+  "1 Visuel MAGAL pour réseaux sociaux",
+  "100 Étiquettes bouteilles personnalisées",
 ];
+
+const CIBLES = ["Dahiras", "Associations", "Groupes d'amis", "Familles", "Organisations", "Commerçants"];
 
 const guide = [
   {
@@ -115,15 +86,15 @@ const offresRegie = [
 
 // ── Bouton Partager ────────────────────────────────────────────────────────
 
-function ShareButton({ pack }: { pack: { nom: string; prix: string; items: string[] } }) {
+function ShareButton() {
   const [copie, setCopie] = useState(false);
 
-  const texte = `🕌 Pack ${pack.nom} Magal 2026 — ${pack.prix}\n${pack.items.map(i => `✓ ${i}`).join("\n")}\n\n👉 Commander sur ATV : https://touba-visuel.vercel.app/magal`;
+  const texte = `🔥 PACK MAGAL TOUBA 2026 🔥\n« Votre communication Magal clé en main. »\n\n✅ 1 Banderole 3m×0,80m\n✅ 1 Kakémono événementiel\n✅ 50 Badges personnalisés\n✅ 50 Tee-shirts personnalisés\n✅ 1 Visuel MAGAL réseaux sociaux\n✅ 100 Étiquettes bouteilles\n\n💰 PACK COMPLET : 199 999 FCFA\n📞 77 800 17 17 / 76 800 17 17\n\n👉 Commander : https://touba-visuel.vercel.app/magal\n📍 Agence Touba Visuel (ATV) — Touba`;
 
   const partager = async () => {
     if (navigator.share) {
       await navigator.share({
-        title: `Pack ${pack.nom} Magal 2026 — ATV`,
+        title: "Pack Magal Touba 2026 — ATV",
         text: texte,
         url: "https://touba-visuel.vercel.app/magal",
       });
@@ -137,10 +108,10 @@ function ShareButton({ pack }: { pack: { nom: string; prix: string; items: strin
   return (
     <button
       onClick={partager}
-      className="inline-flex items-center justify-center gap-2 w-full font-semibold py-3 rounded-xl text-sm border border-gray-200 bg-gray-50 hover:bg-gray-100 transition-all text-gray-700"
+      className="inline-flex items-center justify-center gap-2 w-full font-semibold py-3 rounded-2xl text-sm border border-gray-200 bg-gray-50 hover:bg-gray-100 transition-all text-gray-700"
     >
       {copie ? (
-        <><span className="text-green-600 font-bold">✓</span> Lien copié !</>
+        <><span className="text-green-600 font-bold">✓</span> Texte copié !</>
       ) : (
         <><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg> Partager ce pack</>
       )}
@@ -276,75 +247,112 @@ export default function MagalPage() {
         </div>
       </section>
 
-      {/* ── C. Packs Magal ── */}
+      {/* ── C. Pack Magal Unique ── */}
       <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="section-title mb-4">Packs Magal 2026</h2>
+        <div className="max-w-4xl mx-auto">
+
+          {/* Titre section */}
+          <div className="text-center mb-12">
+            <span className="inline-block text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full mb-4 text-gray-900"
+              style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)" }}>
+              🔥 Offre spéciale Magal 2026
+            </span>
+            <h2 className="section-title mb-3">Votre communication Magal clé en main</h2>
             <p className="section-subtitle max-w-xl mx-auto">
-              Tout ce qu'il faut pour une présence forte pendant le Grand Magal de Touba.
+              Préparez votre présence au Magal avec un pack complet, professionnel et prêt à l&apos;emploi.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {packs.map((pack) => (
-              <div
-                key={pack.nom}
-                className={`relative flex flex-col rounded-3xl border ${
-                  pack.star
-                    ? "border-yellow-400 shadow-2xl scale-105"
-                    : "border-gray-200 shadow-md"
-                } bg-white overflow-hidden`}
-              >
-                {pack.star && (
-                  <div
-                    className="text-center text-xs font-black uppercase tracking-widest py-2 text-gray-900"
-                    style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)" }}
-                  >
-                    ⭐ Le plus populaire
-                  </div>
-                )}
+          {/* Grande carte pack */}
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2" style={{ borderColor: "#ffc800" }}>
 
-                <div className="p-8 flex flex-col flex-1">
-                  <div
-                    className="text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full inline-block mb-4 self-start"
-                    style={{ backgroundColor: pack.couleur }}
-                  >
-                    Pack {pack.nom}
-                  </div>
+            {/* Header doré */}
+            <div className="text-center py-5 px-6" style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)" }}>
+              <p className="text-gray-900 font-black text-2xl tracking-wide">🔥 PACK MAGAL TOUBA 2026 🔥</p>
+              <p className="text-gray-900/70 text-sm font-semibold mt-1">« Votre communication Magal clé en main. »</p>
+            </div>
 
-                  <p
-                    className="text-4xl font-black mb-1 leading-none"
-                    style={{ color: pack.couleur }}
-                  >
-                    {pack.prix}
-                  </p>
-                  <p className="text-gray-400 text-xs mb-1">{pack.detail}</p>
-                  <p className="text-gray-400 text-sm mb-6">TTC · livraison à Touba incluse</p>
+            <div className="bg-white p-8 md:p-12">
+              <div className="grid md:grid-cols-2 gap-10 items-start">
 
-                  <ul className="space-y-3 mb-8 flex-1">
-                    {pack.items.map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-gray-700 text-sm">
-                        <span className="text-green-600 font-bold mt-0.5 flex-shrink-0">✓</span>
-                        {item}
+                {/* Colonne gauche — contenu du pack */}
+                <div>
+                  <p className="text-xs font-black uppercase tracking-widest text-vert-600 mb-5">Ce que vous recevez :</p>
+                  <ul className="space-y-4 mb-8">
+                    {PACK_ITEMS.map((item) => (
+                      <li key={item} className="flex items-center gap-3">
+                        <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-black"
+                          style={{ background: "linear-gradient(135deg, #07402b, #0a6342)" }}>✓</span>
+                        <span className="font-semibold text-gray-800">{item}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <a
-                    href={`https://wa.me/221778001717?text=Je veux le Pack ${pack.nom} pour le Magal 2026`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-full font-bold py-3.5 rounded-xl text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] mb-3"
-                    style={{ backgroundColor: pack.couleur }}
-                  >
-                    Commander ce pack
-                  </a>
-                  <ShareButton pack={pack} />
+                  {/* Atouts */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {["🎨 Design professionnel", "⚡ Livraison rapide", "📍 Personnalisation complète"].map((a) => (
+                      <span key={a} className="text-xs font-bold px-3 py-1.5 rounded-full bg-gray-100 text-gray-700">{a}</span>
+                    ))}
+                  </div>
+
+                  {/* Compatibilité réseaux */}
+                  <p className="text-xs text-gray-400 font-semibold">
+                    📱 Compatible · <span className="text-blue-600">Facebook</span> · <span className="text-gray-900">TikTok</span> · <span className="text-green-600">WhatsApp</span>
+                  </p>
                 </div>
+
+                {/* Colonne droite — prix + cibles + CTA */}
+                <div className="flex flex-col items-center text-center">
+
+                  {/* Prix */}
+                  <div className="mb-6">
+                    <p className="text-7xl font-black leading-none" style={{ color: "#07402b" }}>199 999</p>
+                    <p className="text-2xl font-black text-gray-700">FCFA</p>
+                    <p className="text-xs text-gray-400 mt-1">Pack complet · Tout inclus</p>
+                  </div>
+
+                  {/* Idéal pour */}
+                  <div className="w-full bg-gray-50 rounded-2xl p-5 mb-6">
+                    <p className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3">Idéal pour :</p>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {CIBLES.map((c) => (
+                        <span key={c} className="text-xs font-bold px-3 py-1.5 rounded-full text-white"
+                          style={{ background: "linear-gradient(135deg, #07402b, #0a6342)" }}>{c}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Boutons */}
+                  <div className="flex flex-col gap-3 w-full">
+                    <a href="https://wa.me/221778001717?text=Je veux le Pack Magal Touba 2026 — 199 999 FCFA"
+                      target="_blank" rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full font-black py-4 rounded-2xl text-white text-base shadow-xl hover:opacity-90 transition-all"
+                      style={{ background: "linear-gradient(135deg, #25D366, #128C7E)" }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.849L0 24l6.335-1.648A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.645-.49-5.17-1.348l-.37-.22-3.762.977.998-3.652-.24-.38A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                      Commander sur WhatsApp
+                    </a>
+                    <a href="tel:+221778001717"
+                      className="flex items-center justify-center gap-2 w-full font-semibold py-3 rounded-2xl text-gray-700 text-sm border border-gray-200 bg-gray-50 hover:bg-gray-100 transition-all">
+                      📞 77 800 17 17 / 76 800 17 17
+                    </a>
+                    <ShareButton />
+                  </div>
+                </div>
+
               </div>
-            ))}
+            </div>
+
+            {/* Footer carte */}
+            <div className="text-center py-4 px-6 bg-gray-900">
+              <p className="text-white/60 text-xs font-semibold tracking-widest uppercase">
+                📍 Agence Touba Visuel — ATV · Touba, Sénégal
+              </p>
+              <p className="text-yellow-400 text-xs font-black mt-1">
+                🔥 Donnez une image forte à votre présence au Magal.
+              </p>
+            </div>
           </div>
+
         </div>
       </section>
 
