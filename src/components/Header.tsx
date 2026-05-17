@@ -9,6 +9,8 @@ const navLinks = [
   { href: "/catalogue", label: "Catalogue" },
   { href: "/tabaski", label: "🌙 Tabaski", highlight: true },
   { href: "/magal", label: "⏳ Magal", highlight: true },
+  { href: "/services-ia", label: "🤖 Marketing IA", highlight: true },
+  { href: "/generateur-ia", label: "✍️ Générateur IA" },
   { href: "/blog", label: "Blog" },
   { href: "/touba-infos", label: "📰 Touba Infos", highlight: true },
   { href: "/commande", label: "Commander" },

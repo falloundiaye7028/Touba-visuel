@@ -6,6 +6,7 @@ import MockupLateral from "@/components/MockupLateral";
 import BannierePromo from "@/components/BannierePromo";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ScrollProgress from "@/components/ScrollProgress";
+import ChatbotIA from "@/components/ChatbotIA";
 
 export const metadata: Metadata = {
   title: {
@@ -95,6 +96,7 @@ export default function RootLayout({
         <main className="min-h-screen">{children}</main>
         <Footer />
         <WhatsAppFloat />
+        <ChatbotIA />
         <script
           dangerouslySetInnerHTML={{
             __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}`,

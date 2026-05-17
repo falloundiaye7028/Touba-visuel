@@ -219,6 +219,131 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Section Marketing IA */}
+      <section
+        className="py-20 px-4"
+        style={{
+          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(168,85,247,0.12) 0%, transparent 70%), #030712",
+        }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Texte */}
+            <div>
+              <div
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-6 border"
+                style={{
+                  background: "rgba(168,85,247,0.1)",
+                  borderColor: "rgba(168,85,247,0.3)",
+                  color: "#c084fc",
+                }}
+              >
+                <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" />
+                Nouveau · Marketing IA autonome
+              </div>
+
+              <h2 className="text-white text-4xl md:text-5xl font-black mb-5 leading-tight">
+                Votre marketing tourne{" "}
+                <span style={{ color: "#a855f7" }}>seul</span>{" "}
+                grâce à l&apos;IA
+              </h2>
+
+              <p className="text-gray-400 text-lg mb-6 leading-relaxed">
+                Touba Visuel intègre l&apos;intelligence artificielle pour automatiser votre présence digitale — posts Instagram, Facebook, publicités Meta & Google, chatbot 24/7.
+              </p>
+
+              <ul className="space-y-3 mb-8">
+                {[
+                  { emoji: "✍️", text: "30+ posts générés par IA chaque mois" },
+                  { emoji: "🎯", text: "Campagnes Meta & Google optimisées automatiquement" },
+                  { emoji: "🤖", text: "Chatbot IA répond à vos clients 24h/24 en Wolof & Français" },
+                  { emoji: "📊", text: "Rapports et analyses en temps réel" },
+                ].map((item) => (
+                  <li key={item.text} className="flex items-center gap-3 text-gray-300 text-sm">
+                    <span className="text-xl flex-shrink-0">{item.emoji}</span>
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/services-ia"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-black text-gray-900 text-sm hover:scale-105 transition-transform"
+                  style={{ background: "linear-gradient(135deg, #a855f7, #3b82f6)" }}
+                >
+                  🤖 Découvrir les services IA
+                </Link>
+                <Link
+                  href="/generateur-ia"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-purple-300 text-sm border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 transition-all"
+                >
+                  ✍️ Tester le générateur gratuit
+                </Link>
+              </div>
+            </div>
+
+            {/* Visuel IA */}
+            <div className="relative">
+              <div
+                className="rounded-3xl p-8 border"
+                style={{
+                  background: "rgba(168,85,247,0.05)",
+                  borderColor: "rgba(168,85,247,0.2)",
+                }}
+              >
+                {/* Stats IA */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  {[
+                    { val: "3×", label: "Plus d'engagement", color: "#a855f7" },
+                    { val: "24/7", label: "Présence réseaux", color: "#3b82f6" },
+                    { val: "-70%", label: "Temps gagné", color: "#22c55e" },
+                    { val: "+250%", label: "ROI ads", color: "#ffc800" },
+                  ].map((s) => (
+                    <div
+                      key={s.label}
+                      className="rounded-2xl p-4 text-center border"
+                      style={{ background: `${s.color}10`, borderColor: `${s.color}30` }}
+                    >
+                      <div className="text-2xl font-black mb-1" style={{ color: s.color }}>{s.val}</div>
+                      <div className="text-gray-400 text-xs">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mini chat demo */}
+                <div className="rounded-2xl p-4 border space-y-3" style={{ background: "rgba(0,0,0,0.3)", borderColor: "rgba(255,255,255,0.05)" }}>
+                  <p className="text-purple-400 text-xs font-bold uppercase tracking-widest">🤖 Chatbot IA en action</p>
+                  <div className="flex gap-2">
+                    <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-sm" style={{ background: "linear-gradient(135deg,#a855f7,#3b82f6)" }}>🤖</div>
+                    <div className="bg-white/5 rounded-xl rounded-tl-sm px-3 py-2 text-gray-300 text-xs max-w-xs">
+                      Salam ! Je suis disponible 24/7 pour répondre à vos clients automatiquement 🌟
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <div className="rounded-xl rounded-tr-sm px-3 py-2 text-white text-xs max-w-xs" style={{ background: "linear-gradient(135deg,#a855f7,#3b82f6)" }}>
+                      Quel est le prix des flyers ?
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-sm" style={{ background: "linear-gradient(135deg,#a855f7,#3b82f6)" }}>🤖</div>
+                    <div className="bg-white/5 rounded-xl rounded-tl-sm px-3 py-2 text-gray-300 text-xs max-w-xs">
+                      Flyers A5 (500 ex) → 15 000 F 🖨️ Livraison express 48h à Touba !
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Déco lumière */}
+              <div
+                className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20 blur-3xl pointer-events-none"
+                style={{ background: "#a855f7" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <FAQ />
 
