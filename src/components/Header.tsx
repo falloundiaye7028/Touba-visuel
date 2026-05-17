@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/magal", label: "⏳ Magal", highlight: true },
   { href: "/services-ia", label: "🤖 Marketing IA", highlight: true },
   { href: "/generateur-ia", label: "✍️ Générateur IA" },
+  { href: "/generateur-visuels", label: "🎨 Visuels IA", highlight: true },
   { href: "/blog", label: "Blog" },
   { href: "/touba-infos", label: "📰 Touba Infos", highlight: true },
   { href: "/commande", label: "Commander" },
