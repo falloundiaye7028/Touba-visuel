@@ -4,6 +4,12 @@ import { prisma } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  // Vérification token admin
+  const adminSecret = req.headers.get("x-admin-secret");
+  if (!process.env.ADMIN_SECRET || adminSecret !== process.env.ADMIN_SECRET) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  }
+
   const status = req.nextUrl.searchParams.get("status");
   const page = Number(req.nextUrl.searchParams.get("page") ?? "1");
   const limit = 20;
@@ -28,6 +34,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  // Vérification token admin
+  const adminSecret = req.headers.get("x-admin-secret");
+  if (!process.env.ADMIN_SECRET || adminSecret !== process.env.ADMIN_SECRET) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  }
+
   try {
     const { id, status, paymentStatus, notes } = await req.json();
 

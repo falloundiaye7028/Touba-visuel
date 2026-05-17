@@ -5,6 +5,26 @@ import Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
 
+// ── Sécurité : sanitisation et validation ──────────────────────────────────
+
+function sanitize(value: unknown): string {
+  if (typeof value !== "string") return "";
+  return value.trim().slice(0, 500).replace(/[<>]/g, "");
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
+}
+
+function isValidPhone(phone: string): boolean {
+  return /^[\d\s+\-().]{7,20}$/.test(phone);
+}
+
+function isValidPrice(price: unknown): boolean {
+  const n = Number(price);
+  return !isNaN(n) && n >= 0 && n <= 10_000_000;
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
   apiVersion: "2024-06-20",
 });
@@ -29,8 +49,22 @@ export async function POST(req: NextRequest) {
       adresseLivraison,
     } = body;
 
+    // Validation stricte
     if (!clientName || !clientEmail || !clientPhone || !support || !paymentMethod) {
       return NextResponse.json({ error: "Champs obligatoires manquants" }, { status: 400 });
+    }
+    if (!isValidEmail(sanitize(clientEmail))) {
+      return NextResponse.json({ error: "Email invalide" }, { status: 400 });
+    }
+    if (!isValidPhone(sanitize(clientPhone))) {
+      return NextResponse.json({ error: "Téléphone invalide" }, { status: 400 });
+    }
+    if (!isValidPrice(prixTotal) || !isValidPrice(prixUnitaire)) {
+      return NextResponse.json({ error: "Prix invalide" }, { status: 400 });
+    }
+    const ALLOWED_PAYMENT_METHODS = ["CARTE_BANCAIRE", "WAVE", "ORANGE_MONEY", "LIVRAISON"];
+    if (!ALLOWED_PAYMENT_METHODS.includes(paymentMethod)) {
+      return NextResponse.json({ error: "Méthode de paiement invalide" }, { status: 400 });
     }
 
     const orderNumber = generateOrderNumber();
