@@ -387,6 +387,57 @@ export const ARTICLES_INFO: ArticleInfo[] = [
 <p>Ce modèle de gestion participative, souvent cité en exemple, a permis à Touba de développer une culture de responsabilité collective dans la gestion des ressources communes.</p>
 `,
   },
+  {
+    id: "13",
+    slug: "hizbut-tarqiyyah-milliard-renovation-grande-mosquee-touba-2026",
+    titre: "Hizbut-Tarqiyyah remet 1 milliard FCFA pour la rénovation de la Grande Mosquée de Touba",
+    sousTitre: "La daara mouride célèbre son cinquantenaire en offrant une hadiya historique au Khalife Général",
+    extrait:
+      "Dans un élan de ferveur spirituelle, le Dahira Hizbut-Tarqiyyah a remis ce samedi 16 mai 2026 une contribution d'un milliard de francs CFA au Khalife Général des Mourides, Serigne Mountakha Mbacké, pour les travaux de rénovation de la Grande Mosquée de Touba.",
+    categorie: "Mouridisme",
+    auteur: "Ibrahima Mbacké Diop",
+    datePublication: "17 mai 2026",
+    tempsLecture: "5 min",
+    imageEmoji: "🕌",
+    imageGradient: "from-emerald-900 via-teal-800 to-amber-900",
+    alaUne: false,
+    breaking: true,
+    contenu: `<p>La <strong>Grande Ziara du Cinquantenaire de Hizbut-Tarqiyyah</strong> (1976-2026) a été marquée par un geste d'une générosité exceptionnelle. Ce samedi 16 mai 2026, à la résidence du Khalife Général à Touba Darou Minane, les responsables du Dahira ont remis une <strong>hadiya d'un milliard de francs CFA</strong> à Serigne Mountakha Mbacké pour soutenir les travaux de rénovation de la Grande Mosquée de Touba.</p><h2>Un cinquantenaire sous le signe du service</h2><p>Fondée en 1976 à l'Université Cheikh Anta Diop de Dakar sous le nom de Dahira des Étudiants Mourides (DEM), Hizbut-Tarqiyyah a choisi de marquer ses 50 ans d'existence par un acte concret de dévouement envers la cité sainte. La daara a mobilisé ses membres des cinq continents pour réunir cette somme historique.</p><h2>La réponse du Khalife</h2><p>Le Khalife Général des Mourides, <strong>Serigne Mountakha Mbacké</strong>, a chaleureusement salué l'engagement constant de Hizbut-Tarqiyyah. <em>"Vous êtes sur la voie tracée par le Cheikh"</em>, a-t-il lancé aux membres de l'organisation.</p>`,
+  },
+  {
+    id: "14",
+    slug: "cinquantenaire-hizbut-tarqiyyah-1976-2026-touba",
+    titre: "Cinquantenaire de Hizbut-Tarqiyyah : 50 ans au service de Cheikh Ahmadou Bamba",
+    sousTitre: "La daara mouride fondée par des étudiants célèbre un demi-siècle d'engagement spirituel et communautaire",
+    extrait:
+      "De 1976 à 2026, Hizbut-Tarqiyyah est passée d'un petit groupe d'étudiants mourides à l'Université de Dakar à un réseau mondial comptant des membres sur les cinq continents. Retour sur 50 ans d'histoire mouride.",
+    categorie: "Mouridisme",
+    auteur: "Fatou Diallo Kane",
+    datePublication: "17 mai 2026",
+    tempsLecture: "6 min",
+    imageEmoji: "🌙",
+    imageGradient: "from-amber-900 via-emerald-900 to-teal-900",
+    alaUne: false,
+    breaking: false,
+    contenu: `<p>Le <strong>16 mai 2026</strong> restera gravé dans l'histoire du mouridisme comme le jour où Hizbut-Tarqiyyah a célébré ses cinquante ans d'existence avec une Grande Ziara à la résidence du Khalife Général à Touba Darou Minane.</p><h2>Des origines estudiantines</h2><p>Tout a commencé en <strong>1976 à l'Université Cheikh Anta Diop de Dakar</strong>, lorsqu'un groupe d'étudiants mourides décide de créer un dahira pour perpétuer les valeurs du mouridisme dans le milieu académique. Sous l'impulsion de son responsable moral historique, <strong>Serigne Atou Diagne</strong>, la daara a progressivement élargi son audience.</p><h2>Un rayonnement mondial</h2><p>Aujourd'hui, Hizbut-Tarqiyyah est présente dans plus de trente pays à travers le monde. Des sections actives fonctionnent en Europe, en Amérique du Nord et dans toute l'Afrique subsaharienne.</p>`,
+  },
+  {
+    id: "15",
+    slug: "deces-serigne-touba-mbacke-fils-serigne-modou-mbacke-yoni",
+    titre: "Touba en deuil : rappel à Dieu de Serigne Touba Mbacké, fils de Serigne Modou Mbacké Yoni",
+    sousTitre: "La communauté mouride pleure la disparition d'un érudit de l'Islam, héritier de la lignée Khadim Rassoul",
+    extrait:
+      "La communauté mouride est endeuillée par le rappel à Dieu de Serigne Touba Mbacké, fils de Serigne Modou Mbacké Yoni Ibn Khadim Rassoul. Cet érudit de l'Islam a consacré sa vie à l'enseignement du Coran et à la transmission des valeurs de la Mouridiyya.",
+    categorie: "Mouridisme",
+    auteur: "Moussa Thiaw",
+    datePublication: "17 mai 2026",
+    tempsLecture: "4 min",
+    imageEmoji: "🤲",
+    imageGradient: "from-slate-900 via-emerald-950 to-amber-950",
+    alaUne: false,
+    breaking: true,
+    contenu: `<p>La communauté mouride est en deuil. <strong>Serigne Touba Mbacké</strong>, fils de Serigne Modou Mbacké Yoni Ibn Khadim Rassoul, a été rappelé à la Miséricorde divine. La nouvelle de son rappel à Dieu a suscité une vague d'émotion et de tristesse au sein de la famille mouride au Sénégal et dans la diaspora.</p><h2>Un héritier de la lignée sacrée</h2><p>Descendant direct de <strong>Cheikh Ahmadou Bamba Mbacké</strong>, le Fondateur de la Mouridiyya, Serigne Touba Mbacké était un dépositaire de l'héritage spirituel et intellectuel du mouridisme. Érudit reconnu, il s'était consacré toute sa vie à l'enseignement des sciences islamiques et à l'encadrement des disciples.</p><h2>Prières et condoléances</h2><p>Des milliers de fidèles à travers le monde ont exprimé leurs condoléances. <em>Inna lillahi wa inna ilayhi raji'un</em> — Nous venons de Dieu et à Lui nous retournons.</p>`,
+  },
 ];
 
 export function getArticleInfoBySlug(slug: string): ArticleInfo | undefined {
