@@ -3,14 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 export const runtime = "edge";
 export const maxDuration = 30;
 
-const VOIX_LANG: Record<string, string> = {
-  Celine: "fr",
-  Lea: "fr",
-  Mathieu: "fr",
-  Joanna: "en",
-  Matthew: "en",
-  Amy: "en",
-};
+// Voix Amazon Polly supportées par ttsmp3.com
+const VOIX_VALIDES = ["Celine", "Lea", "Mathieu", "Joanna", "Matthew", "Amy"];
 
 function nettoyerTexte(texte: string): string {
   return texte
@@ -25,40 +19,57 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const texte = nettoyerTexte(String(body.texte ?? ""));
-    const voix  = Object.keys(VOIX_LANG).includes(body.voix) ? body.voix : "Lea";
-    const tl    = VOIX_LANG[voix];
+    const voix  = VOIX_VALIDES.includes(body.voix) ? body.voix : "Lea";
 
     if (!texte) {
       return NextResponse.json({ error: "Texte requis" }, { status: 400 });
     }
 
-    // Google Translate TTS — gratuit, sans clé
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(texte)}&tl=${tl}&client=tw-ob&ttsspeed=1`;
+    // ttsmp3.com — proxifie Amazon Polly, gratuit, sans clé
+    const formBody = new URLSearchParams({ msg: texte, lang: voix, source: "ttsmp3" });
 
-    const audioRes = await fetch(url, {
+    const ttsRes = await fetch("https://ttsmp3.com/makemp3_new.php", {
+      method: "POST",
       headers: {
-        "Accept": "audio/mpeg, audio/*;q=0.9, */*;q=0.8",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Origin": "https://ttsmp3.com",
+        "Referer": "https://ttsmp3.com/",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Referer": "https://translate.google.com/",
       },
+      body: formBody.toString(),
     });
 
-    if (!audioRes.ok) {
+    if (!ttsRes.ok) {
       return NextResponse.json(
-        { error: `Service vocal indisponible (${audioRes.status}). Utilisez le mode navigateur.` },
+        { error: `Service vocal indisponible (${ttsRes.status}). Utilisez le mode navigateur.` },
         { status: 502 }
       );
     }
 
-    const contentType = audioRes.headers.get("content-type") ?? "audio/mpeg";
-    if (!contentType.includes("audio")) {
+    const data = await ttsRes.json() as { Error: number; URL?: string; MP3?: string };
+
+    if (data.Error !== 0 || (!data.URL && !data.MP3)) {
       return NextResponse.json(
-        { error: "Réponse invalide du service vocal. Utilisez le mode navigateur." },
+        { error: "Génération audio échouée. Utilisez le mode navigateur." },
         { status: 502 }
       );
     }
 
-    const buffer = await audioRes.arrayBuffer();
+    const mp3Url = data.URL ?? data.MP3 ?? "";
+
+    // Télécharger le MP3 généré et le renvoyer au client
+    const mp3Res = await fetch(mp3Url, {
+      headers: { "Referer": "https://ttsmp3.com/" },
+    });
+
+    if (!mp3Res.ok) {
+      return NextResponse.json(
+        { error: "Fichier audio introuvable. Utilisez le mode navigateur." },
+        { status: 502 }
+      );
+    }
+
+    const buffer = await mp3Res.arrayBuffer();
 
     return new NextResponse(buffer, {
       status: 200,
