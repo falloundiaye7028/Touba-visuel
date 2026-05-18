@@ -12,6 +12,7 @@ const DROPDOWNS = [
       { href: "/services-ia",        label: "Marketing IA",       desc: "Services automatisés complets" },
       { href: "/generateur-ia",      label: "Générateur de posts", desc: "Posts réseaux sociaux en 1 clic" },
       { href: "/generateur-visuels", label: "Visuels IA",          desc: "Images marketing par IA" },
+      { href: "/generateur-voix",    label: "🎙️ Voix IA",         desc: "Spots audio & voiceover pro" },
     ],
   },
   {
