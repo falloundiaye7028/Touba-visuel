@@ -48,11 +48,11 @@ const INPUT_STYLE: React.CSSProperties = {
   borderColor: "rgba(99,102,241,0.2)",
 };
 
-function buildUrl(description: string, style: Style, format: Format, businessName: string, seed: number): string {
+function buildPrompt(description: string, style: Style, businessName: string): string {
   let prompt = description.trim();
   if (businessName.trim()) prompt += `, brand: ${businessName.trim()}`;
   prompt += `, ${style.suffix}`;
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${format.w}&height=${format.h}&seed=${seed}&nologo=true&model=flux`;
+  return prompt;
 }
 
 /* ── Page ───────────────────────────────────── */
@@ -62,9 +62,9 @@ export default function GenerateurVisuelsPage() {
   const [styleId, setStyleId]   = useState("pro");
   const [formatId, setFormatId] = useState("carre");
   const [imgSrc, setImgSrc]     = useState("");
-  const [imgKey, setImgKey]     = useState(0);
   const [loading, setLoading]   = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [errMsg, setErrMsg]     = useState("");
   const [seed, setSeed]         = useState(0);
   const [genCount, setGenCount] = useState(0);
   const [activeTemplate, setActiveTemplate] = useState<string | null>(null);
@@ -72,15 +72,40 @@ export default function GenerateurVisuelsPage() {
   const style  = STYLES.find((s) => s.id === styleId)  ?? STYLES[0];
   const format = FORMATS.find((f) => f.id === formatId) ?? FORMATS[0];
 
-  function generer(descOverride?: string) {
+  async function generer(descOverride?: string) {
     const desc = (descOverride ?? description).trim();
     if (!desc) return;
+
     const newSeed = Math.floor(Math.random() * 999999);
     setSeed(newSeed);
     setHasError(false);
+    setErrMsg("");
     setLoading(true);
-    setImgSrc(buildUrl(desc, style, format, businessName, newSeed));
-    setImgKey((k) => k + 1);
+    setImgSrc("");
+
+    try {
+      const prompt = buildPrompt(desc, style, businessName);
+      const res = await fetch("/api/generate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, width: format.w, height: format.h, seed: newSeed }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error ?? `Erreur ${res.status}`);
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      setImgSrc(url);
+      setGenCount((n) => n + 1);
+    } catch (e: unknown) {
+      setHasError(true);
+      setErrMsg(e instanceof Error ? e.message : "Génération échouée. Réessayez.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function appliquerTemplate(t: Template) {
@@ -91,17 +116,12 @@ export default function GenerateurVisuelsPage() {
     setLoading(false);
   }
 
-  async function telecharger() {
+  function telecharger() {
     if (!imgSrc) return;
-    try {
-      const blob = await fetch(imgSrc).then((r) => r.blob());
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `atv-visuel-ia-${Date.now()}.png`;
-      a.click();
-    } catch {
-      window.open(imgSrc, "_blank");
-    }
+    const a = document.createElement("a");
+    a.href = imgSrc;
+    a.download = `atv-visuel-ia-${Date.now()}.png`;
+    a.click();
   }
 
   function partager() {
@@ -252,16 +272,12 @@ export default function GenerateurVisuelsPage() {
               style={{ ...aspectStyle, background: "#0d0d1a", borderColor: "rgba(99,102,241,0.2)", minHeight: "280px" }}
             >
               {/* Image générée */}
-              {imgSrc && (
+              {imgSrc && !loading && !hasError && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  key={imgKey}
                   src={imgSrc}
                   alt="Visuel IA généré"
                   className="w-full h-full object-cover"
-                  style={{ display: loading || hasError ? "none" : "block" }}
-                  onLoad={() => { setLoading(false); setGenCount((n) => n + 1); }}
-                  onError={() => { setLoading(false); setHasError(true); }}
                 />
               )}
 
@@ -282,7 +298,7 @@ export default function GenerateurVisuelsPage() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
                   <div className="text-4xl mb-3">⚠️</div>
                   <p className="text-red-400 font-bold text-sm mb-2">Génération échouée</p>
-                  <p className="text-gray-500 text-xs mb-4">Essayez une description plus simple ou relancez.</p>
+                  <p className="text-gray-500 text-xs mb-4">{errMsg || "Essayez une description plus simple ou relancez."}</p>
                   <button onClick={() => generer()}
                     className="px-5 py-2 rounded-xl font-bold text-sm text-white"
                     style={{ background: "linear-gradient(135deg, #6366f1, #a855f7)" }}>
