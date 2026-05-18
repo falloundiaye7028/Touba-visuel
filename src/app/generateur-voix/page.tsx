@@ -62,8 +62,12 @@ function AudioPlayer({ src, onReset }: { src: string; onReset: () => void }) {
   }
 
   function download() {
-    const a = document.createElement("a"); a.href = src;
-    a.download = `voix-ia-atv-${Date.now()}.mp3`; a.click();
+    if (src.startsWith("blob:")) {
+      const a = document.createElement("a"); a.href = src;
+      a.download = `voix-ia-atv-${Date.now()}.mp3`; a.click();
+    } else {
+      window.open(src, "_blank");
+    }
   }
 
   return (
@@ -78,7 +82,7 @@ function AudioPlayer({ src, onReset }: { src: string; onReset: () => void }) {
           style={{ background: "linear-gradient(135deg,#6366f1,#a855f7)", boxShadow: "0 0 20px rgba(99,102,241,0.5)" }}>🎙️</div>
         <div>
           <p className="text-white font-black text-base">Voix IA générée</p>
-          <p className="text-xs font-medium" style={{ color: "#6366f1" }}>Amazon Polly Neural · Touba Visuel</p>
+          <p className="text-xs font-medium" style={{ color: "#6366f1" }}>Google TTS · Voix IA · Touba Visuel</p>
         </div>
         <button onClick={onReset} className="ml-auto text-gray-600 hover:text-gray-400 text-lg">✕</button>
       </div>
@@ -134,28 +138,18 @@ export default function GenerateurVoixPage() {
   const voix = VOIX.find((v) => v.id === voixId) ?? VOIX[0];
   const pct  = Math.round((texte.length / MAX) * 100);
 
-  /* ── Génération via API (Amazon Polly) ── */
-  async function genererAPI() {
-    setLoading(true); setErreur(""); setAudioSrc("");
-    try {
-      const res = await fetch("/api/generate-voix", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ texte: nettoyer(texte), voix: voixId }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error((err as { error?: string }).error ?? `Erreur ${res.status}`);
-      }
-      const blob = await res.blob();
-      if (!blob.type.includes("audio")) throw new Error("Réponse invalide — essayez le mode navigateur.");
-      setAudioSrc(URL.createObjectURL(blob));
-      setGenCount((n) => n + 1);
-    } catch (e: unknown) {
-      setErreur(e instanceof Error ? e.message : "Erreur inconnue.");
-    } finally {
-      setLoading(false);
-    }
+  /* ── Génération via Google TTS (client-side) ── */
+  function genererAPI() {
+    setErreur(""); setAudioSrc("");
+    const txt = nettoyer(texte).slice(0, MAX);
+    if (!txt) return;
+    const tl = voix.langCode.startsWith("fr") ? "fr" : voix.langCode.startsWith("en-GB") ? "en-GB" : "en";
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(txt)}&tl=${tl}&client=tw-ob&ttsspeed=${vitesse}`;
+    setLoading(true);
+    setAudioSrc(url);
+    setGenCount((n) => n + 1);
+    // loading s'arrête quand l'audio est prêt (onCanPlay dans le player)
+    setTimeout(() => setLoading(false), 2000);
   }
 
   /* ── Génération via Web Speech API ────── */
@@ -222,7 +216,7 @@ export default function GenerateurVoixPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
             </span>
-            IA Vocale · Amazon Polly Neural · Touba Visuel
+            IA Vocale · Google TTS · Voix IA · Touba Visuel
           </div>
           <h1 className="text-white text-4xl md:text-6xl font-black mb-4 leading-tight tracking-tight">
             Générateur de voix<br />
@@ -250,7 +244,7 @@ export default function GenerateurVoixPage() {
               <label className="block text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#a5b4fc" }}>Mode de génération</label>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { id: "api" as const,        label: "🎙️ Amazon Polly",  desc: "Voix IA haute qualité (MP3)" },
+                  { id: "api" as const,        label: "🎙️ Google TTS",    desc: "Voix IA haute qualité (MP3)" },
                   { id: "navigateur" as const, label: "🔊 Navigateur",    desc: "Lecture instantanée, tout texte" },
                 ].map((m) => (
                   <button key={m.id} onClick={() => { setMode(m.id); setAudioSrc(""); setErreur(""); synthRef.current?.cancel(); }}
@@ -266,7 +260,7 @@ export default function GenerateurVoixPage() {
               </div>
               {mode === "api" && (
                 <p className="text-xs mt-2 text-center" style={{ color: "#4b5563" }}>
-                  Si Amazon Polly échoue → passez en mode <strong style={{ color: "#a5b4fc" }}>Navigateur</strong>
+                  Pour textes longs ou voix locales → mode <strong style={{ color: "#a5b4fc" }}>Navigateur</strong>
                 </p>
               )}
             </div>
@@ -360,7 +354,7 @@ export default function GenerateurVoixPage() {
                   </div>
                   <span className="text-white text-sm font-bold">{voix.drapeau} {voix.nom} — {voix.langue}</span>
                   <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(99,102,241,0.15)", color: "#a5b4fc" }}>
-                    {mode === "api" ? "Amazon Polly" : "Navigateur"}
+                    {mode === "api" ? "Google TTS" : "Navigateur"}
                   </span>
                 </div>
               </div>

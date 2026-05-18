@@ -16,7 +16,7 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.vercel.app https://image.pollinations.ai",
       "connect-src 'self' https://api.stripe.com https://pay.wave.com https://sugu.orange-sonatel.com https://image.pollinations.ai https://text.pollinations.ai https://translate.google.com",
-      "media-src 'self' blob:",
+      "media-src 'self' blob: https://translate.google.com",
       "frame-src https://js.stripe.com https://hooks.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",
