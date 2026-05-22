@@ -74,6 +74,17 @@ export default function Footer() {
         {/* Colonne 3 — Liens rapides */}
         <div>
           <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">Informations</h3>
+
+          {/* Marché OCASS highlight */}
+          <Link
+            href="/marche-ocass"
+            className="flex items-center gap-2 mb-4 px-3 py-2 rounded-xl font-bold text-sm text-white transition-all hover:scale-105"
+            style={{ background: "linear-gradient(135deg,#0e7d52,#1d9c68)", border: "1px solid rgba(255,200,0,0.25)" }}
+          >
+            🏪 MARCHÉ OCASS
+            <span className="ml-auto text-or-400 text-xs">Nouveau ✨</span>
+          </Link>
+
           <ul className="space-y-2 text-sm">
             {[
               { href: "/commande", label: "Passer une commande" },

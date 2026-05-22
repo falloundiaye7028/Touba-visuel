@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, ShoppingBag, Phone, MapPin, ChevronDown } from "lucide-react";
+import { Menu, X, ShoppingBag, Phone, MapPin, ChevronDown, Store } from "lucide-react";
 
 /* ── Menus déroulants ──────────────────────── */
 const DROPDOWNS = [
@@ -147,6 +147,14 @@ export default function Header() {
           {/* CTA desktop */}
           <div className="hidden md:flex items-center gap-3">
             <Link
+              href="/marche-ocass"
+              className="flex items-center gap-2 text-white font-bold text-sm px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #0e7d52, #1d9c68)", border: "1px solid rgba(255,200,0,0.3)" }}
+            >
+              <Store size={15} />
+              MARCHÉ OCASS
+            </Link>
+            <Link
               href="/commande"
               className="flex items-center gap-2 bg-or-500 hover:bg-or-400 text-vert-950 font-semibold text-sm px-4 py-2 rounded-lg transition-colors duration-200"
             >
@@ -214,10 +222,20 @@ export default function Header() {
               </div>
             ))}
 
+            {/* CTA Marché */}
+            <Link
+              href="/marche-ocass"
+              className="mt-3 flex items-center justify-center gap-2 text-white font-bold text-base px-4 py-3 rounded-lg"
+              style={{ background: "linear-gradient(135deg, #0e7d52, #1d9c68)" }}
+              onClick={() => setMenuOpen(false)}
+            >
+              <Store size={18} />
+              MARCHÉ OCASS
+            </Link>
             {/* CTA */}
             <Link
               href="/commande"
-              className="mt-3 flex items-center justify-center gap-2 bg-or-500 text-vert-950 font-bold text-base px-4 py-3 rounded-lg"
+              className="mt-2 flex items-center justify-center gap-2 bg-or-500 text-vert-950 font-bold text-base px-4 py-3 rounded-lg"
               onClick={() => setMenuOpen(false)}
             >
               <ShoppingBag size={18} />

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Truck, Shield, Headphones } from "lucide-react";
+import { ArrowRight, CheckCircle, Truck, Shield, Headphones, Store, Crown, ShoppingBag, Megaphone } from "lucide-react";
 import Hero from "@/components/Hero";
 import CategorieCard from "@/components/CategorieCard";
 import SupportCard from "@/components/SupportCard";
@@ -78,6 +78,96 @@ export default function HomePage() {
 
       {/* Grande bannière publicitaire */}
       <BannierePromoGrande />
+
+      {/* ── MARCHÉ OCASS ── */}
+      <section
+        className="py-16 relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #042c1d 0%, #07402b 40%, #0a6342 70%, #1d9c68 100%)" }}
+      >
+        {/* Motif étoiles subtil */}
+        <div
+          className="absolute inset-0 opacity-5 pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 10 11 0-9 8 3 11-10-7-10 7 3-11-9-8 11 0z' fill='%23ffffff'/%3E%3C/svg%3E")`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="relative max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+
+            {/* Texte gauche */}
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border mb-5"
+                style={{ background: "rgba(255,200,0,0.15)", borderColor: "rgba(255,200,0,0.4)", color: "#ffc800" }}>
+                <Store size={13} />
+                Nouveau sur ATV
+              </div>
+              <h2
+                className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                MARCHÉ
+                <span className="block" style={{ WebkitTextStroke: "2px #ffc800", color: "transparent" }}>
+                  OCASS
+                </span>
+              </h2>
+              <p className="text-vert-200 text-lg mb-6 leading-relaxed">
+                Le <strong className="text-white">portail commercial de Touba</strong> — ouvrez votre cantine en ligne,
+                exposez vos produits et atteignez des milliers de clients locaux et de la diaspora.
+              </p>
+              <ul className="space-y-3 mb-8">
+                {[
+                  { icon: <Store size={16} />,      text: "240+ cantines actives sur le portail" },
+                  { icon: <ShoppingBag size={16} />, text: "3 800+ produits listés en FCFA" },
+                  { icon: <Crown size={16} />,       text: "Abonnement dès 5 000 F CFA / mois" },
+                  { icon: <Megaphone size={16} />,   text: "Promotion via TikTok, Instagram & WhatsApp ATV" },
+                ].map((item) => (
+                  <li key={item.text} className="flex items-center gap-3 text-vert-200 text-sm">
+                    <span className="text-or-400 flex-shrink-0">{item.icon}</span>
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/marche-ocass" className="btn-gold text-base px-7 py-3">
+                  <Store size={18} />
+                  Découvrir MARCHÉ OCASS
+                </Link>
+                <Link
+                  href="https://wa.me/221768001717?text=Je%20veux%20ouvrir%20une%20cantine%20sur%20MARCH%C3%89%20OCASS"
+                  target="_blank"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white border-2 border-white/30 hover:bg-white/10 transition-all text-base"
+                >
+                  Ouvrir ma cantine
+                </Link>
+              </div>
+            </div>
+
+            {/* Grille stats droite */}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { val: "240+",   label: "Cantines actives",    emoji: "🏪", color: "#ffc800" },
+                { val: "3 800+", label: "Produits listés",      emoji: "📦", color: "#ff7a2a" },
+                { val: "5 000F", label: "/ mois pour démarrer", emoji: "💳", color: "#1d9c68" },
+                { val: "12K+",   label: "Clients par mois",     emoji: "👥", color: "#a855f7" },
+              ].map((s) => (
+                <div
+                  key={s.label}
+                  className="rounded-2xl p-5 border text-center"
+                  style={{ background: `${s.color}12`, borderColor: `${s.color}30` }}
+                >
+                  <div className="text-3xl mb-2">{s.emoji}</div>
+                  <div className="text-2xl font-black text-white mb-1" style={{ fontFamily: "var(--font-display)", color: s.color }}>
+                    {s.val}
+                  </div>
+                  <div className="text-vert-300 text-xs">{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       {/* Section supports populaires */}
       <section className="py-16 bg-gray-50">
