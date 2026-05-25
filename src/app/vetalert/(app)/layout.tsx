@@ -3,16 +3,17 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  LayoutDashboard, PawPrint, Calendar, Bell, ClipboardList, User, Stethoscope, LogOut, ChevronRight,
+  LayoutDashboard, PawPrint, Calendar, Bell, ClipboardList, User, Stethoscope, LogOut, ChevronRight, BarChart3,
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/vetalert/dashboard',    label: 'Tableau de bord', icon: LayoutDashboard },
-  { href: '/vetalert/animaux',      label: 'Mes animaux',     icon: PawPrint },
-  { href: '/vetalert/rendez-vous',  label: 'Rendez-vous',     icon: Calendar },
-  { href: '/vetalert/alertes',      label: 'Alertes',         icon: Bell,  badge: 2 },
-  { href: '/vetalert/historique',   label: 'Historique',      icon: ClipboardList },
-  { href: '/vetalert/profil',       label: 'Mon profil',      icon: User },
+  { href: '/vetalert/dashboard',   label: 'Tableau de bord', icon: LayoutDashboard },
+  { href: '/vetalert/animaux',     label: 'Mes animaux',     icon: PawPrint },
+  { href: '/vetalert/rendez-vous', label: 'Rendez-vous',     icon: Calendar },
+  { href: '/vetalert/alertes',     label: 'Alertes',         icon: Bell, badge: 2 },
+  { href: '/vetalert/historique',  label: 'Historique',      icon: ClipboardList },
+  { href: '/vetalert/stats',       label: 'Statistiques',    icon: BarChart3 },
+  { href: '/vetalert/profil',      label: 'Mon profil',      icon: User },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

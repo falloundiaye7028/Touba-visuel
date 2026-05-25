@@ -121,6 +121,207 @@ enum Role {
   CLIENT
   ADMIN
   GESTIONNAIRE
+  VET_VETERINAIRE
+  VET_ELEVEUR
+}
+
+// ══════════════════════════════════════════════════════════════
+//  VetAlert — Gestion vétérinaire et suivi des élevages
+// ══════════════════════════════════════════════════════════════
+
+model VetUtilisateur {
+  id             String              @id @default(cuid())
+  nom            String
+  email          String              @unique
+  telephone      String?
+  motDePasse     String
+  role           VetRole             @default(ELEVEUR)
+  // Vétérinaire
+  specialite     String?
+  numeroOrdre    String?
+  cabinet        String?
+  // Éleveur
+  nomFerme       String?
+  localisation   String?
+  pays           String              @default("Sénégal")
+  // Abonnement
+  premium        Boolean             @default(false)
+  premiumJusqua  DateTime?
+  actif          Boolean             @default(true)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  // Relations
+  animaux        Animal[]            @relation("ProprietaireAnimaux")
+  animauxSuivis  Animal[]            @relation("VeterinaireAnimaux")
+  rendezVous     RendezVous[]        @relation("VeterinaireRdv")
+  rdvEleveur     RendezVous[]        @relation("EleveurRdv")
+  dossiers       DossierMedical[]
+  alertes        Alerte[]
+
+  @@map("vet_utilisateurs")
+}
+
+model Animal {
+  id              String          @id @default(cuid())
+  numeroId        String          @unique
+  nom             String
+  espece          AnimalEspece
+  race            String?
+  sexe            AnimalSexe
+  ageAns          Int             @default(0)
+  ageMois         Int             @default(0)
+  poids           Float?
+  photoUrl        String?
+  etatSante       EtatSante       @default(BONNE_SANTE)
+  dateNaissance   DateTime?
+  notes           String?         @db.Text
+  actif           Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  // Relations
+  proprietaireId  String
+  proprietaire    VetUtilisateur  @relation("ProprietaireAnimaux", fields: [proprietaireId], references: [id])
+  veterinaireId   String?
+  veterinaire     VetUtilisateur? @relation("VeterinaireAnimaux", fields: [veterinaireId], references: [id])
+  rendezVous      RendezVous[]
+  dossiers        DossierMedical[]
+  alertes         Alerte[]
+
+  @@map("animaux")
+}
+
+model RendezVous {
+  id            String          @id @default(cuid())
+  type          TypeRdv
+  motif         String
+  date          DateTime
+  heure         String
+  lieu          String?
+  statut        StatutRdv       @default(PROGRAMME)
+  notes         String?         @db.Text
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  // Relations
+  animalId      String
+  animal        Animal          @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  veterinaireId String
+  veterinaire   VetUtilisateur  @relation("VeterinaireRdv", fields: [veterinaireId], references: [id])
+  eleveurId     String
+  eleveur       VetUtilisateur  @relation("EleveurRdv", fields: [eleveurId], references: [id])
+
+  @@map("rendez_vous")
+}
+
+model DossierMedical {
+  id               String          @id @default(cuid())
+  type             TypeDossier
+  titre            String
+  description      String          @db.Text
+  medicaments      String[]
+  dose             String?
+  prochainControle DateTime?
+  date             DateTime        @default(now())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  // Relations
+  animalId         String
+  animal           Animal          @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  veterinaireId    String
+  veterinaire      VetUtilisateur  @relation(fields: [veterinaireId], references: [id])
+
+  @@map("dossiers_medicaux")
+}
+
+model Alerte {
+  id           String          @id @default(cuid())
+  type         TypeAlerte
+  titre        String
+  message      String          @db.Text
+  priorite     PrioriteAlerte  @default(NORMALE)
+  lue          Boolean         @default(false)
+  dateEnvoi    DateTime        @default(now())
+  createdAt    DateTime        @default(now())
+  // Relations
+  animalId     String?
+  animal       Animal?         @relation(fields: [animalId], references: [id], onDelete: SetNull)
+  utilisateurId String
+  utilisateur  VetUtilisateur  @relation(fields: [utilisateurId], references: [id])
+
+  @@map("alertes")
+}
+
+// ── Enums VetAlert ─────────────────────────────────────────────
+
+enum VetRole {
+  VETERINAIRE
+  ELEVEUR
+}
+
+enum AnimalEspece {
+  BOEUF
+  MOUTON
+  CHEVRE
+  CHEVAL
+  ANE
+  CHAMEAU
+  POULE
+  PORC
+  AUTRE
+}
+
+enum AnimalSexe {
+  MALE
+  FEMELLE
+}
+
+enum EtatSante {
+  BONNE_SANTE
+  SURVEILLANCE
+  EN_TRAITEMENT
+  MALADE
+  CRITIQUE
+}
+
+enum TypeRdv {
+  VACCINATION
+  VERMIFUGE
+  CONSULTATION
+  INSEMINATION
+  CONTROLE_SANITAIRE
+  TRAITEMENT
+  AUTRE
+}
+
+enum StatutRdv {
+  PROGRAMME
+  CONFIRME
+  TERMINE
+  ANNULE
+  URGENT
+}
+
+enum TypeDossier {
+  MALADIE
+  VACCIN
+  TRAITEMENT
+  OPERATION
+  ANALYSE
+  PRESCRIPTION
+}
+
+enum TypeAlerte {
+  VACCIN
+  TRAITEMENT
+  RENDEZ_VOUS
+  URGENCE
+  CONTROLE
+  RAPPEL
+}
+
+enum PrioriteAlerte {
+  NORMALE
+  HAUTE
+  URGENTE
 }
 
 enum OrderStatus {
