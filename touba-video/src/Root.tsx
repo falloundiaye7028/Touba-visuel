@@ -1,6 +1,7 @@
 import "./index.css";
 import { Composition, getStaticFiles } from "remotion";
 import { AIVideo, aiVideoSchema } from "./components/AIVideo";
+import { EidMoubarakPoster } from "./compositions/EidMoubarakPoster";
 import { FPS, INTRO_DURATION } from "./lib/constants";
 import { getTimelinePath, loadTimelineFromFile } from "./lib/utils";
 
@@ -12,6 +13,16 @@ export const RemotionRoot: React.FC = () => {
 
   return (
     <>
+      {/* ── Eid Mubarak poster animation ── */}
+      <Composition
+        id="EidMoubarakPoster"
+        component={EidMoubarakPoster}
+        fps={30}
+        width={1080}
+        height={1620}
+        durationInFrames={450}
+      />
+
       {timelines.map((storyName) => (
         <Composition
           id={storyName}
