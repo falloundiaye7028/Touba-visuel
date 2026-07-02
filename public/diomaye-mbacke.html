@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coalition Diomaye Président — Coordination Départementale de Mbacké</title>
+<meta name="description" content="Site officiel de la Coordination Départementale de Mbacké de la Coalition Diomaye Président. Un leadership, une vision, un avenir — pour un Sénégal souverain, juste et prospère. Adhérez, informez-vous, mobilisez-vous.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Coalition Diomaye Président — Coordination Départementale de Mbacké">
+<meta property="og:description" content="Un leadership, une vision, un avenir. Ensemble pour un Sénégal souverain, juste et prospère — Département de Mbacké.">
+<meta property="og:locale" content="fr_SN">
+<!-- TODO: remplacer par l'URL réelle d'hébergement -->
+<meta property="og:url" content="https://coalition-diomaye-mbacke.sn/">
+<!-- TODO: remplacer par une image de partage réelle (1200x630) -->
+<meta property="og:image" content="og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Favicon : cercle du logo en SVG inline (à remplacer par favicon.png réel si disponible) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CclipPath id='c'%3E%3Ccircle cx='50' cy='50' r='48'/%3E%3C/clipPath%3E%3C/defs%3E%3Cg clip-path='url(%23c)'%3E%3Crect width='100' height='55' fill='%23D42B2B'/%3E%3Crect y='55' width='100' height='45' fill='%231B6CA8'/%3E%3Cpath d='M0 50 Q50 65 100 50 L100 60 Q50 75 0 60 Z' fill='%23fff'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1B6CA8;
+    --blue-deep:#123A56;
+    --blue-deeper:#0E2C41;
+    --red:#D42B2B;
+    --red-dark:#A81F1F;
+    --white:#FFFFFF;
+    --ink:#1A1A1A;
+    --ink-soft:#4a4a4a;
+    --line:#e4e9ee;
+    --off:#F5F8FA;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(14,44,65,.12);
+    --ff-title:'Montserrat',sans-serif;
+    --ff-body:'Poppins',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--ff-body);
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  ul{list-style:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  input,select,textarea{font-family:inherit;font-size:1rem}
+  .container{width:100%;max-width:1180px;margin:0 auto;padding:0 20px}
+  h1,h2,h3,h4{font-family:var(--ff-title);line-height:1.15;color:var(--ink)}
+  .section{padding:76px 0}
+  .section-alt{background:var(--off)}
+  .section-deep{background:linear-gradient(160deg,var(--blue-deeper),var(--blue-deep) 60%,var(--blue));color:var(--white)}
+  .eyebrow{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--red);font-weight:600;margin-bottom:14px;
+  }
+  .eyebrow::before,.eyebrow::after{content:'';width:32px;height:2px;background:var(--blue)}
+  .section-title{
+    font-size:clamp(1.7rem,4vw,2.5rem);
+    font-weight:800;text-align:center;margin-bottom:14px;
+  }
+  .section-title .accent{color:var(--red)}
+  .section-lead{
+    max-width:680px;margin:0 auto 48px;text-align:center;
+    color:var(--ink-soft);font-size:1.02rem;
+  }
+  .section-deep .section-lead{color:#cfe0ec}
+  .section-deep .section-title{color:var(--white)}
+
+  /* --- Liseré supérieur bicolore --- */
+  .top-bar{height:5px;width:100%;display:flex;position:sticky;top:0;z-index:1001}
+  .top-bar span{flex:1}
+  .top-bar .b{background:var(--blue)}
+  .top-bar .r{background:var(--red)}
+
+  /* --- Header --- */
+  header.site-header{
+    position:sticky;top:5px;z-index:1000;background:var(--white);
+    box-shadow:0 2px 14px rgba(14,44,65,.08);
+  }
+  .nav-wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 20px;max-width:1180px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{width:52px;height:52px;flex:none}
+  .brand-text{display:flex;flex-direction:column;line-height:1.05}
+  .brand-text .l1{font-family:var(--ff-title);font-weight:900;font-size:1.05rem;color:var(--blue);letter-spacing:.02em}
+  .brand-text .l1 b{color:var(--red)}
+  .brand-text .l2{font-size:.62rem;letter-spacing:.14em;color:var(--ink-soft);text-transform:uppercase;margin-top:2px}
+  nav.main-nav{display:none}
+  nav.main-nav ul{display:flex;gap:26px;align-items:center}
+  nav.main-nav a{
+    font-size:.92rem;font-weight:500;color:var(--ink);position:relative;padding:6px 0;
+  }
+  nav.main-nav a::after{
+    content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--red);transition:width .25s;
+  }
+  nav.main-nav a:hover::after,nav.main-nav a.active::after{width:100%}
+  .header-actions{display:flex;align-items:center;gap:14px}
+  #ctaDesktop{display:none}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 26px;border-radius:40px;font-weight:600;font-size:.92rem;
+    transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn-red{background:var(--red);color:var(--white);box-shadow:0 8px 20px rgba(212,43,43,.35)}
+  .btn-red:hover{background:var(--red-dark)}
+  .btn-blue-outline{border:2px solid var(--white);color:var(--white)}
+  .btn-blue-outline:hover{background:var(--white);color:var(--blue-deep)}
+  .btn-blue{background:var(--blue);color:var(--white);box-shadow:0 8px 20px rgba(27,108,168,.3)}
+  .btn-outline-red{border:2px solid var(--red);color:var(--red)}
+  .btn-outline-red:hover{background:var(--red);color:var(--white)}
+  .hamburger{
+    display:flex;flex-direction:column;justify-content:center;gap:5px;
+    width:40px;height:40px;align-items:center;
+  }
+  .hamburger span{width:24px;height:2.5px;background:var(--ink);border-radius:2px;transition:.3s}
+  .hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  .mobile-nav{
+    display:none;flex-direction:column;background:var(--white);
+    position:fixed;inset:69px 0 0 0;z-index:999;padding:30px 24px;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);overflow-y:auto;
+  }
+  .mobile-nav.open{display:flex}
+  .mobile-nav a{
+    padding:16px 4px;border-bottom:1px solid var(--line);font-weight:600;font-size:1.05rem;
+  }
+  .mobile-nav .btn{margin-top:20px;width:100%}
+
+  /* --- Logo mark (SVG) --- */
+  .logo-mark{position:relative;border-radius:50%;overflow:hidden}
+  .stars-arc{display:flex;justify-content:center;gap:14px;margin-bottom:16px}
+  .stars-arc svg{width:20px;height:20px}
+
+  /* --- Hero --- */
+  .hero{
+    position:relative;min-height:100vh;display:flex;align-items:center;
+    background:radial-gradient(circle at 20% 0%,#1d7ec2 0%,var(--blue-deep) 45%,var(--blue-deeper) 100%);
+    color:var(--white);overflow:hidden;padding:140px 0 90px;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.07) 1.5px,transparent 1.5px);
+    background-size:26px 26px;opacity:.5;pointer-events:none;
+  }
+  .hero::after{
+    content:'';position:absolute;bottom:-2px;left:0;width:100%;height:120px;
+    background:var(--white);
+    clip-path:path('M0,80 C 300,140 900,0 1440,90 L1440,200 L0,200 Z');
+  }
+  .hero-inner{position:relative;z-index:2;text-align:center;max-width:840px;margin:0 auto;padding:0 20px}
+  .hero-title{
+    font-size:clamp(2.4rem,7vw,4.6rem);font-weight:900;letter-spacing:.01em;
+    text-shadow:0 6px 30px rgba(0,0,0,.25);
+  }
+  .hero-title .t-blue{color:#eaf4ff}
+  .hero-title .t-red{color:#ff8a8a}
+  .hero-kicker{
+    margin-top:10px;font-size:.85rem;letter-spacing:.24em;text-transform:uppercase;color:#cfe0ec;
+  }
+  .hero-subtitle-wrap{
+    margin:34px auto;max-width:620px;padding:18px 26px;
+    border-top:2px solid var(--red);border-bottom:2px solid var(--blue);
+  }
+  .hero-subtitle-wrap p{font-size:1.08rem;color:#e9f2f9;font-weight:400}
+  .hero-slogan{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:10px;align-items:center;
+    font-family:var(--ff-title);font-weight:800;font-size:clamp(.85rem,2vw,1.15rem);
+    letter-spacing:.05em;margin:26px 0 40px;color:var(--white);
+  }
+  .hero-slogan .dot{color:var(--red);font-size:1.3rem;line-height:0}
+  .hero-btns{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+
+  /* --- Values / Coalition --- */
+  .values-grid{display:grid;grid-template-columns:1fr;gap:22px;margin-bottom:60px}
+  .value-card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 26px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;
+  }
+  .value-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(14,44,65,.16)}
+  .value-icon{
+    width:54px;height:54px;border-radius:50%;background:var(--off);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .value-icon svg{width:26px;height:26px;stroke:var(--blue)}
+  .value-card h3{font-size:1.12rem;margin-bottom:10px;color:var(--blue)}
+  .value-card p{color:var(--ink-soft);font-size:.94rem}
+
+  .quote-block{
+    display:grid;grid-template-columns:1fr;gap:30px;align-items:center;
+    background:var(--off);border-radius:20px;padding:36px 24px;
+  }
+  .quote-photo{
+    width:150px;height:150px;border-radius:50%;margin:0 auto;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,var(--blue),var(--blue-deep));
+    color:var(--white);font-family:var(--ff-title);font-weight:800;font-size:2.4rem;
+    border:5px solid var(--white);box-shadow:var(--shadow);
+  }
+  .quote-box{
+    position:relative;border-left:4px solid var(--blue);padding:8px 8px 8px 22px;
+  }
+  .quote-box .mark{
+    font-family:Georgia,serif;font-size:3.4rem;color:var(--red);line-height:0;
+    position:absolute;left:-4px;top:14px;opacity:.85;
+  }
+  .quote-box p.q{font-size:1.08rem;font-style:italic;color:var(--ink);margin-bottom:16px;padding-left:26px}
+  .quote-box .who{padding-left:26px}
+  .quote-box .who strong{display:block;color:var(--blue);font-size:1.02rem}
+  .quote-box .who span{font-size:.85rem;color:var(--ink-soft)}
+
+  /* --- Coordination org chart --- */
+  .org-top{display:flex;justify-content:center;margin-bottom:8px}
+  .org-connector{width:2px;height:34px;background:var(--blue);margin:0 auto}
+  .org-connector.wide{width:80%;max-width:520px;height:2px;background:var(--blue);margin:0 auto;position:relative}
+  .member-card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 20px;text-align:center;box-shadow:var(--shadow);transition:transform .25s;
+  }
+  .member-card:hover{transform:translateY(-5px)}
+  .member-card .avatar{
+    width:88px;height:88px;border-radius:50%;margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,var(--red),var(--red-dark));
+    color:var(--white);font-family:var(--ff-title);font-weight:800;font-size:1.6rem;
+    border:4px solid var(--off);
+  }
+  .member-card.chief .avatar{background:linear-gradient(145deg,var(--blue),var(--blue-deep));width:104px;height:104px;font-size:1.9rem}
+  .member-card h4{font-size:1rem;color:var(--ink);margin-bottom:4px}
+  .member-card .role{font-size:.82rem;color:var(--red);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .member-card.chief{max-width:340px;margin:0 auto 30px}
+  .comm-wrap{max-width:340px;margin:0 auto 40px}
+  .cells-grid{display:grid;grid-template-columns:1fr;gap:20px}
+
+  /* --- Actualités --- */
+  .news-grid{display:grid;grid-template-columns:1fr;gap:28px}
+  .news-card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;
+  }
+  .news-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(14,44,65,.16)}
+  .news-thumb{
+    height:190px;position:relative;
+    background:linear-gradient(135deg,var(--blue) 0%,var(--blue-deep) 100%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .news-thumb svg{width:52px;height:52px;stroke:rgba(255,255,255,.85);fill:none}
+  .news-thumb .tag{
+    position:absolute;top:14px;left:14px;background:var(--red);color:var(--white);
+    font-size:.7rem;padding:5px 12px;border-radius:20px;font-weight:600;letter-spacing:.03em;
+  }
+  .news-body{padding:22px;display:flex;flex-direction:column;flex:1}
+  .news-date{font-size:.78rem;color:var(--blue);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px}
+  .news-body h3{font-size:1.06rem;margin-bottom:10px}
+  .news-body p{color:var(--ink-soft);font-size:.9rem;flex:1;margin-bottom:14px}
+  .news-link{color:var(--red);font-weight:600;font-size:.88rem;display:inline-flex;align-items:center;gap:6px}
+  .news-link svg{width:14px;height:14px}
+
+  /* --- Stats --- */
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .stat-card{
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);
+    border-radius:var(--radius);padding:30px 16px;text-align:center;backdrop-filter:blur(2px);
+  }
+  .stat-num{font-family:var(--ff-title);font-weight:900;font-size:clamp(1.8rem,5vw,2.6rem);color:var(--white)}
+  .stat-label{
+    margin-top:10px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+    color:#dcebf4;padding-bottom:8px;border-bottom:3px solid var(--red);display:inline-block;
+  }
+
+  /* --- Galerie --- */
+  .gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .gallery-item{
+    aspect-ratio:1/1;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .gallery-item svg{width:34px;height:34px;stroke:#fff;opacity:.8}
+  .gallery-item::after{
+    content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.35),transparent 60%);
+  }
+  .gallery-item span{
+    position:absolute;bottom:10px;left:12px;color:#fff;font-size:.75rem;font-weight:600;z-index:2;
+  }
+  .g1{background:linear-gradient(150deg,var(--blue),#0e3352)}
+  .g2{background:linear-gradient(150deg,var(--red),#7c1717)}
+  .g3{background:linear-gradient(150deg,#2b7fbf,var(--blue-deep))}
+  .g4{background:linear-gradient(150deg,var(--blue-deep),var(--red-dark))}
+  .g5{background:linear-gradient(150deg,#e35555,var(--red))}
+  .g6{background:linear-gradient(150deg,var(--blue),var(--red))}
+  .g7{background:linear-gradient(150deg,var(--blue-deeper),var(--blue))}
+  .g8{background:linear-gradient(150deg,var(--red-dark),#e35555)}
+  .g9{background:linear-gradient(150deg,#1d7ec2,var(--blue-deeper))}
+
+  .lightbox{
+    position:fixed;inset:0;background:rgba(10,20,30,.92);z-index:2000;
+    display:none;align-items:center;justify-content:center;padding:20px;
+  }
+  .lightbox.open{display:flex}
+  .lightbox-box{
+    max-width:560px;width:100%;background:var(--white);border-radius:16px;overflow:hidden;position:relative;
+  }
+  .lightbox-visual{
+    height:320px;display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .lightbox-visual svg{width:60px;height:60px;stroke:#fff}
+  .lightbox-caption{padding:18px 22px;font-size:.92rem;color:var(--ink-soft)}
+  .lightbox-close{
+    position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;z-index:3;font-size:1.2rem;
+  }
+  .lightbox-nav{
+    position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;
+    background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;z-index:3;font-weight:700;
+  }
+  .lightbox-prev{left:12px}
+  .lightbox-next{right:12px}
+
+  /* --- Adhésion --- */
+  .join-wrap{display:grid;grid-template-columns:1fr;gap:40px}
+  .join-form{
+    background:var(--white);border:1px solid var(--line);border-radius:20px;
+    padding:32px 24px;box-shadow:var(--shadow);
+  }
+  .form-row{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px}
+  .field label{display:block;font-size:.84rem;font-weight:600;margin-bottom:6px;color:var(--ink)}
+  .field input,.field select,.field textarea{
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;
+    background:var(--off);transition:border-color .2s,background .2s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:none;border-color:var(--blue);background:var(--white);
+  }
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--red)}
+  .field .err{display:none;color:var(--red);font-size:.76rem;margin-top:5px}
+  .field.invalid .err{display:block}
+  .join-form .btn{width:100%;margin-top:6px}
+  .join-success{
+    display:none;text-align:center;padding:40px 20px;background:var(--off);border-radius:20px;
+    border:1.5px dashed var(--blue);
+  }
+  .join-success.show{display:block}
+  .join-success .check{
+    width:64px;height:64px;border-radius:50%;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;
+  }
+  .join-success h3{color:var(--blue);margin-bottom:8px}
+  .join-success p{color:var(--ink-soft)}
+
+  .whatsapp-encart{
+    background:linear-gradient(135deg,#1f9e52,#177a3f);border-radius:20px;color:#fff;
+    padding:30px 26px;display:flex;flex-direction:column;gap:16px;justify-content:center;
+  }
+  .whatsapp-encart h3{color:#fff;display:flex;align-items:center;gap:10px;font-size:1.15rem}
+  .whatsapp-encart p{color:#e6f6ec;font-size:.92rem}
+  .whatsapp-encart .num{font-family:var(--ff-title);font-weight:800;font-size:1.3rem;letter-spacing:.02em}
+  .whatsapp-encart .btn{background:#fff;color:#177a3f;align-self:flex-start}
+  .side-info{
+    margin-top:24px;background:var(--off);border-radius:20px;padding:26px;
+  }
+  .side-info h4{color:var(--blue);margin-bottom:12px;font-size:1rem}
+  .side-info p{font-size:.9rem;color:var(--ink-soft);margin-bottom:6px}
+
+  /* --- Footer --- */
+  footer{background:var(--blue-deeper);color:#cfe0ec;padding:60px 0 0}
+  .footer-grid{display:grid;grid-template-columns:1fr;gap:36px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .footer-brand .brand-text .l1{color:#fff}
+  .footer-brand p{font-size:.88rem;color:#aec7d6;margin-top:14px;max-width:280px}
+  .footer-col h4{color:#fff;font-size:.94rem;margin-bottom:16px;letter-spacing:.03em}
+  .footer-col ul li{margin-bottom:10px}
+  .footer-col a{font-size:.88rem;color:#b9d0dd;transition:color .2s}
+  .footer-col a:hover{color:#fff}
+  .social-row{display:flex;gap:12px;margin-top:16px}
+  .social-row a{
+    width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);
+    display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;
+  }
+  .social-row a:hover{background:var(--red);transform:translateY(-3px)}
+  .social-row svg{width:17px;height:17px;fill:#fff}
+  .footer-bottom{
+    display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;
+    padding:24px 0 30px;font-size:.8rem;color:#8fadbe;
+  }
+  .footer-bottom a{color:#cfe0ec;font-weight:600}
+
+  /* --- Floating WhatsApp --- */
+  .wa-float{
+    position:fixed;bottom:22px;right:22px;width:58px;height:58px;border-radius:50%;
+    background:#25D366;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:900;animation:pulse 2.4s infinite;
+  }
+  .wa-float svg{width:28px;height:28px;fill:#fff}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}
+    70%{box-shadow:0 0 0 14px rgba(37,211,102,0)}
+    100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}
+  }
+
+  /* --- Reveal animation --- */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .wa-float{animation:none}
+  }
+
+  /* --- Responsive breakpoints --- */
+  @media (min-width:560px){
+    .values-grid{grid-template-columns:1fr 1fr}
+    .cells-grid{grid-template-columns:1fr 1fr}
+    .gallery-grid{grid-template-columns:repeat(3,1fr)}
+    .stats-grid{grid-template-columns:repeat(4,1fr)}
+    .form-row{grid-template-columns:1fr 1fr}
+  }
+  @media (min-width:768px){
+    .news-grid{grid-template-columns:1fr 1fr}
+    .quote-block{grid-template-columns:180px 1fr}
+    .join-wrap{grid-template-columns:1.3fr 1fr}
+  }
+  @media (min-width:900px){
+    nav.main-nav{display:block}
+    .hamburger,.mobile-nav{display:none !important}
+    #ctaDesktop{display:inline-flex}
+  }
+  @media (min-width:1024px){
+    .values-grid{grid-template-columns:repeat(4,1fr)}
+    .news-grid{grid-template-columns:repeat(3,1fr)}
+    .cells-grid{grid-template-columns:repeat(5,1fr)}
+    .gallery-grid{grid-template-columns:repeat(4,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<!-- Liseré républicain bicolore -->
+<div class="top-bar"><span class="b"></span><span class="r"></span></div>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="#accueil" class="brand" aria-label="Retour à l'accueil">
+      <!-- Cartouche blanc obligatoire autour du logo -->
+      <span class="brand-mark logo-mark">
+        <svg viewBox="0 0 100 100" width="52" height="52" role="img" aria-label="Emblème de la Coalition Diomaye Président">
+          <circle cx="50" cy="50" r="49" fill="#fff"/>
+          <g clip-path="url(#clipCircleHeader)">
+            <clipPath id="clipCircleHeader"><circle cx="50" cy="50" r="46"/></clipPath>
+            <rect x="4" y="4" width="92" height="50" fill="#D42B2B"/>
+            <rect x="4" y="54" width="92" height="42" fill="#1B6CA8"/>
+            <path d="M4 50 Q50 66 96 50 L96 60 Q50 76 4 60 Z" fill="#fff"/>
+            <path d="M50 34 C42 34 40 44 44 50 C40 54 41 63 50 66 C59 63 60 54 56 50 C60 44 58 34 50 34Z" fill="#fff" opacity=".92"/>
+          </g>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="2.4"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="l1"><span style="color:var(--blue)">DIOMAYE</span> <b>PRÉSIDENT</b></span>
+        <span class="l2">Coordination · Mbacké</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navigation principale">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#coalition">La Coalition</a></li>
+        <li><a href="#coordination">Coordination</a></li>
+        <li><a href="#actualites">Actualités</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#adhesion">Adhésion</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#adhesion" class="btn btn-red" id="ctaDesktop">Rejoindre la Coalition</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Navigation mobile">
+    <a href="#accueil">Accueil</a>
+    <a href="#coalition">La Coalition</a>
+    <a href="#coordination">Coordination</a>
+    <a href="#actualites">Actualités</a>
+    <a href="#realisations">Réalisations</a>
+    <a href="#adhesion">Adhésion</a>
+    <a href="#contact">Contact</a>
+    <a href="#adhesion" class="btn btn-red">Rejoindre la Coalition</a>
+  </nav>
+</header>
+
+<main>
+<!-- ================= HERO ================= -->
+<section class="hero" id="accueil">
+  <div class="hero-inner">
+    <div class="stars-arc" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="#1B6CA8"><path d="M12 1l2.9 6.9 7.1.6-5.4 4.6 1.7 7L12 16l-6.3 4.1 1.7-7L2 9.5l7.1-.6z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#1B6CA8"><path d="M12 1l2.9 6.9 7.1.6-5.4 4.6 1.7 7L12 16l-6.3 4.1 1.7-7L2 9.5l7.1-.6z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#D42B2B" style="width:26px;height:26px"><path d="M12 1l2.9 6.9 7.1.6-5.4 4.6 1.7 7L12 16l-6.3 4.1 1.7-7L2 9.5l7.1-.6z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#1B6CA8"><path d="M12 1l2.9 6.9 7.1.6-5.4 4.6 1.7 7L12 16l-6.3 4.1 1.7-7L2 9.5l7.1-.6z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#1B6CA8"><path d="M12 1l2.9 6.9 7.1.6-5.4 4.6 1.7 7L12 16l-6.3 4.1 1.7-7L2 9.5l7.1-.6z"/></svg>
+    </div>
+    <h1 class="hero-title"><span class="t-blue">DIOMAYE</span> <span class="t-red">PRÉSIDENT</span></h1>
+    <p class="hero-kicker">Coalition citoyenne — Coordination Départementale de Mbacké</p>
+
+    <div class="hero-subtitle-wrap">
+      <p>Ensemble pour un Sénégal souverain, juste et prospère — Département de Mbacké</p>
+    </div>
+
+    <p class="hero-slogan">
+      <span>UN LEADERSHIP</span><span class="dot">•</span>
+      <span>UNE VISION</span><span class="dot">•</span>
+      <span>UN AVENIR</span>
+    </p>
+
+    <div class="hero-btns">
+      <a href="#adhesion" class="btn btn-red">Adhérer à la Coalition</a>
+      <a href="#realisations" class="btn btn-blue-outline">Nos actions</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LA COALITION ================= -->
+<section class="section" id="coalition">
+  <div class="container">
+    <p class="eyebrow">Notre engagement</p>
+    <h2 class="section-title">La <span class="accent">Coalition</span>, une famille politique au service de Mbacké</h2>
+    <p class="section-lead">
+      La Coalition Diomaye Président rassemble, dans le département de Mbacké, des femmes et des hommes de conviction,
+      unis autour d'un projet de rupture pour un Sénégal souverain dans ses choix, juste dans la répartition de ses
+      richesses et transparent dans la gestion de la chose publique. Ici, à Mbacké, terre de foi et de travail, nous
+      portons cette ambition avec humilité et détermination — <em>Ñëpp bokk, ñëpp yokk</em> : tous ensemble, tous
+      unis pour bâtir.
+    </p>
+
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg></span>
+        <h3>Souveraineté</h3>
+        <p>Reprendre en main nos ressources, notre monnaie et nos choix stratégiques, au service exclusif du peuple sénégalais.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8l-3 6a4 4 0 0 0 8 0l-3-6H5Zm14 0-3 6a4 4 0 0 0 8 0l-3-6h-2ZM5 8h14"/></svg></span>
+        <h3>Justice</h3>
+        <p>Une justice sociale et institutionnelle qui protège chaque citoyen de Mbacké, sans distinction ni privilège.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/></svg></span>
+        <h3>Transparence</h3>
+        <p>La reddition des comptes comme culture de gouvernance, à tous les niveaux de la coordination et de l'État.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></span>
+        <h3>Panafricanisme</h3>
+        <p>Un Sénégal debout, solidaire des peuples africains, acteur assumé de l'intégration continentale.</p>
+      </div>
+    </div>
+
+    <div class="quote-block reveal">
+      <div class="quote-photo">AN<!-- Photo réelle du coordonnateur à intégrer ici --></div>
+      <div class="quote-box">
+        <span class="mark" aria-hidden="true">&ldquo;</span>
+        <p class="q">
+          À Mbacké, nous ne menons pas seulement une campagne : nous construisons une conscience citoyenne. Chaque
+          quartier, chaque village, chaque comité de base est une pierre de l'édifice que nous bâtissons pour la
+          jeunesse et pour les générations à venir. Notre force, c'est notre unité.
+        </p>
+        <div class="who">
+          <strong>Dr. Abdoulaye Niane</strong>
+          <span>Coordonnateur Départemental — Coalition Diomaye Président, Mbacké</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COORDINATION ================= -->
+<section class="section section-alt" id="coordination">
+  <div class="container">
+    <p class="eyebrow">Organisation</p>
+    <h2 class="section-title">La Coordination <span class="accent">Départementale</span> de Mbacké</h2>
+    <p class="section-lead">
+      Une organisation claire, enracinée dans chaque commune et chaque village du département, pour porter la voix
+      de la Coalition au plus près des citoyens.
+    </p>
+
+    <!-- Niveau 1 : Coordonnateur départemental -->
+    <div class="member-card chief reveal">
+      <div class="avatar">AN</div>
+      <h4>Dr. Abdoulaye Niane</h4>
+      <span class="role">Coordonnateur Départemental</span>
+    </div>
+    <div class="org-connector"></div>
+
+    <!-- Niveau 2 : Coordonnateur communal de Mbacké -->
+    <div class="comm-wrap member-card reveal">
+      <div class="avatar">AL</div>
+      <h4>Abdou Lahad Ndiaye « Fatma »</h4>
+      <span class="role">Coordonnateur Communal — Mbacké</span>
+    </div>
+    <div class="org-connector"></div>
+
+    <!-- Niveau 3 : Cellules -->
+    <!-- TODO : remplacer les noms/initiales ci-dessous par les responsables réels de chaque cellule -->
+    <div class="cells-grid">
+      <div class="member-card reveal">
+        <div class="avatar">CC</div>
+        <h4>Cellule Communication</h4>
+        <span class="role">Responsable à désigner</span>
+      </div>
+      <div class="member-card reveal">
+        <div class="avatar">CJ</div>
+        <h4>Cellule Jeunesse</h4>
+        <span class="role">Responsable à désigner</span>
+      </div>
+      <div class="member-card reveal">
+        <div class="avatar">CF</div>
+        <h4>Cellule Femmes</h4>
+        <span class="role">Responsable à désigner</span>
+      </div>
+      <div class="member-card reveal">
+        <div class="avatar">CM</div>
+        <h4>Cellule Mobilisation</h4>
+        <span class="role">Responsable à désigner</span>
+      </div>
+      <div class="member-card reveal">
+        <div class="avatar">CFin</div>
+        <h4>Cellule Finances</h4>
+        <span class="role">Responsable à désigner</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACTUALITÉS ================= -->
+<section class="section" id="actualites">
+  <div class="container">
+    <p class="eyebrow">Presse & mobilisation</p>
+    <h2 class="section-title">Les <span class="accent">Actualités</span> de la Coordination</h2>
+    <p class="section-lead">Suivez les temps forts de la mobilisation dans le département de Mbacké.</p>
+
+    <!-- TODO : remplacer les articles ci-dessous par les actualités réelles, avec photos -->
+    <div class="news-grid">
+      <article class="news-card reveal">
+        <div class="news-thumb"><span class="tag">Lancement</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H5l-1 4V4Z"/></svg></div>
+        <div class="news-body">
+          <span class="news-date">12 janvier 2026</span>
+          <h3>Installation officielle de la Coordination Départementale de Mbacké</h3>
+          <p>Militants et sympathisants se sont réunis à Mbacké pour l'installation officielle du bureau départemental, en présence du coordonnateur Dr. Abdoulaye Niane.</p>
+          <a href="#" class="news-link">Lire la suite <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="news-card reveal">
+        <div class="news-thumb"><span class="tag">Jeunesse</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 2 8l10 5 10-5-10-5Zm0 10-8-4v6l8 4 8-4V9l-8 4Z"/></svg></div>
+        <div class="news-body">
+          <span class="news-date">2 février 2026</span>
+          <h3>Forum de la Cellule Jeunesse : « Bokk sa dolel ci mbir mi »</h3>
+          <p>Plus de 300 jeunes de Mbacké et de Touba Mosquée ont pris part au premier forum de mobilisation de la jeunesse coalisée.</p>
+          <a href="#" class="news-link">Lire la suite <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="news-card reveal">
+        <div class="news-thumb"><span class="tag">Femmes</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+        <div class="news-body">
+          <span class="news-date">18 février 2026</span>
+          <h3>La Cellule Femmes lance sa caravane de sensibilisation</h3>
+          <p>Une tournée dans les villages de Nghaye, Taïf et Ndioumane pour porter le message de la Coalition auprès des femmes actrices du développement local.</p>
+          <a href="#" class="news-link">Lire la suite <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="news-card reveal">
+        <div class="news-thumb"><span class="tag">Mobilisation</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M13 3l3 3 6-6M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg></div>
+        <div class="news-body">
+          <span class="news-date">5 mars 2026</span>
+          <h3>Grande caravane de mobilisation à Touba Fall et Dendeye</h3>
+          <p>La Coordination a sillonné les villages du département pour installer de nouveaux comités de base et renforcer le maillage territorial.</p>
+          <a href="#" class="news-link">Lire la suite <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="news-card reveal">
+        <div class="news-thumb"><span class="tag">Communiqué</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg></div>
+        <div class="news-body">
+          <span class="news-date">22 mars 2026</span>
+          <h3>Communiqué de la Coordination sur les priorités locales</h3>
+          <p>Dr. Abdoulaye Niane détaille les priorités de la Coalition pour Mbacké : eau, emploi des jeunes, infrastructures rurales.</p>
+          <a href="#" class="news-link">Lire la suite <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="news-card reveal">
+        <div class="news-thumb"><span class="tag">Événement</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+        <div class="news-body">
+          <span class="news-date">10 avril 2026</span>
+          <h3>Assemblée générale des comités de base du département</h3>
+          <p>Bilan d'étape et perspectives à Mbacké, en présence des coordonnateurs communaux et des responsables de cellules.</p>
+          <a href="#" class="news-link">Lire la suite <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RÉALISATIONS & CHIFFRES CLÉS ================= -->
+<section class="section section-deep" id="realisations">
+  <div class="container">
+    <p class="eyebrow">En chiffres</p>
+    <h2 class="section-title">Nos <span class="accent" style="color:#ff8a8a">Réalisations</span> dans le département</h2>
+    <p class="section-lead">Une mobilisation qui grandit chaque jour, portée par les militants de Mbacké.</p>
+
+    <!-- TODO : mettre à jour ces chiffres avec les données officielles réelles -->
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <div class="stat-num" data-count="13">0</div>
+        <div class="stat-label">Communes & villages couverts</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num" data-count="87">0</div>
+        <div class="stat-label">Comités de base installés</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num" data-count="15000" data-suffix="+">0</div>
+        <div class="stat-label">Militants engagés</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num" data-count="42">0</div>
+        <div class="stat-label">Événements organisés</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALERIE ================= -->
+<section class="section" id="galerie">
+  <div class="container">
+    <p class="eyebrow">Médias</p>
+    <h2 class="section-title">Galerie <span class="accent">de la Coordination</span></h2>
+    <p class="section-lead">Instantanés de nos rencontres, caravanes et forums à travers le département.</p>
+
+    <!-- TODO : remplacer chaque bloc par une photo réelle (data-caption conservé comme légende) -->
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item g1" data-caption="Installation de la Coordination Départementale — Mbacké"><span>Installation — Mbacké</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4Zm0 5 9 4 9-4M3 16l9 4 9-4"/></svg></div>
+      <div class="gallery-item g2" data-caption="Forum de la Cellule Jeunesse"><span>Forum Jeunesse</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/></svg></div>
+      <div class="gallery-item g3" data-caption="Caravane de sensibilisation — Touba Mosquée"><span>Caravane — Touba</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h18M12 3v18"/></svg></div>
+      <div class="gallery-item g4" data-caption="Rencontre des femmes leaders"><span>Cellule Femmes</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+      <div class="gallery-item g5" data-caption="Assemblée des comités de base"><span>Assemblée</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/></svg></div>
+      <div class="gallery-item g6" data-caption="Réunion de la coordination communale de Mbacké"><span>Réunion — Mbacké</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H5l-1 4V4Z"/></svg></div>
+      <div class="gallery-item g7" data-caption="Tournée des villages — Nghaye, Taïf"><span>Tournée — Nghaye</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/></svg></div>
+      <div class="gallery-item g8" data-caption="Mobilisation des militants"><span>Mobilisation</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 3l3 3 6-6M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg></div>
+      <div class="gallery-item g9" data-caption="Clôture de la caravane départementale"><span>Clôture caravane</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V3l16 9-16 9Z"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Aperçu de la galerie">
+  <div class="lightbox-box">
+    <button class="lightbox-close" id="lbClose" aria-label="Fermer">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Image précédente">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Image suivante">&#8250;</button>
+    <div class="lightbox-visual" id="lbVisual">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7l9-4 9 4-9 4-9-4Zm0 5 9 4 9-4M3 16l9 4 9-4"/></svg>
+    </div>
+    <p class="lightbox-caption" id="lbCaption">Légende de l'image</p>
+  </div>
+</div>
+
+<!-- ================= ADHÉSION ================= -->
+<section class="section section-alt" id="adhesion">
+  <div class="container">
+    <p class="eyebrow">Engagement citoyen</p>
+    <h2 class="section-title">Rejoignez la <span class="accent">Coalition</span></h2>
+    <p class="section-lead">
+      Devenez militant de la Coalition Diomaye Président dans votre commune. Chaque adhésion renforce notre force
+      collective — Jërëjëf pour votre engagement.
+    </p>
+
+    <div class="join-wrap">
+      <div>
+        <form class="join-form reveal" id="joinForm" novalidate>
+          <div class="form-row">
+            <div class="field" data-field="prenom">
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" name="prenom" required autocomplete="given-name">
+              <span class="err">Veuillez indiquer votre prénom.</span>
+            </div>
+            <div class="field" data-field="nom">
+              <label for="nom">Nom *</label>
+              <input type="text" id="nom" name="nom" required autocomplete="family-name">
+              <span class="err">Veuillez indiquer votre nom.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field" data-field="telephone">
+              <label for="telephone">Téléphone *</label>
+              <input type="tel" id="telephone" name="telephone" placeholder="77 000 00 00" required autocomplete="tel">
+              <span class="err">Veuillez indiquer un numéro valide (9 chiffres).</span>
+            </div>
+            <div class="field" data-field="commune">
+              <label for="commune">Commune / Village *</label>
+              <select id="commune" name="commune" required>
+                <option value="">Sélectionner…</option>
+                <option>Mbacké</option>
+                <option>Touba Mosquée</option>
+                <option>Nghaye</option>
+                <option>Taïf</option>
+                <option>Ndioumane</option>
+                <option>Dendeye</option>
+                <option>Sadio</option>
+                <option>Kael</option>
+                <option>Darou Salam Typ</option>
+                <option>Touba Fall</option>
+                <option>Missirah</option>
+                <option>Ndame</option>
+                <option>Autre</option>
+              </select>
+              <span class="err">Veuillez sélectionner votre commune.</span>
+            </div>
+          </div>
+          <div class="form-row" style="grid-template-columns:1fr">
+            <div class="field" data-field="profession">
+              <label for="profession">Profession</label>
+              <input type="text" id="profession" name="profession" autocomplete="organization-title">
+            </div>
+          </div>
+          <div class="form-row" style="grid-template-columns:1fr">
+            <div class="field" data-field="message">
+              <label for="message">Message (optionnel)</label>
+              <textarea id="message" name="message" rows="4" placeholder="Votre motivation, vos disponibilités…"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-red">Envoyer mon adhésion</button>
+        </form>
+
+        <div class="join-success" id="joinSuccess">
+          <div class="check">✓</div>
+          <h3>Adhésion enregistrée !</h3>
+          <p>Jërëjëf ! Votre demande a bien été prise en compte. Un responsable de cellule vous contactera très prochainement.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="whatsapp-encart reveal">
+          <h3>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.13c-1.5 0-2.96-.4-4.24-1.16l-.3-.18-3.14.82.84-3.06-.2-.31a8.2 8.2 0 0 1-1.26-4.33c0-4.54 3.7-8.24 8.3-8.24 4.6 0 8.3 3.7 8.3 8.24 0 4.55-3.7 8.22-8.3 8.22Z"/></svg>
+            Rejoindre via WhatsApp
+          </h3>
+          <p>Écrivez directement à la Coordination pour toute question ou pour confirmer votre adhésion.</p>
+          <!-- TODO : remplacer par le numéro WhatsApp officiel de la Coordination -->
+          <span class="num">+221 XX XXX XX XX</span>
+          <a href="https://wa.me/221XXXXXXXXX" target="_blank" rel="noopener" class="btn">Ouvrir WhatsApp</a>
+        </div>
+
+        <div class="side-info reveal">
+          <h4>Pourquoi adhérer ?</h4>
+          <p>— Participer aux décisions locales de la Coalition</p>
+          <p>— Accéder aux formations civiques et politiques</p>
+          <p>— Contribuer directement au développement de votre commune</p>
+          <p>— Intégrer un réseau départemental structuré et solidaire</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="section" id="contact">
+  <div class="container">
+    <p class="eyebrow">Nous joindre</p>
+    <h2 class="section-title">Contact & <span class="accent">Siège</span></h2>
+    <p class="section-lead">La Coordination Départementale vous reçoit à Mbacké.</p>
+
+    <div class="values-grid" style="grid-template-columns:1fr">
+      <div class="value-card reveal" style="display:grid;grid-template-columns:1fr;gap:18px;max-width:640px;margin:0 auto">
+        <div>
+          <h3 style="margin-bottom:6px">Adresse du siège</h3>
+          <!-- TODO : remplacer par l'adresse réelle du siège -->
+          <p style="color:var(--ink-soft)">Route de Touba, Quartier Escale, Mbacké, Sénégal</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:6px">Téléphone</h3>
+          <!-- TODO : remplacer par le numéro réel -->
+          <p style="color:var(--ink-soft)">+221 XX XXX XX XX</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:6px">Email</h3>
+          <!-- TODO : remplacer par l'adresse email officielle -->
+          <p style="color:var(--ink-soft)">contact@coalition-diomaye-mbacke.sn</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#accueil" class="brand">
+          <span class="brand-mark logo-mark">
+            <svg viewBox="0 0 100 100" width="48" height="48" role="img" aria-hidden="true">
+              <circle cx="50" cy="50" r="49" fill="#fff"/>
+              <g clip-path="url(#clipCircleFooter)">
+                <clipPath id="clipCircleFooter"><circle cx="50" cy="50" r="46"/></clipPath>
+                <rect x="4" y="4" width="92" height="50" fill="#D42B2B"/>
+                <rect x="4" y="54" width="92" height="42" fill="#1B6CA8"/>
+                <path d="M4 50 Q50 66 96 50 L96 60 Q50 76 4 60 Z" fill="#fff"/>
+              </g>
+              <circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="2.4"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <span class="l1">DIOMAYE PRÉSIDENT</span>
+            <span class="l2" style="color:#aec7d6">Coordination · Mbacké</span>
+          </span>
+        </a>
+        <p>Un leadership, une vision, un avenir — pour un Sénégal souverain, juste et prospère.</p>
+        <div class="social-row">
+          <!-- TODO : remplacer par les liens réseaux sociaux officiels -->
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></a>
+          <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.9l-5.4-6.6L4.5 22H1.3l7.7-8.8L1 2h7l4.9 6L18.9 2Zm-1.2 18h1.9L7.4 4H5.4l12.3 16Z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M14 2h3.2c.2 1.6 1.4 3 3.3 3.3V8.4c-1.4 0-2.6-.4-3.5-1v6.9a5.9 5.9 0 1 1-5.9-5.9c.3 0 .6 0 .9.1v3.1a2.8 2.8 0 1 0 2 2.7V2Z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5a2.9 2.9 0 0 0-2-2C18.9 4.5 12 4.5 12 4.5s-6.9 0-8.6.5a2.9 2.9 0 0 0-2 2C1 8.6 1 12 1 12s0 3.4.4 5a2.9 2.9 0 0 0 2 2c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.9 2.9 0 0 0 2-2c.4-1.6.4-5 .4-5ZM9.8 15.5v-7l6 3.5-6 3.5Z"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Plan du site</h4>
+        <ul>
+          <li><a href="#accueil">Accueil</a></li>
+          <li><a href="#coalition">La Coalition</a></li>
+          <li><a href="#coordination">Coordination</a></li>
+          <li><a href="#actualites">Actualités</a></li>
+          <li><a href="#realisations">Réalisations</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Participer</h4>
+        <ul>
+          <li><a href="#adhesion">Adhésion</a></li>
+          <li><a href="#galerie">Galerie</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Siège de Mbacké</h4>
+        <ul>
+          <li>Route de Touba, Quartier Escale</li>
+          <li>Mbacké, Sénégal</li>
+          <li>contact@coalition-diomaye-mbacke.sn</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Coalition Diomaye Président — Coordination Départementale de Mbacké. Tous droits réservés.</p>
+      <p>Conçu par <a href="#" rel="noopener">Touba Visuel</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Bouton flottant WhatsApp -->
+<!-- TODO : remplacer 221XXXXXXXXX par le numéro WhatsApp officiel -->
+<a href="https://wa.me/221XXXXXXXXX" target="_blank" rel="noopener" class="wa-float" aria-label="Contacter la Coordination sur WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm0 18.13c-1.5 0-2.96-.4-4.24-1.16l-.3-.18-3.14.82.84-3.06-.2-.31a8.2 8.2 0 0 1-1.26-4.33c0-4.54 3.7-8.24 8.3-8.24 4.6 0 8.3 3.7 8.3 8.24 0 4.55-3.7 8.22-8.3 8.22Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.8-.23-.08-.4-.12-.56.13-.17.24-.65.8-.8.97-.15.16-.29.18-.54.06-.25-.12-1.07-.4-2.03-1.26-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.4.08-.17.04-.31-.02-.44-.06-.12-.56-1.36-.77-1.86-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.86-.87 2.09s.9 2.42 1.02 2.59c.12.16 1.77 2.7 4.29 3.79.6.26 1.07.42 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.2-.58.2-1.08.14-1.18-.06-.1-.23-.16-.48-.28Z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  // Année automatique
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // --- Menu mobile ---
+  var hamburger = document.getElementById('hamburgerBtn');
+  var mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', function(){
+    var open = mobileNav.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobileNav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mobileNav.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // --- Surbrillance du lien de navigation actif ---
+  var navLinks = document.querySelectorAll('nav.main-nav a');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+  if ('IntersectionObserver' in window && sections.length){
+    var navObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          var id = entry.target.getAttribute('id');
+          navLinks.forEach(function(link){
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    sections.forEach(function(s){ navObserver.observe(s); });
+  }
+
+  // --- Animations au scroll ---
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    var revealObserver = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.15});
+    reveals.forEach(function(el){ revealObserver.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('visible'); });
+  }
+
+  // --- Compteurs animés ---
+  var statNums = document.querySelectorAll('.stat-num');
+  function animateCount(el){
+    var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1600;
+    var start = null;
+    function step(ts){
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var value = Math.floor(eased * target);
+      el.textContent = value.toLocaleString('fr-FR') + suffix;
+      if (progress < 1){ requestAnimationFrame(step); }
+      else { el.textContent = target.toLocaleString('fr-FR') + suffix; }
+    }
+    requestAnimationFrame(step);
+  }
+  if (statNums.length){
+    if ('IntersectionObserver' in window){
+      var statsObserver = new IntersectionObserver(function(entries, obs){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            animateCount(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {threshold:.4});
+      statNums.forEach(function(el){ statsObserver.observe(el); });
+    } else {
+      statNums.forEach(animateCount);
+    }
+  }
+
+  // --- Galerie / Lightbox ---
+  var galleryItems = Array.prototype.slice.call(document.querySelectorAll('.gallery-item'));
+  var lightbox = document.getElementById('lightbox');
+  var lbVisual = document.getElementById('lbVisual');
+  var lbCaption = document.getElementById('lbCaption');
+  var currentIndex = 0;
+
+  function openLightbox(index){
+    currentIndex = (index + galleryItems.length) % galleryItems.length;
+    var item = galleryItems[currentIndex];
+    lbVisual.className = 'lightbox-visual ' + Array.prototype.slice.call(item.classList).find(function(c){ return /^g\d$/.test(c); });
+    lbCaption.textContent = item.getAttribute('data-caption') || '';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  galleryItems.forEach(function(item, i){
+    item.addEventListener('click', function(){ openLightbox(i); });
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('role', 'button');
+    item.addEventListener('keypress', function(e){ if (e.key === 'Enter') openLightbox(i); });
+  });
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', function(){ openLightbox(currentIndex - 1); });
+  document.getElementById('lbNext').addEventListener('click', function(){ openLightbox(currentIndex + 1); });
+  lightbox.addEventListener('click', function(e){ if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', function(e){
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') openLightbox(currentIndex - 1);
+    if (e.key === 'ArrowRight') openLightbox(currentIndex + 1);
+  });
+
+  // --- Formulaire d'adhésion ---
+  var form = document.getElementById('joinForm');
+  var successPanel = document.getElementById('joinSuccess');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var valid = true;
+
+    function setField(name, ok){
+      var wrap = form.querySelector('[data-field="' + name + '"]');
+      if (wrap) wrap.classList.toggle('invalid', !ok);
+      if (!ok) valid = false;
+    }
+
+    var prenom = form.prenom.value.trim();
+    var nom = form.nom.value.trim();
+    var tel = form.telephone.value.trim().replace(/\s+/g, '');
+    var commune = form.commune.value;
+
+    setField('prenom', prenom.length > 1);
+    setField('nom', nom.length > 1);
+    setField('telephone', /^(\+221)?7\d{8}$/.test(tel) || /^\d{9}$/.test(tel));
+    setField('commune', commune !== '');
+
+    if (!valid) return;
+
+    // TODO : remplacer par un envoi réel (fetch vers une API / service d'emailing)
+    form.reset();
+    form.style.display = 'none';
+    successPanel.classList.add('show');
+  });
+
+  // --- Logo : bascule vers logo.png réel si présent ---
+  // Décommenter et adapter si un fichier logo.png est fourni :
+  // document.querySelectorAll('.logo-mark').forEach(function(el){
+  //   var img = document.createElement('img');
+  //   img.src = 'logo.png';
+  //   img.alt = 'Logo Coalition Diomaye Président';
+  //   img.style.width = el.style.width || '100%';
+  //   img.onload = function(){ el.innerHTML=''; el.appendChild(img); };
+  // });
+})();
+</script>
+
+</body>
+</html>
