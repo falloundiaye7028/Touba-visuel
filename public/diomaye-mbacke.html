@@ -12,11 +12,10 @@
 <meta property="og:locale" content="fr_SN">
 <!-- TODO: remplacer par l'URL réelle d'hébergement -->
 <meta property="og:url" content="https://coalition-diomaye-mbacke.sn/">
-<!-- TODO: remplacer par une image de partage réelle (1200x630) -->
-<meta property="og:image" content="og-image.jpg">
+<!-- Image de partage : logo complet de la Coalition -->
+<meta property="og:image" content="images/diomaye/logo-full.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<!-- Favicon : cercle du logo en SVG inline (à remplacer par favicon.png réel si disponible) -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CclipPath id='c'%3E%3Ccircle cx='50' cy='50' r='48'/%3E%3C/clipPath%3E%3C/defs%3E%3Cg clip-path='url(%23c)'%3E%3Crect width='100' height='55' fill='%23D42B2B'/%3E%3Crect y='55' width='100' height='45' fill='%231B6CA8'/%3E%3Cpath d='M0 50 Q50 65 100 50 L100 60 Q50 75 0 60 Z' fill='%23fff'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="images/diomaye/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -140,7 +139,8 @@
   .mobile-nav .btn{margin-top:20px;width:100%}
 
   /* --- Logo mark (SVG) --- */
-  .logo-mark{position:relative;border-radius:50%;overflow:hidden}
+  .logo-mark{position:relative;border-radius:50%;overflow:hidden;display:inline-flex}
+  .logo-mark img{width:100%;height:100%;object-fit:cover}
   .stars-arc{display:flex;justify-content:center;gap:14px;margin-bottom:16px}
   .stars-arc svg{width:20px;height:20px}
 
@@ -452,17 +452,7 @@
     <a href="#accueil" class="brand" aria-label="Retour à l'accueil">
       <!-- Cartouche blanc obligatoire autour du logo -->
       <span class="brand-mark logo-mark">
-        <svg viewBox="0 0 100 100" width="52" height="52" role="img" aria-label="Emblème de la Coalition Diomaye Président">
-          <circle cx="50" cy="50" r="49" fill="#fff"/>
-          <g clip-path="url(#clipCircleHeader)">
-            <clipPath id="clipCircleHeader"><circle cx="50" cy="50" r="46"/></clipPath>
-            <rect x="4" y="4" width="92" height="50" fill="#D42B2B"/>
-            <rect x="4" y="54" width="92" height="42" fill="#1B6CA8"/>
-            <path d="M4 50 Q50 66 96 50 L96 60 Q50 76 4 60 Z" fill="#fff"/>
-            <path d="M50 34 C42 34 40 44 44 50 C40 54 41 63 50 66 C59 63 60 54 56 50 C60 44 58 34 50 34Z" fill="#fff" opacity=".92"/>
-          </g>
-          <circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="2.4"/>
-        </svg>
+        <img src="images/diomaye/emblem.png" width="52" height="52" alt="Emblème de la Coalition Diomaye Président">
       </span>
       <span class="brand-text">
         <span class="l1"><span style="color:var(--blue)">DIOMAYE</span> <b>PRÉSIDENT</b></span>
@@ -857,9 +847,8 @@
             Rejoindre via WhatsApp
           </h3>
           <p>Écrivez directement à la Coordination pour toute question ou pour confirmer votre adhésion.</p>
-          <!-- TODO : remplacer par le numéro WhatsApp officiel de la Coordination -->
-          <span class="num">+221 XX XXX XX XX</span>
-          <a href="https://wa.me/221XXXXXXXXX" target="_blank" rel="noopener" class="btn">Ouvrir WhatsApp</a>
+          <span class="num">76 153 13 13 / 78 678 19 19</span>
+          <a href="https://wa.me/221761531313" target="_blank" rel="noopener" class="btn">Ouvrir WhatsApp</a>
         </div>
 
         <div class="side-info reveal">
@@ -885,13 +874,11 @@
       <div class="value-card reveal" style="display:grid;grid-template-columns:1fr;gap:18px;max-width:640px;margin:0 auto">
         <div>
           <h3 style="margin-bottom:6px">Adresse du siège</h3>
-          <!-- TODO : remplacer par l'adresse réelle du siège -->
-          <p style="color:var(--ink-soft)">Route de Touba, Quartier Escale, Mbacké, Sénégal</p>
+          <p style="color:var(--ink-soft)">« Kaay Fekhelou » — Mbacké Baol, Route Nationale 1, en face de la Radio Lamp Fall FM, Sénégal</p>
         </div>
         <div>
           <h3 style="margin-bottom:6px">Téléphone</h3>
-          <!-- TODO : remplacer par le numéro réel -->
-          <p style="color:var(--ink-soft)">+221 XX XXX XX XX</p>
+          <p style="color:var(--ink-soft)">76 153 13 13 / 78 678 19 19</p>
         </div>
         <div>
           <h3 style="margin-bottom:6px">Email</h3>
@@ -911,16 +898,7 @@
       <div class="footer-brand">
         <a href="#accueil" class="brand">
           <span class="brand-mark logo-mark">
-            <svg viewBox="0 0 100 100" width="48" height="48" role="img" aria-hidden="true">
-              <circle cx="50" cy="50" r="49" fill="#fff"/>
-              <g clip-path="url(#clipCircleFooter)">
-                <clipPath id="clipCircleFooter"><circle cx="50" cy="50" r="46"/></clipPath>
-                <rect x="4" y="4" width="92" height="50" fill="#D42B2B"/>
-                <rect x="4" y="54" width="92" height="42" fill="#1B6CA8"/>
-                <path d="M4 50 Q50 66 96 50 L96 60 Q50 76 4 60 Z" fill="#fff"/>
-              </g>
-              <circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="2.4"/>
-            </svg>
+            <img src="images/diomaye/emblem.png" width="48" height="48" alt="Emblème de la Coalition Diomaye Président">
           </span>
           <span class="brand-text">
             <span class="l1">DIOMAYE PRÉSIDENT</span>
@@ -959,8 +937,9 @@
       <div class="footer-col">
         <h4>Siège de Mbacké</h4>
         <ul>
-          <li>Route de Touba, Quartier Escale</li>
-          <li>Mbacké, Sénégal</li>
+          <li>« Kaay Fekhelou », Mbacké Baol</li>
+          <li>Route Nationale 1, face Radio Lamp Fall FM</li>
+          <li>76 153 13 13 / 78 678 19 19</li>
           <li>contact@coalition-diomaye-mbacke.sn</li>
         </ul>
       </div>
@@ -1135,16 +1114,6 @@
     form.style.display = 'none';
     successPanel.classList.add('show');
   });
-
-  // --- Logo : bascule vers logo.png réel si présent ---
-  // Décommenter et adapter si un fichier logo.png est fourni :
-  // document.querySelectorAll('.logo-mark').forEach(function(el){
-  //   var img = document.createElement('img');
-  //   img.src = 'logo.png';
-  //   img.alt = 'Logo Coalition Diomaye Président';
-  //   img.style.width = el.style.width || '100%';
-  //   img.onload = function(){ el.innerHTML=''; el.appendChild(img); };
-  // });
 })();
 </script>
 
