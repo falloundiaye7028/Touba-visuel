@@ -271,6 +271,13 @@ export const AUTEURS: AuteurInfo[] = [
     bio: "Arts, patrimoine et musiques du Sénégal.",
     initiales: "MD",
   },
+  {
+    slug: "mamadou-falilou-ndiaye",
+    nom: "Mamadou Falilou Ndiaye",
+    role: "Président fondateur de Touba Ça Kanam",
+    bio: "Acteur du développement territorial de Touba. Auteur de « Comment Touba peut-elle mieux profiter de l'économie du Magal ? » (Édition 2026), contribution au débat sur l'économie du Grand Magal, l'emploi des jeunes et la modernisation de l'action locale.",
+    initiales: "MN",
+  },
 ];
 
 export function getAuteur(nom: string): AuteurInfo | undefined {
@@ -970,6 +977,74 @@ export const ARTICLES_INFO: ArticleInfo[] = [
 
 <h2>Un positionnement régional</h2>
 <p>Le pays entend jouer un rôle de hub régional, en s'appuyant sur sa stabilité et sur ses nouvelles ressources énergétiques.</p>
+`,
+  },
+  {
+    id: "23",
+    slug: "comment-touba-mieux-profiter-economie-magal",
+    titre:
+      "Comment Touba peut-elle mieux profiter de l'économie du Magal ?",
+    sousTitre:
+      "Dans un ouvrage de proposition, Mamadou Falilou Ndiaye (Touba Ça Kanam) trace une stratégie pour convertir l'intensité économique du Grand Magal en recettes locales, emplois et services durables.",
+    extrait:
+      "Près de 630 milliards de FCFA d'impact, mais 128 millions de recettes pour la mairie : l'ouvrage « Comment Touba peut-elle mieux profiter de l'économie du Magal ? » propose d'organiser, plutôt que de taxer, l'activité que l'événement intensifie.",
+    categorie: "Économie",
+    genre: "Tribune",
+    auteur: "Mamadou Falilou Ndiaye",
+    date: "2026-08-17T10:00:00+00:00",
+    tempsLecture: "12 min",
+    imageEmoji: "🏙️",
+    imageGradient: "from-amber-700 via-emerald-800 to-green-900",
+    imageUrl: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99",
+    credit: "Illustration — Touba Infos",
+    legende:
+      "Touba, entre intensité économique du Grand Magal et développement territorial.",
+    alaUne: false,
+    epingle: true,
+    breaking: false,
+    vues: 3120,
+    tags: ["Magal", "Économie", "Touba", "Développement", "Emploi des jeunes"],
+    contenu: `
+<p>Comment la <strong>Commune de Touba Mosquée</strong> peut-elle mieux convertir l'intensité économique du Grand Magal en recettes locales, emplois, services et investissements durables&nbsp;? C'est la question que pose <strong>Mamadou Falilou Ndiaye</strong>, président fondateur de <em>Touba Ça Kanam</em>, dans son ouvrage <em>«&nbsp;Comment Touba peut-elle mieux profiter de l'économie du Magal&nbsp;?&nbsp;»</em> (Édition 2026). Une réflexion stratégique indépendante — <strong>un livre de proposition, pas un document officiel</strong> — dont Touba Infos présente ici les grandes lignes.</p>
+
+<blockquote>Ne pas «&nbsp;taxer le Magal&nbsp;». Mieux gérer les activités commerciales, le domaine public, le stationnement, la publicité, les marchés et les services que l'événement intensifie.</blockquote>
+
+<h2>Le paradoxe économique de Touba</h2>
+<p>Selon l'étude conjointe <strong>UCAK/UADB</strong>, menée avec le Comité d'organisation, l'impact du Grand Magal est estimé à près de <strong>629,6 milliards de FCFA</strong> (2025) — plus du double de l'évaluation de 2017 (×2,5). Dans le même temps, les <strong>recettes fiscales de la mairie</strong> tournent autour de <strong>128 millions de FCFA</strong>. «&nbsp;Ces indicateurs ne mesurent pas la même chose&nbsp;», rappelle l'auteur&nbsp;: l'un est un impact national, l'autre les recettes communales. Mais l'écart d'échelle révèle l'enjeu.</p>
+
+<h3>L'anatomie de la dépense</h3>
+<p>Avec une dépense moyenne estimée à <strong>132 470 FCFA par pèlerin</strong> et près de <strong>6 millions de fidèles</strong> chaque année, le Magal active simultanément transport, alimentation, commerce, artisanat, communication, services financiers, hébergement, énergie et logistique. L'alimentation représente à elle seule environ <strong>62&nbsp;%</strong> de la dépense. L'enjeu, écrit l'auteur, «&nbsp;n'est pas seulement le niveau de dépense&nbsp;: c'est la capacité à faire en sorte qu'une part croissante de ces dépenses crée de la valeur à Touba&nbsp;».</p>
+
+<h3>Où fuit la valeur locale ?</h3>
+<p>À chaque tour de dépense, une partie s'échappe du territoire par trois canaux&nbsp;: les <strong>importations</strong>, la <strong>main-d'œuvre externe</strong> et l'<strong>épargne non bancarisée</strong>. Trois leviers de rétention sont proposés&nbsp;: substituer les importations (agrobusiness, filière cuir — l'étude cite plus de 100&nbsp;000 ruminants sacrifiés), acheter et recruter local, et bancariser l'épargne via le mobile money.</p>
+
+<h3>Le défi des recettes locales</h3>
+<p>La première ressource d'une commune n'est pas un nouveau taux, «&nbsp;c'est une assiette connue et traçable&nbsp;». Le Code général des collectivités territoriales prévoit déjà droits de place, occupation de la voie publique, taxes et produits du patrimoine. La méthode&nbsp;: <strong>recenser</strong>, <strong>géolocaliser</strong>, <strong>quittancer</strong> et <strong>piloter</strong>.</p>
+
+<h2>Les leçons du monde</h2>
+<p>Les grands rassemblements ont professionnalisé leurs services. Le <strong>Hajj et la Umrah</strong> génèrent environ 12 milliards USD par an pour l'Arabie saoudite (près de 7&nbsp;% de son PIB non pétrolier), avec une plateforme numérique unique de permis et de services (Nusuk). Le <strong>Maha Kumbh</strong> indien illustre l'autre voie&nbsp;: une ville temporaire planifiée, portée par une gouvernance dédiée. Trois leçons pour Touba, «&nbsp;à adapter à son identité et à ses valeurs&nbsp;»&nbsp;: une plateforme numérique unique, une hospitalité structurée et classée, et une économie pensée toute l'année.</p>
+
+<h2>Organiser : les leviers concrets</h2>
+<p>Plutôt qu'une hausse uniforme des taxes, l'ouvrage propose d'<strong>élargir l'assiette avant d'augmenter les taux</strong>, de protéger les micro-activités et de lier chaque prélèvement à un service visible. Parmi les chantiers&nbsp;:</p>
+<ul>
+<li><strong>Marchés &amp; domaine public</strong>&nbsp;: zones numérotées, pré-inscription des vendeurs, tarifs affichés, points d'eau et propreté.</li>
+<li><strong>Mobilité &amp; stationnement</strong>&nbsp;: parkings périphériques cartographiés, navettes, GIE de jeunes pour l'orientation, signalétique normalisée.</li>
+<li><strong>Publicité</strong>&nbsp;: encadrer l'affichage autorisé — avec des <em>zones d'exclusion</em> explicites autour des lieux sacrés, pour éviter toute surcharge visuelle.</li>
+<li><strong>Déchets &amp; économie circulaire</strong>&nbsp;: environ 1&nbsp;114 m³/jour à collecter, avec une cible de plus de 30&nbsp;% de valorisation et des emplois verts.</li>
+<li><strong>Hébergement</strong>&nbsp;: classement volontaire et charte qualité — l'accueil traditionnel et gratuit du mouridisme restant premier.</li>
+<li><strong>Eau, assainissement, santé et énergie</strong>&nbsp;: services organisés par zones, éclairage public solaire, label «&nbsp;Magal plus propre&nbsp;».</li>
+</ul>
+
+<h2>Transformer : de l'emploi durable toute l'année</h2>
+<p>L'étude évoque un potentiel indicatif de <strong>plus de 100&nbsp;000 emplois sur trois ans</strong> dans les secteurs moteurs. L'auteur propose un dispositif <strong>«&nbsp;Magal-Emploi&nbsp;»</strong> — non pas un recrutement par la mairie, mais une plateforme d'orientation&nbsp;: identifier les besoins, former par modules courts, certifier, placer auprès des donneurs d'ordre, puis suivre l'insertion. En appui&nbsp;: des filières locales à l'année (agroalimentaire, cuir, emballages, logistique, numérique), la <strong>numérisation de la commune</strong> (mobile money, SIG, quittance électronique) et des financements mobilisant DER/FJ, partenariats public-privé et diaspora mouride.</p>
+
+<h2>Piloter : investir, gouverner, mesurer</h2>
+<p>La fiscalité «&nbsp;devient acceptable quand le service rendu est visible&nbsp;». Une répartition indicative des recettes supplémentaires est proposée&nbsp;: propreté et déchets (25&nbsp;%), voirie et mobilité (25&nbsp;%), jeunesse et emploi (20&nbsp;%), marchés (15&nbsp;%), numérique communal (10&nbsp;%), évaluation (5&nbsp;%). L'ouvrage plaide pour un <strong>rapport annuel «&nbsp;Magal &amp; Commune&nbsp;»</strong>, un <strong>Observatoire économique permanent</strong> associant commune, universités et Comité d'organisation, et une <strong>feuille de route 2027-2030</strong> (audit, pilotes, extension, investissement, évaluation).</p>
+
+<h2>« Organiser, plutôt que taxer »</h2>
+<p>Le véritable bénéfice pour Touba, conclut l'auteur, «&nbsp;ne sera pas seulement le montant collecté pendant quelques jours&nbsp;», mais la capacité à convertir un événement annuel exceptionnel en emplois, infrastructures et services durables. <em>Organiser plutôt que taxer&nbsp;; retenir la valeur plutôt que la laisser passer&nbsp;; prouver plutôt que promettre.</em></p>
+
+<p><em>Note&nbsp;: les grilles tarifaires, budgets, répartitions et calendriers présentés dans l'ouvrage sont des propositions de l'auteur et ne constituent pas des décisions adoptées par la commune. Contact de l'auteur&nbsp;: toubainfos@gmail.com · 77 800 17 17.</em></p>
 `,
   },
 ];
