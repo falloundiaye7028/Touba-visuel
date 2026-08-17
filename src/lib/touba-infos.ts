@@ -288,7 +288,7 @@ export function getAuteur(nom: string): AuteurInfo | undefined {
 export const ARTICLES_INFO: ArticleInfo[] = [
   {
     id: "1",
-    imageUrl: "https://images.unsplash.com/photo-1683490485928-e96b2e429836",
+    imageUrl: "/images/touba/touba-mausolee-foule.jpg",
     slug: "grand-magal-touba-2026-millions-pelerins-ville-sainte",
     titre:
       "Grand Magal de Touba : des millions de pèlerins attendus dans la Cité Sainte",
@@ -304,7 +304,7 @@ export const ARTICLES_INFO: ArticleInfo[] = [
     imageEmoji: "🕌",
     imageGradient: "from-green-700 via-emerald-800 to-green-900",
     legende: "La Grande Mosquée de Touba, cœur du pèlerinage annuel.",
-    credit: "Photo de démonstration",
+    credit: "Photo Moujtamah Studio",
     alaUne: false,
     epingle: true,
     vues: 48210,
@@ -334,8 +334,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "2",
-    imageUrl: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae",
-    credit: "Photo Unsplash",
+    imageUrl: "/images/touba/touba-minarets-nuages.jpg",
+    credit: "Photo Moujtamah Studio",
     slug: "serigne-mountakha-mbacke-khalife-general-vision-touba",
     titre:
       "Serigne Mountakha Mbacké : la vision d'un Khalife pour Touba et le Mouridisme mondial",
@@ -428,8 +428,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "5",
-    imageUrl: "https://images.unsplash.com/photo-1603565671981-5d4986360d6a",
-    credit: "Photo Unsplash",
+    imageUrl: "/images/touba/touba-minarets.jpg",
+    credit: "Photo Moujtamah Studio",
     slug: "touba-extension-grande-mosquee-nouvelle-etape",
     titre:
       "Touba : l'extension de la Grande Mosquée franchit une nouvelle étape historique",
@@ -645,8 +645,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "12",
-    imageUrl: "https://images.unsplash.com/photo-1588011930968-eadac80e6a5a",
-    credit: "Photo Unsplash",
+    imageUrl: "/images/touba/touba-minaret-marbre.jpg",
+    credit: "Photo Moujtamah Studio",
     slug: "touba-projet-hydraulique-eau-potable-cite-sainte",
     titre:
       "Touba : un projet hydraulique d'envergure pour garantir l'eau potable à toute la Cité Sainte",
@@ -676,8 +676,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "13",
-    imageUrl: "https://images.unsplash.com/photo-1683490485928-e96b2e429836",
-    credit: "Photo Unsplash",
+    imageUrl: "/images/touba/touba-minarets-ciel.jpg",
+    credit: "Photo Moujtamah Studio",
     slug: "hizbut-tarqiyyah-milliard-renovation-grande-mosquee-touba",
     titre:
       "Hizbut-Tarqiyyah remet 1 milliard FCFA pour la rénovation de la Grande Mosquée de Touba",
@@ -708,6 +708,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "14",
+    imageUrl: "/images/touba/touba-arches-bleues.jpg",
+    credit: "Photo Moujtamah Studio",
     slug: "cinquantenaire-hizbut-tarqiyyah-50-ans-service",
     titre:
       "Cinquantenaire de Hizbut-Tarqiyyah : 50 ans au service de Cheikh Ahmadou Bamba",
@@ -858,6 +860,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "19",
+    imageUrl: "/images/touba/touba-minaret-lampadaire.jpg",
+    credit: "Photo Kamal Baye Gadou",
     slug: "communique-comite-organisation-grand-magal-circulation",
     titre:
       "Communiqué : le Comité d'organisation du Grand Magal précise le plan de circulation",
