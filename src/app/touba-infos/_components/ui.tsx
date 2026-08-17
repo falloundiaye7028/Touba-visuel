@@ -4,9 +4,11 @@ import {
   type ArticleInfo,
   type VideoInfo,
   COULEURS_CATEGORIES,
-  slugCategorie,
   formatDateFr,
 } from "@/lib/touba-infos";
+import EditorialImage from "./EditorialImage";
+
+export { default as EditorialImage } from "./EditorialImage";
 
 /* ── Chip catégorie ── */
 export function CategorieChip({
@@ -22,38 +24,6 @@ export function CategorieChip({
     >
       {categorie}
     </span>
-  );
-}
-
-/* ── Image / tuile éditoriale ── */
-export function EditorialImage({
-  article,
-  className = "",
-  emojiSize = "text-6xl",
-}: {
-  article: Pick<ArticleInfo, "imageGradient" | "imageEmoji" | "imageUrl" | "titre">;
-  className?: string;
-  emojiSize?: string;
-}) {
-  if (article.imageUrl) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={article.imageUrl}
-        alt={article.titre}
-        className={`h-full w-full object-cover ${className}`}
-        loading="lazy"
-      />
-    );
-  }
-  return (
-    <div
-      className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${article.imageGradient} ${className}`}
-    >
-      <span className={`select-none opacity-40 ${emojiSize}`}>
-        {article.imageEmoji}
-      </span>
-    </div>
   );
 }
 

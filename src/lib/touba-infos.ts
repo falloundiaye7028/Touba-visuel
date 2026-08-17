@@ -266,6 +266,7 @@ export function getAuteur(nom: string): AuteurInfo | undefined {
 export const ARTICLES_INFO: ArticleInfo[] = [
   {
     id: "1",
+    imageUrl: "https://images.unsplash.com/photo-1683490485928-e96b2e429836",
     slug: "grand-magal-touba-2026-millions-pelerins-ville-sainte",
     titre:
       "Grand Magal de Touba : des millions de pèlerins attendus dans la Cité Sainte",
@@ -311,6 +312,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "2",
+    imageUrl: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae",
+    credit: "Photo Unsplash",
     slug: "serigne-mountakha-mbacke-khalife-general-vision-touba",
     titre:
       "Serigne Mountakha Mbacké : la vision d'un Khalife pour Touba et le Mouridisme mondial",
@@ -340,6 +343,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "3",
+    imageUrl: "https://images.unsplash.com/photo-1768213022263-0414dc145dfd",
+    credit: "Photo Unsplash",
     slug: "senegal-bilan-cent-jours-gouvernement-assemblee-nationale",
     titre:
       "Sénégal : le bilan des 100 premiers jours du gouvernement fait débat à l'Assemblée nationale",
@@ -370,6 +375,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "4",
+    imageUrl: "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9",
+    credit: "Photo Unsplash",
     slug: "can-2027-senegal-champion-preparation-lions-teranga",
     titre:
       "CAN 2027 : le Sénégal champion en titre prépare sa défense dans une ferveur nationale",
@@ -399,6 +406,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "5",
+    imageUrl: "https://images.unsplash.com/photo-1603565671981-5d4986360d6a",
+    credit: "Photo Unsplash",
     slug: "touba-extension-grande-mosquee-nouvelle-etape",
     titre:
       "Touba : l'extension de la Grande Mosquée franchit une nouvelle étape historique",
@@ -428,6 +437,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "6",
+    imageUrl: "https://images.unsplash.com/photo-1529776264670-2ed1e56cfe6b",
+    credit: "Photo Unsplash",
     slug: "diaspora-mouride-new-york-marche-cheikh-ahmadou-bamba",
     titre:
       "New York célèbre Cheikh Ahmadou Bamba : la diaspora mouride en marche dans Manhattan",
@@ -457,6 +468,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "7",
+    imageUrl: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99",
+    credit: "Photo Unsplash",
     slug: "union-africaine-plan-developpement-durable-2030",
     titre:
       "Sommet de l'Union africaine : les chefs d'État s'accordent sur un plan de développement durable 2030",
@@ -486,6 +499,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "8",
+    imageUrl: "https://images.unsplash.com/photo-1516937941344-00b4e0337589",
+    credit: "Photo Unsplash",
     slug: "senegal-petrole-gaz-retombees-populations",
     titre:
       "Pétrole et gaz : le Sénégal dans l'ère des hydrocarbures, quelles retombées pour les populations ?",
@@ -515,6 +530,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "9",
+    imageUrl: "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf",
+    credit: "Photo Unsplash",
     slug: "intelligence-artificielle-afrique-acteur-mondial-2030",
     titre:
       "Intelligence artificielle : l'Afrique peut-elle devenir un acteur mondial de l'IA d'ici 2030 ?",
@@ -544,6 +561,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "10",
+    imageUrl: "https://images.unsplash.com/photo-1523689119443-df96632084a1",
+    credit: "Photo Unsplash",
     slug: "sabar-senegalais-candidat-patrimoine-unesco",
     titre:
       "Le Sabar sénégalais candidat au patrimoine immatériel de l'UNESCO",
@@ -573,6 +592,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "11",
+    imageUrl: "https://images.unsplash.com/photo-1542816417-0983c9c9ad53",
+    credit: "Photo Unsplash",
     slug: "khassaides-cheikh-ahmadou-bamba-traduction-mondiale",
     titre:
       "Les Khassaïdes de Cheikh Ahmadou Bamba traduits en 12 langues : un rayonnement universel",
@@ -602,6 +623,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "12",
+    imageUrl: "https://images.unsplash.com/photo-1588011930968-eadac80e6a5a",
+    credit: "Photo Unsplash",
     slug: "touba-projet-hydraulique-eau-potable-cite-sainte",
     titre:
       "Touba : un projet hydraulique d'envergure pour garantir l'eau potable à toute la Cité Sainte",
@@ -631,6 +654,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "13",
+    imageUrl: "https://images.unsplash.com/photo-1683490485928-e96b2e429836",
+    credit: "Photo Unsplash",
     slug: "hizbut-tarqiyyah-milliard-renovation-grande-mosquee-touba",
     titre:
       "Hizbut-Tarqiyyah remet 1 milliard FCFA pour la rénovation de la Grande Mosquée de Touba",
@@ -690,6 +715,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "15",
+    imageUrl: "https://images.unsplash.com/photo-1485808269728-77bb07c059a8",
+    credit: "Photo Unsplash",
     slug: "touba-deuil-rappel-a-dieu-serigne-touba-mbacke",
     titre:
       "Touba en deuil : rappel à Dieu de Serigne Touba Mbacké, fils de Serigne Modou Mbacké Yoni",
@@ -749,6 +776,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "17",
+    imageUrl: "https://images.unsplash.com/photo-1672380135241-c024f7fbfa13",
+    credit: "Photo Unsplash",
     slug: "interview-entrepreneure-touba-economie-locale-diaspora",
     titre:
       "« Touba est un immense marché » : entretien avec une entrepreneure qui mise sur l'économie locale",
@@ -776,6 +805,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "18",
+    imageUrl: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99",
+    credit: "Photo Unsplash",
     slug: "analyse-decentralisation-touba-modele-gouvernance-locale",
     titre:
       "Analyse : Touba, un modèle singulier de gouvernance locale à l'épreuve de la croissance",
@@ -835,6 +866,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "20",
+    imageUrl: "https://images.unsplash.com/photo-1512678080530-7760d81faba6",
+    credit: "Photo Unsplash",
     slug: "sante-touba-dispositif-medical-grand-magal",
     titre:
       "Santé : un dispositif médical d'exception déployé pour le Grand Magal de Touba",
@@ -864,6 +897,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "21",
+    imageUrl: "https://images.unsplash.com/photo-1503708928676-1cb796a0891e",
+    credit: "Photo Unsplash",
     slug: "senegal-programme-modernisation-infrastructures-routieres",
     titre:
       "Sénégal : un vaste programme de modernisation des infrastructures routières lancé",
@@ -893,6 +928,8 @@ export const ARTICLES_INFO: ArticleInfo[] = [
   },
   {
     id: "22",
+    imageUrl: "https://images.unsplash.com/photo-1638262052640-82e94d64664a",
+    credit: "Photo Unsplash",
     slug: "senegal-diplomatie-partenariats-economiques-internationaux",
     titre:
       "Diplomatie : le Sénégal renforce ses partenariats économiques internationaux",
