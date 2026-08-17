@@ -373,3 +373,70 @@
 
 /* Aspect ratio utilitaires */
 .aspect-golden { aspect-ratio: 1.618 / 1; }
+
+/* ════════════════════════════════════════════════════════════
+   TOUBA INFOS — surfaces plates (neutralise les motifs globaux)
+   ════════════════════════════════════════════════════════════ */
+.ti-root .bg-white,
+.ti-root .bg-gray-50,
+.ti-root .bg-neutral-50 {
+  background-image: none;
+}
+.ti-root .bg-neutral-50 { background-color: #fafafa; }
+
+/* Masque les barres de défilement (nav horizontale, listes) */
+.ti-root .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.ti-root .no-scrollbar::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+/* ════════════════════════════════════════════════════════════
+   TOUBA INFOS — Corps d'article (prose éditoriale, thème clair)
+   ════════════════════════════════════════════════════════════ */
+.ti-prose {
+  font-size: 1.075rem;
+  line-height: 1.8;
+  color: #262626;
+}
+.ti-prose > p {
+  margin: 0 0 1.35rem;
+}
+.ti-prose > h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #111827;
+  margin: 2.25rem 0 0.9rem;
+}
+.ti-prose > h3 {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #111827;
+  margin: 1.75rem 0 0.7rem;
+}
+.ti-prose a {
+  color: #15803d;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ti-prose strong { color: #111827; font-weight: 700; }
+.ti-prose em { font-style: italic; }
+.ti-prose > ul,
+.ti-prose > ol {
+  margin: 0 0 1.35rem;
+  padding-left: 1.4rem;
+}
+.ti-prose > ul { list-style: disc; }
+.ti-prose > ol { list-style: decimal; }
+.ti-prose > ul > li,
+.ti-prose > ol > li { margin: 0.4rem 0; }
+.ti-prose > blockquote {
+  margin: 1.75rem 0;
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  border-left: 4px solid #16a34a;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #14532d;
+}
+.ti-prose > h2:first-child,
+.ti-prose > p:first-child { margin-top: 0; }
