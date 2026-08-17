@@ -305,7 +305,7 @@ export const ARTICLES_INFO: ArticleInfo[] = [
     imageGradient: "from-green-700 via-emerald-800 to-green-900",
     legende: "La Grande Mosquée de Touba, cœur du pèlerinage annuel.",
     credit: "Photo de démonstration",
-    alaUne: true,
+    alaUne: false,
     epingle: true,
     vues: 48210,
     tags: ["Magal", "Touba", "Mouridisme", "Cheikh Ahmadou Bamba"],
@@ -999,7 +999,7 @@ export const ARTICLES_INFO: ArticleInfo[] = [
     credit: "Illustration — Touba Infos",
     legende:
       "Touba, entre intensité économique du Grand Magal et développement territorial.",
-    alaUne: false,
+    alaUne: true,
     epingle: true,
     breaking: false,
     vues: 3120,
