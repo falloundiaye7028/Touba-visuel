@@ -4,6 +4,7 @@ import InfosHeader from "./_components/InfosHeader";
 import InfosFooter from "./_components/InfosFooter";
 import MobileBottomNav from "./_components/MobileBottomNav";
 import InfosWhatsApp from "./_components/InfosWhatsApp";
+import InfosChrome from "./_components/InfosChrome";
 
 export const metadata: Metadata = {
   title: {
@@ -39,31 +40,37 @@ export default function ToubaInfosLayout({
 }) {
   return (
     <div className="ti-root min-h-screen bg-[#ffffff] text-neutral-900">
-      <BreakingBar />
-      <InfosHeader />
-      <main className="pb-16 lg:pb-0">{children}</main>
-      <InfosFooter />
-      <MobileBottomNav />
-      <InfosWhatsApp />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "NewsMediaOrganization",
-            name: "Touba Infos",
-            url: "https://touba-visuel.vercel.app/touba-infos",
-            logo: "https://touba-visuel.vercel.app/touba-infos-logo.png",
-            slogan: "L'information au cœur de Touba, ouverte sur le monde.",
-            areaServed: ["Touba", "Sénégal", "Afrique", "Monde"],
-            sameAs: [
-              "https://facebook.com",
-              "https://youtube.com",
-              "https://instagram.com",
-            ],
-          }),
-        }}
-      />
+      <InfosChrome
+        breaking={<BreakingBar />}
+        header={<InfosHeader />}
+        footer={<InfosFooter />}
+        bottomNav={<MobileBottomNav />}
+        whatsapp={<InfosWhatsApp />}
+        jsonLd={
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "NewsMediaOrganization",
+                name: "Touba Infos",
+                url: "https://touba-visuel.vercel.app/touba-infos",
+                logo: "https://touba-visuel.vercel.app/touba-infos-logo.png",
+                slogan:
+                  "L'information au cœur de Touba, ouverte sur le monde.",
+                areaServed: ["Touba", "Sénégal", "Afrique", "Monde"],
+                sameAs: [
+                  "https://facebook.com",
+                  "https://youtube.com",
+                  "https://instagram.com",
+                ],
+              }),
+            }}
+          />
+        }
+      >
+        {children}
+      </InfosChrome>
     </div>
   );
 }

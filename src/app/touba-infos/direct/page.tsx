@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Radio, Youtube, Facebook, Calendar } from "lucide-react";
-import { getBreaking, formatDateFr } from "@/lib/touba-infos";
+import { formatDateFr } from "@/lib/touba-infos";
+import { getBreaking } from "@/lib/touba-infos-store";
+
+export const revalidate = 20;
 
 export const metadata: Metadata = {
   title: "En direct — Touba Infos",
@@ -16,8 +19,8 @@ const PROGRAMME = [
   { h: "21:00", t: "Débat & analyses" },
 ];
 
-export default function DirectPage() {
-  const breaking = getBreaking().slice(0, 4);
+export default async function DirectPage() {
+  const breaking = (await getBreaking()).slice(0, 4);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">

@@ -31,6 +31,19 @@ export type GenreInfo =
   | "Communiqué"
   | "Vidéo";
 
+/** Statut éditorial (workflow). Un article sans statut est considéré publié. */
+export type StatutInfo = "brouillon" | "publie" | "programme";
+
+export const GENRES_INFO: GenreInfo[] = [
+  "Actualité",
+  "Interview",
+  "Analyse",
+  "Tribune",
+  "Reportage",
+  "Communiqué",
+  "Vidéo",
+];
+
 export interface AuteurInfo {
   slug: string;
   nom: string;
@@ -47,6 +60,8 @@ export interface ArticleInfo {
   extrait: string;
   categorie: CategorieInfo;
   genre: GenreInfo;
+  /** Statut éditorial. Absent = publié (contenus de démonstration). */
+  statut?: StatutInfo;
   auteur: string;
   /** ISO 8601 — sert au SEO (datePublished) et au tri */
   date: string;

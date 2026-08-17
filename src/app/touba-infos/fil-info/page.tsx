@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  getArticlesTries,
-  formatDateFr,
-  formatHeureFr,
-  type ArticleInfo,
-} from "@/lib/touba-infos";
+import { formatDateFr, formatHeureFr, type ArticleInfo } from "@/lib/touba-infos";
+import { getArticlesTries } from "@/lib/touba-infos-store";
 import { CategorieChip } from "../_components/ui";
+
+export const revalidate = 20;
 
 export const metadata: Metadata = {
   title: "Fil info — Toutes les dernières actualités en continu",
@@ -14,8 +12,8 @@ export const metadata: Metadata = {
     "Le fil info de Touba Infos : toutes les dernières actualités de Touba, du Sénégal, de l'Afrique et du monde, présentées chronologiquement.",
 };
 
-export default function FilInfoPage() {
-  const articles = getArticlesTries();
+export default async function FilInfoPage() {
+  const articles = await getArticlesTries();
 
   // Regroupement par jour
   const groupes: { jour: string; items: ArticleInfo[] }[] = [];

@@ -29,3 +29,6 @@ prisma/*.db
 
 # Vercel
 .vercel
+
+# Touba Infos — store de contenu (runtime)
+/data/

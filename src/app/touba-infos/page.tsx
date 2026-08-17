@@ -8,18 +8,16 @@ import {
   Youtube,
   Instagram,
 } from "lucide-react";
+import { formatDateFr, formatHeureFr, VIDEOS_INFO, MAGAL, type ArticleInfo } from "@/lib/touba-infos";
 import {
   getArticlesTries,
   getUne,
   getPlusLus,
   getArticlesInfoByCategorie,
   getArticlesInfoByGenre,
-  formatDateFr,
-  formatHeureFr,
-  VIDEOS_INFO,
-  MAGAL,
-  type ArticleInfo,
-} from "@/lib/touba-infos";
+} from "@/lib/touba-infos-store";
+
+export const revalidate = 20;
 import {
   CardStandard,
   CardHorizontal,
@@ -33,31 +31,36 @@ import {
 import MagalCountdown from "./_components/MagalCountdown";
 import NewsletterForm from "./_components/NewsletterForm";
 
-export default function ToubaInfosHome() {
-  const tries = getArticlesTries();
-  const une = getUne();
+export default async function ToubaInfosHome() {
+  const tries = await getArticlesTries();
+  const une = await getUne();
   const rest = tries.filter((a) => a.id !== une.id);
 
   const heroSide = rest.slice(0, 4);
   const alaUne = rest.slice(4, 8);
   const dernieres = rest.slice(8, 15);
-  const plusLus = getPlusLus(5);
+  const plusLus = await getPlusLus(5);
   const filInfo = tries.slice(0, 5);
 
   const touba = tries.filter((a) => a.tags.includes("Touba"));
   const senegalNat = tries.filter((a) =>
     ["Sénégal", "Politique"].includes(a.categorie),
   );
-  const eco = getArticlesInfoByCategorie("Économie");
-  const societe = getArticlesInfoByCategorie("Société");
-  const magal = getArticlesInfoByCategorie("Magal");
-  const afrique = getArticlesInfoByCategorie("Afrique");
-  const international = getArticlesInfoByCategorie("International");
-  const sport = getArticlesInfoByCategorie("Sport");
-  const culture = getArticlesInfoByCategorie("Culture");
-  const religion = getArticlesInfoByCategorie("Religion");
-  const interviews = getArticlesInfoByGenre("Interview");
-  const analyses = getArticlesInfoByGenre("Analyse");
+  const [eco, societe, magal, afrique, international, sport, culture, religion] =
+    await Promise.all([
+      getArticlesInfoByCategorie("Économie"),
+      getArticlesInfoByCategorie("Société"),
+      getArticlesInfoByCategorie("Magal"),
+      getArticlesInfoByCategorie("Afrique"),
+      getArticlesInfoByCategorie("International"),
+      getArticlesInfoByCategorie("Sport"),
+      getArticlesInfoByCategorie("Culture"),
+      getArticlesInfoByCategorie("Religion"),
+    ]);
+  const [interviews, analyses] = await Promise.all([
+    getArticlesInfoByGenre("Interview"),
+    getArticlesInfoByGenre("Analyse"),
+  ]);
 
   return (
     <>

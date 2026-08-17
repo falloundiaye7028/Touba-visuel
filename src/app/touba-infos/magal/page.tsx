@@ -10,13 +10,12 @@ import {
   Landmark,
   Wallet,
 } from "lucide-react";
-import {
-  MAGAL,
-  getArticlesInfoByCategorie,
-  getArticlesTries,
-} from "@/lib/touba-infos";
+import { MAGAL } from "@/lib/touba-infos";
+import { getArticlesInfoByCategorie, getArticlesTries } from "@/lib/touba-infos-store";
 import { CardStandard, CardHorizontal, SectionHeading } from "../_components/ui";
 import MagalCountdown from "../_components/MagalCountdown";
+
+export const revalidate = 20;
 
 export const metadata: Metadata = {
   title: "Grand Magal de Touba — Dossier spécial",
@@ -35,9 +34,9 @@ const SERVICES = [
   { Icon: Wallet, label: "Économie" },
 ];
 
-export default function MagalPage() {
-  const magal = getArticlesInfoByCategorie("Magal");
-  const autour = getArticlesTries()
+export default async function MagalPage() {
+  const magal = await getArticlesInfoByCategorie("Magal");
+  const autour = (await getArticlesTries())
     .filter((a) => a.tags.includes("Magal") && a.categorie !== "Magal")
     .slice(0, 4);
   const lead = magal[0];

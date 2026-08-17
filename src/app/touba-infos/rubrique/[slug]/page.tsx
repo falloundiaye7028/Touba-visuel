@@ -8,30 +8,34 @@ import {
   categorieFromSlug,
   genreFromSlug,
   slugCategorie,
-  getArticlesInfoByCategorie,
-  getArticlesInfoByGenre,
   GENRE_LABEL_PLURIEL,
   EMOJI_CATEGORIES,
   type ArticleInfo,
   type CategorieInfo,
 } from "@/lib/touba-infos";
+import {
+  getArticlesInfoByCategorie,
+  getArticlesInfoByGenre,
+} from "@/lib/touba-infos-store";
 import { CardStandard, CardHorizontal, EditorialImage, CategorieChip } from "../../_components/ui";
+
+export const revalidate = 20;
 
 const GENRE_SLUGS = ["interviews", "analyses", "tribunes", "communiques", "reportages"];
 
-function resolve(slug: string): {
+async function resolve(slug: string): Promise<{
   titre: string;
   intro: string;
   emoji: string;
   items: ArticleInfo[];
-} | null {
+} | null> {
   const cat = categorieFromSlug(slug);
   if (cat) {
     return {
       titre: cat,
       intro: `Toute l'actualité « ${cat} » sur Touba Infos.`,
       emoji: EMOJI_CATEGORIES[cat],
-      items: getArticlesInfoByCategorie(cat),
+      items: await getArticlesInfoByCategorie(cat),
     };
   }
   const genre = genreFromSlug(slug);
@@ -40,7 +44,7 @@ function resolve(slug: string): {
       titre: GENRE_LABEL_PLURIEL[slug] ?? genre,
       intro: `Les ${(GENRE_LABEL_PLURIEL[slug] ?? genre).toLowerCase()} de la rédaction de Touba Infos.`,
       emoji: "📝",
-      items: getArticlesInfoByGenre(genre),
+      items: await getArticlesInfoByGenre(genre),
     };
   }
   return null;
@@ -60,7 +64,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const data = resolve(slug);
+  const data = await resolve(slug);
   if (!data) return { title: "Rubrique introuvable" };
   return {
     title: data.titre,
@@ -75,7 +79,7 @@ export default async function RubriquePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const data = resolve(slug);
+  const data = await resolve(slug);
   if (!data) notFound();
 
   const { titre, intro, emoji, items } = data;

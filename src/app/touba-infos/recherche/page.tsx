@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { rechercheArticles } from "@/lib/touba-infos";
+import { rechercheArticles } from "@/lib/touba-infos-store";
 import { CardStandard } from "../_components/ui";
 import SearchBox from "../_components/SearchBox";
 
@@ -16,7 +16,7 @@ export default async function RecherchePage({
 }) {
   const { q } = await searchParams;
   const query = (q ?? "").trim();
-  const resultats = query ? rechercheArticles(query) : [];
+  const resultats = query ? await rechercheArticles(query) : [];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">

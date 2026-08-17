@@ -85,7 +85,13 @@ export async function middleware(req: NextRequest) {
   }
 
   // ── 5. Bloquer méthodes HTTP non autorisées sur pages ────────────────────
-  if (!pathname.startsWith("/api/") && !["GET", "HEAD"].includes(req.method)) {
+  //     (on autorise les Server Actions Next.js : POST avec en-tête next-action)
+  const isServerAction = !!req.headers.get("next-action");
+  if (
+    !pathname.startsWith("/api/") &&
+    !isServerAction &&
+    !["GET", "HEAD"].includes(req.method)
+  ) {
     return new NextResponse(null, { status: 405 });
   }
 
@@ -94,7 +100,14 @@ export async function middleware(req: NextRequest) {
   // ── 6. Headers de sécurité additionnels ──────────────────────────────────
   response.headers.set("X-Request-ID", crypto.randomUUID());
   response.headers.delete("X-Powered-By");
-  response.headers.set("Cache-Control", pathname.startsWith("/api/") ? "no-store" : "public, max-age=3600");
+  const noStore =
+    pathname.startsWith("/api/") ||
+    pathname.startsWith("/touba-infos/admin") ||
+    isServerAction;
+  response.headers.set(
+    "Cache-Control",
+    noStore ? "no-store" : "public, max-age=3600",
+  );
 
   return response;
 }

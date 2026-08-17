@@ -2,16 +2,17 @@ import type { MetadataRoute } from "next";
 import { CATALOGUE } from "@/lib/supports";
 import { ARTICLES } from "@/lib/blog";
 import {
-  ARTICLES_INFO,
   CATEGORIES_INFO,
   CATEGORIES_PLUS,
   slugCategorie,
   type CategorieInfo,
 } from "@/lib/touba-infos";
+import { getArticlesTries } from "@/lib/touba-infos-store";
 
 const BASE = "https://touba-visuel.vercel.app";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const articlesInfos = await getArticlesTries();
   const catalogueUrls = CATALOGUE.flatMap((cat) => [
     { url: `${BASE}/catalogue/${cat.slug}`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
     ...cat.supports.map((s) => ({
@@ -54,7 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const infosArticles = ARTICLES_INFO.map((a) => ({
+  const infosArticles = articlesInfos.map((a) => ({
     url: `${BASE}/touba-infos/${a.slug}`,
     lastModified: new Date(a.miseAJour ?? a.date),
     changeFrequency: "monthly" as const,

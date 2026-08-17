@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight, Clock, Calendar, AlertTriangle } from "lucide-react";
+import { getAuteur, slugCategorie, formatDateFr, formatDateHeureFr } from "@/lib/touba-infos";
 import {
-  ARTICLES_INFO,
   getArticleInfoBySlug,
   getArticlesInfoSimilaires,
   getDernieres,
-  getAuteur,
-  slugCategorie,
-  formatDateFr,
-  formatDateHeureFr,
-} from "@/lib/touba-infos";
+  getPublishedSlugs,
+} from "@/lib/touba-infos-store";
+
+export const revalidate = 20;
 import {
   CardStandard,
   CardHorizontal,
@@ -23,8 +22,8 @@ import ShareButtons from "../_components/ShareButtons";
 
 const SITE = "https://touba-visuel.vercel.app";
 
-export function generateStaticParams() {
-  return ARTICLES_INFO.map((a) => ({ slug: a.slug }));
+export async function generateStaticParams() {
+  return (await getPublishedSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -33,7 +32,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleInfoBySlug(slug);
+  const article = await getArticleInfoBySlug(slug);
   if (!article) return { title: "Article introuvable" };
 
   const url = `${SITE}/touba-infos/${article.slug}`;
@@ -70,13 +69,15 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticleInfoBySlug(slug);
+  const article = await getArticleInfoBySlug(slug);
   if (!article) notFound();
 
   const url = `${SITE}/touba-infos/${article.slug}`;
   const auteur = getAuteur(article.auteur);
-  const similaires = getArticlesInfoSimilaires(article);
-  const dernieres = getDernieres(4).filter((a) => a.id !== article.id).slice(0, 3);
+  const similaires = await getArticlesInfoSimilaires(article);
+  const dernieres = (await getDernieres(4))
+    .filter((a) => a.id !== article.id)
+    .slice(0, 3);
   const genreAffiche =
     article.genre !== "Actualité" ? article.genre : null;
 
