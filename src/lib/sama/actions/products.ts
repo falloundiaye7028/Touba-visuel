@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { checkLimit } from "@/lib/sama/limits";
 import { parseAmount } from "@/lib/sama/money";
 
@@ -35,9 +35,9 @@ async function resolveCategory(businessId: string, name?: string): Promise<strin
 }
 
 export async function createProductAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role, userId } = await requireTenant();
+  const { business, member, userId } = await requireTenant();
   try {
-    assertPermission(role, "products.manage");
+    assertMemberCan(member, "products.manage");
   } catch {
     return { error: "Vous n'avez pas la permission de gérer les produits." };
   }
@@ -90,9 +90,9 @@ export async function createProductAction(_prev: FormState, formData: FormData):
 }
 
 export async function updateProductAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role, userId } = await requireTenant();
+  const { business, member, userId } = await requireTenant();
   try {
-    assertPermission(role, "products.manage");
+    assertMemberCan(member, "products.manage");
   } catch {
     return { error: "Permission refusée." };
   }
@@ -127,8 +127,8 @@ export async function updateProductAction(_prev: FormState, formData: FormData):
 
 /** Archivage (soft delete) — on ne supprime jamais définitivement. */
 export async function archiveProductAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "products.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "products.manage");
   const id = String(formData.get("id") || "");
   await prisma.samaProduct.updateMany({
     where: { id, businessId: business.id },
@@ -140,8 +140,8 @@ export async function archiveProductAction(formData: FormData): Promise<void> {
 
 /** Mouvement de stock manuel (entrée, sortie, ajustement, retour…). */
 export async function adjustStockAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "stock.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "stock.manage");
   const productId = String(formData.get("productId") || "");
   const type = String(formData.get("type") || "AJUSTEMENT") as
     | "ENTREE" | "SORTIE" | "AJUSTEMENT" | "RETOUR_CLIENT" | "RETOUR_FOURNISSEUR" | "ENDOMMAGE";

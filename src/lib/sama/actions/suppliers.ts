@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { parseAmount } from "@/lib/sama/money";
 import type { FormState } from "./products";
 
@@ -18,8 +18,8 @@ const supplierSchema = z.object({
 
 // Les fournisseurs relèvent de la gestion des produits/achats.
 export async function createSupplierAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role, userId } = await requireTenant();
-  try { assertPermission(role, "products.manage"); } catch { return { error: "Permission refusée." }; }
+  const { business, member, userId } = await requireTenant();
+  try { assertMemberCan(member, "products.manage"); } catch { return { error: "Permission refusée." }; }
   const parsed = supplierSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Formulaire invalide" };
   const d = parsed.data;
@@ -32,8 +32,8 @@ export async function createSupplierAction(_prev: FormState, formData: FormData)
 }
 
 export async function updateSupplierAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role } = await requireTenant();
-  try { assertPermission(role, "products.manage"); } catch { return { error: "Permission refusée." }; }
+  const { business, member } = await requireTenant();
+  try { assertMemberCan(member, "products.manage"); } catch { return { error: "Permission refusée." }; }
   const id = String(formData.get("id") || "");
   const existing = await prisma.samaSupplier.findFirst({ where: { id, businessId: business.id } });
   if (!existing) return { error: "Fournisseur introuvable." };
@@ -48,8 +48,8 @@ export async function updateSupplierAction(_prev: FormState, formData: FormData)
 
 /** Ajoute une écriture au grand livre fournisseur (achat / paiement / retour). */
 export async function addSupplierEntryAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "products.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "products.manage");
   const supplierId = String(formData.get("supplierId") || "");
   const type = String(formData.get("type") || "ACHAT") as "ACHAT" | "PAIEMENT" | "RETOUR";
   const amount = parseAmount(String(formData.get("amount") || "0"));

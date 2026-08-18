@@ -3,10 +3,10 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { hashPassword } from "@/lib/sama/auth";
 import { checkMemberLimit } from "@/lib/sama/limits";
-import type { SamaRole } from "@prisma/client";
+import { Prisma, type SamaRole } from "@prisma/client";
 
 export interface InviteState { error?: string; ok?: boolean; tempPassword?: string; identifiant?: string; existing?: boolean }
 
@@ -22,8 +22,8 @@ function randomPassword(): string {
 
 /** Invite un employé : crée (ou rattache) un compte + une appartenance. */
 export async function inviteEmployeeAction(_prev: InviteState, formData: FormData): Promise<InviteState> {
-  const { business, role, userId } = await requireTenant();
-  try { assertPermission(role, "employees.manage"); } catch { return { error: "Seul le propriétaire peut inviter des employés." }; }
+  const { business, member, userId } = await requireTenant();
+  try { assertMemberCan(member, "employees.manage"); } catch { return { error: "Seul le propriétaire peut inviter des employés." }; }
 
   const parsed = inviteSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Formulaire invalide" };
@@ -56,24 +56,43 @@ export async function inviteEmployeeAction(_prev: InviteState, formData: FormDat
 }
 
 export async function updateMemberRoleAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "employees.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "employees.manage");
   const memberId = String(formData.get("memberId") || "");
   const newRole = String(formData.get("role") || "SELLER") as SamaRole;
-  const member = await prisma.samaMember.findFirst({ where: { id: memberId, businessId: business.id } });
-  if (!member || member.role === "OWNER") return; // on ne modifie pas le propriétaire
+  const target = await prisma.samaMember.findFirst({ where: { id: memberId, businessId: business.id } });
+  if (!target || target.role === "OWNER") return; // on ne modifie pas le propriétaire
   await prisma.samaMember.update({ where: { id: memberId }, data: { role: newRole } });
   await logActivity(business.id, userId, "employee.role", { entityId: memberId, meta: { role: newRole } });
   revalidatePath("/sama/employes");
 }
 
-export async function toggleMemberAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "employees.manage");
+/** Définit des permissions personnalisées pour un membre (ou réinitialise au rôle). */
+export async function updateMemberPermissionsAction(formData: FormData): Promise<void> {
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "employees.manage");
   const memberId = String(formData.get("memberId") || "");
-  const member = await prisma.samaMember.findFirst({ where: { id: memberId, businessId: business.id } });
-  if (!member || member.role === "OWNER") return;
-  await prisma.samaMember.update({ where: { id: memberId }, data: { active: !member.active } });
+  const reset = String(formData.get("reset") || "") === "true";
+  const perms = formData.getAll("perm").map(String);
+
+  const target = await prisma.samaMember.findFirst({ where: { id: memberId, businessId: business.id } });
+  if (!target || target.role === "OWNER") return;
+
+  await prisma.samaMember.update({
+    where: { id: memberId },
+    data: { customPermissions: reset ? Prisma.DbNull : perms },
+  });
+  await logActivity(business.id, userId, "employee.permissions", { entityId: memberId, meta: { count: reset ? "reset" : perms.length } });
+  revalidatePath("/sama/employes");
+}
+
+export async function toggleMemberAction(formData: FormData): Promise<void> {
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "employees.manage");
+  const memberId = String(formData.get("memberId") || "");
+  const target = await prisma.samaMember.findFirst({ where: { id: memberId, businessId: business.id } });
+  if (!target || target.role === "OWNER") return;
+  await prisma.samaMember.update({ where: { id: memberId }, data: { active: !target.active } });
   await logActivity(business.id, userId, "employee.toggle", { entityId: memberId, meta: { active: !member.active } });
   revalidatePath("/sama/employes");
 }

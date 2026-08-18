@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Bell, ChevronDown, LogOut, Settings, Store, Search } from "lucide-react";
+import { Bell, ChevronDown, LogOut, Settings, Store, Search, Check, Plus } from "lucide-react";
 import ThemeToggle from "@/components/sama/ThemeToggle";
+import { switchBusinessAction } from "@/lib/sama/actions/business";
 
 export default function TopBar({
   businessName,
@@ -14,6 +15,8 @@ export default function TopBar({
   unread,
   slug,
   storePublished,
+  businesses = [],
+  activeId,
 }: {
   businessName: string;
   planName: string;
@@ -21,6 +24,8 @@ export default function TopBar({
   unread: number;
   slug: string;
   storePublished: boolean;
+  businesses?: { id: string; name: string }[];
+  activeId?: string;
 }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -81,6 +86,24 @@ export default function TopBar({
                   <div className="font-medium text-sm text-gray-900 truncate">{userName}</div>
                   <div className="text-xs text-gray-500">Plan {planName}</div>
                 </div>
+
+                {businesses.length > 1 && (
+                  <div className="border-b border-gray-100 py-1">
+                    <div className="px-3 py-1 text-[11px] uppercase tracking-wide text-gray-400">Mes boutiques</div>
+                    {businesses.map((b) => (
+                      <form key={b.id} action={switchBusinessAction}>
+                        <input type="hidden" name="businessId" value={b.id} />
+                        <button type="submit" className="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 text-left">
+                          <Check className={`w-3.5 h-3.5 ${b.id === activeId ? "text-vert-600" : "text-transparent"}`} />
+                          <span className="truncate">{b.name}</span>
+                        </button>
+                      </form>
+                    ))}
+                  </div>
+                )}
+                <Link href="/sama/nouvelle-entreprise" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                  <Plus className="w-4 h-4" /> Ajouter une entreprise
+                </Link>
                 <Link href="/sama/parametres" className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
                   <Settings className="w-4 h-4" /> Paramètres
                 </Link>

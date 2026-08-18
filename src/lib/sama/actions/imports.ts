@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { planLimits } from "@/lib/sama/limits";
 import { parseAmount } from "@/lib/sama/money";
 
@@ -20,8 +20,8 @@ const productRow = z.object({
 });
 
 export async function importProductsAction(_prev: ImportState, formData: FormData): Promise<ImportState> {
-  const { business, role, userId } = await requireTenant();
-  try { assertPermission(role, "products.manage"); } catch { return { error: "Permission refusée." }; }
+  const { business, member, userId } = await requireTenant();
+  try { assertMemberCan(member, "products.manage"); } catch { return { error: "Permission refusée." }; }
 
   let rows: unknown;
   try { rows = JSON.parse(String(formData.get("rows") || "[]")); } catch { return { error: "Données invalides." }; }
@@ -71,8 +71,8 @@ const customerRow = z.object({
 });
 
 export async function importCustomersAction(_prev: ImportState, formData: FormData): Promise<ImportState> {
-  const { business, role, userId } = await requireTenant();
-  try { assertPermission(role, "customers.manage"); } catch { return { error: "Permission refusée." }; }
+  const { business, member, userId } = await requireTenant();
+  try { assertMemberCan(member, "customers.manage"); } catch { return { error: "Permission refusée." }; }
 
   let rows: unknown;
   try { rows = JSON.parse(String(formData.get("rows") || "[]")); } catch { return { error: "Données invalides." }; }

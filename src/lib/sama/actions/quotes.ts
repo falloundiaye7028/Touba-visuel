@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { nextNumber } from "@/lib/sama/numbering";
 import { parseAmount } from "@/lib/sama/money";
 
@@ -26,8 +26,8 @@ interface QuoteData {
 }
 
 export async function createQuoteAction(_prev: QuoteState, formData: FormData): Promise<QuoteState> {
-  const { business, role, userId } = await requireTenant();
-  try { assertPermission(role, "invoices.manage"); } catch { return { error: "Permission refusée." }; }
+  const { business, member, userId } = await requireTenant();
+  try { assertMemberCan(member, "invoices.manage"); } catch { return { error: "Permission refusée." }; }
 
   let raw: unknown;
   try { raw = JSON.parse(String(formData.get("items") || "[]")); } catch { return { error: "Panier invalide." }; }
@@ -64,8 +64,8 @@ export async function createQuoteAction(_prev: QuoteState, formData: FormData): 
 
 /** Convertit un devis en vente réelle (décrémente le stock, crée le reçu). */
 export async function convertQuoteToSaleAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "sales.create");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "sales.create");
   const quoteId = String(formData.get("id") || "");
 
   const quote = await prisma.samaInvoice.findFirst({ where: { id: quoteId, businessId: business.id, type: "DEVIS" } });
@@ -120,8 +120,8 @@ export async function convertQuoteToSaleAction(formData: FormData): Promise<void
 }
 
 export async function deleteQuoteAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "invoices.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "invoices.manage");
   const id = String(formData.get("id") || "");
   await prisma.samaInvoice.deleteMany({ where: { id, businessId: business.id, type: "DEVIS", status: { not: "CONVERTIE" } } });
   await logActivity(business.id, userId, "quote.deleted", { entityId: id });

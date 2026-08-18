@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { parseAmount } from "@/lib/sama/money";
 import type { FormState } from "./products";
 
@@ -15,9 +15,9 @@ const expenseSchema = z.object({
 });
 
 export async function createExpenseAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role, userId } = await requireTenant();
+  const { business, member, userId } = await requireTenant();
   try {
-    assertPermission(role, "expenses.manage");
+    assertMemberCan(member, "expenses.manage");
   } catch {
     return { error: "Permission refusée." };
   }
@@ -44,8 +44,8 @@ export async function createExpenseAction(_prev: FormState, formData: FormData):
 }
 
 export async function deleteExpenseAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "expenses.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "expenses.manage");
   const id = String(formData.get("id") || "");
   await prisma.samaExpense.deleteMany({ where: { id, businessId: business.id } });
   await logActivity(business.id, userId, "expense.deleted", { entityId: id });

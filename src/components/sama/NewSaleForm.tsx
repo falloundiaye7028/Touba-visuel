@@ -4,6 +4,7 @@ import { useActionState, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Minus, Trash2, Search } from "lucide-react";
 import { createSaleAction, type SaleState } from "@/lib/sama/actions/sales";
+import { validatePromoCodeAction, type PromoCheck } from "@/lib/sama/actions/campaigns";
 import { SubmitButton } from "@/components/sama/SubmitButton";
 import { Field } from "@/components/sama/ui";
 import { formatMoney } from "@/lib/sama/money";
@@ -23,6 +24,10 @@ export default function NewSaleForm({
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [method, setMethod] = useState("ESPECES");
   const [amountPaidInput, setAmountPaidInput] = useState<string>("");
+  const [promoInput, setPromoInput] = useState("");
+  const [appliedCode, setAppliedCode] = useState("");
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoMsg, setPromoMsg] = useState<string | null>(null);
   const [state, formAction] = useActionState(createSaleAction, {} as SaleState);
 
   useEffect(() => { if (state.ok && state.saleId) router.push(`/sama/ventes/${state.saleId}`); }, [state, router]);
@@ -33,7 +38,24 @@ export default function NewSaleForm({
   }, [products, search]);
 
   const subtotal = cart.reduce((a, l) => a + l.unitPrice * l.quantity, 0);
-  const total = Math.max(0, subtotal - discount + deliveryFee);
+  const total = Math.max(0, subtotal - discount - promoDiscount + deliveryFee);
+
+  async function applyPromo() {
+    setPromoMsg(null);
+    const fd = new FormData();
+    fd.set("code", promoInput);
+    fd.set("subtotal", String(subtotal));
+    const res: PromoCheck = await validatePromoCodeAction({}, fd);
+    if (res.ok && res.code) {
+      setAppliedCode(res.code);
+      setPromoDiscount(res.discount ?? 0);
+      setPromoMsg(`Code ${res.code} appliqué (${res.label}).`);
+    } else {
+      setAppliedCode("");
+      setPromoDiscount(0);
+      setPromoMsg(res.error ?? "Code invalide.");
+    }
+  }
 
   function addProduct(p: ProductLite) {
     setCart((c) => {
@@ -60,6 +82,7 @@ export default function NewSaleForm({
       <input type="hidden" name="discount" value={discount} />
       <input type="hidden" name="deliveryFee" value={deliveryFee} />
       <input type="hidden" name="method" value={method} />
+      <input type="hidden" name="promoCode" value={appliedCode} />
       <input type="hidden" name="amountPaid" value={isCredit ? (amountPaidInput || "0") : (amountPaidInput !== "" ? amountPaidInput : String(total))} />
 
       {/* Recherche produit */}
@@ -135,6 +158,13 @@ export default function NewSaleForm({
             <input type="number" min={0} value={deliveryFee || ""} onChange={(e) => setDeliveryFee(parseInt(e.target.value) || 0)} className="input-field" placeholder="0" />
           </Field>
         </div>
+        <Field label="Code promo">
+          <div className="flex gap-2">
+            <input value={promoInput} onChange={(e) => setPromoInput(e.target.value.toUpperCase())} className="input-field" placeholder="Ex : PROMO10" />
+            <button type="button" onClick={applyPromo} className="btn-outline whitespace-nowrap">Appliquer</button>
+          </div>
+          {promoMsg && <span className={`text-xs mt-1 block ${appliedCode ? "text-vert-600" : "text-red-500"}`}>{promoMsg}</span>}
+        </Field>
         <Field label="Moyen de paiement">
           <select value={method} onChange={(e) => setMethod(e.target.value)} className="input-field">
             {PAY_METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
@@ -149,6 +179,7 @@ export default function NewSaleForm({
       <div className="card p-4 space-y-1.5 text-sm">
         <div className="flex justify-between"><span className="text-gray-500">Sous-total</span><span>{formatMoney(subtotal, currency as "XOF")}</span></div>
         {discount > 0 && <div className="flex justify-between text-red-600"><span>Remise</span><span>- {formatMoney(discount, currency as "XOF")}</span></div>}
+        {promoDiscount > 0 && <div className="flex justify-between text-red-600"><span>Code {appliedCode}</span><span>- {formatMoney(promoDiscount, currency as "XOF")}</span></div>}
         {deliveryFee > 0 && <div className="flex justify-between"><span className="text-gray-500">Livraison</span><span>+ {formatMoney(deliveryFee, currency as "XOF")}</span></div>}
         <div className="flex justify-between text-lg font-bold pt-1 border-t border-gray-100"><span>Total</span><span>{formatMoney(total, currency as "XOF")}</span></div>
       </div>

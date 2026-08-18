@@ -12,6 +12,21 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "./auth";
 import { hasPermission, type Permission } from "./constants";
 
+/**
+ * Permission effective d'un membre : ses permissions personnalisées si
+ * définies, sinon celles de son rôle. Le propriétaire a tout.
+ */
+export function memberCan(member: SamaMember, perm: Permission): boolean {
+  if (member.role === "OWNER") return true;
+  const custom = member.customPermissions as unknown;
+  if (Array.isArray(custom)) return (custom as string[]).includes(perm);
+  return hasPermission(member.role, perm);
+}
+
+export function assertMemberCan(member: SamaMember, perm: Permission): void {
+  if (!memberCan(member, perm)) throw new Error("PERMISSION_DENIED");
+}
+
 const ACTIVE_BUSINESS_COOKIE = "sama_bid";
 
 export interface TenantContext {

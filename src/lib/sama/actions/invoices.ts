@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { nextNumber } from "@/lib/sama/numbering";
 
 /**
@@ -10,8 +10,8 @@ import { nextNumber } from "@/lib/sama/numbering";
  * est promu en facture avec un numéro FAC dédié (un document par vente).
  */
 export async function generateInvoiceAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "invoices.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "invoices.manage");
   const saleId = String(formData.get("saleId") || "");
 
   const sale = await prisma.samaSale.findFirst({

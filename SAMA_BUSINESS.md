@@ -112,9 +112,21 @@ src/
 - ✅ **Mode sombre** : bascule persistée (localStorage) avec application anti-flash au chargement.
 - 📄 **PDF** : via l'impression navigateur des reçus, factures et devis (bouton Télécharger/Imprimer).
 
-## Roadmap (préparée dans l'architecture)
+## Modules livrés (V2 — croissance)
 
-- **V2 (reste)** : campagnes, multi-boutiques, permissions personnalisées par membre.
+- ✅ **Campagnes marketing** : segments clients automatiques (nouveaux, réguliers, meilleurs,
+  inactifs, débiteurs), message par campagne, **génération de texte par l'IA** (Pro IA), et
+  liste des destinataires avec **lien WhatsApp pré-rempli par client** (envoi manuel, conforme
+  aux règles des plateformes — pas d'envoi de masse).
+- ✅ **Codes promo** : création (%/montant, usages max), activation/désactivation, et
+  **application réelle en caisse** (validation + remise + incrément d'usage à la vente).
+- ✅ **Multi-boutiques** : un même compte gère plusieurs entreprises, **sélecteur d'entreprise**
+  dans l'en-tête (isolation stricte des données), création d'entreprises supplémentaires.
+- ✅ **Permissions personnalisées par membre** : au-delà des rôles, le propriétaire peut cocher
+  des permissions précises par employé (ou réinitialiser au rôle). Appliquées **côté serveur**
+  sur toutes les Server Actions.
+
+## Roadmap (préparée dans l'architecture)
 - **V3** : SAMA AI (assistant business, analyses, contenu marketing, rapports IA).
 - **V4** : grossistes, marketplace B2B, intégrations paiement (Wave/Orange Money API), livraison, API partenaires.
 

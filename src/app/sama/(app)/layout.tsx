@@ -9,11 +9,13 @@ export const dynamic = "force-dynamic";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { business, userId } = await requireOnboardedTenant();
-  const [unread, user] = await Promise.all([
+  const [unread, user, memberships] = await Promise.all([
     prisma.samaNotification.count({ where: { businessId: business.id, read: false } }),
     prisma.user.findUnique({ where: { id: userId }, select: { name: true, email: true } }),
+    prisma.samaMember.findMany({ where: { userId, active: true }, include: { business: { select: { id: true, name: true } } }, orderBy: { createdAt: "asc" } }),
   ]);
   const userName = user?.name || user?.email || "Utilisateur";
+  const businesses = memberships.map((m) => ({ id: m.business.id, name: m.business.name }));
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -24,6 +26,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         unread={unread}
         slug={business.slug}
         storePublished={business.storePublished}
+        businesses={businesses}
+        activeId={business.id}
       />
       <div className="flex flex-1">
         <SideNav />

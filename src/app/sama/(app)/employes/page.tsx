@@ -1,10 +1,11 @@
 import { UserPlus } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { prisma } from "@/lib/db";
-import { ROLE_LABELS, hasPermission } from "@/lib/sama/constants";
+import { ROLE_LABELS, hasPermission, expandRolePermissions } from "@/lib/sama/constants";
 import { updateMemberRoleAction, toggleMemberAction } from "@/lib/sama/actions/employees";
 import { PageHeader, Badge } from "@/components/sama/ui";
 import InviteEmployeeForm from "@/components/sama/InviteEmployeeForm";
+import MemberPermissions from "@/components/sama/MemberPermissions";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +56,13 @@ export default async function EmployesPage() {
                   <button className="btn-outline !py-1 !px-2 text-xs">{m.active ? "Désactiver" : "Réactiver"}</button>
                 </form>
               </div>
+            )}
+            {canManage && m.role !== "OWNER" && (
+              <MemberPermissions
+                memberId={m.id}
+                custom={Array.isArray(m.customPermissions)}
+                current={Array.isArray(m.customPermissions) ? (m.customPermissions as string[]) : expandRolePermissions(m.role)}
+              />
             )}
           </div>
         ))}

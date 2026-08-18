@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { checkLimit } from "@/lib/sama/limits";
 import type { FormState } from "./products";
 
@@ -18,9 +18,9 @@ const customerSchema = z.object({
 });
 
 export async function createCustomerAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role, userId } = await requireTenant();
+  const { business, member, userId } = await requireTenant();
   try {
-    assertPermission(role, "customers.manage");
+    assertMemberCan(member, "customers.manage");
   } catch {
     return { error: "Permission refusée." };
   }
@@ -49,9 +49,9 @@ export async function createCustomerAction(_prev: FormState, formData: FormData)
 }
 
 export async function updateCustomerAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role, userId } = await requireTenant();
+  const { business, member, userId } = await requireTenant();
   try {
-    assertPermission(role, "customers.manage");
+    assertMemberCan(member, "customers.manage");
   } catch {
     return { error: "Permission refusée." };
   }

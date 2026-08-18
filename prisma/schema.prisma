@@ -219,6 +219,8 @@ model SamaBusiness {
   counters    SamaCounter[]
   logs        SamaActivityLog[]
   notifications SamaNotification[]
+  campaigns   SamaCampaign[]
+  promoCodes  SamaPromoCode[]
 
   @@index([ownerId])
   @@map("sama_businesses")
@@ -234,12 +236,14 @@ enum SamaRole {
 }
 
 model SamaMember {
-  id         String   @id @default(cuid())
-  businessId String
-  userId     String
-  role       SamaRole @default(SELLER)
-  active     Boolean  @default(true)
-  createdAt  DateTime @default(now())
+  id                String   @id @default(cuid())
+  businessId        String
+  userId            String
+  role              SamaRole @default(SELLER)
+  active            Boolean  @default(true)
+  // Permissions personnalisées : si non nul, remplace les permissions du rôle.
+  customPermissions Json?
+  createdAt         DateTime @default(now())
 
   business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
   user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -646,4 +650,47 @@ model SamaNotification {
 
   @@index([businessId])
   @@map("sama_notifications")
+}
+
+// ── Campagnes marketing & codes promo (V2) ────────────────────────────────────
+model SamaCampaign {
+  id           String   @id @default(cuid())
+  businessId   String
+  name         String
+  channel      String   @default("WHATSAPP") // WHATSAPP, SMS, FACEBOOK...
+  segment      String   @default("all")       // clé de segment
+  message      String   @db.Text
+  status       String   @default("BROUILLON") // BROUILLON, PRETE, ENVOYEE
+  recipientCount Int    @default(0)
+  createdBy    String?
+  createdAt    DateTime @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("sama_campaigns")
+}
+
+enum SamaPromoType {
+  POURCENTAGE
+  MONTANT
+}
+
+model SamaPromoCode {
+  id         String        @id @default(cuid())
+  businessId String
+  code       String
+  type       SamaPromoType @default(POURCENTAGE)
+  value      Int           // % ou montant FCFA
+  active     Boolean       @default(true)
+  usageCount Int           @default(0)
+  maxUsage   Int?
+  expiresAt  DateTime?
+  createdAt  DateTime      @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, code])
+  @@index([businessId])
+  @@map("sama_promo_codes")
 }

@@ -113,6 +113,42 @@ export function hasPermission(role: SamaRole, perm: Permission): boolean {
   return perms === "*" || perms.includes(perm);
 }
 
+export const ALL_PERMISSIONS: { value: Permission; label: string }[] = [
+  { value: "sales.create", label: "Créer des ventes" },
+  { value: "sales.view", label: "Voir les ventes" },
+  { value: "sales.cancel", label: "Annuler des ventes" },
+  { value: "orders.manage", label: "Gérer les commandes" },
+  { value: "products.manage", label: "Gérer les produits" },
+  { value: "products.view", label: "Voir les produits" },
+  { value: "stock.manage", label: "Gérer le stock" },
+  { value: "customers.manage", label: "Gérer les clients" },
+  { value: "expenses.manage", label: "Gérer les dépenses" },
+  { value: "payments.manage", label: "Gérer les paiements" },
+  { value: "invoices.manage", label: "Gérer les factures/devis" },
+  { value: "reports.view", label: "Voir les rapports" },
+  { value: "reports.finance", label: "Rapports financiers" },
+  { value: "marketing.manage", label: "Gérer le marketing" },
+  { value: "employees.manage", label: "Gérer les employés" },
+  { value: "settings.manage", label: "Gérer les paramètres" },
+  { value: "subscription.manage", label: "Gérer l'abonnement" },
+];
+
+/** Développe les permissions d'un rôle en liste explicite. */
+export function expandRolePermissions(role: SamaRole): Permission[] {
+  const perms = ROLE_PERMISSIONS[role];
+  return perms === "*" ? ALL_PERMISSIONS.map((p) => p.value) : [...perms];
+}
+
+// Segments clients automatiques (marketing / CRM)
+export const SEGMENTS = [
+  { value: "all", label: "Tous les clients" },
+  { value: "new", label: "Nouveaux clients (30 j)" },
+  { value: "regular", label: "Clients réguliers (2+ achats)" },
+  { value: "best", label: "Meilleurs clients (top dépense)" },
+  { value: "inactive", label: "Clients inactifs (60 j+)" },
+  { value: "debtors", label: "Clients débiteurs" },
+] as const;
+
 // ── Types d'activité ──────────────────────────────────────────────────────────
 export const ACTIVITY_TYPES = [
   "Vêtements & Mode", "Alimentation", "Électronique", "Cosmétique & Beauté",

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { planByCode } from "@/lib/sama/constants";
 
 /**
@@ -11,8 +11,8 @@ import { planByCode } from "@/lib/sama/constants";
  * (aucune transaction bancaire simulée — architecture prête pour Wave/OM).
  */
 export async function requestPlanAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "subscription.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "subscription.manage");
   const code = String(formData.get("plan") || "GRATUIT");
   const plan = planByCode(code);
 

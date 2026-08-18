@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { nextNumber } from "@/lib/sama/numbering";
 import { parseAmount } from "@/lib/sama/money";
 import type { SamaOrderStatus } from "@prisma/client";
@@ -19,8 +19,8 @@ const itemSchema = z.object({
 
 /** Création manuelle d'une commande (depuis l'app). */
 export async function createOrderAction(_prev: OrderState, formData: FormData): Promise<OrderState> {
-  const { business, role, userId } = await requireTenant();
-  try { assertPermission(role, "orders.manage"); } catch { return { error: "Permission refusée." }; }
+  const { business, member, userId } = await requireTenant();
+  try { assertMemberCan(member, "orders.manage"); } catch { return { error: "Permission refusée." }; }
 
   let raw: unknown;
   try { raw = JSON.parse(String(formData.get("items") || "[]")); } catch { return { error: "Panier invalide." }; }
@@ -58,8 +58,8 @@ export async function createOrderAction(_prev: OrderState, formData: FormData): 
 }
 
 export async function updateOrderStatusAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "orders.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "orders.manage");
   const id = String(formData.get("id") || "");
   const status = String(formData.get("status") || "NOUVELLE") as SamaOrderStatus;
   await prisma.samaOrder.updateMany({ where: { id, businessId: business.id }, data: { status } });

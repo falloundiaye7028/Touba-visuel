@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import type { FormState } from "./products";
 
 const settingsSchema = z.object({
@@ -22,8 +22,8 @@ const settingsSchema = z.object({
 });
 
 export async function updateSettingsAction(_prev: FormState, formData: FormData): Promise<FormState> {
-  const { business, role, userId } = await requireTenant();
-  try { assertPermission(role, "settings.manage"); } catch { return { error: "Permission refusée." }; }
+  const { business, member, userId } = await requireTenant();
+  try { assertMemberCan(member, "settings.manage"); } catch { return { error: "Permission refusée." }; }
 
   const parsed = settingsSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Formulaire invalide" };
@@ -46,8 +46,8 @@ export async function updateSettingsAction(_prev: FormState, formData: FormData)
 }
 
 export async function toggleStoreAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "settings.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "settings.manage");
   const publish = String(formData.get("publish")) === "true";
   await prisma.samaBusiness.update({ where: { id: business.id }, data: { storePublished: publish } });
   await logActivity(business.id, userId, publish ? "store.published" : "store.unpublished");

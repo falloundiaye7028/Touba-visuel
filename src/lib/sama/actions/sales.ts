@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { requireTenant, assertPermission, logActivity } from "@/lib/sama/tenant";
+import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { checkLimit } from "@/lib/sama/limits";
 import { nextNumber } from "@/lib/sama/numbering";
 import { parseAmount } from "@/lib/sama/money";
@@ -27,9 +27,9 @@ const itemSchema = z.object({
  * pour éviter les doubles mouvements.
  */
 export async function createSaleAction(_prev: SaleState, formData: FormData): Promise<SaleState> {
-  const { business, role, userId } = await requireTenant();
+  const { business, member, userId } = await requireTenant();
   try {
-    assertPermission(role, "sales.create");
+    assertMemberCan(member, "sales.create");
   } catch {
     return { error: "Permission refusée." };
   }
@@ -50,8 +50,9 @@ export async function createSaleAction(_prev: SaleState, formData: FormData): Pr
   const customerId = (formData.get("customerId") as string) || null;
   const channel = (String(formData.get("channel") || "BOUTIQUE")) as
     | "BOUTIQUE" | "WHATSAPP" | "FACEBOOK" | "INSTAGRAM" | "TIKTOK" | "SITE_WEB" | "TELEPHONE" | "AUTRE";
-  const discount = parseAmount(String(formData.get("discount") || "0"));
+  let discount = parseAmount(String(formData.get("discount") || "0"));
   const deliveryFee = parseAmount(String(formData.get("deliveryFee") || "0"));
+  const promoCode = String(formData.get("promoCode") || "").trim().toUpperCase();
   const method = (String(formData.get("method") || "ESPECES")) as
     | "ESPECES" | "WAVE" | "ORANGE_MONEY" | "FREE_MONEY" | "VIREMENT" | "CHEQUE" | "CREDIT" | "AUTRE";
   const comment = (formData.get("comment") as string) || null;
@@ -92,6 +93,18 @@ export async function createSaleAction(_prev: SaleState, formData: FormData): Pr
     };
   });
 
+  // Application d'un code promo (remise ajoutée à la remise manuelle).
+  let promoId: string | null = null;
+  if (promoCode) {
+    const promo = await prisma.samaPromoCode.findUnique({ where: { businessId_code: { businessId: business.id, code: promoCode } } });
+    const valid = promo && promo.active && (!promo.expiresAt || promo.expiresAt >= new Date()) && (promo.maxUsage == null || promo.usageCount < promo.maxUsage);
+    if (valid) {
+      const promoDiscount = promo.type === "POURCENTAGE" ? Math.round((subtotal * promo.value) / 100) : Math.min(promo.value, subtotal);
+      discount = Math.min(subtotal, discount + promoDiscount);
+      promoId = promo.id;
+    }
+  }
+
   const total = Math.max(0, subtotal - discount + deliveryFee);
   const margin = subtotal - discount - cost;
 
@@ -108,6 +121,10 @@ export async function createSaleAction(_prev: SaleState, formData: FormData): Pr
       const seller = await tx.samaMember.findUnique({
         where: { businessId_userId: { businessId: business.id, userId } },
       });
+
+      if (promoId) {
+        await tx.samaPromoCode.update({ where: { id: promoId }, data: { usageCount: { increment: 1 } } });
+      }
 
       const sale = await tx.samaSale.create({
         data: {
@@ -204,8 +221,8 @@ export async function createSaleAction(_prev: SaleState, formData: FormData): Pr
 
 /** Annulation d'une vente : restaure le stock (règles métier respectées). */
 export async function cancelSaleAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "sales.cancel");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "sales.cancel");
   const id = String(formData.get("id") || "");
 
   const sale = await prisma.samaSale.findFirst({
@@ -246,8 +263,8 @@ export async function cancelSaleAction(formData: FormData): Promise<void> {
 
 /** Ajoute un paiement à une vente en crédit / partielle. */
 export async function addPaymentAction(formData: FormData): Promise<void> {
-  const { business, role, userId } = await requireTenant();
-  assertPermission(role, "payments.manage");
+  const { business, member, userId } = await requireTenant();
+  assertMemberCan(member, "payments.manage");
   const saleId = String(formData.get("saleId") || "");
   const amount = parseAmount(String(formData.get("amount") || "0"));
   const method = (String(formData.get("method") || "ESPECES")) as
