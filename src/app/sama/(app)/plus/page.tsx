@@ -2,7 +2,7 @@ import Link from "next/link";
 import {
   Users, Wallet, Truck, BarChart3, Megaphone, UserCog, FileText,
   Boxes, Settings, Store, Bell, CreditCard, ChevronRight,
-  FileSignature, UploadCloud,
+  FileSignature, UploadCloud, Bot,
 } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { ROLE_LABELS } from "@/lib/sama/constants";
@@ -18,6 +18,7 @@ const LINKS = [
   { href: "/sama/devis", label: "Devis", icon: FileSignature },
   { href: "/sama/fournisseurs", label: "Fournisseurs", icon: Truck },
   { href: "/sama/rapports", label: "Rapports", icon: BarChart3 },
+  { href: "/sama/ai", label: "SAMA AI", icon: Bot },
   { href: "/sama/boutique", label: "Boutique en ligne", icon: Store },
   { href: "/sama/imports", label: "Importer (CSV)", icon: UploadCloud },
   { href: "/sama/marketing", label: "Marketing", icon: Megaphone },

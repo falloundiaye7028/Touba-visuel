@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Sparkles } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { prisma } from "@/lib/db";
 import { updateProductAction, archiveProductAction, adjustStockAction } from "@/lib/sama/actions/products";
@@ -33,6 +35,10 @@ export default async function ProduitDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="space-y-4">
       <PageHeader title={product.name} subtitle={product.sku || "Sans référence"} />
+
+      <Link href={`/sama/produits/${product.id}/contenu`} className="btn-gold w-full !py-2.5 text-sm">
+        <Sparkles className="w-4 h-4" /> Créer du contenu avec l&apos;IA
+      </Link>
 
       <div className="grid grid-cols-3 gap-3">
         <div className="card p-3"><div className="text-xs text-gray-500">Stock</div><div className="text-lg font-bold">{formatNumber(product.stock)}</div></div>

@@ -85,6 +85,19 @@ src/
 - ✅ Employés : **invitation par téléphone** (mot de passe temporaire), gestion des rôles, activation/désactivation.
 - ✅ Imports CSV / Excel : produits et clients, reconnaissance des en-têtes FR, aperçu avant import, respect des limites de plan.
 
+## Modules livrés (V3 — SAMA AI)
+
+- ✅ **Assistant SAMA AI** (`/sama/ai`) : chat qui répond sur les données **réelles** de l'entreprise
+  (ventes du jour, produit le plus rentable, ruptures, clients inactifs, meilleur vendeur, évolution…).
+  Les chiffres sont calculés côté serveur (moteur déterministe) — **jamais inventés** ; le modèle ne
+  sert qu'à formuler à partir des faits fournis.
+- ✅ **Synthèse & recommandations** : résumé d'activité + conseils générés à partir des vrais indicateurs.
+- ✅ **Contenu marketing IA** (bouton « Créer du contenu avec l'IA » sur chaque produit) : titre,
+  description, publications Facebook / Instagram / TikTok / WhatsApp, slogan, hashtags, offre promo,
+  avec ton configurable (professionnel, vendeur, premium, simple, dynamique).
+- Accès réservé au plan **Pro IA** (ou pendant l'essai actif) ; sinon page d'upsell honnête.
+- Modèle appelé côté serveur via `text.pollinations.ai` (sans clé exposée au client).
+
 ## Roadmap (préparée dans l'architecture)
 
 - **V2 (reste)** : campagnes, multi-boutiques, exports avancés, permissions personnalisées par membre.

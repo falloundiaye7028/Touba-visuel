@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   Home, ShoppingCart, ClipboardList, Package, Users, Wallet,
   Truck, BarChart3, Megaphone, UserCog, FileText, Boxes, Settings, Store,
-  FileSignature, UploadCloud,
+  FileSignature, UploadCloud, Bot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +34,7 @@ const GROUPS: { title: string; items: { href: string; label: string; icon: typeo
   {
     title: "Croissance",
     items: [
+      { href: "/sama/ai", label: "SAMA AI", icon: Bot },
       { href: "/sama/boutique", label: "Boutique en ligne", icon: Store },
       { href: "/sama/marketing", label: "Marketing", icon: Megaphone },
       { href: "/sama/employes", label: "Employés", icon: UserCog },
