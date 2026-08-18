@@ -43,7 +43,15 @@ export async function middleware(req: NextRequest) {
   //     Sur toubainfos.com, la racine et les chemins propres servent le média
   //     (réécriture interne vers /touba-infos). L'agence reste sur son domaine.
   const host = (req.headers.get("host") || "").toLowerCase().split(":")[0];
-  if (host === "toubainfos.com" || host === "www.toubainfos.com") {
+  // www → domaine nu (redirection permanente, chemin conservé)
+  if (host === "www.toubainfos.com") {
+    const dest = new URL(
+      req.nextUrl.pathname + req.nextUrl.search,
+      "https://toubainfos.com",
+    );
+    return NextResponse.redirect(dest, 308);
+  }
+  if (host === "toubainfos.com") {
     const p = pathname;
     const passthrough =
       p.startsWith("/touba-infos") ||
