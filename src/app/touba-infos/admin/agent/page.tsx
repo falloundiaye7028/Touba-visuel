@@ -7,6 +7,8 @@ import {
   Rss,
   Info,
   Clock,
+  TrendingUp,
+  Layers,
 } from "lucide-react";
 import {
   listSujets,
@@ -39,6 +41,10 @@ export default async function AgentPage() {
   const aTraiter = sujets.filter(
     (s) => s.statut === "detecte" || s.statut === "a_verifier",
   );
+  // Sujets manquants : forte couverture (plusieurs médias) + score, non traités.
+  const manquants = [...aTraiter]
+    .sort((a, b) => b.nbSources - a.nbSources || b.score - a.score)
+    .slice(0, 6);
 
   const cards = [
     { label: "Sujets à traiter", value: stats.total, Icon: Radar, cls: "bg-neutral-100 text-neutral-700" },
@@ -99,6 +105,57 @@ export default async function AgentPage() {
           </Link>
         </p>
       </div>
+
+      {/* Sujets manquants — analyse de couverture */}
+      {manquants.length > 0 && (
+        <div className="mt-8">
+          <div className="mb-3 flex items-center gap-2">
+            <TrendingUp size={18} className="text-green-600" />
+            <h2 className="font-black text-neutral-900">
+              Sujets manquants — à préparer en priorité
+            </h2>
+          </div>
+          <p className="mb-4 text-sm text-neutral-500">
+            Sujets à fort écho médiatique, pas encore couverts par Touba Infos.
+          </p>
+          <div className="grid gap-4 md:grid-cols-2">
+            {manquants.map((s) => {
+              const medias = [
+                s.sourceNom,
+                ...s.autresSources.map((x) => x.nom),
+              ].filter((v, i, a) => a.indexOf(v) === i);
+              const niv = niveauScore(s.score);
+              return (
+                <div
+                  key={s.id}
+                  className="flex flex-col rounded-2xl border border-neutral-200 bg-white p-4"
+                >
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-[11px] font-bold text-green-700">
+                      <Layers size={12} /> {medias.length} média{medias.length > 1 ? "s" : ""}
+                    </span>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${niv.cls}`}>
+                      {s.score} · {niv.label}
+                    </span>
+                    <span className="ml-auto text-[11px] font-semibold uppercase tracking-wide text-neutral-400">
+                      {s.categorie}
+                    </span>
+                  </div>
+                  <h3 className="font-bold leading-snug text-neutral-900 line-clamp-2">
+                    {s.titre}
+                  </h3>
+                  <p className="mt-1 text-xs text-neutral-400 line-clamp-1">
+                    Traité par&nbsp;: {medias.join(", ")}
+                  </p>
+                  <div className="mt-3 border-t border-neutral-100 pt-2">
+                    <SujetActions sujetId={s.id} url={s.url} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Sujets détectés */}
       <div className="mt-8 overflow-hidden rounded-2xl border border-neutral-200 bg-white">
