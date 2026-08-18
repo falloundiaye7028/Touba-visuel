@@ -1,54 +1,143 @@
 // ============================================================================
 //  TOUBA INFOS — Store de contenu (source de vérité du CMS)
-//  Persistance fichier `data/touba-infos-articles.json` (best-effort) + cache
-//  mémoire. Amorcé depuis ARTICLES_INFO (contenus de démonstration).
-//
-//  ⚠️ Module SERVEUR uniquement (fs). Ne pas importer depuis un composant
-//  client. Pour la production multi-instances / serverless, remplacer la
-//  couche de persistance par Prisma/PostgreSQL (les modèles sont prêts côté
-//  schéma) — l'interface publique de ce module reste identique.
+//  Dual-backend :
+//   • PostgreSQL via Prisma quand DATABASE_URL est défini (production) ;
+//   • fichier `data/…json` + cache mémoire sinon (dev/local).
+//  Interface identique dans les deux cas ; amorcé depuis ARTICLES_INFO.
 // ============================================================================
 
+import { cache as reactCache } from "react";
 import { promises as fs } from "fs";
 import path from "path";
+import { prisma } from "./db";
 import {
   ARTICLES_INFO,
   type ArticleInfo,
   type CategorieInfo,
   type GenreInfo,
+  type StatutInfo,
 } from "./touba-infos";
 
+const hasDb = !!process.env.DATABASE_URL;
 const DATA_FILE = path.join(process.cwd(), "data", "touba-infos-articles.json");
 
-let cache: ArticleInfo[] | null = null;
-
+// ── Amorçage ────────────────────────────────────────────────────────────────
 function seed(): ArticleInfo[] {
   return ARTICLES_INFO.map((a) => ({ ...a, statut: a.statut ?? "publie" }));
 }
 
-async function load(): Promise<ArticleInfo[]> {
-  if (cache) return cache;
+// ── Backend fichier / mémoire ────────────────────────────────────────────────
+let fileCache: ArticleInfo[] | null = null;
+
+async function loadFile(): Promise<ArticleInfo[]> {
+  if (fileCache) return fileCache;
   try {
     const raw = await fs.readFile(DATA_FILE, "utf8");
     const parsed = JSON.parse(raw) as ArticleInfo[];
-    cache = Array.isArray(parsed) && parsed.length ? parsed : seed();
+    fileCache = Array.isArray(parsed) && parsed.length ? parsed : seed();
   } catch {
-    cache = seed();
-    // tentative d'écriture initiale (silencieuse si FS en lecture seule)
-    void persist();
+    fileCache = seed();
+    void persistFile();
   }
-  return cache;
+  return fileCache;
 }
 
-async function persist(): Promise<void> {
-  if (!cache) return;
+async function persistFile(): Promise<void> {
+  if (!fileCache) return;
   try {
     await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-    await fs.writeFile(DATA_FILE, JSON.stringify(cache, null, 2), "utf8");
+    await fs.writeFile(DATA_FILE, JSON.stringify(fileCache, null, 2), "utf8");
   } catch {
-    /* FS en lecture seule (serverless) : on conserve le cache mémoire. */
+    /* FS lecture seule */
   }
 }
+
+// ── Backend Prisma ───────────────────────────────────────────────────────────
+type Row = Awaited<ReturnType<typeof prisma.infoArticle.findFirst>>;
+
+function rowToArticle(r: NonNullable<Row>): ArticleInfo {
+  return {
+    id: r.id,
+    slug: r.slug,
+    titre: r.titre,
+    sousTitre: r.sousTitre,
+    extrait: r.extrait,
+    categorie: r.categorie as CategorieInfo,
+    genre: r.genre as GenreInfo,
+    statut: r.statut as StatutInfo,
+    auteur: r.auteur,
+    date: r.date.toISOString(),
+    miseAJour: r.miseAJour ? r.miseAJour.toISOString() : undefined,
+    tempsLecture: r.tempsLecture,
+    imageEmoji: r.imageEmoji,
+    imageGradient: r.imageGradient,
+    imageUrl: r.imageUrl ?? undefined,
+    credit: r.credit ?? undefined,
+    legende: r.legende ?? undefined,
+    alaUne: r.alaUne,
+    breaking: r.breaking,
+    epingle: r.epingle,
+    vues: r.vues,
+    tags: r.tags,
+    contenu: r.contenu,
+    youtubeId: r.youtubeId ?? undefined,
+  };
+}
+
+function toDb(a: ArticleInfo) {
+  return {
+    slug: a.slug,
+    titre: a.titre,
+    sousTitre: a.sousTitre,
+    extrait: a.extrait,
+    categorie: a.categorie,
+    genre: a.genre,
+    statut: a.statut ?? "publie",
+    auteur: a.auteur,
+    date: new Date(a.date),
+    miseAJour: a.miseAJour ? new Date(a.miseAJour) : null,
+    tempsLecture: a.tempsLecture,
+    imageEmoji: a.imageEmoji,
+    imageGradient: a.imageGradient,
+    imageUrl: a.imageUrl ?? null,
+    credit: a.credit ?? null,
+    legende: a.legende ?? null,
+    alaUne: a.alaUne,
+    breaking: a.breaking,
+    epingle: a.epingle ?? false,
+    vues: a.vues,
+    tags: a.tags,
+    contenu: a.contenu,
+    youtubeId: a.youtubeId ?? null,
+  };
+}
+
+let dbSeeded = false;
+async function ensureSeededDb(): Promise<void> {
+  if (dbSeeded) return;
+  try {
+    const n = await prisma.infoArticle.count();
+    if (n === 0) {
+      await prisma.infoArticle.createMany({
+        data: seed().map((a) => ({ id: a.id, ...toDb(a) })),
+        skipDuplicates: true,
+      });
+    }
+    dbSeeded = true;
+  } catch {
+    /* DB indisponible : ne pas bloquer le rendu */
+  }
+}
+
+// ── Lecture unifiée (mémoïsée par rendu) ─────────────────────────────────────
+const loadAll = reactCache(async (): Promise<ArticleInfo[]> => {
+  if (hasDb) {
+    await ensureSeededDb();
+    const rows = await prisma.infoArticle.findMany();
+    return rows.map(rowToArticle);
+  }
+  return loadFile();
+});
 
 // ── Tri & visibilité ────────────────────────────────────────────────────────
 const byDate = (a: ArticleInfo, b: ArticleInfo) =>
@@ -58,14 +147,14 @@ function estPublic(a: ArticleInfo): boolean {
   const s = a.statut ?? "publie";
   if (s === "publie") return true;
   if (s === "programme") return new Date(a.date).getTime() <= Date.now();
-  return false; // brouillon
+  return false;
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  Lecture publique (articles visibles uniquement)
+//  Lecture publique
 // ════════════════════════════════════════════════════════════════════════════
 export async function getArticlesTries(): Promise<ArticleInfo[]> {
-  return (await load()).filter(estPublic).sort(byDate);
+  return (await loadAll()).filter(estPublic).sort(byDate);
 }
 
 export async function getUne(): Promise<ArticleInfo> {
@@ -84,11 +173,10 @@ export async function getDernieres(n = 6): Promise<ArticleInfo[]> {
   return (await getArticlesTries()).slice(0, n);
 }
 
-/** Recherche par slug — inclut les brouillons pour permettre l'aperçu. */
 export async function getArticleInfoBySlug(
   slug: string,
 ): Promise<ArticleInfo | undefined> {
-  return (await load()).find((a) => a.slug === slug);
+  return (await loadAll()).find((a) => a.slug === slug);
 }
 
 export async function getArticlesInfoByCategorie(
@@ -136,16 +224,16 @@ export async function getPublishedSlugs(): Promise<string[]> {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  Administration (tous statuts)
+//  Administration
 // ════════════════════════════════════════════════════════════════════════════
 export async function adminListAll(): Promise<ArticleInfo[]> {
-  return (await load()).slice().sort(byDate);
+  return (await loadAll()).slice().sort(byDate);
 }
 
 export async function adminGetById(
   id: string,
 ): Promise<ArticleInfo | undefined> {
-  return (await load()).find((a) => a.id === id);
+  return (await loadAll()).find((a) => a.id === id);
 }
 
 export interface AdminStats {
@@ -159,7 +247,7 @@ export interface AdminStats {
 }
 
 export async function adminStats(): Promise<AdminStats> {
-  const all = await load();
+  const all = await loadAll();
   const st = (a: ArticleInfo) => a.statut ?? "publie";
   return {
     total: all.length,
@@ -189,20 +277,20 @@ export type ArticleInput = Partial<ArticleInfo> & {
   auteur: string;
 };
 
-const GRADIENTS: Record<string, string> = {
-  defaut: "from-green-700 via-emerald-800 to-green-900",
-};
+const GRAD_DEFAUT = "from-green-700 via-emerald-800 to-green-900";
 
-export async function adminCreate(input: ArticleInput): Promise<ArticleInfo> {
-  const all = await load();
+function construireArticle(
+  input: ArticleInput,
+  existants: ArticleInfo[],
+): ArticleInfo {
   const id = String(
-    all.reduce((m, a) => Math.max(m, Number(a.id) || 0), 0) + 1,
+    existants.reduce((m, a) => Math.max(m, Number(a.id) || 0), 0) + 1,
   );
   let slug = input.slug?.trim() ? slugify(input.slug) : slugify(input.titre);
   if (!slug) slug = `article-${id}`;
-  while (all.some((a) => a.slug === slug)) slug = `${slug}-${id}`;
+  while (existants.some((a) => a.slug === slug)) slug = `${slug}-${id}`;
 
-  const article: ArticleInfo = {
+  return {
     id,
     slug,
     titre: input.titre,
@@ -216,7 +304,7 @@ export async function adminCreate(input: ArticleInput): Promise<ArticleInfo> {
     miseAJour: input.miseAJour,
     tempsLecture: input.tempsLecture ?? "3 min",
     imageEmoji: input.imageEmoji ?? "📰",
-    imageGradient: input.imageGradient ?? GRADIENTS.defaut,
+    imageGradient: input.imageGradient ?? GRAD_DEFAUT,
     imageUrl: input.imageUrl || undefined,
     credit: input.credit || undefined,
     legende: input.legende || undefined,
@@ -227,8 +315,17 @@ export async function adminCreate(input: ArticleInput): Promise<ArticleInfo> {
     tags: input.tags ?? [],
     contenu: input.contenu ?? "<p></p>",
   };
-  cache = [article, ...all];
-  await persist();
+}
+
+export async function adminCreate(input: ArticleInput): Promise<ArticleInfo> {
+  const all = await loadAll();
+  const article = construireArticle(input, all);
+  if (hasDb) {
+    await prisma.infoArticle.create({ data: { id: article.id, ...toDb(article) } });
+  } else {
+    fileCache = [article, ...all];
+    await persistFile();
+  }
   return article;
 }
 
@@ -236,14 +333,20 @@ export async function adminUpdate(
   id: string,
   patch: Partial<ArticleInfo>,
 ): Promise<ArticleInfo | undefined> {
-  const all = await load();
-  const idx = all.findIndex((a) => a.id === id);
-  if (idx < 0) return undefined;
-  const next = { ...all[idx], ...patch, id };
+  const cur = await adminGetById(id);
+  if (!cur) return undefined;
+  const next: ArticleInfo = { ...cur, ...patch, id };
   if (patch.slug) next.slug = slugify(patch.slug);
-  all[idx] = next;
-  cache = all;
-  await persist();
+
+  if (hasDb) {
+    await prisma.infoArticle.update({ where: { id }, data: toDb(next) });
+  } else {
+    const all = await loadFile();
+    const idx = all.findIndex((a) => a.id === id);
+    if (idx >= 0) all[idx] = next;
+    fileCache = all;
+    await persistFile();
+  }
   return next;
 }
 
@@ -263,7 +366,11 @@ export async function adminSetStatut(
 }
 
 export async function adminDelete(id: string): Promise<void> {
-  const all = await load();
-  cache = all.filter((a) => a.id !== id);
-  await persist();
+  if (hasDb) {
+    await prisma.infoArticle.delete({ where: { id } }).catch(() => {});
+  } else {
+    const all = await loadFile();
+    fileCache = all.filter((a) => a.id !== id);
+    await persistFile();
+  }
 }

@@ -14,8 +14,14 @@ export async function GET(req: NextRequest) {
   const secret =
     req.nextUrl.searchParams.get("secret") || req.headers.get("x-agent-secret");
   const expected = process.env.TI_AGENT_SECRET || process.env.ADMIN_SECRET;
+  const secretOk = !!expected && secret === expected;
 
-  if (!expected || secret !== expected) {
+  // Vercel Cron : en-tête Authorization: Bearer ${CRON_SECRET}
+  const auth = req.headers.get("authorization");
+  const cronOk =
+    !!process.env.CRON_SECRET && auth === `Bearer ${process.env.CRON_SECRET}`;
+
+  if (!secretOk && !cronOk) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 

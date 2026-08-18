@@ -146,3 +146,73 @@ enum PaymentMethod {
   ORANGE_MONEY
   LIVRAISON
 }
+
+// ── Touba Infos — CMS & agent (contenu persistant) ─────────────────────────
+model InfoArticle {
+  id            String    @id
+  slug          String    @unique
+  titre         String
+  sousTitre     String    @default("")
+  extrait       String    @default("") @db.Text
+  categorie     String
+  genre         String    @default("Actualité")
+  statut        String    @default("publie")
+  auteur        String
+  date          DateTime
+  miseAJour     DateTime?
+  tempsLecture  String    @default("3 min")
+  imageEmoji    String    @default("📰")
+  imageGradient String
+  imageUrl      String?
+  credit        String?
+  legende       String?
+  alaUne        Boolean   @default(false)
+  breaking      Boolean   @default(false)
+  epingle       Boolean   @default(false)
+  vues          Int       @default(0)
+  tags          String[]
+  contenu       String    @db.Text
+  youtubeId     String?
+  createdAt     DateTime  @default(now())
+
+  @@index([statut])
+  @@index([categorie])
+  @@map("info_articles")
+}
+
+model InfoSujet {
+  id            String    @id
+  titre         String
+  sourceNom     String
+  sourceId      String
+  url           String
+  resume        String    @db.Text
+  categorie     String
+  score         Int
+  scoreDetail   Json
+  confiance     String
+  nbSources     Int
+  autresSources Json
+  detecteA      DateTime
+  publieA       DateTime?
+  statut        String    @default("detecte")
+  tags          String[]
+  hash          String
+  demo          Boolean   @default(false)
+
+  @@index([hash])
+  @@index([statut])
+  @@map("info_sujets")
+}
+
+model InfoVeilleRun {
+  id         String   @id @default(cuid())
+  at         DateTime @default(now())
+  consultees Int
+  detectes   Int
+  nouveaux   Int
+  erreurs    String[]
+  mode       String
+
+  @@map("info_veille_runs")
+}
