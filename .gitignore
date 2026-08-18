@@ -29,3 +29,7 @@ prisma/*.db
 
 # Vercel
 .vercel
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+*.tsbuildinfo

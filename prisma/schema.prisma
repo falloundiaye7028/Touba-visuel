@@ -20,6 +20,9 @@ model User {
   orders        Order[]
   accounts      Account[]
   sessions      Session[]
+  // SAMA BUSINESS
+  samaBusinesses   SamaBusiness[]     @relation("SamaOwner")
+  samaMemberships  SamaMember[]
 
   @@map("users")
 }
@@ -145,4 +148,476 @@ enum PaymentMethod {
   WAVE
   ORANGE_MONEY
   LIVRAISON
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SAMA BUSINESS — Plateforme SaaS de gestion commerciale (multi-tenant)
+//  Montants stockés en entiers (FCFA, sans décimales) pour éviter les
+//  erreurs de virgule flottante. isolation stricte par businessId.
+// ═══════════════════════════════════════════════════════════════════════════
+
+model SamaPlan {
+  code          String   @id // GRATUIT, STARTER, BUSINESS, PRO_IA
+  name          String
+  priceMonthly  Int      @default(0) // FCFA
+  maxProducts   Int?     // null = illimité
+  maxCustomers  Int?
+  maxSalesMonth Int?
+  maxUsers      Int?
+  features      String   @db.Text // JSON: liste des fonctionnalités
+  ordre         Int      @default(0)
+  actif         Boolean  @default(true)
+  businesses    SamaBusiness[]
+
+  @@map("sama_plans")
+}
+
+model SamaBusiness {
+  id                 String   @id @default(cuid())
+  ownerId            String
+  name               String
+  slug               String   @unique
+  activityType       String?
+  phone              String?
+  email              String?
+  address            String?
+  city               String?
+  country            String   @default("SN")
+  currency           String   @default("XOF")
+  timezone           String   @default("Africa/Dakar")
+  language           String   @default("fr")
+  logoUrl            String?
+  bannerUrl          String?
+  brandColor         String   @default("#0e7d52")
+  description        String?  @db.Text
+  whatsapp           String?
+  openingHours       String?
+  invoiceFooter      String?  @db.Text
+  storePublished     Boolean  @default(false)
+  onboardingDone     Boolean  @default(false)
+  // Abonnement
+  planCode           String   @default("GRATUIT")
+  subscriptionStatus String   @default("TRIAL") // TRIAL, ACTIVE, EXPIRED, SUSPENDED
+  trialEndsAt        DateTime?
+  subEndsAt          DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  owner       User                @relation("SamaOwner", fields: [ownerId], references: [id])
+  plan        SamaPlan            @relation(fields: [planCode], references: [code])
+  members     SamaMember[]
+  categories  SamaCategory[]
+  products    SamaProduct[]
+  customers   SamaCustomer[]
+  suppliers   SamaSupplier[]
+  sales       SamaSale[]
+  orders      SamaOrder[]
+  payments    SamaPayment[]
+  expenses    SamaExpense[]
+  invoices    SamaInvoice[]
+  movements   SamaInventoryMovement[]
+  counters    SamaCounter[]
+  logs        SamaActivityLog[]
+  notifications SamaNotification[]
+
+  @@index([ownerId])
+  @@map("sama_businesses")
+}
+
+enum SamaRole {
+  OWNER
+  MANAGER
+  SELLER
+  CASHIER
+  STOCK
+  COMMERCIAL
+}
+
+model SamaMember {
+  id         String   @id @default(cuid())
+  businessId String
+  userId     String
+  role       SamaRole @default(SELLER)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sales    SamaSale[]
+
+  @@unique([businessId, userId])
+  @@index([userId])
+  @@map("sama_members")
+}
+
+model SamaCategory {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String
+  createdAt  DateTime @default(now())
+
+  business SamaBusiness  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  products SamaProduct[]
+
+  @@index([businessId])
+  @@map("sama_categories")
+}
+
+model SamaProduct {
+  id             String   @id @default(cuid())
+  businessId     String
+  name           String
+  sku            String?
+  categoryId     String?
+  description    String?  @db.Text
+  costPrice      Int      @default(0)   // prix d'achat (FCFA)
+  salePrice      Int      @default(0)   // prix de vente
+  wholesalePrice Int?                    // prix grossiste
+  stock          Int      @default(0)
+  alertThreshold Int      @default(5)
+  unit           String   @default("pièce")
+  imageUrl       String?
+  supplierId     String?
+  active         Boolean  @default(true)
+  archived       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  business  SamaBusiness         @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  category  SamaCategory?        @relation(fields: [categoryId], references: [id])
+  supplier  SamaSupplier?        @relation(fields: [supplierId], references: [id])
+  variants  SamaProductVariant[]
+  saleItems SamaSaleItem[]
+  orderItems SamaOrderItem[]
+  movements SamaInventoryMovement[]
+
+  @@index([businessId])
+  @@index([categoryId])
+  @@map("sama_products")
+}
+
+model SamaProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  name      String  // ex: "42 / Noir"
+  sku       String?
+  stock     Int     @default(0)
+  salePrice Int?
+
+  product SamaProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("sama_product_variants")
+}
+
+model SamaSupplier {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String
+  contact    String?
+  phone      String?
+  email      String?
+  address    String?
+  notes      String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  business SamaBusiness  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  products SamaProduct[]
+
+  @@index([businessId])
+  @@map("sama_suppliers")
+}
+
+model SamaCustomer {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String
+  phone      String?
+  email      String?
+  address    String?
+  city       String?
+  gender     String?
+  birthDate  DateTime?
+  source     String?  // WhatsApp, TikTok, Boutique...
+  notes      String?  @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  sales    SamaSale[]
+  orders   SamaOrder[]
+  invoices SamaInvoice[]
+
+  @@index([businessId])
+  @@map("sama_customers")
+}
+
+enum SamaChannel {
+  BOUTIQUE
+  WHATSAPP
+  FACEBOOK
+  INSTAGRAM
+  TIKTOK
+  SITE_WEB
+  TELEPHONE
+  AUTRE
+}
+
+enum SamaPayStatus {
+  PAYE
+  PARTIEL
+  CREDIT
+}
+
+model SamaSale {
+  id            String        @id @default(cuid())
+  businessId    String
+  number        String
+  customerId    String?
+  sellerId      String?
+  channel       SamaChannel   @default(BOUTIQUE)
+  subtotal      Int           @default(0)
+  discount      Int           @default(0)
+  deliveryFee   Int           @default(0)
+  total         Int           @default(0)
+  cost          Int           @default(0) // coût total des marchandises
+  margin        Int           @default(0) // total - cost - remise
+  amountPaid    Int           @default(0)
+  payStatus     SamaPayStatus @default(PAYE)
+  comment       String?       @db.Text
+  cancelled     Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+
+  business SamaBusiness   @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer SamaCustomer?  @relation(fields: [customerId], references: [id])
+  seller   SamaMember?    @relation(fields: [sellerId], references: [id])
+  items    SamaSaleItem[]
+  payments SamaPayment[]
+  invoice  SamaInvoice?
+
+  @@unique([businessId, number])
+  @@index([businessId])
+  @@index([customerId])
+  @@map("sama_sales")
+}
+
+model SamaSaleItem {
+  id        String  @id @default(cuid())
+  saleId    String
+  productId String?
+  name      String
+  quantity  Int     @default(1)
+  unitPrice Int     @default(0)
+  costPrice Int     @default(0)
+  total     Int     @default(0)
+
+  sale    SamaSale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product SamaProduct? @relation(fields: [productId], references: [id])
+
+  @@index([saleId])
+  @@map("sama_sale_items")
+}
+
+enum SamaOrderStatus {
+  NOUVELLE
+  CONFIRMEE
+  EN_PREPARATION
+  PRETE
+  EXPEDIEE
+  LIVREE
+  ANNULEE
+  RETOURNEE
+}
+
+model SamaOrder {
+  id          String          @id @default(cuid())
+  businessId  String
+  number      String
+  customerId  String?
+  status      SamaOrderStatus @default(NOUVELLE)
+  channel     SamaChannel     @default(WHATSAPP)
+  subtotal    Int             @default(0)
+  discount    Int             @default(0)
+  deliveryFee Int             @default(0)
+  total       Int             @default(0)
+  // Snapshot client (commandes boutique en ligne)
+  guestName   String?
+  guestPhone  String?
+  guestAddress String?
+  guestCity   String?
+  comment     String?         @db.Text
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  business SamaBusiness    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  customer SamaCustomer?   @relation(fields: [customerId], references: [id])
+  items    SamaOrderItem[]
+
+  @@unique([businessId, number])
+  @@index([businessId])
+  @@map("sama_orders")
+}
+
+model SamaOrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String?
+  name      String
+  quantity  Int     @default(1)
+  unitPrice Int     @default(0)
+  total     Int     @default(0)
+
+  order   SamaOrder    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product SamaProduct? @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@map("sama_order_items")
+}
+
+enum SamaPayMethod {
+  ESPECES
+  WAVE
+  ORANGE_MONEY
+  FREE_MONEY
+  VIREMENT
+  CHEQUE
+  CREDIT
+  AUTRE
+}
+
+model SamaPayment {
+  id         String        @id @default(cuid())
+  businessId String
+  saleId     String?
+  amount     Int
+  method     SamaPayMethod @default(ESPECES)
+  reference  String?
+  createdAt  DateTime      @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  sale     SamaSale?    @relation(fields: [saleId], references: [id])
+
+  @@index([businessId])
+  @@index([saleId])
+  @@map("sama_payments")
+}
+
+model SamaExpense {
+  id         String   @id @default(cuid())
+  businessId String
+  category   String   // loyer, salaires, transport...
+  amount     Int
+  description String?  @db.Text
+  date       DateTime @default(now())
+  createdBy  String?
+  createdAt  DateTime @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("sama_expenses")
+}
+
+enum SamaDocType {
+  FACTURE
+  DEVIS
+  RECU
+  BON_COMMANDE
+}
+
+model SamaInvoice {
+  id         String      @id @default(cuid())
+  businessId String
+  number     String
+  type       SamaDocType @default(FACTURE)
+  saleId     String?     @unique
+  customerId String?
+  total      Int         @default(0)
+  amountPaid Int         @default(0)
+  status     String      @default("EMISE") // EMISE, PAYEE, PARTIELLE, ANNULEE
+  dueDate    DateTime?
+  data       String      @db.Text // JSON snapshot (lignes, client, entreprise)
+  createdAt  DateTime    @default(now())
+
+  business SamaBusiness  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  sale     SamaSale?     @relation(fields: [saleId], references: [id])
+  customer SamaCustomer? @relation(fields: [customerId], references: [id])
+
+  @@unique([businessId, number])
+  @@index([businessId])
+  @@map("sama_invoices")
+}
+
+enum SamaMoveType {
+  ENTREE
+  SORTIE
+  AJUSTEMENT
+  RETOUR_CLIENT
+  RETOUR_FOURNISSEUR
+  ENDOMMAGE
+  VENTE
+  ANNULATION_VENTE
+}
+
+model SamaInventoryMovement {
+  id         String       @id @default(cuid())
+  businessId String
+  productId  String
+  type       SamaMoveType
+  quantity   Int          // + entrée, - sortie
+  stockAfter Int          @default(0)
+  reason     String?
+  createdBy  String?
+  createdAt  DateTime     @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  product  SamaProduct  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@index([productId])
+  @@map("sama_inventory_movements")
+}
+
+// Compteur de numérotation par entreprise / type / année
+model SamaCounter {
+  id         String @id @default(cuid())
+  businessId String
+  key        String // ex: "CMD-2026", "FAC-2026"
+  value      Int    @default(0)
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, key])
+  @@map("sama_counters")
+}
+
+model SamaActivityLog {
+  id         String   @id @default(cuid())
+  businessId String
+  userId     String?
+  action     String
+  entity     String?
+  entityId   String?
+  meta       String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("sama_activity_logs")
+}
+
+model SamaNotification {
+  id         String   @id @default(cuid())
+  businessId String
+  type       String   // STOCK, ORDER, INVOICE, SUBSCRIPTION
+  title      String
+  body       String?  @db.Text
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("sama_notifications")
 }

@@ -373,3 +373,12 @@
 
 /* Aspect ratio utilitaires */
 .aspect-golden { aspect-ratio: 1.618 / 1; }
+
+/* ── SAMA BUSINESS — impression des reçus et factures ─────────────────────── */
+@media print {
+  body * { visibility: hidden !important; }
+  .print-area, .print-area * { visibility: visible !important; }
+  .print-area { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none !important; border: none !important; }
+  .no-print { display: none !important; }
+  header, nav, aside { display: none !important; }
+}

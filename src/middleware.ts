@@ -85,16 +85,23 @@ export async function middleware(req: NextRequest) {
   }
 
   // ── 5. Bloquer méthodes HTTP non autorisées sur pages ────────────────────
-  if (!pathname.startsWith("/api/") && !["GET", "HEAD"].includes(req.method)) {
+  // Les pages SAMA BUSINESS utilisent des Server Actions (POST) : on les exempte.
+  const isSamaApp = pathname.startsWith("/sama");
+  if (!pathname.startsWith("/api/") && !isSamaApp && !["GET", "HEAD"].includes(req.method)) {
     return new NextResponse(null, { status: 405 });
   }
 
-  const response = NextResponse.next();
+  // Transmet le chemin courant aux composants serveur (chrome conditionnel).
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   // ── 6. Headers de sécurité additionnels ──────────────────────────────────
   response.headers.set("X-Request-ID", crypto.randomUUID());
   response.headers.delete("X-Powered-By");
-  response.headers.set("Cache-Control", pathname.startsWith("/api/") ? "no-store" : "public, max-age=3600");
+  // Les espaces privés (app SAMA) et les API ne sont jamais mis en cache.
+  const noStore = pathname.startsWith("/api/") || isSamaApp;
+  response.headers.set("Cache-Control", noStore ? "no-store" : "public, max-age=3600");
 
   return response;
 }
