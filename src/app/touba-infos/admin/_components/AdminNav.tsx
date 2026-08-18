@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Newspaper, PlusCircle } from "lucide-react";
+import { LayoutDashboard, Newspaper, PlusCircle, Radar } from "lucide-react";
 
 const LINKS = [
   { href: "/touba-infos/admin", label: "Tableau de bord", Icon: LayoutDashboard, exact: true },
   { href: "/touba-infos/admin/articles", label: "Articles", Icon: Newspaper, exact: false },
   { href: "/touba-infos/admin/articles/new", label: "Nouvel article", Icon: PlusCircle, exact: false },
+  { href: "/touba-infos/admin/agent", label: "Agent IA", Icon: Radar, exact: false },
 ];
 
 export default function AdminNav() {

@@ -272,6 +272,13 @@ export const AUTEURS: AuteurInfo[] = [
     initiales: "MD",
   },
   {
+    slug: "redaction-touba-infos",
+    nom: "Rédaction Touba Infos",
+    role: "Rédaction",
+    bio: "Articles préparés par la rédaction de Touba Infos à partir d'informations vérifiées provenant de plusieurs sources publiques, avec l'appui de l'agent éditorial IA et une relecture humaine.",
+    initiales: "TI",
+  },
+  {
     slug: "mamadou-falilou-ndiaye",
     nom: "Mamadou Falilou Ndiaye",
     role: "Président fondateur de Touba Ça Kanam",
