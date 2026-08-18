@@ -3,7 +3,7 @@ import { Plus, Users, Phone } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { prisma } from "@/lib/db";
 import { formatMoney, type CurrencyCode } from "@/lib/sama/money";
-import { PageHeader, EmptyState, Badge } from "@/components/sama/ui";
+import { PageHeader, EmptyState, Badge, ExportButton } from "@/components/sama/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +33,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Prom
       <PageHeader
         title="Clients"
         subtitle={`${customers.length} client(s)`}
-        action={<Link href="/sama/clients/nouveau" className="btn-primary !py-2 text-sm"><Plus className="w-4 h-4" /> Ajouter</Link>}
+        action={<div className="flex gap-2"><ExportButton type="clients" /><Link href="/sama/clients/nouveau" className="btn-primary !py-2 text-sm"><Plus className="w-4 h-4" /> Ajouter</Link></div>}
       />
       <form><input name="q" defaultValue={q} placeholder="Rechercher par nom ou téléphone…" className="input-field !py-2.5" /></form>
 

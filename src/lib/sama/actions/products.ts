@@ -23,6 +23,7 @@ const productSchema = z.object({
   stock: z.string().optional(),
   alertThreshold: z.string().optional(),
   unit: z.string().trim().optional(),
+  imageUrl: z.string().optional(),
 });
 
 async function resolveCategory(businessId: string, name?: string): Promise<string | null> {
@@ -64,6 +65,7 @@ export async function createProductAction(_prev: FormState, formData: FormData):
       stock,
       alertThreshold: parseInt(d.alertThreshold || "5", 10) || 5,
       unit: d.unit || "pièce",
+      imageUrl: d.imageUrl || null,
     },
   });
 
@@ -115,6 +117,7 @@ export async function updateProductAction(_prev: FormState, formData: FormData):
       wholesalePrice: d.wholesalePrice ? parseAmount(d.wholesalePrice) : null,
       alertThreshold: parseInt(d.alertThreshold || "5", 10) || 5,
       unit: d.unit || "pièce",
+      imageUrl: d.imageUrl || null,
     },
   });
   await logActivity(business.id, userId, "product.updated", { entity: "product", entityId: id });

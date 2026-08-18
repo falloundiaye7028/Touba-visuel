@@ -98,9 +98,23 @@ src/
 - Accès réservé au plan **Pro IA** (ou pendant l'essai actif) ; sinon page d'upsell honnête.
 - Modèle appelé côté serveur via `text.pollinations.ai` (sans clé exposée au client).
 
+## Finition V1 (polish)
+
+- ✅ **Upload d'images** : photos de produits, logo et bannière — compression/redimensionnement
+  côté client (canvas → data URL), sans dépendance à un stockage externe (migrable vers un
+  stockage objet). Affichées dans le catalogue et la boutique.
+- ✅ **Recherche globale** (`/sama/recherche` + barre du haut) : clients, produits, ventes,
+  factures/devis, commandes — par nom, téléphone, référence ou numéro.
+- ✅ **Exports CSV / Excel** : produits, clients, ventes, dépenses, stock (route protégée par
+  session/tenant, BOM UTF-8 pour Excel).
+- ✅ **PWA installable** : manifest dédié (`/sama-manifest.webmanifest`), service worker
+  (`/sama-sw.js`, réseau d'abord + repli hors-ligne), « Ajouter à l'écran d'accueil ».
+- ✅ **Mode sombre** : bascule persistée (localStorage) avec application anti-flash au chargement.
+- 📄 **PDF** : via l'impression navigateur des reçus, factures et devis (bouton Télécharger/Imprimer).
+
 ## Roadmap (préparée dans l'architecture)
 
-- **V2 (reste)** : campagnes, multi-boutiques, exports avancés, permissions personnalisées par membre.
+- **V2 (reste)** : campagnes, multi-boutiques, permissions personnalisées par membre.
 - **V3** : SAMA AI (assistant business, analyses, contenu marketing, rapports IA).
 - **V4** : grossistes, marketplace B2B, intégrations paiement (Wave/Orange Money API), livraison, API partenaires.
 

@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
-import { Bell, ChevronDown, LogOut, Settings, Store } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Bell, ChevronDown, LogOut, Settings, Store, Search } from "lucide-react";
+import ThemeToggle from "@/components/sama/ThemeToggle";
 
 export default function TopBar({
   businessName,
@@ -21,6 +23,7 @@ export default function TopBar({
   storePublished: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const initials = businessName.slice(0, 2).toUpperCase();
 
   return (
@@ -32,7 +35,17 @@ export default function TopBar({
         <span className="font-semibold text-gray-900 truncate hidden sm:block">{businessName}</span>
       </Link>
 
+      <form
+        onSubmit={(e) => { e.preventDefault(); const v = (new FormData(e.currentTarget).get("q") as string) || ""; router.push(`/sama/recherche?q=${encodeURIComponent(v)}`); }}
+        className="hidden sm:flex items-center gap-2 ml-4 flex-1 max-w-xs bg-gray-100 rounded-xl px-3 py-1.5"
+      >
+        <Search className="w-4 h-4 text-gray-400" />
+        <input name="q" placeholder="Rechercher…" className="bg-transparent text-sm outline-none w-full" />
+      </form>
+
       <div className="ml-auto flex items-center gap-1">
+        <Link href="/sama/recherche" className="sm:hidden p-2 rounded-lg hover:bg-gray-50 text-gray-600"><Search className="w-5 h-5" /></Link>
+        <ThemeToggle />
         {storePublished && (
           <Link
             href={`/sama/boutique/${slug}`}

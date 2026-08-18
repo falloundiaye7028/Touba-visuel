@@ -82,6 +82,7 @@ export default async function ProduitDetailPage({ params }: { params: Promise<{ 
             id: product.id, name: product.name, sku: product.sku ?? "", categoryName: product.category?.name ?? "",
             description: product.description ?? "", costPrice: product.costPrice, salePrice: product.salePrice,
             wholesalePrice: product.wholesalePrice, stock: product.stock, alertThreshold: product.alertThreshold, unit: product.unit,
+            imageUrl: product.imageUrl,
           }}
         />
       </section>

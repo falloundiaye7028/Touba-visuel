@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { updateSettingsAction } from "@/lib/sama/actions/settings";
 import { SubmitButton } from "@/components/sama/SubmitButton";
 import { Field } from "@/components/sama/ui";
+import ImageUpload from "@/components/sama/ImageUpload";
 import type { FormState } from "@/lib/sama/actions/products";
 
 interface Init {
@@ -31,8 +32,8 @@ export default function SettingsForm({ initial }: { initial: Init }) {
       <Field label="Description (boutique)"><textarea name="description" className="input-field" rows={2} defaultValue={initial.description} /></Field>
       <Field label="Horaires"><input name="openingHours" className="input-field" defaultValue={initial.openingHours} placeholder="Lun-Sam 8h-20h" /></Field>
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Logo (URL)"><input name="logoUrl" className="input-field" defaultValue={initial.logoUrl} placeholder="https://…" /></Field>
-        <Field label="Bannière (URL)"><input name="bannerUrl" className="input-field" defaultValue={initial.bannerUrl} placeholder="https://…" /></Field>
+        <ImageUpload name="logoUrl" initial={initial.logoUrl} label="Logo" />
+        <ImageUpload name="bannerUrl" initial={initial.bannerUrl} label="Bannière" aspect="wide" maxSize={1000} />
       </div>
       <Field label="Couleur de marque">
         <div className="flex items-center gap-2">

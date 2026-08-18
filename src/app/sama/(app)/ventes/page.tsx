@@ -3,7 +3,7 @@ import { Plus, ShoppingCart } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { prisma } from "@/lib/db";
 import { formatMoney, type CurrencyCode } from "@/lib/sama/money";
-import { PageHeader, EmptyState, Badge } from "@/components/sama/ui";
+import { PageHeader, EmptyState, Badge, ExportButton } from "@/components/sama/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +28,7 @@ export default async function VentesPage() {
       <PageHeader
         title="Ventes"
         subtitle={`${sales.length} vente(s)`}
-        action={<Link href="/sama/ventes/nouvelle" className="btn-primary !py-2 text-sm"><Plus className="w-4 h-4" /> Vendre</Link>}
+        action={<div className="flex gap-2"><ExportButton type="ventes" /><Link href="/sama/ventes/nouvelle" className="btn-primary !py-2 text-sm"><Plus className="w-4 h-4" /> Vendre</Link></div>}
       />
 
       {sales.length === 0 ? (

@@ -4,6 +4,7 @@ import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitButton } from "@/components/sama/SubmitButton";
 import { Field } from "@/components/sama/ui";
+import ImageUpload from "@/components/sama/ImageUpload";
 import type { FormState } from "@/lib/sama/actions/products";
 
 type Action = (prev: FormState, fd: FormData) => Promise<FormState>;
@@ -20,6 +21,7 @@ export interface ProductInitial {
   stock?: number;
   alertThreshold?: number;
   unit?: string;
+  imageUrl?: string | null;
 }
 
 export default function ProductForm({
@@ -43,6 +45,7 @@ export default function ProductForm({
   return (
     <form action={formAction} className="space-y-3">
       {initial?.id && <input type="hidden" name="id" value={initial.id} />}
+      <ImageUpload name="imageUrl" initial={initial?.imageUrl} label="Photo du produit" />
       <Field label="Nom du produit" required>
         <input name="name" className="input-field" defaultValue={initial?.name} required placeholder="Ex : Sneakers Premium" />
       </Field>

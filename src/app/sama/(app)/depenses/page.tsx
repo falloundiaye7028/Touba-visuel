@@ -3,7 +3,7 @@ import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { prisma } from "@/lib/db";
 import { deleteExpenseAction } from "@/lib/sama/actions/expenses";
 import { formatMoney, type CurrencyCode } from "@/lib/sama/money";
-import { PageHeader, EmptyState, Badge } from "@/components/sama/ui";
+import { PageHeader, EmptyState, Badge, ExportButton } from "@/components/sama/ui";
 import { ConfirmButton } from "@/components/sama/ConfirmButton";
 import ExpenseForm from "@/components/sama/ExpenseForm";
 
@@ -21,7 +21,7 @@ export default async function DepensesPage() {
 
   return (
     <div className="space-y-4">
-      <PageHeader title="Dépenses" subtitle={`Ce mois : ${formatMoney(monthAgg._sum.amount ?? 0, cur)}`} />
+      <PageHeader title="Dépenses" subtitle={`Ce mois : ${formatMoney(monthAgg._sum.amount ?? 0, cur)}`} action={<ExportButton type="depenses" />} />
       <div className="card p-4"><ExpenseForm /></div>
 
       {expenses.length === 0 ? (

@@ -97,6 +97,14 @@ export function Badge({ children, className }: { children: ReactNode; className?
   );
 }
 
+export function ExportButton({ type, label = "Exporter" }: { type: string; label?: string }) {
+  return (
+    <a href={`/api/sama/export?type=${type}`} className="btn-outline !py-2 text-sm">
+      {label}
+    </a>
+  );
+}
+
 export function Field({
   label,
   children,

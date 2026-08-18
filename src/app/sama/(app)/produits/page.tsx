@@ -3,7 +3,7 @@ import { Plus, Package, AlertTriangle } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { prisma } from "@/lib/db";
 import { formatMoney, formatNumber, type CurrencyCode } from "@/lib/sama/money";
-import { PageHeader, EmptyState, Badge } from "@/components/sama/ui";
+import { PageHeader, EmptyState, Badge, ExportButton } from "@/components/sama/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +30,7 @@ export default async function ProduitsPage({ searchParams }: { searchParams: Pro
       <PageHeader
         title="Produits"
         subtitle={`${products.length} produit(s) · valeur du stock ${formatMoney(stockValue, cur)}`}
-        action={<Link href="/sama/produits/nouveau" className="btn-primary !py-2 text-sm"><Plus className="w-4 h-4" /> Ajouter</Link>}
+        action={<div className="flex gap-2"><ExportButton type="produits" /><Link href="/sama/produits/nouveau" className="btn-primary !py-2 text-sm"><Plus className="w-4 h-4" /> Ajouter</Link></div>}
       />
 
       <form className="relative">
