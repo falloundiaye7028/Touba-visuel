@@ -32,3 +32,6 @@ prisma/*.db
 
 # Touba Infos — store de contenu (runtime)
 /data/
+
+# TypeScript incremental build info
+tsconfig.tsbuildinfo
