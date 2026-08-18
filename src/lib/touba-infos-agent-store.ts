@@ -113,8 +113,12 @@ function sujetToDb(s: SujetDetecte) {
 // ── Lecture unifiée ──────────────────────────────────────────────────────────
 async function loadSujets(): Promise<SujetDetecte[]> {
   if (hasDb) {
-    const rows = await prisma.infoSujet.findMany({ orderBy: { detecteA: "desc" } });
-    return rows.map(rowToSujet);
+    try {
+      const rows = await prisma.infoSujet.findMany({ orderBy: { detecteA: "desc" } });
+      return rows.map(rowToSujet);
+    } catch {
+      return [];
+    }
   }
   return (await loadFileState()).sujets;
 }
@@ -129,24 +133,32 @@ export async function listSujets(): Promise<SujetDetecte[]> {
 
 export async function getSujet(id: string): Promise<SujetDetecte | undefined> {
   if (hasDb) {
-    const r = await prisma.infoSujet.findUnique({ where: { id } });
-    return r ? rowToSujet(r) : undefined;
+    try {
+      const r = await prisma.infoSujet.findUnique({ where: { id } });
+      return r ? rowToSujet(r) : undefined;
+    } catch {
+      return undefined;
+    }
   }
   return (await loadFileState()).sujets.find((x) => x.id === id);
 }
 
 export async function getDerniereVeille(): Promise<DerniereVeille | undefined> {
   if (hasDb) {
-    const r = await prisma.infoVeilleRun.findFirst({ orderBy: { at: "desc" } });
-    if (!r) return undefined;
-    return {
-      at: r.at.toISOString(),
-      consultees: r.consultees,
-      detectes: r.detectes,
-      nouveaux: r.nouveaux,
-      erreurs: r.erreurs,
-      mode: r.mode as DerniereVeille["mode"],
-    };
+    try {
+      const r = await prisma.infoVeilleRun.findFirst({ orderBy: { at: "desc" } });
+      if (!r) return undefined;
+      return {
+        at: r.at.toISOString(),
+        consultees: r.consultees,
+        detectes: r.detectes,
+        nouveaux: r.nouveaux,
+        erreurs: r.erreurs,
+        mode: r.mode as DerniereVeille["mode"],
+      };
+    } catch {
+      return undefined;
+    }
   }
   return (await loadFileState()).lastRun;
 }
@@ -179,10 +191,14 @@ export async function ajouterSujets(
   if (aInserer.length === 0) return 0;
 
   if (hasDb) {
-    await prisma.infoSujet.createMany({
-      data: aInserer.map(sujetToDb),
-      skipDuplicates: true,
-    });
+    try {
+      await prisma.infoSujet.createMany({
+        data: aInserer.map(sujetToDb),
+        skipDuplicates: true,
+      });
+    } catch {
+      return 0;
+    }
   } else {
     const st = await loadFileState();
     st.sujets = [...aInserer, ...st.sujets].slice(0, 200);
@@ -211,16 +227,20 @@ export async function setStatutSujet(
 
 export async function enregistrerVeille(run: DerniereVeille): Promise<void> {
   if (hasDb) {
-    await prisma.infoVeilleRun.create({
-      data: {
-        at: new Date(run.at),
-        consultees: run.consultees,
-        detectes: run.detectes,
-        nouveaux: run.nouveaux,
-        erreurs: run.erreurs,
-        mode: run.mode,
-      },
-    });
+    try {
+      await prisma.infoVeilleRun.create({
+        data: {
+          at: new Date(run.at),
+          consultees: run.consultees,
+          detectes: run.detectes,
+          nouveaux: run.nouveaux,
+          erreurs: run.erreurs,
+          mode: run.mode,
+        },
+      });
+    } catch {
+      /* table absente / DB indisponible */
+    }
   } else {
     const st = await loadFileState();
     st.lastRun = run;

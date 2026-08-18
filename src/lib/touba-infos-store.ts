@@ -132,9 +132,14 @@ async function ensureSeededDb(): Promise<void> {
 // ── Lecture unifiée (mémoïsée par rendu) ─────────────────────────────────────
 const loadAll = reactCache(async (): Promise<ArticleInfo[]> => {
   if (hasDb) {
-    await ensureSeededDb();
-    const rows = await prisma.infoArticle.findMany();
-    return rows.map(rowToArticle);
+    try {
+      await ensureSeededDb();
+      const rows = await prisma.infoArticle.findMany();
+      return rows.length ? rows.map(rowToArticle) : seed();
+    } catch {
+      // DB injoignable ou tables non encore créées : contenu intégré au code
+      return seed();
+    }
   }
   return loadFile();
 });
