@@ -4,12 +4,12 @@
 //  Base fiable ; une amélioration IA pourra être branchée ensuite.
 // ============================================================================
 
-import type { ArticleInfo, VideoInfo, CategorieInfo } from "./touba-infos";
+import { MEDIA_URL, type ArticleInfo, type VideoInfo, type CategorieInfo } from "./touba-infos";
 
-const SITE = "https://touba-visuel.vercel.app";
+const SITE = MEDIA_URL;
 
 export function urlArticle(slug: string): string {
-  return `${SITE}/touba-infos/${slug}`;
+  return `${SITE}/${slug}`;
 }
 
 function motCle(s: string): string {
@@ -153,11 +153,11 @@ ${bloc("TOUBA", data.touba)}
 ${bloc("SÉNÉGAL", data.senegal)}
 ${bloc("AFRIQUE / MONDE", data.afriqueMonde)}${
     data.video
-      ? `\n\nVIDÉO\n• ${data.video.titre}\n  ${SITE}/touba-infos/videos`
+      ? `\n\nVIDÉO\n• ${data.video.titre}\n  ${SITE}/videos`
       : ""
   }
 
 —
 Vous recevez cette lettre car vous êtes abonné à Touba Infos.
-Se désabonner : ${SITE}/touba-infos/newsletter`;
+Se désabonner : ${SITE}/newsletter`;
 }

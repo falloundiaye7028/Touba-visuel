@@ -4,6 +4,10 @@
 //  NB : contenus de DÉMONSTRATION réalistes — ne pas présenter comme réels.
 // ============================================================================
 
+/** URL publique du média (domaine dédié). Le média est servi à la racine
+ *  de ce domaine via une réécriture dans le middleware. */
+export const MEDIA_URL = "https://toubainfos.com";
+
 export type CategorieInfo =
   | "Touba"
   | "Sénégal"

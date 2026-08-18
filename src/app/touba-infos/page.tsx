@@ -18,6 +18,13 @@ import {
 } from "@/lib/touba-infos-store";
 
 export const revalidate = 20;
+
+export const metadata = {
+  title: {
+    absolute: "Touba Infos — L'actualité de Touba, du Sénégal et du monde",
+  },
+  alternates: { canonical: "/" },
+};
 import {
   CardStandard,
   CardHorizontal,

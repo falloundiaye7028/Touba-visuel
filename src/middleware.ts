@@ -39,6 +39,30 @@ export async function middleware(req: NextRequest) {
   const ip = getIp(req);
   const { pathname } = req.nextUrl;
 
+  // ── 0. Domaine dédié Touba Infos : média à la racine ─────────────────────
+  //     Sur toubainfos.com, la racine et les chemins propres servent le média
+  //     (réécriture interne vers /touba-infos). L'agence reste sur son domaine.
+  const host = (req.headers.get("host") || "").toLowerCase().split(":")[0];
+  if (host === "toubainfos.com" || host === "www.toubainfos.com") {
+    const p = pathname;
+    const passthrough =
+      p.startsWith("/touba-infos") ||
+      p.startsWith("/api") ||
+      p.startsWith("/_next") ||
+      p.startsWith("/images") ||
+      p.startsWith("/splash") ||
+      p === "/robots.txt" ||
+      p === "/sitemap.xml" ||
+      p === "/manifest.json" ||
+      p === "/sw.js" ||
+      /\.[a-zA-Z0-9]+$/.test(p);
+    if (!passthrough) {
+      const url = req.nextUrl.clone();
+      url.pathname = p === "/" ? "/touba-infos" : `/touba-infos${p}`;
+      return NextResponse.rewrite(url);
+    }
+  }
+
   // ── 1. Protection /admin ──────────────────────────────────────────────────
   if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
     const adminSecret = req.headers.get("x-admin-secret") || req.cookies.get("admin-token")?.value;

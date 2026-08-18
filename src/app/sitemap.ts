@@ -5,11 +5,14 @@ import {
   CATEGORIES_INFO,
   CATEGORIES_PLUS,
   slugCategorie,
+  MEDIA_URL,
   type CategorieInfo,
 } from "@/lib/touba-infos";
 import { getArticlesTries } from "@/lib/touba-infos-store";
 
 const BASE = "https://touba-visuel.vercel.app";
+// Média servi à la racine de son domaine dédié
+const INFOS = MEDIA_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articlesInfos = await getArticlesTries();
@@ -42,21 +45,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "politique-editoriale",
     "newsletter",
   ].map((s) => ({
-    url: `${BASE}/touba-infos/${s}`,
+    url: `${INFOS}/${s}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
   const infosRubriques = [...CATEGORIES_INFO, ...CATEGORIES_PLUS].map((c) => ({
-    url: `${BASE}/touba-infos/rubrique/${slugCategorie(c as CategorieInfo)}`,
+    url: `${INFOS}/rubrique/${slugCategorie(c as CategorieInfo)}`,
     lastModified: new Date(),
     changeFrequency: "daily" as const,
     priority: 0.7,
   }));
 
   const infosArticles = articlesInfos.map((a) => ({
-    url: `${BASE}/touba-infos/${a.slug}`,
+    url: `${INFOS}/${a.slug}`,
     lastModified: new Date(a.miseAJour ?? a.date),
     changeFrequency: "monthly" as const,
     priority: 0.8,
@@ -64,7 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: `${BASE}/touba-infos`,
+      url: `${INFOS}/`,
       lastModified: new Date(),
       changeFrequency: "hourly",
       priority: 0.95,

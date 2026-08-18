@@ -10,6 +10,7 @@ import {
   slugCategorie,
   GENRE_LABEL_PLURIEL,
   EMOJI_CATEGORIES,
+  MEDIA_URL,
   type ArticleInfo,
   type CategorieInfo,
 } from "@/lib/touba-infos";
@@ -69,7 +70,7 @@ export async function generateMetadata({
   return {
     title: data.titre,
     description: data.intro,
-    alternates: { canonical: `https://touba-visuel.vercel.app/touba-infos/rubrique/${slug}` },
+    alternates: { canonical: `${MEDIA_URL}/rubrique/${slug}` },
   };
 }
 

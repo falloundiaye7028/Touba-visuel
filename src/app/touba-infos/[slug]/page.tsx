@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight, Clock, Calendar, AlertTriangle } from "lucide-react";
-import { getAuteur, slugCategorie, formatDateFr, formatDateHeureFr } from "@/lib/touba-infos";
+import { getAuteur, slugCategorie, formatDateFr, formatDateHeureFr, MEDIA_URL } from "@/lib/touba-infos";
 import {
   getArticleInfoBySlug,
   getArticlesInfoSimilaires,
@@ -20,7 +20,7 @@ import {
 } from "../_components/ui";
 import ShareButtons from "../_components/ShareButtons";
 
-const SITE = "https://touba-visuel.vercel.app";
+const SITE = MEDIA_URL;
 
 export async function generateStaticParams() {
   return (await getPublishedSlugs()).map((slug) => ({ slug }));
@@ -35,7 +35,7 @@ export async function generateMetadata({
   const article = await getArticleInfoBySlug(slug);
   if (!article) return { title: "Article introuvable" };
 
-  const url = `${SITE}/touba-infos/${article.slug}`;
+  const url = `${SITE}/${article.slug}`;
   const image = article.imageUrl ?? "/touba-infos-logo.png";
 
   return {
@@ -72,7 +72,7 @@ export default async function ArticlePage({
   const article = await getArticleInfoBySlug(slug);
   if (!article) notFound();
 
-  const url = `${SITE}/touba-infos/${article.slug}`;
+  const url = `${SITE}/${article.slug}`;
   const auteur = getAuteur(article.auteur);
   const similaires = await getArticlesInfoSimilaires(article);
   const dernieres = (await getDernieres(4))
@@ -107,12 +107,12 @@ export default async function ArticlePage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/touba-infos` },
+      { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}` },
       {
         "@type": "ListItem",
         position: 2,
         name: article.categorie,
-        item: `${SITE}/touba-infos/rubrique/${slugCategorie(article.categorie)}`,
+        item: `${SITE}/rubrique/${slugCategorie(article.categorie)}`,
       },
       { "@type": "ListItem", position: 3, name: article.titre, item: url },
     ],

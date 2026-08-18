@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MEDIA_URL } from "@/lib/touba-infos";
 import BreakingBar from "./_components/BreakingBar";
 import InfosHeader from "./_components/InfosHeader";
 import InfosFooter from "./_components/InfosFooter";
@@ -15,21 +16,23 @@ export const metadata: Metadata = {
   description:
     "Touba Infos, média numérique d'information générale. Suivez l'actualité de Touba, du Sénégal, de l'Afrique et du monde : politique, société, économie, religion, Grand Magal, sport, culture, vidéos et interviews.",
   applicationName: "Touba Infos",
+  metadataBase: new URL(MEDIA_URL),
   openGraph: {
     siteName: "Touba Infos",
     locale: "fr_SN",
     type: "website",
+    url: MEDIA_URL,
     title: "Touba Infos — L'actualité de Touba, du Sénégal et du monde",
     description:
       "Média numérique d'information générale. L'information au cœur de Touba, ouverte sur le monde.",
-    images: [{ url: "/touba-infos-logo.png", alt: "Touba Infos" }],
+    images: [{ url: `${MEDIA_URL}/touba-infos-logo.png`, alt: "Touba Infos" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Touba Infos",
     description:
       "L'actualité de Touba, du Sénégal, de l'Afrique et du monde.",
-    images: ["/touba-infos-logo.png"],
+    images: [`${MEDIA_URL}/touba-infos-logo.png`],
   },
 };
 
@@ -54,8 +57,8 @@ export default function ToubaInfosLayout({
                 "@context": "https://schema.org",
                 "@type": "NewsMediaOrganization",
                 name: "Touba Infos",
-                url: "https://touba-visuel.vercel.app/touba-infos",
-                logo: "https://touba-visuel.vercel.app/touba-infos-logo.png",
+                url: MEDIA_URL,
+                logo: `${MEDIA_URL}/touba-infos-logo.png`,
                 slogan:
                   "L'information au cœur de Touba, ouverte sur le monde.",
                 areaServed: ["Touba", "Sénégal", "Afrique", "Monde"],
