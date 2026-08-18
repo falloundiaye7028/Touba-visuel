@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   Users, Wallet, Truck, BarChart3, Megaphone, UserCog, FileText,
   Boxes, Settings, Store, Bell, CreditCard, ChevronRight,
+  FileSignature, UploadCloud,
 } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { ROLE_LABELS } from "@/lib/sama/constants";
@@ -13,10 +14,12 @@ const LINKS = [
   { href: "/sama/clients", label: "Clients", icon: Users },
   { href: "/sama/stock", label: "Stock", icon: Boxes },
   { href: "/sama/depenses", label: "Dépenses", icon: Wallet },
-  { href: "/sama/factures", label: "Factures & Devis", icon: FileText },
+  { href: "/sama/factures", label: "Factures", icon: FileText },
+  { href: "/sama/devis", label: "Devis", icon: FileSignature },
   { href: "/sama/fournisseurs", label: "Fournisseurs", icon: Truck },
   { href: "/sama/rapports", label: "Rapports", icon: BarChart3 },
   { href: "/sama/boutique", label: "Boutique en ligne", icon: Store },
+  { href: "/sama/imports", label: "Importer (CSV)", icon: UploadCloud },
   { href: "/sama/marketing", label: "Marketing", icon: Megaphone },
   { href: "/sama/employes", label: "Employés", icon: UserCog },
   { href: "/sama/notifications", label: "Notifications", icon: Bell },

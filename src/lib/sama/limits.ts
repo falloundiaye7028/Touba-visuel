@@ -23,6 +23,16 @@ export function planLimits(business: SamaBusiness) {
   return planByCode(effectivePlanCode(business));
 }
 
+/** Vérifie la limite d'utilisateurs (employés) du plan. */
+export async function checkMemberLimit(business: SamaBusiness): Promise<string | null> {
+  const plan = planLimits(business);
+  if (plan.maxUsers == null) return null;
+  const count = await prisma.samaMember.count({ where: { businessId: business.id } });
+  if (count >= plan.maxUsers)
+    return `Limite du plan ${plan.name} atteinte (${plan.maxUsers} utilisateur${plan.maxUsers > 1 ? "s" : ""}). Passez à un plan supérieur.`;
+  return null;
+}
+
 type Countable = "products" | "customers" | "salesMonth";
 
 /**

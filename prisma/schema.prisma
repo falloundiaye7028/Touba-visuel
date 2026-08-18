@@ -319,13 +319,39 @@ model SamaSupplier {
   email      String?
   address    String?
   notes      String?  @db.Text
+  balanceDue Int      @default(0) // dette envers le fournisseur (FCFA)
   createdAt  DateTime @default(now())
 
-  business SamaBusiness  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  business SamaBusiness        @relation(fields: [businessId], references: [id], onDelete: Cascade)
   products SamaProduct[]
+  entries  SamaSupplierEntry[]
 
   @@index([businessId])
   @@map("sama_suppliers")
+}
+
+enum SamaSupplierEntryType {
+  ACHAT      // augmente la dette
+  PAIEMENT   // diminue la dette
+  RETOUR     // diminue la dette
+}
+
+model SamaSupplierEntry {
+  id          String                @id @default(cuid())
+  businessId  String
+  supplierId  String
+  type        SamaSupplierEntryType
+  amount      Int
+  description String?               @db.Text
+  balanceAfter Int                  @default(0)
+  createdBy   String?
+  createdAt   DateTime              @default(now())
+
+  supplier SamaSupplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@index([supplierId])
+  @@map("sama_supplier_entries")
 }
 
 model SamaCustomer {

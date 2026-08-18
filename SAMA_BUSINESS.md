@@ -78,10 +78,16 @@ src/
 - ✅ Super Admin (KPI SaaS : MRR, ARPU, conversion ; activation/suspension/prolongation ; tarifs configurables)
 - ✅ Notifications, journal d'activité, rôles & permissions
 
+## Modules livrés (V2 gestion)
+
+- ✅ Devis (`DEV-2026-…`) : création, impression/PDF, **conversion en vente** (stock + reçu).
+- ✅ Fournisseurs : fiches CRUD, produits associés, **grand livre des dettes** (achats/paiements/retours).
+- ✅ Employés : **invitation par téléphone** (mot de passe temporaire), gestion des rôles, activation/désactivation.
+- ✅ Imports CSV / Excel : produits et clients, reconnaissance des en-têtes FR, aperçu avant import, respect des limites de plan.
+
 ## Roadmap (préparée dans l'architecture)
 
-- **V2** : fournisseurs, devis, invitation employés par SMS, permissions avancées, campagnes,
-  multi-boutiques, imports/exports CSV/Excel.
+- **V2 (reste)** : campagnes, multi-boutiques, exports avancés, permissions personnalisées par membre.
 - **V3** : SAMA AI (assistant business, analyses, contenu marketing, rapports IA).
 - **V4** : grossistes, marketplace B2B, intégrations paiement (Wave/Orange Money API), livraison, API partenaires.
 

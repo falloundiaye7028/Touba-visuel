@@ -17,7 +17,7 @@ export default async function FacturesPage() {
   const { business } = await requireOnboardedTenant();
   const cur = business.currency as CurrencyCode;
   const invoices = await prisma.samaInvoice.findMany({
-    where: { businessId: business.id, type: { in: ["FACTURE", "DEVIS"] } },
+    where: { businessId: business.id, type: "FACTURE" },
     include: { customer: { select: { name: true } } },
     orderBy: { createdAt: "desc" },
     take: 100,
@@ -25,7 +25,7 @@ export default async function FacturesPage() {
 
   return (
     <div className="space-y-4">
-      <PageHeader title="Factures & Devis" subtitle={`${invoices.length} document(s)`} />
+      <PageHeader title="Factures" subtitle={`${invoices.length} facture(s)`} />
       {invoices.length === 0 ? (
         <EmptyState
           icon={<FileText className="w-6 h-6" />}
