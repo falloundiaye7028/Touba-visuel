@@ -440,3 +440,42 @@
 }
 .ti-prose > h2:first-child,
 .ti-prose > p:first-child { margin-top: 0; }
+/* ── SAMA BUSINESS — impression des reçus et factures ─────────────────────── */
+@media print {
+  body * { visibility: hidden !important; }
+  .print-area, .print-area * { visibility: visible !important; }
+  .print-area { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none !important; border: none !important; }
+  .no-print { display: none !important; }
+  header, nav, aside { display: none !important; }
+}
+
+/* ── SAMA BUSINESS — Mode sombre (activé par la classe .dark sur <html>) ──── */
+.dark body { background-color: #0b1120; color: #e5e7eb; }
+.dark .bg-white { background-color: #111827 !important; }
+.dark .bg-gray-50 { background-color: #0f172a !important; }
+.dark .bg-gray-100 { background-color: #1f2937 !important; }
+.dark .card { background-color: #111827 !important; border-color: #1f2937 !important; }
+.dark .input-field { background-color: #0f172a; border-color: #334155; color: #e5e7eb; }
+.dark .input-field::placeholder { color: #64748b; }
+.dark .text-gray-900 { color: #f1f5f9 !important; }
+.dark .text-gray-800 { color: #e2e8f0 !important; }
+.dark .text-gray-700 { color: #cbd5e1 !important; }
+.dark .text-gray-600 { color: #94a3b8 !important; }
+.dark .text-gray-500 { color: #64748b !important; }
+.dark .text-gray-400 { color: #475569 !important; }
+.dark .border-gray-100 { border-color: #1f2937 !important; }
+.dark .border-gray-200 { border-color: #334155 !important; }
+.dark .divide-gray-100 > * { border-color: #1f2937 !important; }
+.dark header, .dark aside, .dark nav.fixed { background-color: #0f172a !important; border-color: #1f2937 !important; }
+.dark .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+.dark .hover\:bg-gray-100:hover { background-color: #334155 !important; }
+/* Tints de marque adoucies en sombre */
+.dark .bg-vert-50 { background-color: rgba(29,156,104,0.12) !important; }
+.dark .bg-or-50 { background-color: rgba(255,179,0,0.10) !important; }
+.dark .bg-amber-50 { background-color: rgba(245,158,11,0.10) !important; }
+.dark .bg-red-50 { background-color: rgba(239,68,68,0.12) !important; }
+.dark .bg-blue-50 { background-color: rgba(59,130,246,0.12) !important; }
+/* Les documents imprimés restent blancs */
+@media print {
+  .print-area { background: #fff !important; color: #111 !important; }
+}

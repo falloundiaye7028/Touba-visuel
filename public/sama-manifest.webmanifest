@@ -1,0 +1,22 @@
+{
+  "name": "SAMA BUSINESS",
+  "short_name": "SAMA",
+  "description": "Gérez votre commerce simplement : ventes, commandes, clients, stocks, factures et boutique en ligne.",
+  "start_url": "/sama/dashboard",
+  "scope": "/sama",
+  "display": "standalone",
+  "background_color": "#0e7d52",
+  "theme_color": "#0e7d52",
+  "orientation": "portrait",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ],
+  "shortcuts": [
+    { "name": "Nouvelle vente", "url": "/sama/ventes/nouvelle" },
+    { "name": "Produits", "url": "/sama/produits" },
+    { "name": "Clients", "url": "/sama/clients" }
+  ]
+}

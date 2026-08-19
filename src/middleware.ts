@@ -117,17 +117,22 @@ export async function middleware(req: NextRequest) {
   }
 
   // ── 5. Bloquer méthodes HTTP non autorisées sur pages ────────────────────
-  //     (on autorise les Server Actions Next.js : POST avec en-tête next-action)
+  //     (on autorise les Server Actions Next.js et l'app SAMA : POST)
   const isServerAction = !!req.headers.get("next-action");
+  const isSamaApp = pathname.startsWith("/sama");
   if (
     !pathname.startsWith("/api/") &&
     !isServerAction &&
+    !isSamaApp &&
     !["GET", "HEAD"].includes(req.method)
   ) {
     return new NextResponse(null, { status: 405 });
   }
 
-  const response = NextResponse.next();
+  // Transmet le chemin courant aux composants serveur (chrome conditionnel).
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   // ── 6. Headers de sécurité additionnels ──────────────────────────────────
   response.headers.set("X-Request-ID", crypto.randomUUID());
@@ -135,6 +140,7 @@ export async function middleware(req: NextRequest) {
   const noStore =
     pathname.startsWith("/api/") ||
     pathname.startsWith("/touba-infos/admin") ||
+    isSamaApp ||
     isServerAction;
   response.headers.set(
     "Cache-Control",
