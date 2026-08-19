@@ -82,11 +82,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = (await headers()).get("x-pathname") || "";
-  // SAMA BUSINESS est une application autonome : elle fournit son propre
-  // chrome et ne doit pas hériter de l'en-tête/pied Touba Visuel.
+  // SAMA BUSINESS et TOUBA INFOS sont des applications autonomes : elles
+  // fournissent leur propre habillage et n'héritent pas de l'en-tête/pied ATV.
   const isSama = pathname.startsWith("/sama");
+  const isInfos = pathname.startsWith("/touba-infos");
 
-  if (isSama) {
+  if (isSama || isInfos) {
     return (
       <html lang="fr">
         <body>{children}</body>

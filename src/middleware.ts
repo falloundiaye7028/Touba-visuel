@@ -65,9 +65,13 @@ export async function middleware(req: NextRequest) {
       p === "/sw.js" ||
       /\.[a-zA-Z0-9]+$/.test(p);
     if (!passthrough) {
+      const target = p === "/" ? "/touba-infos" : `/touba-infos${p}`;
       const url = req.nextUrl.clone();
-      url.pathname = p === "/" ? "/touba-infos" : `/touba-infos${p}`;
-      return NextResponse.rewrite(url);
+      url.pathname = target;
+      // Transmet le chemin réécrit au layout serveur (habillage média).
+      const rewriteHeaders = new Headers(req.headers);
+      rewriteHeaders.set("x-pathname", target);
+      return NextResponse.rewrite(url, { request: { headers: rewriteHeaders } });
     }
   }
 
