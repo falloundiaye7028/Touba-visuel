@@ -173,6 +173,21 @@ curl -X POST http://localhost:3000/api/sama/seed -H "x-admin-secret: $ADMIN_SECR
 # Connexion démo : demo@sama.local / demo1234
 ```
 
+## Tests
+
+Suite de tests unitaires (Vitest) sur la logique critique, exécutable sans base de données :
+
+```bash
+npm test          # exécute la suite (60 tests)
+npm run test:watch
+```
+
+Couverture : calculs de vente (`calc.ts` — sous-total, remise, code promo, marge, statut de
+paiement, décrément/restauration de stock), utilitaires monétaires, génération de slug, limites
+d'abonnement (essai actif/expiré, plan effectif), et permissions (rôles + permissions
+personnalisées). La logique de calcul des ventes est factorisée dans `calc.ts` et **utilisée
+directement** par les Server Actions — les tests protègent donc le code de production.
+
 ## Sécurité
 
 Isolation multi-tenant côté serveur, validation Zod, hachage bcrypt, rate-limiting et filtrage

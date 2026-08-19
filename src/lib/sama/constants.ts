@@ -139,6 +139,20 @@ export function expandRolePermissions(role: SamaRole): Permission[] {
   return perms === "*" ? ALL_PERMISSIONS.map((p) => p.value) : [...perms];
 }
 
+/**
+ * Résolution PURE d'une permission pour un membre : ses permissions
+ * personnalisées si définies (liste), sinon celles de son rôle. OWNER a tout.
+ */
+export function resolveMemberPermission(
+  role: SamaRole,
+  customPermissions: unknown,
+  perm: Permission
+): boolean {
+  if (role === "OWNER") return true;
+  if (Array.isArray(customPermissions)) return (customPermissions as string[]).includes(perm);
+  return hasPermission(role, perm);
+}
+
 // Segments clients automatiques (marketing / CRM)
 export const SEGMENTS = [
   { value: "all", label: "Tous les clients" },

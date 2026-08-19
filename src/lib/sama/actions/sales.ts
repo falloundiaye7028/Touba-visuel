@@ -7,6 +7,7 @@ import { requireTenant, assertMemberCan, logActivity } from "@/lib/sama/tenant";
 import { checkLimit } from "@/lib/sama/limits";
 import { nextNumber } from "@/lib/sama/numbering";
 import { parseAmount } from "@/lib/sama/money";
+import { saleTotals, payStatusFor, hasEnoughStock, stockAfterSale, stockAfterCancel, type PromoType } from "@/lib/sama/calc";
 
 export interface SaleState {
   error?: string;
@@ -68,51 +69,47 @@ export async function createSaleAction(_prev: SaleState, formData: FormData): Pr
   for (const it of items) {
     if (it.productId) {
       const p = productMap.get(it.productId);
-      if (p && p.stock < it.quantity) {
+      if (p && !hasEnoughStock(p.stock, it.quantity)) {
         return { error: `Stock insuffisant pour « ${p.name} » (disponible : ${p.stock}).` };
       }
     }
   }
 
-  let subtotal = 0;
-  let cost = 0;
   const lineData = items.map((it) => {
     const p = it.productId ? productMap.get(it.productId) : undefined;
-    const unitPrice = it.unitPrice;
     const costPrice = p?.costPrice ?? 0;
-    const total = unitPrice * it.quantity;
-    subtotal += total;
-    cost += costPrice * it.quantity;
     return {
       productId: p?.id ?? null,
       name: it.name,
       quantity: it.quantity,
-      unitPrice,
+      unitPrice: it.unitPrice,
       costPrice,
-      total,
+      total: it.unitPrice * it.quantity,
     };
   });
 
-  // Application d'un code promo (remise ajoutée à la remise manuelle).
+  // Validation d'un code promo éventuel (la remise est calculée par saleTotals).
   let promoId: string | null = null;
+  let validPromo: { type: PromoType; value: number } | null = null;
   if (promoCode) {
     const promo = await prisma.samaPromoCode.findUnique({ where: { businessId_code: { businessId: business.id, code: promoCode } } });
     const valid = promo && promo.active && (!promo.expiresAt || promo.expiresAt >= new Date()) && (promo.maxUsage == null || promo.usageCount < promo.maxUsage);
-    if (valid) {
-      const promoDiscount = promo.type === "POURCENTAGE" ? Math.round((subtotal * promo.value) / 100) : Math.min(promo.value, subtotal);
-      discount = Math.min(subtotal, discount + promoDiscount);
+    if (valid && promo) {
+      validPromo = { type: promo.type, value: promo.value };
       promoId = promo.id;
     }
   }
 
-  const total = Math.max(0, subtotal - discount + deliveryFee);
-  const margin = subtotal - discount - cost;
+  // Totaux calculés par la logique pure (testée) : subtotal, coût, remise, total, marge.
+  const totals = saleTotals(lineData, { manualDiscount: discount, deliveryFee, promo: validPromo });
+  const { subtotal, cost, total, margin } = totals;
+  discount = totals.discount;
 
   let amountPaid = parseAmount(String(formData.get("amountPaid") || ""));
   // Par défaut, un paiement non-crédit est intégral.
   if (!formData.get("amountPaid") && method !== "CREDIT") amountPaid = total;
   amountPaid = Math.min(Math.max(0, amountPaid), total);
-  const payStatus = amountPaid >= total ? "PAYE" : amountPaid > 0 ? "PARTIEL" : "CREDIT";
+  const payStatus = payStatusFor(amountPaid, total);
 
   let saleId = "";
   try {
@@ -150,7 +147,7 @@ export async function createSaleAction(_prev: SaleState, formData: FormData): Pr
       for (const ln of lineData) {
         if (ln.productId) {
           const p = productMap.get(ln.productId)!;
-          const newStock = p.stock - ln.quantity;
+          const newStock = stockAfterSale(p.stock, ln.quantity);
           await tx.samaProduct.update({ where: { id: p.id }, data: { stock: newStock } });
           await tx.samaInventoryMovement.create({
             data: {
@@ -198,7 +195,7 @@ export async function createSaleAction(_prev: SaleState, formData: FormData): Pr
   for (const ln of lineData) {
     if (ln.productId) {
       const p = productMap.get(ln.productId)!;
-      const newStock = p.stock - ln.quantity;
+      const newStock = stockAfterSale(p.stock, ln.quantity);
       if (newStock <= p.alertThreshold) {
         await prisma.samaNotification.create({
           data: {
@@ -236,7 +233,7 @@ export async function cancelSaleAction(formData: FormData): Promise<void> {
       if (it.productId) {
         const p = await tx.samaProduct.findUnique({ where: { id: it.productId } });
         if (p) {
-          const newStock = p.stock + it.quantity;
+          const newStock = stockAfterCancel(p.stock, it.quantity);
           await tx.samaProduct.update({ where: { id: p.id }, data: { stock: newStock } });
           await tx.samaInventoryMovement.create({
             data: {
@@ -275,7 +272,7 @@ export async function addPaymentAction(formData: FormData): Promise<void> {
   if (!sale) return;
 
   const newPaid = Math.min(sale.total, sale.amountPaid + amount);
-  const payStatus = newPaid >= sale.total ? "PAYE" : newPaid > 0 ? "PARTIEL" : "CREDIT";
+  const payStatus = payStatusFor(newPaid, sale.total);
 
   await prisma.$transaction([
     prisma.samaPayment.create({ data: { businessId: business.id, saleId, amount, method } }),

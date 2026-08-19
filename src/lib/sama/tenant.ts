@@ -10,17 +10,14 @@ import { getServerSession } from "next-auth";
 import type { SamaBusiness, SamaMember, SamaRole } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { authOptions } from "./auth";
-import { hasPermission, type Permission } from "./constants";
+import { hasPermission, resolveMemberPermission, type Permission } from "./constants";
 
 /**
  * Permission effective d'un membre : ses permissions personnalisées si
  * définies, sinon celles de son rôle. Le propriétaire a tout.
  */
 export function memberCan(member: SamaMember, perm: Permission): boolean {
-  if (member.role === "OWNER") return true;
-  const custom = member.customPermissions as unknown;
-  if (Array.isArray(custom)) return (custom as string[]).includes(perm);
-  return hasPermission(member.role, perm);
+  return resolveMemberPermission(member.role, member.customPermissions, perm);
 }
 
 export function assertMemberCan(member: SamaMember, perm: Permission): void {
