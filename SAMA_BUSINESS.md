@@ -126,6 +126,25 @@ src/
   des permissions précises par employé (ou réinitialiser au rôle). Appliquées **côté serveur**
   sur toutes les Server Actions.
 
+## Modules livrés (V4 — paiement des abonnements)
+
+- ✅ **Paiement Wave / Orange Money** des abonnements — flux réel et honnête (aucune fausse
+  transaction) : le commerçant paie vers le numéro/lien de la plateforme, saisit la **référence**
+  de sa transaction, et le **super administrateur confirme** → le plan est activé pour N mois.
+- ✅ **Super Admin** : file des paiements à confirmer (Confirmer & activer / Rejeter).
+- ✅ **Architecture prête pour l'API** : `src/lib/sama/payments.ts` (config par variables d'env) +
+  **webhook** `/api/sama/payment/webhook` (protégé par secret, inerte tant que non configuré ;
+  active automatiquement le plan sur callback `SUCCESS`).
+
+Variables d'env de paiement (facultatives) :
+```bash
+SAMA_WAVE_NUMBER=+221...           # ou SAMA_WAVE_LINK=https://pay.wave.com/...
+SAMA_OM_NUMBER=+221...
+SAMA_BANK_INFO="IBAN / RIB"
+SAMA_PAYMENT_WEBHOOK_SECRET=...    # active le webhook de confirmation automatique
+# (futur) SAMA_WAVE_API_KEY / SAMA_OM_API_KEY pour le checkout automatique
+```
+
 ## Roadmap (préparée dans l'architecture)
 - **V3** : SAMA AI (assistant business, analyses, contenu marketing, rapports IA).
 - **V4** : grossistes, marketplace B2B, intégrations paiement (Wave/Orange Money API), livraison, API partenaires.

@@ -221,9 +221,31 @@ model SamaBusiness {
   notifications SamaNotification[]
   campaigns   SamaCampaign[]
   promoCodes  SamaPromoCode[]
+  subPayments SamaSubscriptionPayment[]
 
   @@index([ownerId])
   @@map("sama_businesses")
+}
+
+model SamaSubscriptionPayment {
+  id          String   @id @default(cuid())
+  businessId  String
+  planCode    String
+  amount      Int      // FCFA
+  months      Int      @default(1)
+  method      String   @default("WAVE") // WAVE, ORANGE_MONEY, VIREMENT, AUTRE
+  reference   String?  // référence de transaction saisie par le commerçant
+  providerRef String?  // identifiant côté fournisseur (API future)
+  status      String   @default("EN_ATTENTE") // EN_ATTENTE, CONFIRME, REJETE
+  confirmedBy String?
+  confirmedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@index([status])
+  @@map("sama_subscription_payments")
 }
 
 enum SamaRole {

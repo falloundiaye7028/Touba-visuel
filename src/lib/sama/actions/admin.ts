@@ -58,6 +58,32 @@ export async function setBusinessSubscriptionAction(formData: FormData): Promise
   revalidatePath("/sama/super-admin");
 }
 
+/** Confirme un paiement d'abonnement et active le plan de l'entreprise. */
+export async function confirmSubscriptionPaymentAction(formData: FormData): Promise<void> {
+  const { email } = await requireSuperAdmin();
+  const paymentId = String(formData.get("paymentId") || "");
+  const payment = await prisma.samaSubscriptionPayment.findUnique({ where: { id: paymentId } });
+  if (!payment || payment.status !== "EN_ATTENTE") return;
+
+  const end = new Date(Date.now() + payment.months * 30 * 86400000);
+  await prisma.$transaction([
+    prisma.samaSubscriptionPayment.update({ where: { id: paymentId }, data: { status: "CONFIRME", confirmedBy: email, confirmedAt: new Date() } }),
+    prisma.samaBusiness.update({ where: { id: payment.businessId }, data: { planCode: payment.planCode, subscriptionStatus: "ACTIVE", subEndsAt: end, trialEndsAt: null } }),
+    prisma.samaNotification.create({ data: { businessId: payment.businessId, type: "SUBSCRIPTION", title: "Abonnement activé ✓", body: `Votre plan ${payment.planCode} est actif jusqu'au ${end.toLocaleDateString("fr-FR")}.` } }),
+  ]);
+  revalidatePath("/sama/super-admin");
+}
+
+export async function rejectSubscriptionPaymentAction(formData: FormData): Promise<void> {
+  await requireSuperAdmin();
+  const paymentId = String(formData.get("paymentId") || "");
+  const payment = await prisma.samaSubscriptionPayment.findUnique({ where: { id: paymentId } });
+  if (!payment || payment.status !== "EN_ATTENTE") return;
+  await prisma.samaSubscriptionPayment.update({ where: { id: paymentId }, data: { status: "REJETE" } });
+  await prisma.samaNotification.create({ data: { businessId: payment.businessId, type: "SUBSCRIPTION", title: "Paiement non confirmé", body: "Votre paiement d'abonnement n'a pas pu être confirmé. Contactez le support." } });
+  revalidatePath("/sama/super-admin");
+}
+
 /** Modifie les tarifs d'un plan (tarifs configurables depuis l'administration). */
 export async function updatePlanPriceAction(formData: FormData): Promise<void> {
   await requireSuperAdmin();

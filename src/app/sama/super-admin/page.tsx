@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { requireSuperAdmin, setBusinessSubscriptionAction, updatePlanPriceAction } from "@/lib/sama/actions/admin";
+import { requireSuperAdmin, setBusinessSubscriptionAction, updatePlanPriceAction, confirmSubscriptionPaymentAction, rejectSubscriptionPaymentAction } from "@/lib/sama/actions/admin";
 import { ensurePlans } from "@/lib/sama/plans";
 import { PLANS } from "@/lib/sama/constants";
 import { formatMoney, formatNumber } from "@/lib/sama/money";
@@ -21,6 +21,13 @@ export default async function SuperAdminPage() {
     prisma.user.count(),
     prisma.samaPlan.findMany({ orderBy: { ordre: "asc" } }),
   ]);
+
+  const pendingPayments = await prisma.samaSubscriptionPayment.findMany({
+    where: { status: "EN_ATTENTE" },
+    include: { business: { select: { name: true, slug: true } } },
+    orderBy: { createdAt: "asc" },
+    take: 50,
+  });
 
   const active = businesses.filter((b) => b.subscriptionStatus === "ACTIVE");
   const trial = businesses.filter((b) => b.subscriptionStatus === "TRIAL");
@@ -47,6 +54,35 @@ export default async function SuperAdminPage() {
         <StatCard label="Conversion" value={`${businesses.length ? Math.round((active.length / businesses.length) * 100) : 0}%`} />
         <StatCard label="Suspendus" value={formatNumber(businesses.filter((b) => b.subscriptionStatus === "SUSPENDED").length)} tone="red" />
       </div>
+
+      {/* Paiements d'abonnement en attente */}
+      <section className="card p-4">
+        <h2 className="font-semibold mb-3">Paiements d&apos;abonnement à confirmer ({pendingPayments.length})</h2>
+        {pendingPayments.length === 0 ? (
+          <p className="text-sm text-gray-400">Aucun paiement en attente.</p>
+        ) : (
+          <div className="space-y-2">
+            {pendingPayments.map((p) => (
+              <div key={p.id} className="border border-gray-100 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2">
+                <div className="text-sm">
+                  <div className="font-medium">{p.business.name} — {p.planCode}</div>
+                  <div className="text-xs text-gray-500">{formatMoney(p.amount)} · {p.months} mois · {p.method}{p.reference ? ` · réf. ${p.reference}` : ""} · {p.createdAt.toLocaleDateString("fr-FR")}</div>
+                </div>
+                <div className="flex gap-2">
+                  <form action={confirmSubscriptionPaymentAction}>
+                    <input type="hidden" name="paymentId" value={p.id} />
+                    <button className="btn-primary !py-1 !px-3 text-xs">Confirmer & activer</button>
+                  </form>
+                  <form action={rejectSubscriptionPaymentAction}>
+                    <input type="hidden" name="paymentId" value={p.id} />
+                    <button className="btn-outline !py-1 !px-3 text-xs !border-red-300 !text-red-600">Rejeter</button>
+                  </form>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* Tarifs des plans */}
       <section className="card p-4">

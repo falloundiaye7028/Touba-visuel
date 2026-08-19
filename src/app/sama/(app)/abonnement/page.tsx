@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { Check } from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
+import { prisma } from "@/lib/db";
 import { PLANS, planByCode } from "@/lib/sama/constants";
 import { isActive } from "@/lib/sama/limits";
 import { requestPlanAction } from "@/lib/sama/actions/subscription";
@@ -9,15 +11,32 @@ import { SubmitButton } from "@/components/sama/SubmitButton";
 
 export const dynamic = "force-dynamic";
 
-export default async function AbonnementPage() {
+export default async function AbonnementPage({ searchParams }: { searchParams: Promise<{ paiement?: string }> }) {
   const { business } = await requireOnboardedTenant();
   const current = planByCode(business.planCode);
   const active = isActive(business);
   const trialDays = business.trialEndsAt ? Math.ceil((business.trialEndsAt.getTime() - Date.now()) / 86400000) : 0;
+  const { paiement } = await searchParams;
+  const pending = await prisma.samaSubscriptionPayment.findFirst({
+    where: { businessId: business.id, status: "EN_ATTENTE" },
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <div className="space-y-4">
       <PageHeader title="Abonnement" subtitle="Choisissez le plan adapté à votre activité" />
+
+      {paiement === "enregistre" && (
+        <div className="bg-vert-50 border border-vert-200 rounded-2xl px-4 py-3 text-sm text-vert-800">
+          Paiement enregistré ✓ Votre plan sera activé après vérification par notre équipe.
+        </div>
+      )}
+      {pending && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-sm text-amber-800">
+          Paiement en attente de confirmation : plan {planByCode(pending.planCode).name} · {formatMoney(pending.amount, business.currency as "XOF")}
+          {pending.reference ? ` · réf. ${pending.reference}` : ""}.
+        </div>
+      )}
 
       <div className="card p-4 bg-vert-50">
         <div className="flex items-center justify-between">
@@ -49,12 +68,16 @@ export default async function AbonnementPage() {
                 ))}
               </ul>
               {!isCurrent && (
-                <form action={requestPlanAction} className="mt-3">
-                  <input type="hidden" name="plan" value={p.code} />
-                  <SubmitButton className={p.code === "GRATUIT" ? "btn-outline w-full" : "btn-primary w-full"} pendingLabel="…">
-                    {p.code === "GRATUIT" ? "Passer au plan Gratuit" : `Choisir ${p.name}`}
-                  </SubmitButton>
-                </form>
+                p.code === "GRATUIT" ? (
+                  <form action={requestPlanAction} className="mt-3">
+                    <input type="hidden" name="plan" value={p.code} />
+                    <SubmitButton className="btn-outline w-full" pendingLabel="…">Passer au plan Gratuit</SubmitButton>
+                  </form>
+                ) : (
+                  <Link href={`/sama/abonnement/paiement?plan=${p.code}`} className="btn-primary w-full mt-3">
+                    Choisir {p.name} — {formatMoney(p.priceMonthly)}/mois
+                  </Link>
+                )
               )}
             </div>
           );
