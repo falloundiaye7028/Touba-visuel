@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -81,11 +82,24 @@ export const metadata: Metadata = {
   themeColor: "#07402b",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = (await headers()).get("x-pathname") || "";
+  // SAMA BUSINESS est une application autonome : elle fournit son propre
+  // chrome et ne doit pas hériter de l'en-tête/pied Touba Visuel.
+  const isSama = pathname.startsWith("/sama");
+
+  if (isSama) {
+    return (
+      <html lang="fr">
+        <body>{children}</body>
+      </html>
+    );
+  }
+
   return (
     <html lang="fr">
       <body>
