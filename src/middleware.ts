@@ -39,6 +39,18 @@ export async function middleware(req: NextRequest) {
   const ip = getIp(req);
   const { pathname } = req.nextUrl;
 
+  // ── 0. toubainfos.com : la racine "/" affiche le blog Touba Infos ────────
+  const host = (req.headers.get("host") || "").toLowerCase();
+  if (
+    pathname === "/" &&
+    (host === "toubainfos.com" || host === "www.toubainfos.com")
+  ) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/touba-infos";
+    return NextResponse.rewrite(url);
+  }
+
+
   // ── 1. Protection /admin ──────────────────────────────────────────────────
   if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
     const adminSecret = req.headers.get("x-admin-secret") || req.cookies.get("admin-token")?.value;
