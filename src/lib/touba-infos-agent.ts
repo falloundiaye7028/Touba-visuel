@@ -213,6 +213,23 @@ export function niveauScore(score: number): { label: string; cls: string } {
   return { label: "Faible", cls: "bg-neutral-100 text-neutral-500" };
 }
 
+/** Sujet « sensible » : en mode assisté, il reste en brouillon pour relecture. */
+export function estSensible(categorie: CategorieInfo, tags: string[]): boolean {
+  const cats: CategorieInfo[] = [
+    "Politique",
+    "Religion",
+    "Société",
+    "International",
+    "Afrique",
+  ];
+  if (cats.includes(categorie)) return true;
+  const kw = [
+    "décès", "deces", "nécrologie", "necrologie", "justice", "tribunal",
+    "arrestation", "accusation", "mort", "conflit", "sécurité",
+  ];
+  return tags.some((t) => kw.includes(t.toLowerCase()));
+}
+
 /** Nécessite une validation humaine obligatoire (jamais d'auto-publication). */
 export function exigeValidationHumaine(categorie: CategorieInfo): boolean {
   return [

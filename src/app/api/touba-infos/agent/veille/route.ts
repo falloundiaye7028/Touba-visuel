@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { runVeille } from "@/lib/touba-infos-veille";
+import { autoTraiterSujets } from "@/lib/touba-infos-writer";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -27,7 +29,12 @@ export async function GET(req: NextRequest) {
 
   try {
     const run = await runVeille();
-    return NextResponse.json({ ok: true, run });
+    // Rédaction + publication automatiques (selon TI_AGENT_AUTOPUBLISH)
+    const auto = await autoTraiterSujets();
+    if (auto.publies > 0) {
+      revalidatePath("/touba-infos", "layout");
+    }
+    return NextResponse.json({ ok: true, run, auto });
   } catch (e) {
     return NextResponse.json(
       { ok: false, error: String(e).slice(0, 200) },

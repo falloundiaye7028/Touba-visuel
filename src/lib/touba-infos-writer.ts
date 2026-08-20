@@ -7,9 +7,9 @@
 // ============================================================================
 
 import { EMOJI_CATEGORIES, type ArticleInfo } from "./touba-infos";
-import type { SujetDetecte } from "./touba-infos-agent";
+import { estSensible, type SujetDetecte } from "./touba-infos-agent";
 import { adminCreate } from "./touba-infos-store";
-import { setStatutSujet } from "./touba-infos-agent-store";
+import { setStatutSujet, listSujets } from "./touba-infos-agent-store";
 
 interface RedactionIA {
   titre: string;
@@ -201,28 +201,78 @@ function brouillonSecours(sujet: SujetDetecte): RedactionIA {
   };
 }
 
+/**
+ * Rédige un article à partir d'un sujet.
+ * @param autoPublish  si true ET que l'IA a réellement rédigé (pas un squelette),
+ *   le statut est décidé par TI_AGENT_AUTOPUBLISH :
+ *     - "full"     → publié directement ;
+ *     - "assisted" → publié si le sujet n'est pas sensible, sinon brouillon ;
+ *     - "off"/absent → toujours brouillon.
+ *   Un squelette (IA indisponible) n'est JAMAIS publié automatiquement.
+ */
 export async function redigerArticle(
   sujet: SujetDetecte,
+  autoPublish = false,
 ): Promise<ArticleInfo> {
-  const ia = (await appelIA(sujet)) ?? brouillonSecours(sujet);
+  const ia = await appelIA(sujet);
+  const iaOk = !!ia;
+  const contenu = ia ?? brouillonSecours(sujet);
+
+  const mode = (process.env.TI_AGENT_AUTOPUBLISH || "off").toLowerCase();
+  let statut: ArticleInfo["statut"] = "brouillon";
+  if (autoPublish && iaOk && mode !== "off") {
+    if (mode === "full") statut = "publie";
+    else if (mode === "assisted")
+      statut = estSensible(sujet.categorie, sujet.tags) ? "brouillon" : "publie";
+  }
 
   const article = await adminCreate({
-    titre: ia.titre,
-    sousTitre: ia.sousTitre,
-    extrait: ia.extrait,
+    titre: contenu.titre,
+    sousTitre: contenu.sousTitre,
+    extrait: contenu.extrait,
     categorie: sujet.categorie,
     genre: "Actualité",
-    statut: "brouillon", // validation humaine obligatoire
+    statut,
     auteur: "Rédaction Touba Infos",
     date: new Date().toISOString(),
     tempsLecture: "3 min",
     imageEmoji: EMOJI_CATEGORIES[sujet.categorie] ?? "📰",
     imageGradient: GRADIENTS.defaut,
-    tags: (ia.tags && ia.tags.length ? ia.tags : sujet.tags).slice(0, 6),
-    contenu: `${ia.contenu}\n${blocSources(sujet)}`,
+    tags: (contenu.tags && contenu.tags.length ? contenu.tags : sujet.tags).slice(0, 6),
+    contenu: `${contenu.contenu}\n${blocSources(sujet)}`,
     vues: 0,
   });
 
   await setStatutSujet(sujet.id, "redige");
   return article;
+}
+
+/**
+ * Traitement automatique : rédige (et publie selon le mode) les meilleurs
+ * sujets détectés. Appelé par le cron. Limité par TI_AGENT_MAX_PER_RUN.
+ */
+export async function autoTraiterSujets(): Promise<{
+  rediges: number;
+  publies: number;
+}> {
+  const mode = (process.env.TI_AGENT_AUTOPUBLISH || "off").toLowerCase();
+  if (mode === "off") return { rediges: 0, publies: 0 };
+
+  const max = Number(process.env.TI_AGENT_MAX_PER_RUN || "5") || 5;
+  const sujets = (await listSujets())
+    .filter((s) => s.statut === "detecte")
+    .slice(0, max); // listSujets est déjà trié par score décroissant
+
+  let rediges = 0;
+  let publies = 0;
+  for (const s of sujets) {
+    try {
+      const art = await redigerArticle(s, true);
+      rediges++;
+      if ((art.statut ?? "brouillon") === "publie") publies++;
+    } catch {
+      /* on continue avec les suivants */
+    }
+  }
+  return { rediges, publies };
 }
