@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
@@ -73,6 +73,9 @@ export const metadata: Metadata = {
     ],
     shortcut: "/favicon.png",
   },
+};
+
+export const viewport: Viewport = {
   themeColor: "#07402b",
 };
 
@@ -82,7 +85,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = (await headers()).get("x-pathname") || "";
-  // SAMA BUSINESS et TOUBA INFOS sont des applications autonomes : elles
+  // SAMA PILOT et TOUBA INFOS sont des applications autonomes : elles
   // fournissent leur propre habillage et n'héritent pas de l'en-tête/pied ATV.
   const isSama = pathname.startsWith("/sama");
   const isInfos = pathname.startsWith("/touba-infos");
