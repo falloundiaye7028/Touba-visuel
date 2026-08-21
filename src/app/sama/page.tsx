@@ -194,10 +194,15 @@ export default function SamaLanding() {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 py-10">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-4 text-sm">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-6 text-sm">
           <div>
             <div className="font-bold text-white text-lg">SAMA PILOT</div>
             <p className="mt-1">Vendez. Gérez. Encaissez. Décidez avec l’IA.</p>
+            <p className="mt-3 text-gray-300">Développé par <span className="font-semibold text-white">Touba Digital Group</span></p>
+            <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs">
+              <a href="tel:+221778001717" className="hover:text-white transition-colors">+221 77 800 17 17</a>
+              <a href="mailto:toubainfos@gmail.com" className="hover:text-white transition-colors">toubainfos@gmail.com</a>
+            </div>
           </div>
           <div className="flex gap-6">
             <Link href="/sama/inscription" className="hover:text-white">Créer un compte</Link>
