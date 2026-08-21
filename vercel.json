@@ -1,11 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
-    {
-      "source": "/samapilot-logo.webp",
-      "destination": "/api/sama/logo"
-    }
-  ],
   "crons": [
     {
       "path": "/api/touba-infos/agent/veille",
