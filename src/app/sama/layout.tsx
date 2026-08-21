@@ -22,11 +22,11 @@ export const metadata: Metadata = {
     "commerce Touba",
   ],
   applicationName: "SAMA PILOT",
-  alternates: { canonical: "/sama" },
+  alternates: { canonical: "https://samapilot.com" },
   openGraph: {
     title: "SAMA PILOT — Votre entreprise dans votre poche",
     description: SAMA_DESCRIPTION,
-    url: "/sama",
+    url: "https://samapilot.com",
     siteName: "SAMA PILOT",
     locale: "fr_SN",
     type: "website",
