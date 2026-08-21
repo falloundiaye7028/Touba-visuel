@@ -1,5 +1,5 @@
 /**
- * Paiement des abonnements SAMA BUSINESS.
+ * Paiement des abonnements SAMA PILOT.
  *
  * Conformément au cahier des charges : on n'effectue PAS de fausse transaction
  * Wave/Orange Money. Le flux réel fonctionnel est :
@@ -15,8 +15,8 @@
 export interface PayInstruction {
   method: string;
   label: string;
-  number?: string;      // numéro à créditer (Wave / OM de la plateforme)
-  link?: string;        // lien de paiement direct éventuel
+  number?: string;
+  link?: string;
 }
 
 /** Retourne les moyens de paiement configurés pour la plateforme. */
@@ -31,10 +31,9 @@ export function getPaymentInstructions(): PayInstruction[] {
   if (process.env.SAMA_BANK_INFO) {
     out.push({ method: "VIREMENT", label: "Virement bancaire", number: process.env.SAMA_BANK_INFO });
   }
-  // Repli générique si rien n'est configuré (le super admin confirme à la main).
   if (out.length === 0) {
-    out.push({ method: "WAVE", label: "Wave", number: "à communiquer par SAMA BUSINESS" });
-    out.push({ method: "ORANGE_MONEY", label: "Orange Money", number: "à communiquer par SAMA BUSINESS" });
+    out.push({ method: "WAVE", label: "Wave", number: "à communiquer par SAMA PILOT" });
+    out.push({ method: "ORANGE_MONEY", label: "Orange Money", number: "à communiquer par SAMA PILOT" });
   }
   return out;
 }
