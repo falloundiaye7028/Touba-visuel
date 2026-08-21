@@ -29,7 +29,7 @@ export default function ConnexionPage() {
   return (
     <div>
       <h1 className="text-xl font-bold text-gray-900">Connexion</h1>
-      <p className="text-sm text-gray-500 mt-1">Accédez à votre espace SAMA BUSINESS</p>
+      <p className="text-sm text-gray-500 mt-1">Accédez à votre espace SAMA PILOT</p>
 
       <form onSubmit={onSubmit} className="mt-5 space-y-3">
         <Field label="Email ou téléphone" required>
