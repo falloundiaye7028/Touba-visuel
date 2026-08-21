@@ -52,10 +52,10 @@ export default function SamaLayout({ children }: { children: React.ReactNode }) 
           __html: `(function(){try{var t=localStorage.getItem('sama-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`,
         }}
       />
-      {/* Compatibilité logo : remplace l'ancien WebP défectueux par le SVG vectoriel. */}
+      {/* Identité officielle : remplace toute ancienne référence de logo par le logo SAMA PILOT fourni. */}
       <script
         dangerouslySetInnerHTML={{
-          __html: `(function(){function fix(){document.querySelectorAll('img[src="/samapilot-logo.webp"]').forEach(function(img){img.setAttribute('src','/samapilot-logo.svg?v=2');});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fix,{once:true});}else{fix();}new MutationObserver(fix).observe(document.documentElement,{childList:true,subtree:true});})();`,
+          __html: `(function(){function fix(){document.querySelectorAll('img[src="/samapilot-logo.webp"],img[src^="/samapilot-logo.svg"]').forEach(function(img){img.setAttribute('src','/api/sama/official-logo?v=1');});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fix,{once:true});}else{fix();}new MutationObserver(fix).observe(document.documentElement,{childList:true,subtree:true});})();`,
         }}
       />
       <PwaRegister />
