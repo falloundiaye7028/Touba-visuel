@@ -93,6 +93,7 @@ export default async function SuperAdminPage() {
         <StatCard label="Suspendus" value={formatNumber(suspendedCount)} tone="red" />
       </div>
 
+      {/* Pilotage des 50 premières entreprises */}
       <section className="card p-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -145,6 +146,7 @@ export default async function SuperAdminPage() {
         </div>
       </section>
 
+      {/* Paiements d'abonnement en attente */}
       <section className="card p-4">
         <h2 className="font-semibold mb-3">Paiements d&apos;abonnement à confirmer ({pendingPayments.length})</h2>
         {pendingPayments.length === 0 ? (
@@ -173,6 +175,7 @@ export default async function SuperAdminPage() {
         )}
       </section>
 
+      {/* Tarifs des plans */}
       <section className="card p-4">
         <h2 className="font-semibold mb-3">Tarifs des plans (configurables)</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -190,6 +193,7 @@ export default async function SuperAdminPage() {
         </div>
       </section>
 
+      {/* Entreprises */}
       <section className="card p-4">
         <h2 className="font-semibold mb-3">Entreprises ({totalBusinesses})</h2>
         <div className="space-y-3">
