@@ -1,5 +1,5 @@
-// Service worker SAMA BUSINESS — scope /sama
-const CACHE = "sama-v1";
+// Service worker SAMA PILOT — scope /sama
+const CACHE = "sama-pilot-v2";
 const SHELL = ["/sama", "/sama/dashboard", "/sama-manifest.webmanifest", "/icon-192.png"];
 
 self.addEventListener("install", (e) => {

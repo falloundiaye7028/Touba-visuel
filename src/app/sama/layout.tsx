@@ -2,17 +2,17 @@ import type { Metadata, Viewport } from "next";
 import PwaRegister from "@/components/sama/PwaRegister";
 
 const SAMA_DESCRIPTION =
-  "L'assistant intelligent de gestion commerciale pour commerçants et PME au Sénégal. Ventes, commandes, clients, stocks, factures et boutique en ligne depuis votre téléphone.";
+  "Le copilote intelligent de gestion pour commerçants et PME au Sénégal. Ventes, commandes, clients, stocks, factures et décisions assistées par l’IA depuis votre téléphone.";
 
 export const metadata: Metadata = {
   manifest: "/sama-manifest.webmanifest",
   title: {
-    absolute: "SAMA BUSINESS — Vendez. Gérez. Encaissez. Fidélisez.",
-    template: "%s | SAMA BUSINESS",
+    absolute: "SAMA PILOT — Votre entreprise dans votre poche.",
+    template: "%s | SAMA PILOT",
   },
   description: SAMA_DESCRIPTION,
   keywords: [
-    "SAMA BUSINESS",
+    "SAMA PILOT",
     "gestion commerciale Sénégal",
     "logiciel commerce Sénégal",
     "gestion stock",
@@ -21,22 +21,22 @@ export const metadata: Metadata = {
     "PME Sénégal",
     "commerce Touba",
   ],
-  applicationName: "SAMA BUSINESS",
+  applicationName: "SAMA PILOT",
   alternates: { canonical: "/sama" },
   openGraph: {
-    title: "SAMA BUSINESS — Votre entreprise dans votre poche",
+    title: "SAMA PILOT — Votre entreprise dans votre poche",
     description: SAMA_DESCRIPTION,
     url: "/sama",
-    siteName: "SAMA BUSINESS",
+    siteName: "SAMA PILOT",
     locale: "fr_SN",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "SAMA BUSINESS — Votre entreprise dans votre poche",
+    title: "SAMA PILOT — Votre entreprise dans votre poche",
     description: SAMA_DESCRIPTION,
   },
-  appleWebApp: { capable: true, title: "SAMA BUSINESS", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "SAMA PILOT", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {

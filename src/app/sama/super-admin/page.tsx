@@ -76,7 +76,7 @@ export default async function SuperAdminPage() {
     <div className="max-w-5xl mx-auto px-4 py-6 space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold">SAMA BUSINESS — Administration</h1>
+          <h1 className="text-xl font-bold">SAMA PILOT — Administration</h1>
           <p className="text-sm text-gray-500">Tableau de bord général de la plateforme</p>
         </div>
         <Link href="/sama/dashboard" className="btn-outline !py-2 text-sm">Mon espace</Link>

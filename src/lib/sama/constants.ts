@@ -1,12 +1,12 @@
 /**
- * Constantes métier SAMA BUSINESS : plans, rôles, catégories de dépenses,
+ * Constantes métier SAMA PILOT : plans, rôles, catégories de dépenses,
  * moyens de paiement, canaux, types d'activité, villes/pays.
  * Centralisées pour préparer l'internationalisation.
  */
 import type { SamaRole } from "@prisma/client";
 
-export const APP_NAME = "SAMA BUSINESS";
-export const APP_SLOGAN = "Vendez. Gérez. Encaissez. Fidélisez.";
+export const APP_NAME = "SAMA PILOT";
+export const APP_SLOGAN = "Vendez. Gérez. Encaissez. Décidez avec l’IA.";
 export const APP_BASE = "/sama";
 
 // ── Plans d'abonnement (référence, synchronisés en base via le seed) ──────────

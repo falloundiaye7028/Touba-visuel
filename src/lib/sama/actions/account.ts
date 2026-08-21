@@ -85,7 +85,7 @@ export async function registerAction(_prev: ActionState, formData: FormData): Pr
         data: {
           businessId: business.id,
           type: "SUBSCRIPTION",
-          title: "Bienvenue sur SAMA BUSINESS 🎉",
+          title: "Bienvenue sur SAMA PILOT 🎉",
           body: "Vous bénéficiez de 14 jours d'essai gratuit du plan Business.",
         },
       });

@@ -78,7 +78,7 @@ export default function OnboardingWizard({
             <PartyPopper className="w-8 h-8" />
           </div>
           <h2 className="text-lg font-bold text-gray-900">Félicitations ! 🎉</h2>
-          <p className="text-sm text-gray-500 mt-1">Votre entreprise <strong>{businessName}</strong> est prête sur SAMA BUSINESS.</p>
+          <p className="text-sm text-gray-500 mt-1">Votre entreprise <strong>{businessName}</strong> est prête sur SAMA PILOT.</p>
           <form action={completeOnboardingAction} className="mt-5">
             <SubmitButton className="btn-primary w-full" pendingLabel="Ouverture…">Accéder au tableau de bord</SubmitButton>
           </form>

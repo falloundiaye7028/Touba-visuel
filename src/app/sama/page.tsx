@@ -44,7 +44,7 @@ export default function SamaLanding() {
       {/* Nav */}
       <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="font-extrabold text-lg tracking-tight text-vert-800">SAMA BUSINESS</div>
+          <div className="font-extrabold text-lg tracking-tight text-vert-800">SAMA PILOT</div>
           <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
             <a href="#comment-ca-marche" className="hover:text-vert-700">Comment ça marche</a>
             <a href="#fonctionnalites" className="hover:text-vert-700">Fonctionnalités</a>
@@ -61,7 +61,7 @@ export default function SamaLanding() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-vert-900 via-vert-800 to-vert-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-16 sm:py-24 text-center">
-          <span className="inline-block bg-white/10 rounded-full px-3 py-1 text-xs font-medium mb-5">SAMA BUSINESS AI · Pensé pour les commerces et PME du Sénégal 🇸🇳</span>
+          <span className="inline-block bg-white/10 rounded-full px-3 py-1 text-xs font-medium mb-5">SAMA PILOT · Votre copilote de gestion intelligent 🇸🇳</span>
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
             Votre entreprise<br />dans votre poche.
           </h1>
@@ -81,7 +81,7 @@ export default function SamaLanding() {
       {/* Comment ça marche */}
       <section id="comment-ca-marche" className="max-w-5xl mx-auto px-4 py-16">
         <h2 className="text-2xl sm:text-3xl font-bold text-center">Du premier produit à la première décision</h2>
-        <p className="text-center text-gray-500 mt-2 max-w-2xl mx-auto">SAMA BUSINESS est conçu pour vous amener rapidement à une vue claire de votre activité.</p>
+        <p className="text-center text-gray-500 mt-2 max-w-2xl mx-auto">SAMA PILOT est conçu pour vous amener rapidement à une vue claire de votre activité.</p>
         <div className="mt-10 grid md:grid-cols-3 gap-4">
           {STEPS.map((step) => (
             <div key={step.n} className="rounded-2xl border border-gray-100 p-5 bg-white">
@@ -196,8 +196,8 @@ export default function SamaLanding() {
       <footer className="bg-gray-900 text-gray-400 py-10">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-4 text-sm">
           <div>
-            <div className="font-bold text-white text-lg">SAMA BUSINESS</div>
-            <p className="mt-1">Vendez. Gérez. Encaissez. Fidélisez.</p>
+            <div className="font-bold text-white text-lg">SAMA PILOT</div>
+            <p className="mt-1">Vendez. Gérez. Encaissez. Décidez avec l’IA.</p>
           </div>
           <div className="flex gap-6">
             <Link href="/sama/inscription" className="hover:text-white">Créer un compte</Link>
@@ -205,7 +205,7 @@ export default function SamaLanding() {
             <a href="#tarifs" className="hover:text-white">Tarifs</a>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto px-4 mt-6 text-xs text-gray-500">© {new Date().getFullYear()} SAMA BUSINESS · Sénégal · Afrique francophone</div>
+        <div className="max-w-6xl mx-auto px-4 mt-6 text-xs text-gray-500">© {new Date().getFullYear()} SAMA PILOT · Sénégal · Afrique francophone</div>
       </footer>
     </div>
   );
