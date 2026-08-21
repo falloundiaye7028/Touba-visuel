@@ -43,8 +43,16 @@ export default function SamaLanding() {
     <div className="bg-white text-gray-900">
       {/* Nav */}
       <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="font-extrabold text-lg tracking-tight text-vert-800">SAMA PILOT</div>
+        <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+          <Link href="/sama" className="flex items-center shrink-0" aria-label="SAMA PILOT — Accueil">
+            <img
+              src="/samapilot-logo.webp"
+              alt="SAMA PILOT"
+              width="144"
+              height="112"
+              className="h-14 sm:h-16 w-auto object-contain"
+            />
+          </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
             <a href="#comment-ca-marche" className="hover:text-vert-700">Comment ça marche</a>
             <a href="#fonctionnalites" className="hover:text-vert-700">Fonctionnalités</a>
@@ -202,8 +210,16 @@ export default function SamaLanding() {
       <footer className="bg-gray-900 text-gray-400 py-10">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-6 text-sm">
           <div>
-            <div className="font-bold text-white text-lg">SAMA PILOT</div>
-            <p className="mt-1">Vendez. Gérez. Encaissez. Décidez avec l’IA.</p>
+            <div className="inline-flex rounded-xl bg-white p-2">
+              <img
+                src="/samapilot-logo.webp"
+                alt="SAMA PILOT"
+                width="116"
+                height="90"
+                className="h-12 w-auto object-contain"
+              />
+            </div>
+            <p className="mt-2">Vendez. Gérez. Encaissez. Décidez avec l’IA.</p>
             <p className="mt-3 text-gray-300">Développé par <span className="font-semibold text-white">Touba Digital Group</span></p>
             <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs">
               <a href="tel:+221778001717" className="hover:text-white transition-colors">+221 77 800 17 17</a>
