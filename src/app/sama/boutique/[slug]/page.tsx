@@ -71,7 +71,7 @@ export default async function BoutiquePubliquePage({ params }: { params: Promise
             />
           )}
         </div>
-        <p className="text-center text-xs text-gray-300 mt-8">Propulsé par SAMA BUSINESS</p>
+        <p className="text-center text-xs text-gray-300 mt-8">Propulsé par SAMA PILOT</p>
       </div>
     </div>
   );
