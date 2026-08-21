@@ -1,11 +1,23 @@
 import Link from "next/link";
-import { Bot, Sparkles, TrendingUp, Lightbulb } from "lucide-react";
+import {
+  ArrowRight, Bot, Lightbulb, Megaphone, Package, ShoppingCart,
+  Sparkles, TrendingUp, Users,
+} from "lucide-react";
 import { requireOnboardedTenant } from "@/lib/sama/tenant";
 import { canUseAI, buildSnapshot, weeklyReport } from "@/lib/sama/ai";
+import { getDailyPriorities, type DailyPriorityKind } from "@/lib/sama/priorities";
 import { PageHeader } from "@/components/sama/ui";
 import SamaAiChat from "@/components/sama/SamaAiChat";
 
 export const dynamic = "force-dynamic";
+
+const PRIORITY_ICONS = {
+  stock: Package,
+  receivables: Users,
+  inactive_customers: Megaphone,
+  sales_decline: TrendingUp,
+  pending_orders: ShoppingCart,
+} satisfies Record<DailyPriorityKind, typeof Package>;
 
 export default async function AiPage() {
   const { business } = await requireOnboardedTenant();
@@ -26,10 +38,42 @@ export default async function AiPage() {
 
   const snapshot = await buildSnapshot(business);
   const report = weeklyReport(snapshot);
+  const priorities = getDailyPriorities(snapshot);
 
   return (
     <div className="space-y-4">
       <PageHeader title="SAMA AI" subtitle="Assistant business — réponses basées sur vos données réelles" />
+
+      <section className="card p-4">
+        <div className="mb-3">
+          <h2 className="font-semibold text-gray-900 flex items-center gap-2"><Lightbulb className="w-4 h-4 text-amber-500" /> Ce que vous devez faire aujourd&apos;hui</h2>
+          <p className="text-xs text-gray-500 mt-1">SAMA priorise les actions à partir de vos chiffres réels.</p>
+        </div>
+
+        {priorities.length > 0 ? (
+          <div className="grid sm:grid-cols-2 gap-3">
+            {priorities.slice(0, 4).map((priority) => {
+              const Icon = PRIORITY_ICONS[priority.kind];
+              return (
+                <Link key={priority.kind} href={priority.href} className="rounded-xl border border-gray-100 p-3 hover:border-vert-200 hover:bg-vert-50/40 transition-colors">
+                  <div className="flex items-start gap-3">
+                    <span className="w-9 h-9 rounded-lg bg-vert-50 text-vert-700 grid place-items-center shrink-0"><Icon className="w-4 h-4" /></span>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-sm text-gray-900">{priority.title}</div>
+                      <p className="text-xs text-gray-500 mt-0.5">{priority.detail}</p>
+                      <span className="text-xs font-medium text-vert-700 mt-2 inline-flex items-center gap-1">{priority.cta}<ArrowRight className="w-3 h-3" /></span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="rounded-xl bg-vert-50 border border-vert-100 p-3 text-sm text-vert-800">
+            Aucune alerte prioritaire aujourd&apos;hui. Continuez à enregistrer vos ventes et à suivre votre activité.
+          </div>
+        )}
+      </section>
 
       {/* Synthèse */}
       <section className="card p-4">
