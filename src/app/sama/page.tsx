@@ -6,7 +6,7 @@ import {
 import { PLANS } from "@/lib/sama/constants";
 import { formatMoney } from "@/lib/sama/money";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 const FEATURES = [
   { icon: ShoppingCart, title: "Ventes rapides", desc: "Encaissez en quelques secondes, le stock et la marge se calculent seuls." },
