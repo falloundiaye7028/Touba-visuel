@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db";
 import { requireTenant, logActivity } from "@/lib/sama/tenant";
 import { formatMoney } from "@/lib/sama/money";
+import { answerDailyPriorities } from "@/lib/sama/priorities";
 import {
   canUseAI, buildSnapshot, answerFromSnapshot, callAI, generateProductContent,
   type BusinessSnapshot, type ProductContent,
@@ -34,14 +35,21 @@ export async function askSamaAiAction(_prev: AskState, formData: FormData): Prom
 
   const snapshot = await buildSnapshot(business);
 
-  // 1) Réponse déterministe (chiffres exacts) pour les intentions courantes.
+  // 1) Priorités quotidiennes déterministes : aucune donnée inventée.
+  const priorities = answerDailyPriorities(question, snapshot);
+  if (priorities) {
+    await logActivity(business.id, userId, "ai.used", { meta: { mode: "daily-priorities" } });
+    return { answer: priorities, question };
+  }
+
+  // 2) Réponse déterministe (chiffres exacts) pour les intentions courantes.
   const direct = answerFromSnapshot(question, snapshot);
   if (direct) {
     await logActivity(business.id, userId, "ai.used", { meta: { mode: "direct" } });
     return { answer: direct, question };
   }
 
-  // 2) Sinon, le modèle formule à partir des SEULS faits fournis.
+  // 3) Sinon, le modèle formule à partir des SEULS faits fournis.
   const system = "Tu es SAMA AI, l'assistant de gestion d'un commerçant sénégalais. Tu réponds en français, brièvement et concrètement. Tu ne dois utiliser QUE les chiffres présents dans le contexte fourni. Si l'information n'y est pas, dis-le simplement sans inventer de chiffres.";
   const user = `Contexte (données réelles de l'entreprise « ${business.name} ») :\n${factSheet(snapshot)}\n\nQuestion du commerçant : ${question}`;
   const ai = await callAI(system, user, 0.4);
