@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import PwaRegister from "@/components/sama/PwaRegister";
 
 const SAMA_DESCRIPTION =
@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     description: SAMA_DESCRIPTION,
   },
   appleWebApp: { capable: true, title: "SAMA BUSINESS", statusBarStyle: "default" },
+};
+
+export const viewport: Viewport = {
   themeColor: "#0e7d52",
 };
 
