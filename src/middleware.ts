@@ -38,12 +38,51 @@ function isSuspicious(value: string): boolean {
 export async function middleware(req: NextRequest) {
   const ip = getIp(req);
   const { pathname } = req.nextUrl;
-
-  // ── 0. Domaine dédié Touba Infos : média à la racine ─────────────────────
-  //     Sur toubainfos.com, la racine et les chemins propres servent le média
-  //     (réécriture interne vers /touba-infos). L'agence reste sur son domaine.
   const host = (req.headers.get("host") || "").toLowerCase().split(":")[0];
-  // www → domaine nu (redirection permanente, chemin conservé)
+
+  // ── 0. Domaines dédiés ────────────────────────────────────────────────────
+  // www → domaine nu pour SAMA PILOT
+  if (host === "www.samapilot.com") {
+    const cleanPath = pathname.startsWith("/sama")
+      ? pathname.slice(5) || "/"
+      : pathname;
+    const dest = new URL(cleanPath + req.nextUrl.search, "https://samapilot.com");
+    return NextResponse.redirect(dest, 308);
+  }
+
+  // SAMA PILOT à la racine de samapilot.com, avec URL publique sans /sama.
+  if (host === "samapilot.com") {
+    // Anciennes URLs /sama restent compatibles mais sont canonisées vers l'URL propre.
+    if (pathname === "/sama" || pathname.startsWith("/sama/")) {
+      const cleanPath = pathname.slice(5) || "/";
+      const dest = new URL(cleanPath + req.nextUrl.search, "https://samapilot.com");
+      return NextResponse.redirect(dest, 308);
+    }
+
+    const p = pathname;
+    const passthrough =
+      p.startsWith("/api") ||
+      p.startsWith("/_next") ||
+      p.startsWith("/images") ||
+      p.startsWith("/splash") ||
+      p === "/robots.txt" ||
+      p === "/sitemap.xml" ||
+      p === "/sama-manifest.webmanifest" ||
+      p === "/sama-sw.js" ||
+      p === "/manifest.json" ||
+      /\.[a-zA-Z0-9]+$/.test(p);
+
+    if (!passthrough) {
+      const target = p === "/" ? "/sama" : `/sama${p}`;
+      const url = req.nextUrl.clone();
+      url.pathname = target;
+      const rewriteHeaders = new Headers(req.headers);
+      rewriteHeaders.set("x-pathname", target);
+      return NextResponse.rewrite(url, { request: { headers: rewriteHeaders } });
+    }
+  }
+
+  // Touba Infos : média à la racine
   if (host === "www.toubainfos.com") {
     const dest = new URL(
       req.nextUrl.pathname + req.nextUrl.search,
@@ -123,7 +162,7 @@ export async function middleware(req: NextRequest) {
   // ── 5. Bloquer méthodes HTTP non autorisées sur pages ────────────────────
   //     (on autorise les Server Actions Next.js et l'app SAMA : POST)
   const isServerAction = !!req.headers.get("next-action");
-  const isSamaApp = pathname.startsWith("/sama");
+  const isSamaApp = pathname.startsWith("/sama") || host === "samapilot.com";
   if (
     !pathname.startsWith("/api/") &&
     !isServerAction &&
