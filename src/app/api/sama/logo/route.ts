@@ -1,13 +1,14 @@
-import { NextRequest } from "next/server";
 import sharp from "sharp";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
+const SOURCE_URL =
+  "https://raw.githubusercontent.com/falloundiaye7028/Touba-visuel/main/public/samapilot-logo.webp";
+
+export async function GET() {
   try {
-    const sourceUrl = new URL("/samapilot-logo.webp", request.nextUrl.origin);
-    const source = await fetch(sourceUrl, { cache: "no-store" });
+    const source = await fetch(SOURCE_URL, { cache: "no-store" });
 
     if (!source.ok) {
       return new Response("Logo source unavailable", { status: 404 });
