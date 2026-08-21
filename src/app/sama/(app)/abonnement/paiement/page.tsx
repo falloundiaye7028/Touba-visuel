@@ -68,7 +68,7 @@ export default async function PaiementAbonnementPage({ searchParams }: { searchP
 
       <div className="flex items-start gap-2 text-xs text-gray-400">
         <Info className="w-4 h-4 shrink-0 mt-0.5" />
-        <p>SAMA BUSINESS ne débite jamais votre compte automatiquement. Le paiement est effectué par vous via Wave/OM, puis vérifié par notre équipe avant activation. Une intégration API automatique est prévue.</p>
+        <p>SAMA PILOT ne débite jamais votre compte automatiquement. Le paiement est effectué par vous via Wave/OM, puis vérifié par notre équipe avant activation. Une intégration API automatique est prévue.</p>
       </div>
     </div>
   );
