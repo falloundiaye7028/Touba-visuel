@@ -5,12 +5,16 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { getUserId } from "@/lib/sama/tenant";
 
+const DEFAULT_SUPERADMIN_EMAILS = ["toubainfos@gmail.com"];
+
 /** Liste blanche d'emails super-admin (en plus du rôle ADMIN en base). */
 function adminEmails(): string[] {
-  return (process.env.SAMA_SUPERADMIN_EMAILS || "")
+  const configured = (process.env.SAMA_SUPERADMIN_EMAILS || "")
     .split(",")
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);
+
+  return Array.from(new Set([...DEFAULT_SUPERADMIN_EMAILS, ...configured]));
 }
 
 export async function requireSuperAdmin(): Promise<{ userId: string; email: string }> {
