@@ -1,7 +1,7 @@
 {
-  "name": "SAMA BUSINESS",
-  "short_name": "SAMA",
-  "description": "Gérez votre commerce simplement : ventes, commandes, clients, stocks, factures et boutique en ligne.",
+  "name": "SAMA PILOT",
+  "short_name": "SAMA PILOT",
+  "description": "Votre copilote de gestion : ventes, commandes, clients, stocks, factures et décisions assistées par l’IA.",
   "start_url": "/sama/dashboard",
   "scope": "/sama",
   "display": "standalone",
