@@ -7,6 +7,7 @@ import { askSamaAiAction, type AskState } from "@/lib/sama/actions/ai";
 interface Msg { role: "user" | "ai"; text: string }
 
 const SUGGESTIONS = [
+  "Que dois-je faire aujourd'hui ?",
   "Combien ai-je vendu aujourd'hui ?",
   "Quel est mon produit le plus rentable ?",
   "Quels produits risquent la rupture ?",
@@ -17,7 +18,7 @@ const SUGGESTIONS = [
 
 export default function SamaAiChat() {
   const [messages, setMessages] = useState<Msg[]>([
-    { role: "ai", text: "Bonjour 👋 Je suis SAMA AI. Posez-moi une question sur votre activité — mes réponses s'appuient sur vos données réelles." },
+    { role: "ai", text: "Bonjour 👋 Je suis SAMA AI. Je peux analyser votre activité et vous dire quoi faire aujourd'hui à partir de vos données réelles." },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
