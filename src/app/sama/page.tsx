@@ -60,12 +60,18 @@ export default function SamaLanding() {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-vert-900 via-vert-800 to-vert-700 text-white">
-        <div className="max-w-6xl mx-auto px-4 py-16 sm:py-24 text-center">
-          <span className="inline-block bg-white/10 rounded-full px-3 py-1 text-xs font-medium mb-5">SAMA PILOT · Votre copilote de gestion intelligent 🇸🇳</span>
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
-            Votre entreprise<br />dans votre poche.
-          </h1>
-          <p className="mt-5 text-lg text-vert-100 max-w-2xl mx-auto">
+        <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20 text-center">
+          <div className="mx-auto mb-7 w-full max-w-xl rounded-3xl bg-white p-3 sm:p-4 shadow-2xl ring-1 ring-white/30">
+            <img
+              src="/samapilot-logo.webp"
+              alt="Logo SAMA PILOT — Votre entreprise dans votre poche"
+              width="720"
+              height="559"
+              className="w-full h-auto rounded-2xl"
+            />
+          </div>
+          <h1 className="sr-only">SAMA PILOT — Votre entreprise dans votre poche.</h1>
+          <p className="text-lg text-vert-100 max-w-2xl mx-auto">
             Enregistrez vos ventes, suivez votre stock, vos créances et votre bénéfice. Puis demandez à SAMA AI ce que vous devez faire aujourd’hui.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
