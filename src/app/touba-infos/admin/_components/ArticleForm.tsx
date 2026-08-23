@@ -167,10 +167,10 @@ export default function ArticleForm({
             rows={15}
             defaultValue={article?.contenu}
             className={`${inputCls} min-h-[300px] leading-relaxed`}
-            placeholder="Rédigez votre article ici."
+            placeholder="Rédigez votre article ici. Séparez les paragraphes par une ligne vide."
           />
         </Field>
-        <p className="mt-2 text-xs text-neutral-500">Vous pouvez utiliser du HTML simple : &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt; et &lt;ul&gt;.</p>
+        <p className="mt-2 text-xs text-neutral-500">Écrivez directement votre texte. Une ligne vide crée un nouveau paragraphe.</p>
       </section>
 
       <details className="group rounded-2xl border border-neutral-200 bg-white">
