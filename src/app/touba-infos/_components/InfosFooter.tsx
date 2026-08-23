@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Facebook, Youtube, Instagram, Send } from "lucide-react";
+import { Facebook, Youtube, Music2, Send } from "lucide-react";
 import Logo from "./Logo";
 import NewsletterForm from "./NewsletterForm";
 
@@ -29,9 +29,9 @@ const COL_INFOS = [
 ];
 
 const SOCIALS = [
-  { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
-  { label: "YouTube", href: "https://youtube.com", Icon: Youtube },
-  { label: "Instagram", href: "https://instagram.com", Icon: Instagram },
+  { label: "Facebook", href: "https://www.facebook.com/toubainfos/?locale=fr_FR", Icon: Facebook },
+  { label: "YouTube", href: "https://www.youtube.com/@toubainfostv183", Icon: Youtube },
+  { label: "TikTok", href: "https://www.tiktok.com/@yoonu_murid_digital", Icon: Music2 },
 ];
 
 export default function InfosFooter() {

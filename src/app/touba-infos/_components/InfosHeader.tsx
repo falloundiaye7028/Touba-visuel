@@ -11,7 +11,7 @@ import {
   ChevronDown,
   Facebook,
   Youtube,
-  Instagram,
+  Music2,
 } from "lucide-react";
 import Logo from "./Logo";
 
@@ -50,9 +50,9 @@ const NAV_PLUS: NavItem[] = [
 ];
 
 const SOCIALS = [
-  { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
-  { label: "YouTube", href: "https://youtube.com", Icon: Youtube },
-  { label: "Instagram", href: "https://instagram.com", Icon: Instagram },
+  { label: "Facebook", href: "https://www.facebook.com/toubainfos/?locale=fr_FR", Icon: Facebook },
+  { label: "YouTube", href: "https://www.youtube.com/@toubainfostv183", Icon: Youtube },
+  { label: "TikTok", href: "https://www.tiktok.com/@yoonu_murid_digital", Icon: Music2 },
 ];
 
 export default function InfosHeader() {
