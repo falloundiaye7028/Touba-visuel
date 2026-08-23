@@ -37,7 +37,7 @@ export default function ArticleForm({
 }) {
   const [title, setTitle] = useState(article?.titre ?? "");
   const [summary, setSummary] = useState(article?.extrait ?? "");
-  const [category, setCategory] = useState(article?.categorie ?? "Touba");
+  const [category, setCategory] = useState<string>(article?.categorie ?? "Touba");
   const [imageUrl, setImageUrl] = useState(article?.imageUrl ?? "");
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
   const [uploadError, setUploadError] = useState("");
