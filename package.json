@@ -2,6 +2,9 @@
   "name": "touba-visuel",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
@@ -15,6 +18,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@modelcontextprotocol/server": "^2.0.0",
     "@prisma/client": "^5.17.0",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
@@ -29,18 +33,21 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
+    "sanitize-html": "^2.17.7",
     "sharp": "^0.33.4",
     "stripe": "^16.3.0",
     "tailwind-merge": "^2.4.0",
     "uuid": "^11.0.0",
-    "zod": "^3.23.8"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/nodemailer": "^7.0.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/sanitize-html": "^2.16.1",
     "@types/uuid": "^11.0.0",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",

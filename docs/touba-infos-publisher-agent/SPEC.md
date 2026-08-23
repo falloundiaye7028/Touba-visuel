@@ -44,6 +44,46 @@ Aucune interface complexe n’est nécessaire dans la première version. L’exp
 - **Authentification du connecteur :** OAuth pour la connexion ChatGPT, adossé à l’accès administrateur existant
 - **Environnement :** branche dédiée et déploiement Preview avant toute fusion vers main
 
+## UX Flows et architecture
+
+### Flux 1 — Créer un brouillon
+
+1. L'utilisateur prépare et relit l'article dans la conversation.
+2. ChatGPT résume les données qui seront envoyées au CMS.
+3. Après confirmation de l'action d'écriture, `create_article_draft` crée un brouillon persistant.
+4. L'outil renvoie l'identifiant et le lien d'administration.
+
+### Flux 2 — Corriger un brouillon
+
+1. L'utilisateur demande une correction et identifie le brouillon concerné.
+2. ChatGPT résume les seuls champs qui changeront.
+3. Après confirmation, `update_article_draft` met à jour le même article.
+4. L'outil renvoie la liste des champs modifiés et le lien d'administration.
+
+### Flux 3 — Publier un article
+
+1. L'utilisateur formule explicitement « Je valide et publie ».
+2. ChatGPT présente la confirmation de l'action d'écriture.
+3. `publish_article` contrôle le texte de validation, l'état de l'article et l'idempotence.
+4. Le statut passe à `publie` sans modifier silencieusement le contenu.
+5. L'outil renvoie le lien public et le lien d'administration.
+
+### Flux 4 — Vérifier un article
+
+1. L'utilisateur demande l'état d'un article.
+2. `get_article_status` renvoie son statut et ses URLs sans modifier les données.
+
+### Décisions d'architecture
+
+- **Outils uniquement, sans vue MCP :** les entrées sont naturellement conversationnelles et les sorties tiennent dans un court résumé textuel.
+- **Serveur stateless :** chaque requête Streamable HTTP est indépendante, ce qui convient aux fonctions Vercel.
+- **Couche métier partagée :** le protocole MCP appelle un service de publication testable qui réutilise le store CMS existant.
+- **Authentification hors arguments :** aucun mot de passe ni jeton n'apparaît dans les schémas des outils.
+- **URLs canoniques :** toutes les réponses utilisent `https://toubainfos.com` et fournissent les liens public et d'administration pertinents.
+- **Idempotence persistante :** la clé de création produit une empreinte SHA-256 enregistrée comme identifiant stable de l’article (`mcp_<empreinte>`). Elle résiste aux nouvelles instances Vercel sans ajouter une seconde table ; les mises à jour et la publication sont des opérations d’état naturellement idempotentes.
+- **OAuth lié à l’administration :** le flux authorization code utilise PKCE S256, l’inscription dynamique du client et des jetons HMAC limités à la ressource MCP. L’écran d’autorisation vérifie `TI_ADMIN_PASSWORD` sans transmettre ce mot de passe à ChatGPT.
+- **Déploiement progressif :** tests locaux, Preview Vercel, validation fonctionnelle, puis seulement fusion vers `main`.
+
 ## Outils MCP
 
 ### create_article_draft
@@ -165,7 +205,7 @@ L’import binaire direct d’une pièce jointe ChatGPT pourra être ajouté dan
 1. Le serveur répond correctement à l’initialisation MCP et expose exactement les quatre outils définis.
 2. Un appel non authentifié à un outil d’écriture est refusé.
 3. La création produit un brouillon persistant visible dans le CMS mais absent du site public.
-4. Un même idempotencyKey ne crée jamais deux articles.
+4. Un même idempotencyKey ne crée jamais deux articles et refuse un second contenu différent.
 5. La mise à jour modifie le brouillon existant.
 6. La publication est refusée sans validation explicite.
 7. La publication validée rend l’article accessible sur son URL publique.

@@ -62,6 +62,7 @@ export async function middleware(req: NextRequest) {
     const p = pathname;
     const passthrough =
       p.startsWith("/api") ||
+      p.startsWith("/.well-known") ||
       p.startsWith("/_next") ||
       p.startsWith("/images") ||
       p.startsWith("/splash") ||
@@ -95,6 +96,7 @@ export async function middleware(req: NextRequest) {
     const passthrough =
       p.startsWith("/touba-infos") ||
       p.startsWith("/api") ||
+      p.startsWith("/.well-known") ||
       p.startsWith("/_next") ||
       p.startsWith("/images") ||
       p.startsWith("/splash") ||

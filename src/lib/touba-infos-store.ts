@@ -6,7 +6,7 @@
 //  Interface identique dans les deux cas ; amorcé depuis ARTICLES_INFO.
 // ============================================================================
 
-import { cache as reactCache } from "react";
+import { cache as nextReactCache } from "react";
 import { promises as fs } from "fs";
 import path from "path";
 import { prisma } from "./db";
@@ -19,6 +19,12 @@ import {
 } from "./touba-infos";
 
 const hasDb = !!process.env.DATABASE_URL;
+// `React.cache` est injecté par Next.js côté serveur. Le repli direct garde le
+// store utilisable dans les tests Node et les scripts hors runtime Next.
+const reactCache: typeof nextReactCache =
+  typeof nextReactCache === "function"
+    ? nextReactCache
+    : (((fn: unknown) => fn) as typeof nextReactCache);
 // Les publications antérieures à la refonte ne sont plus exposées au public.
 // Les archives restent accessibles à l’administration pour conservation interne.
 const PUBLICATION_RESET_AT = new Date("2026-08-23T21:32:58.000Z").getTime();
@@ -292,9 +298,9 @@ function construireArticle(
   input: ArticleInput,
   existants: ArticleInfo[],
 ): ArticleInfo {
-  const id = String(
-    existants.reduce((m, a) => Math.max(m, Number(a.id) || 0), 0) + 1,
-  );
+  const id =
+    input.id?.trim() ||
+    String(existants.reduce((m, a) => Math.max(m, Number(a.id) || 0), 0) + 1);
   let slug = input.slug?.trim() ? slugify(input.slug) : slugify(input.titre);
   if (!slug) slug = `article-${id}`;
   while (existants.some((a) => a.slug === slug)) slug = `${slug}-${id}`;
@@ -328,9 +334,23 @@ function construireArticle(
 
 export async function adminCreate(input: ArticleInput): Promise<ArticleInfo> {
   const all = await loadAll();
+  if (input.id) {
+    const existing = all.find((article) => article.id === input.id);
+    if (existing) return existing;
+  }
   const article = construireArticle(input, all);
   if (hasDb) {
-    await prisma.infoArticle.create({ data: { id: article.id, ...toDb(article) } });
+    try {
+      await prisma.infoArticle.create({ data: { id: article.id, ...toDb(article) } });
+    } catch (error) {
+      // Une relance concurrente portant le même identifiant déterministe est
+      // idempotente. Les autres conflits (notamment de slug) restent visibles.
+      const existing = input.id
+        ? await prisma.infoArticle.findUnique({ where: { id: input.id } })
+        : null;
+      if (existing) return rowToArticle(existing);
+      throw error;
+    }
   } else {
     fileCache = [article, ...all];
     await persistFile();
