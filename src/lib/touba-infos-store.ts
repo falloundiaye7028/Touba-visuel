@@ -19,6 +19,9 @@ import {
 } from "./touba-infos";
 
 const hasDb = !!process.env.DATABASE_URL;
+// Les publications antérieures à la refonte ne sont plus exposées au public.
+// Les archives restent accessibles à l’administration pour conservation interne.
+const PUBLICATION_RESET_AT = new Date("2026-08-23T21:32:58.000Z").getTime();
 const DATA_FILE = path.join(process.cwd(), "data", "touba-infos-articles.json");
 
 // ── Amorçage ────────────────────────────────────────────────────────────────
@@ -149,6 +152,7 @@ const byDate = (a: ArticleInfo, b: ArticleInfo) =>
   new Date(b.date).getTime() - new Date(a.date).getTime();
 
 function estPublic(a: ArticleInfo): boolean {
+  if (new Date(a.date).getTime() < PUBLICATION_RESET_AT) return false;
   const s = a.statut ?? "publie";
   if (s === "publie") return true;
   if (s === "programme") return new Date(a.date).getTime() <= Date.now();
@@ -162,7 +166,7 @@ export async function getArticlesTries(): Promise<ArticleInfo[]> {
   return (await loadAll()).filter(estPublic).sort(byDate);
 }
 
-export async function getUne(): Promise<ArticleInfo> {
+export async function getUne(): Promise<ArticleInfo | undefined> {
   const pub = await getArticlesTries();
   return pub.find((a) => a.alaUne) ?? pub[0];
 }
@@ -181,7 +185,7 @@ export async function getDernieres(n = 6): Promise<ArticleInfo[]> {
 export async function getArticleInfoBySlug(
   slug: string,
 ): Promise<ArticleInfo | undefined> {
-  return (await loadAll()).find((a) => a.slug === slug);
+  return (await getArticlesTries()).find((a) => a.slug === slug);
 }
 
 export async function getArticlesInfoByCategorie(
