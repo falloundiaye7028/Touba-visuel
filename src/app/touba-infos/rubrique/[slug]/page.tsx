@@ -128,7 +128,7 @@ export default async function RubriquePage({
           {/* Article principal de la rubrique */}
           <Link href={`/touba-infos/${lead.slug}`} className="group grid gap-6 md:grid-cols-2">
             <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
-              <EditorialImage article={lead} emojiSize="text-8xl" className="transition-transform duration-500 group-hover:scale-105" />
+              <EditorialImage article={lead} emojiSize="text-8xl" />
               <div className="absolute left-3 top-3">
                 <CategorieChip categorie={lead.categorie} />
               </div>

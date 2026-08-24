@@ -92,7 +92,7 @@ export function CardStandard({ article }: { article: ArticleInfo }) {
       className="group flex flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white transition-shadow hover:shadow-md"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
-        <EditorialImage article={article} className="transition-transform duration-500 group-hover:scale-105" />
+        <EditorialImage article={article} />
         <div className="absolute left-3 top-3">
           <CategorieChip categorie={article.categorie} />
         </div>

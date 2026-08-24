@@ -25,7 +25,7 @@ export default async function ToubaInfosHome() {
           <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1.5fr_1fr] lg:py-14">
             <Link href={`/touba-infos/${une.slug}`} className="group relative overflow-hidden rounded-2xl bg-neutral-900">
               <div className="aspect-[16/9]">
-                <EditorialImage article={une} emojiSize="text-[9rem]" className="transition-transform duration-500 group-hover:scale-105" />
+                <EditorialImage article={une} emojiSize="text-[9rem]" />
               </div>
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/75 to-transparent p-5 pt-24 sm:p-8 sm:pt-32">
                 <CategorieChip categorie={une.categorie} />
