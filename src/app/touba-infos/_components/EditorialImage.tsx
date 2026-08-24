@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ArticleInfo } from "@/lib/touba-infos";
+import { editorialImageSrc } from "@/lib/touba-infos-image";
 
 /**
  * Visuel d'article : photographie réelle (`imageUrl`) si disponible, sinon
@@ -29,10 +30,9 @@ export default function EditorialImage({
     if (img && img.complete && img.naturalWidth === 0) setBroken(true);
   }, []);
 
-  if (article.imageUrl && !broken) {
-    const src = article.imageUrl.includes("?")
-      ? article.imageUrl
-      : `${article.imageUrl}?auto=format&fit=crop&w=1200&q=70`;
+  const src = editorialImageSrc(article.imageUrl);
+
+  if (src && !broken) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
