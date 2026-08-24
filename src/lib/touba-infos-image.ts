@@ -20,7 +20,7 @@ export function focalPosition(x?: number, y?: number): string {
 }
 
 export const TOUBA_INFOS_IMAGE_LAYOUT = {
-  card: { aspectRatio: "16 / 10", objectFit: "cover" },
+  card: { aspectRatio: "16 / 10", objectFit: "contain" },
   detail: { objectFit: "contain", maxHeight: "min(70vh, 720px)" },
   ebook: { aspectRatio: "3 / 4", objectFit: "contain" },
 } as const;
