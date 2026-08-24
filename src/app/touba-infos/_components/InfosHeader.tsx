@@ -31,6 +31,7 @@ const NAV_PRIMARY: NavItem[] = [
   { label: "Sport", href: "/touba-infos/rubrique/sport" },
   { label: "Culture", href: "/touba-infos/rubrique/culture" },
   { label: "Vidéos", href: "/touba-infos/videos" },
+  { label: "Ebooks", href: "/touba-infos/ebooks" },
   { label: "Environnement", href: "/touba-infos/rubrique/environnement" },
   { label: "Interviews", href: "/touba-infos/rubrique/interviews" },
   { label: "Analyses", href: "/touba-infos/rubrique/analyses" },

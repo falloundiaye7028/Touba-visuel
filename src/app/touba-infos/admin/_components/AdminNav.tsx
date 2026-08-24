@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Newspaper, PlusCircle, Radar, Share2 } from "lucide-react";
+import { LayoutDashboard, Newspaper, PlusCircle, Radar, Share2, BookOpen } from "lucide-react";
 
 const LINKS = [
   { href: "/touba-infos/admin", label: "Tableau de bord", Icon: LayoutDashboard, exact: true },
   { href: "/touba-infos/admin/articles", label: "Articles", Icon: Newspaper, exact: false },
   { href: "/touba-infos/admin/articles/new", label: "Nouvel article", Icon: PlusCircle, exact: false },
+  { href: "/touba-infos/admin/ebooks", label: "Ebooks", Icon: BookOpen, exact: false },
   { href: "/touba-infos/admin/agent", label: "Agent IA", Icon: Radar, exact: false },
   { href: "/touba-infos/admin/diffusion", label: "Diffusion", Icon: Share2, exact: false },
 ];
