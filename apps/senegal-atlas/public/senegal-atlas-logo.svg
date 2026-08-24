@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" role="img" aria-labelledby="title desc">
+  <title id="title">Sénégal Atlas</title><desc id="desc">Plateforme nationale d’intelligence territoriale</desc>
+  <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#005c32"/><stop offset="1" stop-color="#003d5b"/></linearGradient></defs>
+  <g fill="none" stroke-linecap="round"><path d="M48 120C48 55 100 18 166 18c38 0 72 12 99 35" stroke="#005c32" stroke-width="13"/><path d="M78 136c15 45 58 75 108 75 44 0 82-23 103-58" stroke="#003d5b" stroke-width="13"/><path d="M116 42c72-29 150 3 185 70" stroke="#f8c300" stroke-width="13"/><path d="M291 55c25 20 39 48 39 80 0 24-8 46-21 64" stroke="#e31b23" stroke-width="13"/></g>
+  <path d="M176 62l12 25 28 4-20 20 5 28-25-14-25 14 5-28-20-20 28-4z" fill="#005c32" stroke="#fff" stroke-width="4"/>
+  <path d="M92 103l31-29 38 11 33-12 34 25-13 24 13 25-23 38-35 9-26 31-35-20-3-40-28-23z" fill="url(#g)" stroke="#fff" stroke-width="4"/>
+  <path d="M106 113l27 8m-10-36 12 36m26-36-5 38m38-25-20 26m-40 40 36-6m4-35 20 36m-61 6 16 31" stroke="#dff1e7" stroke-width="3"/>
+  <g transform="translate(354 58)"><text fill="#005c32" font-family="Arial, sans-serif" font-size="70" font-weight="800" letter-spacing="2">SÉNÉGAL</text><text y="72" fill="#003d5b" font-family="Arial, sans-serif" font-size="89" font-weight="900" letter-spacing="-2">ATLAS</text><path d="M4 92h329" stroke="#f8c300" stroke-width="6"/><path d="M4 102h329" stroke="#e31b23" stroke-width="3"/><text y="137" fill="#35534a" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2.2">PLATEFORME NATIONALE D’INTELLIGENCE TERRITORIALE</text></g>
+</svg>
