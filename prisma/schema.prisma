@@ -830,7 +830,23 @@ model InfoEbookOrder {
   @@map("info_ebook_orders")
 }
 
-enum InfoEbookKind { FREE PAID }
-enum InfoEbookStatus { DRAFT PUBLISHED }
-enum InfoEbookPaymentMethod { WAVE ORANGE_MONEY }
-enum InfoEbookOrderStatus { PENDING PAID FAILED }
+enum InfoEbookKind {
+  FREE
+  PAID
+}
+
+enum InfoEbookStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum InfoEbookPaymentMethod {
+  WAVE
+  ORANGE_MONEY
+}
+
+enum InfoEbookOrderStatus {
+  PENDING
+  PAID
+  FAILED
+}
