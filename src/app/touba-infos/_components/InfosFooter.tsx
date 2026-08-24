@@ -10,6 +10,7 @@ const COL_ACTU = [
   { label: "Économie", href: "/touba-infos/rubrique/economie" },
   { label: "Société", href: "/touba-infos/rubrique/societe" },
   { label: "Sport", href: "/touba-infos/rubrique/sport" },
+  { label: "Environnement", href: "/touba-infos/rubrique/environnement" },
 ];
 
 const COL_MEDIA = [

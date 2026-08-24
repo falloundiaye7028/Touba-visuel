@@ -64,7 +64,7 @@ export default async function AdminLayout({
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 py-8">{children}</div>
+      <main className="mx-auto max-w-7xl px-4 py-8">{children}</main>
     </div>
   );
 }

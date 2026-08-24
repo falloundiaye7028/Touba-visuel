@@ -31,6 +31,7 @@ const NAV_PRIMARY: NavItem[] = [
   { label: "Sport", href: "/touba-infos/rubrique/sport" },
   { label: "Culture", href: "/touba-infos/rubrique/culture" },
   { label: "Vidéos", href: "/touba-infos/videos" },
+  { label: "Environnement", href: "/touba-infos/rubrique/environnement" },
   { label: "Interviews", href: "/touba-infos/rubrique/interviews" },
   { label: "Analyses", href: "/touba-infos/rubrique/analyses" },
 ];
@@ -38,7 +39,6 @@ const NAV_PRIMARY: NavItem[] = [
 const NAV_PLUS: NavItem[] = [
   { label: "Santé", href: "/touba-infos/rubrique/sante" },
   { label: "Éducation", href: "/touba-infos/rubrique/education" },
-  { label: "Environnement", href: "/touba-infos/rubrique/environnement" },
   { label: "Diaspora", href: "/touba-infos/rubrique/diaspora" },
   { label: "Technologies", href: "/touba-infos/rubrique/technologies" },
   { label: "Communiqués", href: "/touba-infos/rubrique/communiques" },

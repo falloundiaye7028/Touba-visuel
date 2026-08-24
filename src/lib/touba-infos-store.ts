@@ -19,9 +19,6 @@ import {
 } from "./touba-infos";
 
 const hasDb = !!process.env.DATABASE_URL;
-// Les publications antérieures à la refonte ne sont plus exposées au public.
-// Les archives restent accessibles à l’administration pour conservation interne.
-const PUBLICATION_RESET_AT = new Date("2026-08-23T21:32:58.000Z").getTime();
 const DATA_FILE = path.join(process.cwd(), "data", "touba-infos-articles.json");
 
 // ── Amorçage ────────────────────────────────────────────────────────────────
@@ -135,14 +132,9 @@ async function ensureSeededDb(): Promise<void> {
 // ── Lecture unifiée (mémoïsée par rendu) ─────────────────────────────────────
 const loadAll = reactCache(async (): Promise<ArticleInfo[]> => {
   if (hasDb) {
-    try {
-      await ensureSeededDb();
-      const rows = await prisma.infoArticle.findMany();
-      return rows.length ? rows.map(rowToArticle) : seed();
-    } catch {
-      // DB injoignable ou tables non encore créées : contenu intégré au code
-      return seed();
-    }
+    await ensureSeededDb();
+    const rows = await prisma.infoArticle.findMany();
+    return rows.length ? rows.map(rowToArticle) : seed();
   }
   return loadFile();
 });
@@ -152,11 +144,7 @@ const byDate = (a: ArticleInfo, b: ArticleInfo) =>
   new Date(b.date).getTime() - new Date(a.date).getTime();
 
 function estPublic(a: ArticleInfo): boolean {
-  if (new Date(a.date).getTime() < PUBLICATION_RESET_AT) return false;
-  const s = a.statut ?? "publie";
-  if (s === "publie") return true;
-  if (s === "programme") return new Date(a.date).getTime() <= Date.now();
-  return false;
+  return (a.statut ?? "publie") === "publie";
 }
 
 // ════════════════════════════════════════════════════════════════════════════
