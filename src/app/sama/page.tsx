@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { PLANS } from "@/lib/sama/constants";
 import { formatMoney } from "@/lib/sama/money";
+import SamaPilotLogo from "@/components/sama/SamaPilotLogo";
 
 export const dynamic = "force-dynamic";
 
@@ -45,13 +46,7 @@ export default function SamaLanding() {
       <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/sama" className="flex items-center shrink-0" aria-label="SAMA PILOT — Accueil">
-            <img
-              src="/samapilot-logo.svg"
-              alt="SAMA PILOT"
-              width="144"
-              height="112"
-              className="h-14 sm:h-16 w-auto object-contain"
-            />
+            <SamaPilotLogo variant="compact" className="h-12 sm:h-14 w-[174px]" />
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
             <a href="#comment-ca-marche" className="hover:text-vert-700">Comment ça marche</a>
@@ -70,13 +65,7 @@ export default function SamaLanding() {
       <section className="relative overflow-hidden bg-gradient-to-b from-vert-900 via-vert-800 to-vert-700 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20 text-center">
           <div className="mx-auto mb-7 w-full max-w-xl rounded-3xl bg-white p-3 sm:p-4 shadow-2xl ring-1 ring-white/30">
-            <img
-              src="/samapilot-logo.svg"
-              alt="Logo SAMA PILOT — Votre entreprise dans votre poche"
-              width="720"
-              height="559"
-              className="w-full h-auto rounded-2xl"
-            />
+            <SamaPilotLogo className="w-full h-auto rounded-2xl" />
           </div>
           <h1 className="sr-only">SAMA PILOT — Votre entreprise dans votre poche.</h1>
           <p className="text-lg text-vert-100 max-w-2xl mx-auto">
@@ -211,13 +200,7 @@ export default function SamaLanding() {
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-6 text-sm">
           <div>
             <div className="inline-flex rounded-xl bg-white p-2">
-              <img
-                src="/samapilot-logo.svg"
-                alt="SAMA PILOT"
-                width="116"
-                height="90"
-                className="h-12 w-auto object-contain"
-              />
+              <SamaPilotLogo variant="compact" className="h-10 w-[145px]" />
             </div>
             <p className="mt-2">Vendez. Gérez. Encaissez. Décidez avec l’IA.</p>
             <p className="mt-3 text-gray-300">Développé par <span className="font-semibold text-white">Touba Digital Group</span></p>
