@@ -46,7 +46,7 @@ export default function SamaLanding() {
         <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/sama" className="flex items-center shrink-0" aria-label="SAMA PILOT — Accueil">
             <img
-              src="/samapilot-logo.webp"
+              src="/samapilot-logo.svg"
               alt="SAMA PILOT"
               width="144"
               height="112"
@@ -71,7 +71,7 @@ export default function SamaLanding() {
         <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20 text-center">
           <div className="mx-auto mb-7 w-full max-w-xl rounded-3xl bg-white p-3 sm:p-4 shadow-2xl ring-1 ring-white/30">
             <img
-              src="/samapilot-logo.webp"
+              src="/samapilot-logo.svg"
               alt="Logo SAMA PILOT — Votre entreprise dans votre poche"
               width="720"
               height="559"
@@ -212,7 +212,7 @@ export default function SamaLanding() {
           <div>
             <div className="inline-flex rounded-xl bg-white p-2">
               <img
-                src="/samapilot-logo.webp"
+                src="/samapilot-logo.svg"
                 alt="SAMA PILOT"
                 width="116"
                 height="90"
