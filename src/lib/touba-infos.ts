@@ -76,6 +76,9 @@ export interface ArticleInfo {
   imageGradient: string;
   /** Photo réelle si disponible (sinon tuile éditoriale) */
   imageUrl?: string;
+  /** Point focal de recadrage des cartes, de 0 à 100. */
+  imageFocalX?: number;
+  imageFocalY?: number;
   credit?: string;
   legende?: string;
   alaUne: boolean;
