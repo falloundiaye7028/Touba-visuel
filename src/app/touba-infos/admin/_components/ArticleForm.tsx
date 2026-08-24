@@ -43,6 +43,8 @@ export default function ArticleForm({
   const [categorie, setCategorie] = useState<string>(article?.categorie ?? "Touba");
   const [emoji, setEmoji] = useState(article?.imageEmoji ?? "📰");
   const [imageUrl, setImageUrl] = useState(article?.imageUrl ?? "");
+  const [focalX, setFocalX] = useState(article?.imageFocalX ?? 50);
+  const [focalY, setFocalY] = useState(article?.imageFocalY ?? 50);
   const [gradient, setGradient] = useState(
     article?.imageGradient ?? GRADIENTS[0].v,
   );
@@ -138,7 +140,7 @@ export default function ArticleForm({
             <div className={`relative flex aspect-[16/9] items-center justify-center bg-gradient-to-br ${gradient}`}>
               {imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={imageUrl} alt="" className="h-full w-full object-cover" />
+                <img src={imageUrl} alt="" className="h-full w-full object-cover" style={{ objectPosition: `${focalX}% ${focalY}%` }} />
               ) : (
                 <span className="text-5xl opacity-40">{emoji}</span>
               )}
@@ -249,6 +251,16 @@ export default function ArticleForm({
               />
             </div>
           </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Point focal horizontal">
+              <input name="imageFocalX" type="range" min="0" max="100" value={focalX} onChange={(e) => setFocalX(Number(e.target.value))} className="w-full accent-green-600" />
+              <span className="text-xs text-neutral-500">{focalX}%</span>
+            </Field>
+            <Field label="Point focal vertical">
+              <input name="imageFocalY" type="range" min="0" max="100" value={focalY} onChange={(e) => setFocalY(Number(e.target.value))} className="w-full accent-green-600" />
+              <span className="text-xs text-neutral-500">{focalY}%</span>
+            </Field>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             <Field label="Emoji (repli)">
               <input

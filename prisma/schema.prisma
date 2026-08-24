@@ -167,6 +167,8 @@ model InfoArticle {
   imageEmoji    String    @default("📰")
   imageGradient String
   imageUrl      String?
+  imageFocalX   Int       @default(50)
+  imageFocalY   Int       @default(50)
   credit        String?
   legende       String?
   alaUne        Boolean   @default(false)
@@ -796,6 +798,8 @@ model InfoEbook {
   description String   @db.Text
   category    String
   coverUrl    String?
+  coverFocalX Int       @default(50)
+  coverFocalY Int       @default(50)
   pdfPathname String
   kind        InfoEbookKind @default(FREE)
   priceXof    Int      @default(0)
