@@ -63,9 +63,9 @@ export default function ToubaInfosLayout({
                   "L'information au cœur de Touba, ouverte sur le monde.",
                 areaServed: ["Touba", "Sénégal", "Afrique", "Monde"],
                 sameAs: [
-                  "https://facebook.com",
-                  "https://youtube.com",
-                  "https://instagram.com",
+                  "https://www.facebook.com/toubainfos/?locale=fr_FR",
+                  "https://www.youtube.com/@toubainfostv183",
+                  "https://www.tiktok.com/@yoonu_murid_digital",
                 ],
               }),
             }}
