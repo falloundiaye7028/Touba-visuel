@@ -51,6 +51,11 @@ function parseTags(v: FormDataEntryValue | null): string[] {
     .filter(Boolean);
 }
 
+function focal(value: FormDataEntryValue | null): number {
+  const number = Number(value);
+  return Number.isFinite(number) ? Math.min(100, Math.max(0, Math.round(number))) : 50;
+}
+
 function fromForm(formData: FormData) {
   const titre = String(formData.get("titre") ?? "").trim();
   const dateLocal = String(formData.get("date") ?? "").trim();
@@ -66,6 +71,8 @@ function fromForm(formData: FormData) {
     date: dateLocal ? new Date(dateLocal).toISOString() : new Date().toISOString(),
     tempsLecture: String(formData.get("tempsLecture") ?? "3 min").trim(),
     imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
+    imageFocalX: focal(formData.get("imageFocalX")),
+    imageFocalY: focal(formData.get("imageFocalY")),
     imageEmoji: String(formData.get("imageEmoji") ?? "📰").trim() || "📰",
     imageGradient:
       String(formData.get("imageGradient") ?? "").trim() ||

@@ -1,181 +1,121 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Check, CirclePlay, Sparkles, Star } from "lucide-react";
 
 const services = [
-  { icon: "🎨", label: "Visuels publicitaires & institutionnels" },
-  { icon: "🖨️", label: "Impression grand format & événementiel" },
-  { icon: "✦",  label: "Logos & identité visuelle" },
-  { icon: "🌐", label: "Sites web modernes & professionnels" },
-  { icon: "📱", label: "Branding réseaux sociaux & digital" },
-  { icon: "📋", label: "Flyers, bâches, roll-up, enseignes" },
-  { icon: "🎬", label: "Vidéo promotionnelle & communication" },
+  "Identité visuelle",
+  "Impression grand format",
+  "Sites web sur mesure",
+  "Marketing digital",
 ];
 
 const stats = [
-  { chiffre: "500+", label: "Clients satisfaits" },
-  { chiffre: "8",    label: "Catégories de services" },
-  { chiffre: "48h",  label: "Délai express" },
-  { chiffre: "4.9★", label: "Note moyenne" },
+  { chiffre: "500+", label: "marques accompagnées" },
+  { chiffre: "48h", label: "pour vos projets express" },
+  { chiffre: "4.9/5", label: "satisfaction client" },
 ];
 
 export default function Hero() {
   return (
-    <section className="relative gradient-animated min-h-screen flex flex-col justify-center overflow-hidden">
+    <section className="relative isolate overflow-hidden bg-[#052d1f] text-white">
+      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_83%_18%,rgba(255,190,35,0.2),transparent_24%),radial-gradient(circle_at_10%_80%,rgba(34,197,94,0.18),transparent_30%),linear-gradient(125deg,#031d14_8%,#075536_54%,#063525_100%)]" />
+      <div className="absolute inset-0 -z-10 opacity-[0.15] [background-image:linear-gradient(rgba(255,255,255,.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.2)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
+      <div className="absolute right-[8%] top-24 -z-10 h-72 w-72 rounded-full border border-white/10 bg-white/[0.03]" />
+      <div className="absolute right-[15%] top-40 -z-10 h-48 w-48 rounded-full border border-or-400/20" />
 
-      {/* Orbes décoratifs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-orange-500/25 blur-[100px] animate-pulse-slow" />
-        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-or-400/15 blur-[120px] animate-pulse-slow delay-500" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-vert-800/10 blur-[80px]" />
-        <div className="absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 pt-24 pb-32 w-full">
-
-        {/* Badge top */}
-        <div className="flex justify-center mb-10 animate-fade-up">
-          <div className="glass rounded-full px-5 py-2.5 flex items-center gap-2.5">
-            <Sparkles size={14} className="text-or-400" />
-            <span className="text-white/90 text-sm font-medium tracking-widest uppercase">
-              Agence Touba Visuel — ATV
-            </span>
-            <Sparkles size={14} className="text-orange-400" />
+      <div className="mx-auto grid min-h-[min(780px,calc(100vh-64px))] max-w-7xl items-center gap-14 px-4 pb-20 pt-28 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:pt-20">
+        <div className="max-w-2xl">
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-or-300 shadow-lg backdrop-blur">
+            <Sparkles size={14} />
+            Agence créative à Touba
           </div>
-        </div>
 
-        {/* TOUBA VISUEL — Typographie massive */}
-        <div className="text-center mb-8 animate-fade-up delay-100">
-          <h1 className="font-black leading-[0.85] tracking-tight">
-            <span className="block text-white"
-              style={{ fontSize: "clamp(4rem, 14vw, 12rem)" }}>
-              TOUBA
-            </span>
-            <span className="block"
-              style={{
-                fontSize: "clamp(4rem, 14vw, 12rem)",
-                WebkitTextStroke: "clamp(1px, 0.15vw, 2px) rgba(255,255,255,0.7)",
-                color: "transparent",
-              }}>
-              VISUEL
-            </span>
+          <h1 className="font-black leading-[0.94] tracking-[-0.055em] text-white" style={{ fontSize: "clamp(3.25rem, 7vw, 6.5rem)", fontFamily: "var(--font-display)" }}>
+            Votre image,
+            <span className="block text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,.72)]">en grand.</span>
           </h1>
 
-          {/* Ligne décorative */}
-          <div className="flex items-center justify-center gap-6 my-8">
-            <div className="h-px flex-1 max-w-[120px] bg-gradient-to-r from-transparent to-white/40" />
-            <div className="flex gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/60" />
-              <div className="w-1.5 h-1.5 rounded-full bg-white" />
-              <div className="w-1.5 h-1.5 rounded-full bg-white/60" />
-            </div>
-            <div className="h-px flex-1 max-w-[120px] bg-gradient-to-l from-transparent to-white/40" />
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-vert-100/80 md:text-xl">
+            Nous créons des identités fortes, des supports qui attirent le regard et des expériences digitales qui font avancer votre marque.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            {services.map((service) => (
+              <span key={service} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/10 px-3 py-2 text-sm text-white/80">
+                <Check size={14} className="text-or-300" />
+                {service}
+              </span>
+            ))}
           </div>
 
-          {/* Tagline */}
-          <p className="text-white font-extrabold uppercase tracking-widest mb-6 animate-fade-up delay-200"
-            style={{ fontSize: "clamp(1rem, 2.5vw, 1.75rem)" }}>
-            L&apos;image qui donne de la puissance à votre marque
-          </p>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Link href="/commande" className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-or-400 px-7 py-4 font-bold text-vert-950 shadow-[0_18px_40px_rgba(255,200,0,.2)] transition hover:-translate-y-0.5 hover:bg-or-300">
+              Lancer mon projet
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            <a href="https://wa.me/221768001717" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 rounded-2xl border border-white/20 bg-white/[0.06] px-7 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/[0.13]">
+              Demander un devis
+              <CirclePlay size={18} className="text-or-300" />
+            </a>
+          </div>
 
-          {/* Sous-titre */}
-          <p className="text-white/70 max-w-2xl mx-auto leading-relaxed animate-fade-up delay-300"
-            style={{ fontSize: "clamp(0.9rem, 1.5vw, 1.1rem)" }}>
-            Conception graphique haut de gamme, impression tous formats et création de sites web
-            professionnels de A à Z. Nous transformons vos idées en supports visuels modernes et impactants.
-          </p>
-        </div>
-
-        {/* Boutons CTA */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-up delay-400">
-          <Link href="/catalogue"
-            className="group inline-flex items-center justify-center gap-3 bg-white text-vert-950 font-bold px-9 py-4 rounded-2xl hover:bg-vert-50 transition-all duration-300 shadow-2xl text-base hover:scale-[1.02]">
-            Voir le catalogue
-            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <a href="https://wa.me/221768001717" target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 glass text-white font-semibold px-9 py-4 rounded-2xl hover:bg-white/15 transition-all duration-300 text-base border border-white/20">
-            WhatsApp — Devis gratuit
-          </a>
-        </div>
-
-        {/* Stats bar */}
-        <div className="glass-dark rounded-2xl px-6 py-5 mb-16 animate-fade-up delay-500">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <p className="font-black text-2xl md:text-3xl mb-1"
-                  style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                  {s.chiffre}
-                </p>
-                <p className="text-white/50 text-xs uppercase tracking-wider">{s.label}</p>
+          <div className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-4">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <p className="font-black text-2xl text-or-300" style={{ fontFamily: "var(--font-display)" }}>{stat.chiffre}</p>
+                <p className="mt-1 text-xs text-white/55">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Grille Services + CTA */}
-        <div className="grid lg:grid-cols-3 gap-6">
-
-          <div className="lg:col-span-2 glass-dark rounded-3xl p-8">
-            <div className="flex items-center gap-3 mb-7">
-              <div className="w-1 h-7 rounded-full" style={{ background: "linear-gradient(180deg, #ffc800, #ff7a2a)" }} />
-              <h2 className="text-white font-black text-lg uppercase tracking-widest">Nos Services</h2>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {services.map((s, i) => (
-                <div key={i}
-                  className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 rounded-xl px-4 py-3 transition-all duration-200 group cursor-default">
-                  <span className="text-xl flex-shrink-0">{s.icon}</span>
-                  <p className="text-white/80 group-hover:text-white text-sm font-medium transition-colors leading-snug">{s.label}</p>
+        <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+          <div className="absolute -inset-5 -z-10 rounded-[2.25rem] bg-or-400/15 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.09] p-4 shadow-2xl backdrop-blur-xl sm:p-5">
+            <div className="rounded-[1.5rem] bg-[#f7f7f2] p-5 text-gray-900 sm:p-7">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-vert-900 text-sm font-black text-or-300">ATV</div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-vert-700">Touba Visuel</p>
+                    <p className="text-sm text-gray-500">Direction artistique</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
+                <span className="rounded-full bg-vert-100 px-3 py-1 text-xs font-bold text-vert-700">Disponible</span>
+              </div>
 
-          <div className="flex flex-col gap-4">
-            <div className="glass rounded-3xl p-7 flex-1">
-              <p className="text-white font-black text-base uppercase tracking-wide mb-3 leading-snug">
-                Donnez une autre dimension à votre communication
-              </p>
-              <p className="text-white/60 text-sm leading-relaxed">
-                Chaque design est pensé pour attirer, convaincre et marquer les esprits — du flyer à la présence digitale complète.
-              </p>
-            </div>
+              <div className="mt-8 rounded-[1.35rem] bg-vert-950 p-6 text-white sm:p-8">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-or-300">Projet à la une</p>
+                <h2 className="mt-3 text-3xl font-black leading-tight" style={{ fontFamily: "var(--font-display)" }}>Une présence qui ne passe pas inaperçue.</h2>
+                <div className="mt-8 grid grid-cols-3 gap-3">
+                  {[
+                    ["01", "Stratégie"],
+                    ["02", "Création"],
+                    ["03", "Impact"],
+                  ].map(([number, label]) => (
+                    <div key={number} className="rounded-xl border border-white/10 bg-white/[0.06] p-3">
+                      <p className="text-lg font-black text-or-300">{number}</p>
+                      <p className="mt-4 text-xs text-white/60">{label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-            <div className="bg-white rounded-3xl p-7">
-              <p className="text-vert-950 font-black text-base uppercase tracking-wide mb-1">Démarrez maintenant</p>
-              <p className="text-gray-500 text-xs mb-5">Devis gratuit sous 24h</p>
-              <div className="space-y-2.5">
-                <a href="https://wa.me/221768001717" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 text-white font-bold text-sm px-5 py-3 rounded-xl transition-all duration-200 w-full hover:scale-[1.02] hover:opacity-90"
-                  style={{ background: "linear-gradient(135deg, #0a6342, #1d9c68)" }}>
-                  📱 WhatsApp
-                </a>
-                <Link href="/devis"
-                  className="flex items-center justify-center gap-2 text-gray-900 font-bold text-sm px-5 py-3 rounded-xl transition-all duration-200 w-full hover:scale-[1.02] hover:opacity-90"
-                  style={{ background: "linear-gradient(135deg, #ffc800, #ff7a2a)" }}>
-                  Devis en ligne →
-                </Link>
+              <div className="mt-5 flex items-center justify-between rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+                <div className="flex -space-x-2">
+                  {["#f7c300", "#1d9c68", "#0a6342"].map((color) => <span key={color} className="h-8 w-8 rounded-full border-2 border-white" style={{ background: color }} />)}
+                </div>
+                <div className="flex items-center gap-1 text-sm font-bold text-vert-800"><Star size={15} className="fill-or-400 text-or-400" /> 4.9 — recommandé</div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Signature */}
-        <div className="text-center mt-14">
-          <p className="text-white/30 text-xs tracking-[0.5em] uppercase font-medium">
-            Créativité &nbsp;•&nbsp; Innovation &nbsp;•&nbsp; Impact
-          </p>
+          <div className="absolute -bottom-6 -left-5 hidden rounded-2xl border border-white/15 bg-vert-950/90 px-5 py-4 shadow-xl backdrop-blur sm:block">
+            <p className="text-xs text-white/55">Devis personnalisé</p>
+            <p className="mt-1 text-sm font-bold text-white">Réponse sous 24h</p>
+          </div>
         </div>
       </div>
 
-      {/* Vague bas */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 80L1440 80L1440 40C1320 75 1200 5 1080 40C960 75 840 5 720 40C600 75 480 5 360 40C240 75 120 5 0 40L0 80Z" fill="white" />
-        </svg>
-      </div>
+      <div className="absolute bottom-0 left-0 right-0 h-10 bg-white [clip-path:polygon(0_70%,20%_20%,45%_70%,70%_25%,100%_65%,100%_100%,0_100%)]" />
     </section>
   );
 }
