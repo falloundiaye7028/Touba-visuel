@@ -2,7 +2,6 @@
 //  TOUBA INFOS NEWS AGENT — Moteur de veille (serveur)
 //  Récupère les flux RSS publics des sources actives, détecte et score les
 //  sujets, regroupe les doublons inter-médias, puis alimente le store.
-//  Repli sur des sujets de démonstration si le réseau est indisponible.
 // ============================================================================
 
 import {
@@ -13,7 +12,6 @@ import {
   detecterCategorie,
   detecterTags,
   similariteTitre,
-  sujetsDemo,
 } from "./touba-infos-agent";
 import {
   ajouterSujets,
@@ -57,7 +55,6 @@ function parseFeed(xml: string): FeedItem[] {
   for (const b of blocks.slice(0, 10)) {
     const title = tag(b, "title");
     if (!title) continue;
-    // lien : <link>...</link> (RSS) ou <link href="..."/> (Atom)
     let link = tag(b, "link") || "";
     if (!link) {
       const m = b.match(/<link[^>]*href="([^"]+)"/i);
@@ -78,7 +75,7 @@ async function fetchFeed(source: SourceMedia): Promise<FeedItem[]> {
     const res = await fetch(source.rss, {
       signal: ctrl.signal,
       headers: {
-        "User-Agent": "ToubaInfosNewsAgent/1.0 (+https://touba-visuel.vercel.app/touba-infos)",
+        "User-Agent": "ToubaInfosNewsAgent/1.0 (+https://toubainfos.com)",
         Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml",
       },
     });
@@ -94,7 +91,6 @@ interface Brut extends FeedItem {
   source: SourceMedia;
 }
 
-/** Regroupe les items proches (même événement) → un sujet + n sources. */
 function clusteriser(bruts: Brut[]): Omit<SujetDetecte, "id" | "hash" | "detecteA">[] {
   const used = new Set<number>();
   const sujets: Omit<SujetDetecte, "id" | "hash" | "detecteA">[] = [];
@@ -111,7 +107,6 @@ function clusteriser(bruts: Brut[]): Omit<SujetDetecte, "id" | "hash" | "detecte
         used.add(j);
       }
     }
-    // représentant = source la plus fiable
     const rep = cluster.reduce((best, x) =>
       rang[x.source.fiabilite] > rang[best.source.fiabilite] ? x : best,
     );
@@ -165,18 +160,12 @@ export async function runVeille(): Promise<DerniereVeille> {
     }
   }
 
-  let mode: DerniereVeille["mode"] = "reel";
-  let candidats = clusteriser(bruts);
+  const mode: DerniereVeille["mode"] = erreurs.length > 0 ? "mixte" : "reel";
+  const candidats = clusteriser(bruts);
 
-  // Repli démo si rien n'a été récupéré
-  if (candidats.length === 0) {
-    candidats = sujetsDemo();
-    mode = "demo";
-  } else if (erreurs.length > 0) {
-    mode = "mixte";
-  }
-
-  const nouveaux = await ajouterSujets(candidats);
+  // En production, une panne de flux ne doit jamais créer de faux sujets.
+  // Si aucune source n'est disponible, on enregistre simplement une veille vide.
+  const nouveaux = candidats.length > 0 ? await ajouterSujets(candidats) : 0;
 
   const run: DerniereVeille = {
     at: new Date().toISOString(),

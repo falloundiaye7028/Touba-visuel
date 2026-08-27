@@ -39,6 +39,12 @@ export default function ArticleForm({
   const [summary, setSummary] = useState(article?.extrait ?? "");
   const [category, setCategory] = useState<string>(article?.categorie ?? "Touba");
   const [imageUrl, setImageUrl] = useState(article?.imageUrl ?? "");
+  const [focalX, setFocalX] = useState(article?.imageFocalX ?? 50);
+  const [focalY, setFocalY] = useState(article?.imageFocalY ?? 50);
+  const [emoji, setEmoji] = useState(article?.imageEmoji ?? "📰");
+  const [gradient, setGradient] = useState(
+    article?.imageGradient ?? GRADIENTS[0].value,
+  );
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
   const [uploadError, setUploadError] = useState("");
 
@@ -116,14 +122,17 @@ export default function ArticleForm({
           </div>
 
           <div className="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50">
-            <div className="relative flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-green-700 via-emerald-800 to-green-900">
+            <div className={`relative flex aspect-[16/10] items-center justify-center bg-gradient-to-br ${gradient}`}>
               {imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={imageUrl} alt="Aperçu" className="h-full w-full object-cover" />
-              ) : <ImagePlus size={32} className="text-white/45" />}
+                <img src={imageUrl} alt="Aperçu" className="h-full w-full object-cover" style={{ objectPosition: `${focalX}% ${focalY}%` }} />
+              ) : <span className="text-5xl opacity-40">{emoji}</span>}
               <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-bold uppercase text-green-800">{category}</span>
             </div>
-            <p className="truncate px-3 py-2 text-xs font-bold text-neutral-700">{title || "Aperçu de l’article"}</p>
+            <div className="px-3 py-2">
+              <p className="truncate text-xs font-bold text-neutral-700">{title || "Aperçu de l’article"}</p>
+              <p className="mt-1 line-clamp-2 text-xs text-neutral-500">{summary}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -200,10 +209,17 @@ export default function ArticleForm({
           <Field label="Légende"><input name="legende" defaultValue={article?.legende} className={inputCls} /></Field>
           <Field label="Emoji de repli"><input name="imageEmoji" defaultValue={article?.imageEmoji ?? "📰"} className={inputCls} /></Field>
           <Field label="Dégradé">
-            <select name="imageGradient" defaultValue={article?.imageGradient ?? GRADIENTS[0].value} className={inputCls}>
+            <select name="imageGradient" value={gradient} onChange={(event) => setGradient(event.target.value)} className={inputCls}>
               {GRADIENTS.map((gradient) => <option key={gradient.value} value={gradient.value}>{gradient.label}</option>)}
             </select>
           </Field>
+          <Field label="Point focal horizontal">
+            <input name="imageFocalX" type="range" min="0" max="100" value={focalX} onChange={(event) => setFocalX(Number(event.target.value))} className="w-full accent-green-600" />
+          </Field>
+          <Field label="Point focal vertical">
+            <input name="imageFocalY" type="range" min="0" max="100" value={focalY} onChange={(event) => setFocalY(Number(event.target.value))} className="w-full accent-green-600" />
+          </Field>
+          <Field label="Vues"><input type="number" name="vues" defaultValue={article?.vues ?? 0} className={inputCls} /></Field>
           <div className="flex flex-wrap items-center gap-5 sm:col-span-2">
             <Check name="alaUne" label="À la Une" defaultChecked={article?.alaUne} />
             <Check name="breaking" label="Dernière minute" defaultChecked={article?.breaking} />

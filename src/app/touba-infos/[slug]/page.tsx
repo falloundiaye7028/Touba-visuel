@@ -172,8 +172,8 @@ export default async function ArticlePage({
 
       {/* Image principale */}
       <figure className="mx-auto mt-6 max-w-4xl px-4">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
-          <EditorialImage article={article} emojiSize="text-[9rem]" />
+        <div className="flex min-h-52 items-center justify-center rounded-2xl bg-neutral-100 p-2 sm:p-4">
+          <EditorialImage article={article} mode="detail" priority emojiSize="text-[9rem]" />
         </div>
         {(article.legende || article.credit) && (
           <figcaption className="mt-2 px-1 text-xs text-neutral-500">

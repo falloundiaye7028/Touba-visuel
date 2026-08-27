@@ -1,239 +1,134 @@
 import Link from "next/link";
 import {
-  ShoppingCart, Package, Users, FileText, Store, BarChart3,
-  Bot, Check, MessageCircle, ChevronRight,
+  ArrowRight, BarChart3, Bot, Check, ChevronRight, CircleCheck,
+  FileText, Package, ShieldCheck, ShoppingCart, Store, Users,
 } from "lucide-react";
+import SamaPilotLogo from "@/components/sama/SamaPilotLogo";
 import { PLANS } from "@/lib/sama/constants";
 import { formatMoney } from "@/lib/sama/money";
 
 export const dynamic = "force-dynamic";
 
 const FEATURES = [
-  { icon: ShoppingCart, title: "Ventes rapides", desc: "Enregistrez une vente en quelques secondes. Stock, marge et encaissement se mettent à jour ensemble." },
-  { icon: Package, title: "Stock & produits", desc: "Suivez votre inventaire et repérez les produits proches de la rupture." },
-  { icon: Users, title: "Clients & créances", desc: "Historique d’achats, clients débiteurs et relances depuis une seule fiche." },
-  { icon: FileText, title: "Factures & reçus", desc: "Créez des factures, devis et reçus professionnels, prêts à imprimer ou partager." },
-  { icon: Store, title: "Boutique en ligne", desc: "Partagez votre catalogue sur WhatsApp, TikTok, Instagram ou Facebook." },
-  { icon: BarChart3, title: "Résultats clairs", desc: "Chiffre d’affaires, marge, dépenses et créances : voyez où en est réellement votre activité." },
-];
-
-const PROBLEMS = [
-  "Des ventes notées dans un cahier ou dispersées sur WhatsApp",
-  "Un stock difficile à suivre au quotidien",
-  "Des bénéfices calculés à la main",
-  "Des créances clients qu’on oublie de relancer",
-  "Des factures et reçus préparés un par un",
+  { icon: ShoppingCart, title: "Vendez sans attendre", desc: "Chaque vente met à jour vos encaissements, votre marge et votre stock." },
+  { icon: Package, title: "Gardez le contrôle", desc: "Repérez les ruptures, les produits qui dorment et ce qui se vend le mieux." },
+  { icon: Users, title: "Relancez au bon moment", desc: "Retrouvez vos créances et l’historique de chaque client en un geste." },
+  { icon: FileText, title: "Restez professionnel", desc: "Créez vos devis, factures et reçus prêts à partager ou imprimer." },
+  { icon: Store, title: "Partagez votre boutique", desc: "Diffusez votre catalogue sur WhatsApp, TikTok, Instagram ou Facebook." },
+  { icon: BarChart3, title: "Décidez avec vos chiffres", desc: "Suivez votre chiffre d’affaires, vos dépenses et votre bénéfice réel." },
 ];
 
 const STEPS = [
-  { n: "1", title: "Créez votre entreprise", desc: "Renseignez votre activité et vos informations principales." },
-  { n: "2", title: "Enregistrez votre activité", desc: "Ajoutez vos produits puis saisissez ventes, dépenses, clients et paiements." },
-  { n: "3", title: "Laissez SAMA vous guider", desc: "Consultez vos résultats et demandez à SAMA AI ce qui mérite votre attention aujourd’hui." },
+  ["01", "Créez votre espace", "Ajoutez le nom et les informations de votre entreprise."],
+  ["02", "Enregistrez l’activité", "Produits, ventes, dépenses et clients : tout est à sa place."],
+  ["03", "Avancez sereinement", "SAMA AI vous aide à prioriser ce qui compte aujourd’hui."],
 ];
 
 const FAQ = [
-  { q: "Ai-je besoin d’être connecté en permanence ?", a: "Une connexion est nécessaire pour synchroniser vos données et utiliser les fonctions en ligne. L’application est pensée pour fonctionner efficacement sur mobile et peut être installée sur l’écran d’accueil." },
-  { q: "Puis-je payer par Wave ou Orange Money ?", a: "Oui. Les abonnements peuvent être réglés par Wave, Orange Money ou virement selon les moyens configurés sur la plateforme." },
-  { q: "Mes données sont-elles protégées ?", a: "Chaque entreprise dispose de son propre espace. Les accès et les données métier sont isolés côté serveur par entreprise." },
-  { q: "Est-ce compliqué à utiliser ?", a: "Le parcours est conçu pour être simple : création du compte, ajout d’un produit, première vente puis lecture du tableau de bord." },
+  ["Est-ce adapté au téléphone ?", "Oui. SAMA PILOT est pensé pour une utilisation simple et rapide sur mobile."],
+  ["Puis-je commencer gratuitement ?", "Oui. Vous avez 14 jours d’essai sans carte bancaire."],
+  ["Mes données sont-elles séparées ?", "Oui. Chaque entreprise possède son propre espace et ses propres données."],
 ];
 
 export default function SamaLanding() {
   return (
-    <div className="bg-white text-gray-900">
-      {/* Nav */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
-          <Link href="/sama" className="flex items-center shrink-0" aria-label="SAMA PILOT — Accueil">
-            <img
-              src="/samapilot-logo.webp"
-              alt="SAMA PILOT"
-              width="144"
-              height="112"
-              className="h-14 sm:h-16 w-auto object-contain"
-            />
+    <main className="min-h-screen overflow-hidden bg-[#f7faf8] text-slate-900">
+      <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6">
+          <Link href="/sama" aria-label="SAMA PILOT — Accueil">
+            <SamaPilotLogo variant="compact" className="h-11 w-[158px] sm:h-12 sm:w-[174px]" />
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
-            <a href="#comment-ca-marche" className="hover:text-vert-700">Comment ça marche</a>
-            <a href="#fonctionnalites" className="hover:text-vert-700">Fonctionnalités</a>
-            <a href="#ia" className="hover:text-vert-700">SAMA AI</a>
-            <a href="#tarifs" className="hover:text-vert-700">Tarifs</a>
+          <nav className="hidden items-center gap-7 text-sm font-medium text-slate-600 lg:flex">
+            <a href="#fonctionnalites" className="transition hover:text-[#0e7d52]">Fonctionnalités</a>
+            <a href="#comment-ca-marche" className="transition hover:text-[#0e7d52]">Comment ça marche</a>
+            <a href="#ia" className="transition hover:text-[#0e7d52]">SAMA AI</a>
+            <a href="#tarifs" className="transition hover:text-[#0e7d52]">Tarifs</a>
           </nav>
-          <div className="flex items-center gap-2">
-            <Link href="/sama/connexion" className="text-sm font-medium text-gray-700 px-3 py-2">Connexion</Link>
-            <Link href="/sama/inscription" className="btn-primary !py-2 text-sm">Créer mon compte</Link>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link href="/sama/connexion" className="hidden text-sm font-semibold text-slate-700 sm:block">Connexion</Link>
+            <Link href="/sama/inscription" className="inline-flex items-center rounded-xl bg-[#0e7d52] px-3 py-2 text-xs font-bold text-white shadow-lg shadow-emerald-900/15 transition hover:bg-[#086442] sm:px-4 sm:text-sm">Essayer gratuitement</Link>
           </div>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-vert-900 via-vert-800 to-vert-700 text-white">
-        <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20 text-center">
-          <div className="mx-auto mb-7 w-full max-w-xl rounded-3xl bg-white p-3 sm:p-4 shadow-2xl ring-1 ring-white/30">
-            <img
-              src="/samapilot-logo.webp"
-              alt="Logo SAMA PILOT — Votre entreprise dans votre poche"
-              width="720"
-              height="559"
-              className="w-full h-auto rounded-2xl"
-            />
-          </div>
-          <h1 className="sr-only">SAMA PILOT — Votre entreprise dans votre poche.</h1>
-          <p className="text-lg text-vert-100 max-w-2xl mx-auto">
-            Enregistrez vos ventes, suivez votre stock, vos créances et votre bénéfice. Puis demandez à SAMA AI ce que vous devez faire aujourd’hui.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/sama/inscription" className="btn-gold !px-6 !py-3 text-base">Créer mon compte gratuitement</Link>
-            <a href="#comment-ca-marche" className="inline-flex items-center justify-center gap-2 border border-white/30 rounded-xl px-6 py-3 font-semibold hover:bg-white/10">
-              Voir comment ça marche <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
-          <p className="mt-4 text-sm text-vert-200">14 jours d&apos;essai · sans carte bancaire · conçu pour le mobile</p>
-        </div>
-      </section>
-
-      {/* Comment ça marche */}
-      <section id="comment-ca-marche" className="max-w-5xl mx-auto px-4 py-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center">Du premier produit à la première décision</h2>
-        <p className="text-center text-gray-500 mt-2 max-w-2xl mx-auto">SAMA PILOT est conçu pour vous amener rapidement à une vue claire de votre activité.</p>
-        <div className="mt-10 grid md:grid-cols-3 gap-4">
-          {STEPS.map((step) => (
-            <div key={step.n} className="rounded-2xl border border-gray-100 p-5 bg-white">
-              <div className="w-10 h-10 rounded-full bg-vert-700 text-white grid place-items-center font-bold">{step.n}</div>
-              <h3 className="font-semibold text-lg mt-4">{step.title}</h3>
-              <p className="text-sm text-gray-500 mt-1">{step.desc}</p>
+      <section className="relative isolate overflow-hidden bg-[#073f2d] text-white">
+        <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_85%_12%,rgba(215,173,50,.32),transparent_23%),radial-gradient(circle_at_8%_90%,rgba(14,125,82,.65),transparent_40%),linear-gradient(135deg,#052d20,#0e7d52)]" />
+        <div className="absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(90deg,rgba(255,255,255,.22)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.22)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_.9fr] lg:py-24">
+          <div className="max-w-2xl">
+            <SamaPilotLogo className="h-24 w-64 rounded-2xl bg-white p-2 shadow-xl shadow-black/20 sm:h-28 sm:w-80" />
+            <p className="mt-8 text-sm font-bold uppercase tracking-[.18em] text-[#f2d373]">Le copilote des entrepreneurs sénégalais</p>
+            <h1 className="mt-4 text-4xl font-black leading-[1.03] tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+              Votre activité avance. <span className="text-[#f2d373]">Vous gardez le cap.</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">
+              Ventes, stock, clients et encaissements réunis dans un espace simple, pensé pour votre téléphone et votre rythme.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/sama/inscription" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#d7ad32] px-6 py-4 font-bold text-[#073f2d] shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#edca63]">Créer mon espace <ArrowRight size={18} /></Link>
+              <a href="#fonctionnalites" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/10 px-6 py-4 font-semibold transition hover:bg-white/20">Découvrir SAMA PILOT <ChevronRight size={18} /></a>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/80">
+              {["14 jours d’essai", "Sans carte bancaire", "Support local"].map((item) => <span key={item} className="flex items-center gap-2"><Check size={15} className="text-[#f2d373]" />{item}</span>)}
+            </div>
+          </div>
 
-      {/* Problèmes */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center">Fini la gestion dispersée</h2>
-          <p className="text-center text-gray-500 mt-2">Un seul espace pour suivre ce qui compte vraiment.</p>
-          <div className="mt-8 grid sm:grid-cols-2 gap-3">
-            {PROBLEMS.map((p) => (
-              <div key={p} className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 border border-gray-100">
-                <span className="text-red-400">✕</span><span className="text-sm text-gray-600">{p}</span>
+          <div className="relative mx-auto w-full max-w-lg">
+            <div className="absolute -inset-8 -z-10 rounded-full bg-[#d7ad32]/25 blur-3xl" />
+            <div className="overflow-hidden rounded-[2rem] border border-white/20 bg-white p-3 shadow-2xl sm:p-5">
+              <div className="rounded-[1.4rem] bg-[#f5f9f7] p-5 text-slate-900 sm:p-7">
+                <div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-widest text-[#0e7d52]">Aujourd’hui</p><p className="mt-1 text-xl font-black">Bonjour, Awa</p></div><div className="grid h-11 w-11 place-items-center rounded-2xl bg-[#0e7d52] font-black text-white">A</div></div>
+                <div className="mt-6 rounded-2xl bg-[#0e7d52] p-5 text-white"><p className="text-sm text-white/70">Ventes du jour</p><p className="mt-1 text-3xl font-black">128 500 <span className="text-base">FCFA</span></p><p className="mt-3 text-xs font-semibold text-[#f2d373]">+18% cette semaine</p></div>
+                <div className="mt-4 grid grid-cols-2 gap-3">{[["24", "Produits en stock"], ["8", "Clients à relancer"]].map(([value, label]) => <div key={label} className="rounded-2xl border border-[#0e7d52]/10 bg-white p-4"><p className="text-2xl font-black text-[#0e7d52]">{value}</p><p className="mt-1 text-xs text-slate-500">{label}</p></div>)}</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Fonctionnalités */}
-      <section id="fonctionnalites" className="py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center">Tout votre commerce, au même endroit</h2>
-          <p className="text-center text-gray-500 mt-2">Simple, rapide et pensé pour être utilisé depuis le téléphone.</p>
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {FEATURES.map((f) => (
-              <div key={f.title} className="bg-white rounded-2xl border border-gray-100 p-5">
-                <div className="w-11 h-11 rounded-xl bg-vert-50 text-vert-600 grid place-items-center mb-3"><f.icon className="w-5 h-5" /></div>
-                <h3 className="font-semibold">{f.title}</h3>
-                <p className="text-sm text-gray-500 mt-1">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SAMA AI */}
-      <section id="ia" className="max-w-5xl mx-auto px-4 py-16">
-        <div className="bg-gradient-to-br from-vert-800 to-vert-600 rounded-3xl p-8 sm:p-12 text-white flex flex-col sm:flex-row items-center gap-8">
-          <div className="w-20 h-20 rounded-2xl bg-white/10 grid place-items-center shrink-0"><Bot className="w-10 h-10" /></div>
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold">SAMA AI ne se contente pas d’afficher vos chiffres</h2>
-            <p className="mt-2 text-vert-100">Demandez « Que dois-je faire aujourd’hui ? ». SAMA peut attirer votre attention sur les stocks faibles, créances à récupérer, clients inactifs, commandes en attente ou baisse d’activité — à partir de vos données réelles.</p>
-            <div className="mt-4 flex flex-wrap gap-2 text-xs">
-              <span className="bg-white/15 rounded-full px-3 py-1">Essai : SAMA AI accessible</span>
-              <span className="bg-white/15 rounded-full px-3 py-1">Après essai : plan Pro IA</span>
             </div>
+            <div className="absolute -bottom-5 -left-3 rounded-2xl border border-[#d7ad32]/30 bg-white px-4 py-3 text-sm text-slate-800 shadow-xl sm:-left-8"><p className="text-xs text-slate-500">SAMA AI vous conseille</p><p className="mt-1 font-bold text-[#0e7d52]">3 actions utiles aujourd’hui</p></div>
           </div>
         </div>
       </section>
 
-      {/* Boutique */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="w-12 h-12 rounded-xl bg-vert-100 text-vert-700 grid place-items-center mx-auto mb-4"><MessageCircle className="w-6 h-6" /></div>
-          <h2 className="text-2xl sm:text-3xl font-bold">Votre boutique en ligne, prête à partager</h2>
-          <p className="text-gray-500 mt-2 max-w-2xl mx-auto">Un lien unique pour votre catalogue. Vos clients peuvent commander en ligne et vous pouvez poursuivre l’échange sur WhatsApp.</p>
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-slate-100 px-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6">
+          {[['Tout au même endroit', 'Ventes, stock, clients et paiements.'], ['Des décisions utiles', 'Des résultats clairs pour avancer.'], ['Une prise en main rapide', 'Commencez par votre première vente.']].map(([title, text]) => <div key={title} className="py-6 text-center sm:px-8"><p className="font-bold text-emerald-900">{title}</p><p className="mt-1 text-sm text-slate-500">{text}</p></div>)}
         </div>
       </section>
 
-      {/* Tarifs */}
-      <section id="tarifs" className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center">Commencez gratuitement, évoluez selon vos besoins</h2>
-        <p className="text-center text-gray-500 mt-2">Les limites et fonctionnalités augmentent avec votre activité.</p>
-        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {PLANS.map((p) => (
-            <div key={p.code} className={`rounded-2xl border p-5 flex flex-col ${p.highlight ? "border-vert-500 ring-2 ring-vert-500 shadow-lg" : "border-gray-100"}`}>
-              {p.highlight && <span className="text-xs font-semibold text-vert-700 mb-1">POPULAIRE</span>}
-              <div className="font-bold text-lg">{p.name}</div>
-              <div className="text-3xl font-extrabold mt-1">{p.priceMonthly === 0 ? "0" : formatMoney(p.priceMonthly).replace(" FCFA", "")}<span className="text-sm font-normal text-gray-400"> FCFA{p.priceMonthly > 0 ? "/mois" : ""}</span></div>
-              <ul className="mt-4 space-y-2 flex-1">
-                {p.features.map((f) => <li key={f} className="flex gap-2 text-sm text-gray-600"><Check className="w-4 h-4 text-vert-600 shrink-0" />{f}</li>)}
-              </ul>
-              <Link href="/sama/inscription" className={`mt-5 text-center ${p.highlight ? "btn-primary" : "btn-outline"}`}>Choisir</Link>
-            </div>
-          ))}
+      <section id="fonctionnalites" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+        <div className="max-w-2xl">
+          <p className="text-sm font-bold uppercase tracking-[.16em] text-[#0e7d52]">Le quotidien sous contrôle</p>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl" style={{ fontFamily: "var(--font-display)" }}>Ce dont vous avez besoin. Rien de compliqué.</h2>
+          <p className="mt-4 text-lg text-slate-600">Chaque outil a été pensé pour vous faire gagner du temps, pas pour vous donner plus de travail.</p>
+        </div>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map(({ icon: Icon, title, desc }) => <article key={title} className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"><div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-[#0e7d52]"><Icon size={23} /></div><h3 className="mt-5 text-lg font-bold">{title}</h3><p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p></article>)}
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="bg-gray-50 py-16">
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center">Questions fréquentes</h2>
-          <div className="mt-8 space-y-3">
-            {FAQ.map((f) => (
-              <details key={f.q} className="bg-white rounded-xl border border-gray-100 p-4">
-                <summary className="font-medium cursor-pointer">{f.q}</summary>
-                <p className="text-sm text-gray-500 mt-2">{f.a}</p>
-              </details>
-            ))}
+      <section id="comment-ca-marche" className="bg-[#073f2d] py-20 text-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="max-w-2xl"><p className="text-sm font-bold uppercase tracking-[.16em] text-[#d7ad32]">Simple dès le premier jour</p><h2 className="mt-3 text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--font-display)" }}>Du premier produit à la première décision.</h2></div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {STEPS.map(([number, title, desc]) => <div key={number} className="rounded-3xl border border-white/10 bg-white/[.06] p-6"><span className="text-4xl font-black text-[#d7ad32]">{number}</span><h3 className="mt-10 text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-relaxed text-emerald-100/70">{desc}</p></div>)}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-vert-800 text-white py-16">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold">Commencez par votre première vente</h2>
-          <p className="mt-3 text-vert-100">Créez votre espace, ajoutez vos produits et découvrez ce que vos chiffres peuvent déjà vous apprendre.</p>
-          <Link href="/sama/inscription" className="btn-gold !px-8 !py-3 mt-6 inline-flex">Créer mon compte gratuitement</Link>
+      <section id="ia" className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+        <div className="grid items-center gap-10 rounded-[2rem] bg-gradient-to-br from-slate-950 via-slate-900 to-[#073f2d] p-7 text-white shadow-2xl sm:p-12 lg:grid-cols-[auto_1fr]">
+          <div className="grid h-20 w-20 place-items-center rounded-3xl bg-[#d7ad32] text-[#073f2d]"><Bot size={40} /></div>
+          <div><p className="text-sm font-bold uppercase tracking-[.16em] text-[#d7ad32]">SAMA AI</p><h2 className="mt-3 text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--font-display)" }}>Vos chiffres vous parlent enfin.</h2><p className="mt-4 max-w-3xl text-lg leading-relaxed text-slate-300">Demandez ce que vous devez faire aujourd’hui. SAMA AI vous aide à détecter les stocks faibles, créances à récupérer et opportunités à saisir, à partir de vos données réelles.</p></div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-10">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-6 text-sm">
-          <div>
-            <div className="inline-flex rounded-xl bg-white p-2">
-              <img
-                src="/samapilot-logo.webp"
-                alt="SAMA PILOT"
-                width="116"
-                height="90"
-                className="h-12 w-auto object-contain"
-              />
-            </div>
-            <p className="mt-2">Vendez. Gérez. Encaissez. Décidez avec l’IA.</p>
-            <p className="mt-3 text-gray-300">Développé par <span className="font-semibold text-white">Touba Digital Group</span></p>
-            <div className="mt-2 flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs">
-              <a href="tel:+221778001717" className="hover:text-white transition-colors">+221 77 800 17 17</a>
-              <a href="mailto:toubainfos@gmail.com" className="hover:text-white transition-colors">toubainfos@gmail.com</a>
-            </div>
-          </div>
-          <div className="flex gap-6">
-            <Link href="/sama/inscription" className="hover:text-white">Créer un compte</Link>
-            <Link href="/sama/connexion" className="hover:text-white">Connexion</Link>
-            <a href="#tarifs" className="hover:text-white">Tarifs</a>
-          </div>
-        </div>
-        <div className="max-w-6xl mx-auto px-4 mt-6 text-xs text-gray-500">© {new Date().getFullYear()} SAMA PILOT · Sénégal · Afrique francophone</div>
-      </footer>
-    </div>
+      <section id="tarifs" className="bg-white py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6"><div className="text-center"><p className="text-sm font-bold uppercase tracking-[.16em] text-[#0e7d52]">Tarifs transparents</p><h2 className="mt-3 text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--font-display)" }}>Commencez maintenant, évoluez à votre rythme.</h2></div><div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{PLANS.map((plan) => <article key={plan.code} className={`flex flex-col rounded-3xl border p-6 ${plan.highlight ? "border-emerald-500 bg-[#073f2d] text-white shadow-xl" : "border-slate-200 bg-white"}`}><p className={`text-xs font-bold uppercase tracking-widest ${plan.highlight ? "text-[#d7ad32]" : "text-[#0e7d52]"}`}>{plan.highlight ? "Le plus choisi" : "SAMA PILOT"}</p><h3 className="mt-4 text-xl font-bold">{plan.name}</h3><p className="mt-3 text-3xl font-black">{plan.priceMonthly === 0 ? "0" : formatMoney(plan.priceMonthly).replace(" FCFA", "")}<span className={`text-sm font-medium ${plan.highlight ? "text-white/60" : "text-slate-400"}`}> FCFA{plan.priceMonthly > 0 ? "/mois" : ""}</span></p><ul className={`mt-6 flex-1 space-y-3 text-sm ${plan.highlight ? "text-emerald-50/85" : "text-slate-600"}`}>{plan.features.map((feature) => <li key={feature} className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-emerald-400" />{feature}</li>)}</ul><Link href="/sama/inscription" className={`mt-8 inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-bold transition ${plan.highlight ? "bg-[#d7ad32] text-[#073f2d] hover:bg-[#edca63]" : "bg-[#0e7d52] text-white hover:bg-[#086442]"}`}>Choisir ce plan</Link></article>)}</div></div>
+      </section>
+
+      <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6"><h2 className="text-center text-3xl font-black" style={{ fontFamily: "var(--font-display)" }}>Questions fréquentes</h2><div className="mt-8 space-y-3">{FAQ.map(([question, answer]) => <details key={question} className="rounded-2xl border border-slate-200 bg-white p-5"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 text-sm leading-relaxed text-slate-600">{answer}</p></details>)}</div></section>
+
+      <section className="bg-[#d7ad32] py-16 text-[#073f2d]"><div className="mx-auto max-w-3xl px-4 text-center"><ShieldCheck className="mx-auto" size={30} /><h2 className="mt-4 text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--font-display)" }}>Prêt à mieux piloter votre activité ?</h2><p className="mt-3 text-lg text-[#073f2d]/75">Créez votre espace et commencez avec votre première vente.</p><Link href="/sama/inscription" className="mt-7 inline-flex items-center gap-2 rounded-2xl bg-[#073f2d] px-7 py-4 font-bold text-white transition hover:bg-emerald-900">Créer mon compte gratuitement <ArrowRight size={18} /></Link></div></section>
+
+      <footer className="bg-slate-950 py-12 text-slate-400"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 px-4 sm:flex-row sm:px-6"><div><SamaPilotLogo variant="compact" className="h-10 w-[145px] rounded-lg bg-white p-1" /><p className="mt-4 max-w-sm text-sm">Vendez. Gérez. Encaissez. Décidez avec l’IA.</p><p className="mt-2 text-xs">Développé par Touba Digital Group</p></div><div className="flex gap-6 text-sm"><Link href="/sama/inscription" className="hover:text-white">Créer un compte</Link><Link href="/sama/connexion" className="hover:text-white">Connexion</Link><a href="#tarifs" className="hover:text-white">Tarifs</a></div></div><p className="mx-auto mt-10 max-w-7xl px-4 text-xs text-slate-600 sm:px-6">© {new Date().getFullYear()} SAMA PILOT · Sénégal · Afrique francophone</p></footer>
+    </main>
   );
 }
