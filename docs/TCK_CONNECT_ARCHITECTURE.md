@@ -113,4 +113,4 @@ L’interface sécurisée réutilise l’authentification NextAuth déjà prése
 TCK_ADMIN_EMAIL=administrateur@exemple.sn npm run tck:provision-admin
 ```
 
-`TCK_ADMIN_ROLE` peut valoir `ADMIN`, `COLLECTOR`, `COMMISSION_MANAGER` ou `CONTROLLER` et vaut `ADMIN` par défaut. La commande est idempotente pour un même utilisateur. Elle doit être exécutée manuellement dans un environnement disposant de `DATABASE_URL`; elle ne fait pas partie du build Vercel.
+Si le compte utilisateur n’existe pas encore, fournir aussi `TCK_ADMIN_PASSWORD` (12 caractères minimum) et, facultativement, `TCK_ADMIN_NAME`. Le compte général est alors créé sans privilège global ; seuls ses droits TCK sont élevés. `TCK_ADMIN_ROLE` peut valoir `ADMIN`, `COLLECTOR`, `COMMISSION_MANAGER` ou `CONTROLLER` et vaut `ADMIN` par défaut. La commande est idempotente pour un même utilisateur. Elle doit être exécutée manuellement dans un environnement disposant de `DATABASE_URL`; elle ne fait pas partie du build Vercel.
