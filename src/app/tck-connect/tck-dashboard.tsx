@@ -6,18 +6,26 @@ import {
   FolderKanban, HandCoins, LayoutDashboard, Map, Menu, Plus, Search, ShieldCheck,
   TrendingUp, Users, WalletCards, X, Zap, CheckCircle2, Clock3, ArrowUpRight,
 } from "lucide-react";
+import { can, type TckAction, type TckRole } from "@/lib/tck/permissions";
 
 type View = "dashboard" | "members" | "contributions" | "projects" | "requests";
 
-const nav: { id: View | "more"; label: string; icon: typeof Activity; badge?: string }[] = [
-  { id: "dashboard", label: "Vue d’ensemble", icon: LayoutDashboard },
-  { id: "members", label: "Membres", icon: Users, badge: "24 892" },
-  { id: "contributions", label: "Contributions", icon: HandCoins },
-  { id: "more", label: "Finances", icon: WalletCards },
-  { id: "projects", label: "Projets & chantiers", icon: FolderKanban, badge: "18" },
-  { id: "more", label: "Commissions", icon: ClipboardList },
-  { id: "requests", label: "Demandes citoyennes", icon: CircleHelp, badge: "37" },
-  { id: "more", label: "Cartographie", icon: Map },
+const nav: { id: View | "more"; label: string; icon: typeof Activity; action: TckAction; badge?: string }[] = [
+  { id: "dashboard", label: "Vue d’ensemble", icon: LayoutDashboard, action: "dashboard:read" },
+  { id: "members", label: "Membres", icon: Users, action: "member:read", badge: "24 892" },
+  { id: "contributions", label: "Contributions", icon: HandCoins, action: "contribution:collect" },
+  { id: "more", label: "Finances", icon: WalletCards, action: "expense:request" },
+  { id: "projects", label: "Projets & chantiers", icon: FolderKanban, action: "project:read", badge: "18" },
+  { id: "more", label: "Commissions", icon: ClipboardList, action: "project:read" },
+  { id: "requests", label: "Demandes citoyennes", icon: CircleHelp, action: "request:read", badge: "37" },
+  { id: "more", label: "Cartographie", icon: Map, action: "project:read" },
+];
+
+const roleOptions: Array<{ value: TckRole; label: string }> = [
+  { value: "EXECUTIVE_BOARD", label: "Bureau exécutif" },
+  { value: "FINANCE_TEAM", label: "Équipe financière" },
+  { value: "AUDITOR", label: "Corps de contrôle" },
+  { value: "COLLECTOR", label: "Collecteur" },
 ];
 
 const stats = [
@@ -43,6 +51,7 @@ export default function TckDashboard() {
   const [view, setView] = useState<View>("dashboard");
   const [sidebar, setSidebar] = useState(false);
   const [notice, setNotice] = useState(false);
+  const [role, setRole] = useState<TckRole>("EXECUTIVE_BOARD");
   const today = useMemo(() => new Intl.DateTimeFormat("fr-SN", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date()), []);
 
   const selectView = (id: View | "more") => {
@@ -58,10 +67,10 @@ export default function TckDashboard() {
           <div><strong>TCK <em>CONNECT</em></strong><small>Touba Ca Kanam</small></div>
           <button className="close-side" onClick={() => setSidebar(false)} aria-label="Fermer"><X size={20}/></button>
         </div>
-        <div className="workspace"><span className="avatar small">MB</span><div><small>ESPACE DE TRAVAIL</small><b>Bureau exécutif</b></div><ChevronDown size={16}/></div>
+        <div className="workspace"><span className="avatar small">MB</span><div><small>ESPACE DE TRAVAIL</small><select aria-label="Changer de rôle de démonstration" value={role} onChange={(event) => { setRole(event.target.value as TckRole); setView("dashboard"); }}>{roleOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select></div><ChevronDown size={16}/></div>
         <nav>
           <p>PILOTAGE</p>
-          {nav.map((item, i) => <button key={`${item.label}-${i}`} className={item.id === view ? "active" : ""} onClick={() => selectView(item.id)}><item.icon size={19}/><span>{item.label}</span>{item.badge && <i>{item.badge}</i>}</button>)}
+          {nav.filter(item => can(role, item.action)).map((item, i) => <button key={`${item.label}-${i}`} className={item.id === view ? "active" : ""} onClick={() => selectView(item.id)}><item.icon size={19}/><span>{item.label}</span>{item.badge && <i>{item.badge}</i>}</button>)}
           <p>CONTRÔLE & SYSTÈME</p>
           <button onClick={() => setNotice(true)}><ShieldCheck size={19}/><span>Audit & conformité</span></button>
           <button onClick={() => setNotice(true)}><FileCheck2 size={19}/><span>Rapports publics</span></button>
