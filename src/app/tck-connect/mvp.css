@@ -1,0 +1,277 @@
+.tck-mvp {
+  border: 1px solid #f1dfaa;
+  border-radius: 999px;
+  background: #fff5d9;
+  color: #86670f;
+  padding: 5px 8px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tck-status-warn {
+  background: #fff4d9;
+  color: #91650a;
+}
+
+.tck-status-warn i {
+  background: #d9a526;
+}
+
+.tck-audit-card {
+  margin-top: 16px;
+}
+
+.tck-audit-list {
+  padding: 0 20px 18px;
+}
+
+.tck-audit-list article {
+  display: grid;
+  grid-template-columns: 34px 1fr 20px;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 0;
+  border-top: 1px solid #edf1ef;
+}
+
+.tck-audit-list article > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 9px;
+}
+
+.tck-audit-list article > span.payment {
+  background: #e9f6ef;
+  color: #08704a;
+}
+
+.tck-audit-list article > span.member {
+  background: #e9f1fb;
+  color: #376f9d;
+}
+
+.tck-audit-list article > span.project {
+  background: #eeeaf9;
+  color: #6c4ea2;
+}
+
+.tck-audit-list article strong,
+.tck-audit-list article small {
+  display: block;
+}
+
+.tck-audit-list article strong {
+  font-size: 10px;
+}
+
+.tck-audit-list article p {
+  margin: 3px 0;
+  color: #617269;
+  font-size: 9px;
+}
+
+.tck-audit-list article small {
+  color: #8b9891;
+  font-size: 8px;
+}
+
+.tck-audit-list article > svg {
+  color: #9daba4;
+}
+
+.tck-profile-wrap {
+  position: relative;
+}
+
+.tck-role-menu {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 228px;
+  padding: 8px;
+  border: 1px solid #dce5e0;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 16px 42px rgba(24, 50, 38, .16);
+}
+
+.tck-role-menu > span {
+  display: block;
+  padding: 7px 9px 8px;
+  color: #87938d;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.tck-role-menu button {
+  display: grid;
+  grid-template-columns: 8px 1fr 16px;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 10px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #43544c;
+  text-align: left;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.tck-role-menu button:hover,
+.tck-role-menu button.active {
+  background: #eef7f2;
+  color: #086d49;
+}
+
+.tck-role-menu button i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c3cec8;
+}
+
+.tck-role-menu button.active i {
+  background: #0a8b5c;
+}
+
+.tck-lock-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 13px;
+  border: 1px solid #dbe4df;
+  border-radius: 9px;
+  background: #f7faf8;
+  color: #68776f;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.tck-title-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tck-title-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+}
+
+.tck-finance-table td:first-child small {
+  display: block;
+  margin-top: 4px;
+  color: #87938d;
+  font-size: 8px;
+}
+
+.tck-quorum {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 96px;
+}
+
+.tck-quorum > span {
+  display: block;
+  width: 58px;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #e1e9e5;
+}
+
+.tck-quorum > span i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #0a8b5c;
+}
+
+.tck-quorum b {
+  color: #53645b;
+  font-size: 9px;
+}
+
+.tck-approve {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  border: 1px solid #bcdacb;
+  border-radius: 7px;
+  background: #edf8f2;
+  color: #08704a;
+  font-size: 9px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.tck-decision-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #718078;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.tck-control-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 15px;
+  padding: 14px 16px;
+  border: 1px solid #dce8e2;
+  border-radius: 11px;
+  background: #f5faf7;
+  color: #0b6847;
+}
+
+.tck-control-note strong {
+  display: block;
+  font-size: 10px;
+}
+
+.tck-control-note p {
+  margin: 3px 0 0;
+  color: #63756b;
+  font-size: 9px;
+}
+
+.tck-empty-card {
+  min-height: 190px;
+  border: 1px dashed #cdd9d3;
+  border-radius: 12px;
+  background: #fff;
+}
+
+@media (max-width: 720px) {
+  .tck-title-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .tck-title-actions > * {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .tck-role-menu {
+    position: fixed;
+    top: 62px;
+    right: 12px;
+  }
+}

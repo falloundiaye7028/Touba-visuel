@@ -8,21 +8,22 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  phone         String?
-  password      String?
-  role          Role      @default(CLIENT)
-  emailVerified DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  orders        Order[]
-  accounts      Account[]
-  sessions      Session[]
+  id              String         @id @default(cuid())
+  name            String?
+  email           String         @unique
+  phone           String?
+  password        String?
+  role            Role           @default(CLIENT)
+  emailVerified   DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  orders          Order[]
+  accounts        Account[]
+  sessions        Session[]
   // SAMA BUSINESS
-  samaBusinesses   SamaBusiness[]     @relation("SamaOwner")
-  samaMemberships  SamaMember[]
+  samaBusinesses  SamaBusiness[] @relation("SamaOwner")
+  samaMemberships SamaMember[]
+  tckMember       TckMember?
 
   @@map("users")
 }
@@ -57,31 +58,31 @@ model Session {
 }
 
 model Order {
-  id              String        @id @default(cuid())
-  orderNumber     String        @unique
-  userId          String?
-  clientName      String
-  clientEmail     String
-  clientPhone     String
-  support         String
-  category        String
-  quantity        Int
-  format          String?
-  description     String        @db.Text
-  fileUrl         String?
-  prixUnitaire    Float
-  prixTotal       Float
-  status          OrderStatus   @default(EN_ATTENTE)
-  paymentStatus   PaymentStatus @default(NON_PAYE)
-  paymentMethod   PaymentMethod?
-  paymentRef      String?
-  notes           String?       @db.Text
-  livraison       Boolean       @default(false)
+  id               String         @id @default(cuid())
+  orderNumber      String         @unique
+  userId           String?
+  clientName       String
+  clientEmail      String
+  clientPhone      String
+  support          String
+  category         String
+  quantity         Int
+  format           String?
+  description      String         @db.Text
+  fileUrl          String?
+  prixUnitaire     Float
+  prixTotal        Float
+  status           OrderStatus    @default(EN_ATTENTE)
+  paymentStatus    PaymentStatus  @default(NON_PAYE)
+  paymentMethod    PaymentMethod?
+  paymentRef       String?
+  notes            String?        @db.Text
+  livraison        Boolean        @default(false)
   adresseLivraison String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  user            User?         @relation(fields: [userId], references: [id])
-  payments        Payment[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  user             User?          @relation(fields: [userId], references: [id])
+  payments         Payment[]
 
   @@map("orders")
 }
@@ -148,6 +149,157 @@ enum PaymentMethod {
   WAVE
   ORANGE_MONEY
   LIVRAISON
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  TCK CONNECT — Référentiel central de Touba Ca Kanam
+//  Montants en entiers FCFA. Les écritures d'audit sont append-only.
+// ═══════════════════════════════════════════════════════════════════════════
+
+enum TckRole {
+  ADMIN
+  COLLECTOR
+  COMMISSION_MANAGER
+  CONTROLLER
+  MEMBER
+}
+
+enum TckMemberStatus {
+  ACTIVE
+  TO_FOLLOW_UP
+  SUSPENDED
+}
+
+enum TckProjectStatus {
+  PLANNED
+  IN_PROGRESS
+  FINALIZATION
+  COMPLETED
+}
+
+enum TckExpenseStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PAID
+}
+
+model TckMember {
+  id                    String               @id @default(cuid())
+  memberCode            String               @unique
+  userId                String?              @unique
+  name                  String
+  phone                 String?
+  zone                  String?
+  country               String               @default("SN")
+  status                TckMemberStatus      @default(ACTIVE)
+  role                  TckRole              @default(MEMBER)
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  user                  User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  contributions         TckContribution[]    @relation("TckContributor")
+  recordedContributions TckContribution[]    @relation("TckRecorder")
+  projectsCreated       TckProject[]         @relation("TckProjectCreator")
+  submittedExpenses     TckExpense[]         @relation("TckExpenseSubmitter")
+  expenseApprovals      TckExpenseApproval[]
+  auditEvents           TckAuditEvent[]      @relation("TckAuditActor")
+
+  @@index([status])
+  @@index([role])
+  @@index([zone])
+  @@map("tck_members")
+}
+
+model TckContribution {
+  id                String     @id @default(cuid())
+  receiptNumber     String     @unique
+  memberId          String?
+  recordedById      String?
+  amount            Int
+  channel           String
+  externalReference String?    @unique
+  status            String     @default("VALIDATED")
+  contributedAt     DateTime   @default(now())
+  createdAt         DateTime   @default(now())
+  member            TckMember? @relation("TckContributor", fields: [memberId], references: [id], onDelete: SetNull)
+  recordedBy        TckMember? @relation("TckRecorder", fields: [recordedById], references: [id], onDelete: SetNull)
+
+  @@index([memberId])
+  @@index([contributedAt])
+  @@index([channel])
+  @@map("tck_contributions")
+}
+
+model TckProject {
+  id          String           @id @default(cuid())
+  projectCode String           @unique
+  name        String
+  domain      String
+  place       String?
+  budget      Int              @default(0)
+  spent       Int              @default(0)
+  progress    Int              @default(0)
+  status      TckProjectStatus @default(PLANNED)
+  public      Boolean          @default(true)
+  createdById String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  createdBy   TckMember?       @relation("TckProjectCreator", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([domain])
+  @@map("tck_projects")
+}
+
+model TckExpense {
+  id            String               @id @default(cuid())
+  expenseNumber String               @unique
+  label         String
+  commission    String
+  amount        Int
+  justification String               @db.Text
+  status        TckExpenseStatus     @default(PENDING)
+  required      Int                  @default(13)
+  submittedById String?
+  submittedAt   DateTime             @default(now())
+  approvedAt    DateTime?
+  paidAt        DateTime?
+  submittedBy   TckMember?           @relation("TckExpenseSubmitter", fields: [submittedById], references: [id], onDelete: SetNull)
+  approvals     TckExpenseApproval[]
+
+  @@index([status])
+  @@index([commission])
+  @@map("tck_expenses")
+}
+
+model TckExpenseApproval {
+  id         String     @id @default(cuid())
+  expenseId  String
+  approverId String
+  decision   String     @default("APPROVED")
+  comment    String?
+  createdAt  DateTime   @default(now())
+  expense    TckExpense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  approver   TckMember  @relation(fields: [approverId], references: [id], onDelete: Restrict)
+
+  @@unique([expenseId, approverId])
+  @@index([approverId])
+  @@map("tck_expense_approvals")
+}
+
+model TckAuditEvent {
+  id        String     @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String
+  actorId   String?
+  metadata  Json?
+  createdAt DateTime   @default(now())
+  actor     TckMember? @relation("TckAuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+  @@map("tck_audit_events")
 }
 
 // ── Touba Infos — CMS & agent (contenu persistant) ─────────────────────────
@@ -229,89 +381,89 @@ model InfoVeilleRun {
 // ═══════════════════════════════════════════════════════════════════════════
 
 model SamaPlan {
-  code          String   @id // GRATUIT, STARTER, BUSINESS, PRO_IA
+  code          String         @id // GRATUIT, STARTER, BUSINESS, PRO_IA
   name          String
-  priceMonthly  Int      @default(0) // FCFA
-  maxProducts   Int?     // null = illimité
+  priceMonthly  Int            @default(0) // FCFA
+  maxProducts   Int? // null = illimité
   maxCustomers  Int?
   maxSalesMonth Int?
   maxUsers      Int?
-  features      String   @db.Text // JSON: liste des fonctionnalités
-  ordre         Int      @default(0)
-  actif         Boolean  @default(true)
+  features      String         @db.Text // JSON: liste des fonctionnalités
+  ordre         Int            @default(0)
+  actif         Boolean        @default(true)
   businesses    SamaBusiness[]
 
   @@map("sama_plans")
 }
 
 model SamaBusiness {
-  id                 String   @id @default(cuid())
+  id                 String    @id @default(cuid())
   ownerId            String
   name               String
-  slug               String   @unique
+  slug               String    @unique
   activityType       String?
   phone              String?
   email              String?
   address            String?
   city               String?
-  country            String   @default("SN")
-  currency           String   @default("XOF")
-  timezone           String   @default("Africa/Dakar")
-  language           String   @default("fr")
+  country            String    @default("SN")
+  currency           String    @default("XOF")
+  timezone           String    @default("Africa/Dakar")
+  language           String    @default("fr")
   logoUrl            String?
   bannerUrl          String?
-  brandColor         String   @default("#0e7d52")
-  description        String?  @db.Text
+  brandColor         String    @default("#0e7d52")
+  description        String?   @db.Text
   whatsapp           String?
   openingHours       String?
-  invoiceFooter      String?  @db.Text
-  storePublished     Boolean  @default(false)
-  onboardingDone     Boolean  @default(false)
+  invoiceFooter      String?   @db.Text
+  storePublished     Boolean   @default(false)
+  onboardingDone     Boolean   @default(false)
   // Abonnement
-  planCode           String   @default("GRATUIT")
-  subscriptionStatus String   @default("TRIAL") // TRIAL, ACTIVE, EXPIRED, SUSPENDED
+  planCode           String    @default("GRATUIT")
+  subscriptionStatus String    @default("TRIAL") // TRIAL, ACTIVE, EXPIRED, SUSPENDED
   trialEndsAt        DateTime?
   subEndsAt          DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
-  owner       User                @relation("SamaOwner", fields: [ownerId], references: [id])
-  plan        SamaPlan            @relation(fields: [planCode], references: [code])
-  members     SamaMember[]
-  categories  SamaCategory[]
-  products    SamaProduct[]
-  customers   SamaCustomer[]
-  suppliers   SamaSupplier[]
-  sales       SamaSale[]
-  orders      SamaOrder[]
-  payments    SamaPayment[]
-  expenses    SamaExpense[]
-  invoices    SamaInvoice[]
-  movements   SamaInventoryMovement[]
-  counters    SamaCounter[]
-  logs        SamaActivityLog[]
+  owner         User                      @relation("SamaOwner", fields: [ownerId], references: [id])
+  plan          SamaPlan                  @relation(fields: [planCode], references: [code])
+  members       SamaMember[]
+  categories    SamaCategory[]
+  products      SamaProduct[]
+  customers     SamaCustomer[]
+  suppliers     SamaSupplier[]
+  sales         SamaSale[]
+  orders        SamaOrder[]
+  payments      SamaPayment[]
+  expenses      SamaExpense[]
+  invoices      SamaInvoice[]
+  movements     SamaInventoryMovement[]
+  counters      SamaCounter[]
+  logs          SamaActivityLog[]
   notifications SamaNotification[]
-  campaigns   SamaCampaign[]
-  promoCodes  SamaPromoCode[]
-  subPayments SamaSubscriptionPayment[]
+  campaigns     SamaCampaign[]
+  promoCodes    SamaPromoCode[]
+  subPayments   SamaSubscriptionPayment[]
 
   @@index([ownerId])
   @@map("sama_businesses")
 }
 
 model SamaSubscriptionPayment {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   businessId  String
   planCode    String
-  amount      Int      // FCFA
-  months      Int      @default(1)
-  method      String   @default("WAVE") // WAVE, ORANGE_MONEY, VIREMENT, AUTRE
-  reference   String?  // référence de transaction saisie par le commerçant
-  providerRef String?  // identifiant côté fournisseur (API future)
-  status      String   @default("EN_ATTENTE") // EN_ATTENTE, CONFIRME, REJETE
+  amount      Int // FCFA
+  months      Int       @default(1)
+  method      String    @default("WAVE") // WAVE, ORANGE_MONEY, VIREMENT, AUTRE
+  reference   String? // référence de transaction saisie par le commerçant
+  providerRef String? // identifiant côté fournisseur (API future)
+  status      String    @default("EN_ATTENTE") // EN_ATTENTE, CONFIRME, REJETE
   confirmedBy String?
   confirmedAt DateTime?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
   business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
@@ -368,9 +520,9 @@ model SamaProduct {
   sku            String?
   categoryId     String?
   description    String?  @db.Text
-  costPrice      Int      @default(0)   // prix d'achat (FCFA)
-  salePrice      Int      @default(0)   // prix de vente
-  wholesalePrice Int?                    // prix grossiste
+  costPrice      Int      @default(0) // prix d'achat (FCFA)
+  salePrice      Int      @default(0) // prix de vente
+  wholesalePrice Int? // prix grossiste
   stock          Int      @default(0)
   alertThreshold Int      @default(5)
   unit           String   @default("pièce")
@@ -381,13 +533,13 @@ model SamaProduct {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  business  SamaBusiness         @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  category  SamaCategory?        @relation(fields: [categoryId], references: [id])
-  supplier  SamaSupplier?        @relation(fields: [supplierId], references: [id])
-  variants  SamaProductVariant[]
-  saleItems SamaSaleItem[]
+  business   SamaBusiness            @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  category   SamaCategory?           @relation(fields: [categoryId], references: [id])
+  supplier   SamaSupplier?           @relation(fields: [supplierId], references: [id])
+  variants   SamaProductVariant[]
+  saleItems  SamaSaleItem[]
   orderItems SamaOrderItem[]
-  movements SamaInventoryMovement[]
+  movements  SamaInventoryMovement[]
 
   @@index([businessId])
   @@index([categoryId])
@@ -397,7 +549,7 @@ model SamaProduct {
 model SamaProductVariant {
   id        String  @id @default(cuid())
   productId String
-  name      String  // ex: "42 / Noir"
+  name      String // ex: "42 / Noir"
   sku       String?
   stock     Int     @default(0)
   salePrice Int?
@@ -429,21 +581,21 @@ model SamaSupplier {
 }
 
 enum SamaSupplierEntryType {
-  ACHAT      // augmente la dette
-  PAIEMENT   // diminue la dette
-  RETOUR     // diminue la dette
+  ACHAT // augmente la dette
+  PAIEMENT // diminue la dette
+  RETOUR // diminue la dette
 }
 
 model SamaSupplierEntry {
-  id          String                @id @default(cuid())
-  businessId  String
-  supplierId  String
-  type        SamaSupplierEntryType
-  amount      Int
-  description String?               @db.Text
-  balanceAfter Int                  @default(0)
-  createdBy   String?
-  createdAt   DateTime              @default(now())
+  id           String                @id @default(cuid())
+  businessId   String
+  supplierId   String
+  type         SamaSupplierEntryType
+  amount       Int
+  description  String?               @db.Text
+  balanceAfter Int                   @default(0)
+  createdBy    String?
+  createdAt    DateTime              @default(now())
 
   supplier SamaSupplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 
@@ -453,7 +605,7 @@ model SamaSupplierEntry {
 }
 
 model SamaCustomer {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   businessId String
   name       String
   phone      String?
@@ -462,12 +614,12 @@ model SamaCustomer {
   city       String?
   gender     String?
   birthDate  DateTime?
-  source     String?  // WhatsApp, TikTok, Boutique...
-  notes      String?  @db.Text
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  source     String? // WhatsApp, TikTok, Boutique...
+  notes      String?   @db.Text
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
-  business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  business SamaBusiness  @relation(fields: [businessId], references: [id], onDelete: Cascade)
   sales    SamaSale[]
   orders   SamaOrder[]
   invoices SamaInvoice[]
@@ -494,23 +646,23 @@ enum SamaPayStatus {
 }
 
 model SamaSale {
-  id            String        @id @default(cuid())
-  businessId    String
-  number        String
-  customerId    String?
-  sellerId      String?
-  channel       SamaChannel   @default(BOUTIQUE)
-  subtotal      Int           @default(0)
-  discount      Int           @default(0)
-  deliveryFee   Int           @default(0)
-  total         Int           @default(0)
-  cost          Int           @default(0) // coût total des marchandises
-  margin        Int           @default(0) // total - cost - remise
-  amountPaid    Int           @default(0)
-  payStatus     SamaPayStatus @default(PAYE)
-  comment       String?       @db.Text
-  cancelled     Boolean       @default(false)
-  createdAt     DateTime      @default(now())
+  id          String        @id @default(cuid())
+  businessId  String
+  number      String
+  customerId  String?
+  sellerId    String?
+  channel     SamaChannel   @default(BOUTIQUE)
+  subtotal    Int           @default(0)
+  discount    Int           @default(0)
+  deliveryFee Int           @default(0)
+  total       Int           @default(0)
+  cost        Int           @default(0) // coût total des marchandises
+  margin      Int           @default(0) // total - cost - remise
+  amountPaid  Int           @default(0)
+  payStatus   SamaPayStatus @default(PAYE)
+  comment     String?       @db.Text
+  cancelled   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
 
   business SamaBusiness   @relation(fields: [businessId], references: [id], onDelete: Cascade)
   customer SamaCustomer?  @relation(fields: [customerId], references: [id])
@@ -554,24 +706,24 @@ enum SamaOrderStatus {
 }
 
 model SamaOrder {
-  id          String          @id @default(cuid())
-  businessId  String
-  number      String
-  customerId  String?
-  status      SamaOrderStatus @default(NOUVELLE)
-  channel     SamaChannel     @default(WHATSAPP)
-  subtotal    Int             @default(0)
-  discount    Int             @default(0)
-  deliveryFee Int             @default(0)
-  total       Int             @default(0)
+  id           String          @id @default(cuid())
+  businessId   String
+  number       String
+  customerId   String?
+  status       SamaOrderStatus @default(NOUVELLE)
+  channel      SamaChannel     @default(WHATSAPP)
+  subtotal     Int             @default(0)
+  discount     Int             @default(0)
+  deliveryFee  Int             @default(0)
+  total        Int             @default(0)
   // Snapshot client (commandes boutique en ligne)
-  guestName   String?
-  guestPhone  String?
+  guestName    String?
+  guestPhone   String?
   guestAddress String?
-  guestCity   String?
-  comment     String?         @db.Text
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  guestCity    String?
+  comment      String?         @db.Text
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
 
   business SamaBusiness    @relation(fields: [businessId], references: [id], onDelete: Cascade)
   customer SamaCustomer?   @relation(fields: [customerId], references: [id])
@@ -627,14 +779,14 @@ model SamaPayment {
 }
 
 model SamaExpense {
-  id         String   @id @default(cuid())
-  businessId String
-  category   String   // loyer, salaires, transport...
-  amount     Int
+  id          String   @id @default(cuid())
+  businessId  String
+  category    String // loyer, salaires, transport...
+  amount      Int
   description String?  @db.Text
-  date       DateTime @default(now())
-  createdBy  String?
-  createdAt  DateTime @default(now())
+  date        DateTime @default(now())
+  createdBy   String?
+  createdAt   DateTime @default(now())
 
   business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
@@ -688,7 +840,7 @@ model SamaInventoryMovement {
   businessId String
   productId  String
   type       SamaMoveType
-  quantity   Int          // + entrée, - sortie
+  quantity   Int // + entrée, - sortie
   stockAfter Int          @default(0)
   reason     String?
   createdBy  String?
@@ -734,7 +886,7 @@ model SamaActivityLog {
 model SamaNotification {
   id         String   @id @default(cuid())
   businessId String
-  type       String   // STOCK, ORDER, INVOICE, SUBSCRIPTION
+  type       String // STOCK, ORDER, INVOICE, SUBSCRIPTION
   title      String
   body       String?  @db.Text
   read       Boolean  @default(false)
@@ -748,16 +900,16 @@ model SamaNotification {
 
 // ── Campagnes marketing & codes promo (V2) ────────────────────────────────────
 model SamaCampaign {
-  id           String   @id @default(cuid())
-  businessId   String
-  name         String
-  channel      String   @default("WHATSAPP") // WHATSAPP, SMS, FACEBOOK...
-  segment      String   @default("all")       // clé de segment
-  message      String   @db.Text
-  status       String   @default("BROUILLON") // BROUILLON, PRETE, ENVOYEE
-  recipientCount Int    @default(0)
-  createdBy    String?
-  createdAt    DateTime @default(now())
+  id             String   @id @default(cuid())
+  businessId     String
+  name           String
+  channel        String   @default("WHATSAPP") // WHATSAPP, SMS, FACEBOOK...
+  segment        String   @default("all") // clé de segment
+  message        String   @db.Text
+  status         String   @default("BROUILLON") // BROUILLON, PRETE, ENVOYEE
+  recipientCount Int      @default(0)
+  createdBy      String?
+  createdAt      DateTime @default(now())
 
   business SamaBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
@@ -775,7 +927,7 @@ model SamaPromoCode {
   businessId String
   code       String
   type       SamaPromoType @default(POURCENTAGE)
-  value      Int           // % ou montant FCFA
+  value      Int // % ou montant FCFA
   active     Boolean       @default(true)
   usageCount Int           @default(0)
   maxUsage   Int?
