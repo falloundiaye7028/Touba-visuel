@@ -89,8 +89,9 @@ export default async function RootLayout({
   // fournissent leur propre habillage et n'héritent pas de l'en-tête/pied ATV.
   const isSama = pathname.startsWith("/sama");
   const isInfos = pathname.startsWith("/touba-infos");
+  const isTckConnect = pathname.startsWith("/tck-connect");
 
-  if (isSama || isInfos) {
+  if (isSama || isInfos || isTckConnect) {
     return (
       <html lang="fr">
         <body>{children}</body>
