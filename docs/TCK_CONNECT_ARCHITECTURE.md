@@ -104,3 +104,13 @@ Toutes les mutations exigent une clé d'idempotence, produisent un événement d
 - Plan comptable, comptes bancaires et règles sénégalaises de conservation.
 - Fournisseurs officiellement contractualisés pour paiement et messagerie.
 - Responsable de traitement, durées de conservation et procédure d'exercice des droits.
+
+## 10. Activation du premier administrateur
+
+L’interface sécurisée réutilise l’authentification NextAuth déjà présente. Le compte utilisateur doit d’abord exister avec un mot de passe chiffré, puis être rattaché explicitement à un profil TCK. Cette séparation empêche tout compte de la plateforme générale d’obtenir automatiquement des droits TCK.
+
+```bash
+TCK_ADMIN_EMAIL=administrateur@exemple.sn npm run tck:provision-admin
+```
+
+`TCK_ADMIN_ROLE` peut valoir `ADMIN`, `COLLECTOR`, `COMMISSION_MANAGER` ou `CONTROLLER` et vaut `ADMIN` par défaut. La commande est idempotente pour un même utilisateur. Elle doit être exécutée manuellement dans un environnement disposant de `DATABASE_URL`; elle ne fait pas partie du build Vercel.

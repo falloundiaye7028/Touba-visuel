@@ -11,6 +11,12 @@
   white-space: nowrap;
 }
 
+.tck-mvp.server {
+  border-color: #b9dfcd;
+  background: #e8f6ef;
+  color: #08704a;
+}
+
 .tck-status-warn {
   background: #fff4d9;
   color: #91650a;
@@ -142,6 +148,31 @@
 
 .tck-role-menu button.active i {
   background: #0a8b5c;
+}
+
+.tck-role-menu .tck-session-action {
+  grid-template-columns: 18px 1fr;
+}
+
+.tck-session-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+  padding: 10px 9px;
+  border-top: 1px solid #edf1ef;
+  color: #086d49;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.tck-toast.error {
+  border-color: #f0c9c5;
+}
+
+.tck-toast.error > span {
+  background: #b8473c;
 }
 
 .tck-lock-note {

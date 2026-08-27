@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "db:baseline": "node scripts/prisma-baseline.mjs",
-    "db:migrate:deploy": "npm run db:baseline && prisma migrate deploy"
+    "db:migrate:deploy": "npm run db:baseline && prisma migrate deploy",
+    "tck:provision-admin": "node scripts/tck-provision-admin.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
