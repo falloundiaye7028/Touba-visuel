@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run db:baseline && prisma migrate deploy && prisma generate && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "db:push": "prisma db push",
@@ -12,7 +12,8 @@
     "db:generate": "prisma generate",
     "test": "vitest run",
     "test:watch": "vitest",
-    "db:baseline": "node scripts/prisma-baseline.mjs"
+    "db:baseline": "node scripts/prisma-baseline.mjs",
+    "db:migrate:deploy": "npm run db:baseline && prisma migrate deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
