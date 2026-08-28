@@ -191,10 +191,17 @@ export default async function ArticlePage({
       </div>
 
       {/* Corps */}
-      <div
-        className="ti-prose mx-auto max-w-3xl px-4 py-8"
-        dangerouslySetInnerHTML={{ __html: article.contenu }}
-      />
+      <div className="ti-prose mx-auto max-w-3xl px-4 py-8">
+        {article.contenu
+          .split(/\n\s*\n/)
+          .map((paragraph) => paragraph.trim())
+          .filter(Boolean)
+          .map((paragraph, index) => (
+            <p key={index} className="whitespace-pre-wrap">
+              {paragraph}
+            </p>
+          ))}
+      </div>
 
       {/* Tags */}
       <div className="mx-auto max-w-3xl px-4">
