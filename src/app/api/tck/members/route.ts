@@ -12,7 +12,21 @@ const createMemberSchema = z.object({
 export async function GET() {
   try {
     await requireTckRole(TCK_STAFF_ROLES);
-    const records = await prisma.tckMember.findMany({ orderBy: { createdAt: "desc" }, take: 500 });
+    const records = await prisma.tckMember.findMany({
+      select: {
+        memberCode: true,
+        name: true,
+        phone: true,
+        zone: true,
+        country: true,
+        status: true,
+        role: true,
+        createdAt: true,
+        user: { select: { email: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 500,
+    });
     return Response.json({ records });
   } catch (error) {
     return tckApiError(error);

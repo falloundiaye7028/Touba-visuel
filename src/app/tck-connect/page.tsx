@@ -13,11 +13,13 @@ import {
 
 type View = "dashboard" | "membres" | "contributions" | "finances" | "projets" | "commissions" | "transparence";
 type Role = "Administrateur" | "Collecteur" | "Responsable commission" | "Contrôleur";
+type MemberRole = Role | "Membre";
+type MemberStatus = "Actif" | "À relancer" | "Suspendu";
 type Transaction = { name: string; id: string; zone: string; amount: string; channel: string; time: string; initials: string };
-type Member = { id: string; name: string; phone: string; zone: string; country: string; status: "Actif" | "À relancer"; joinedAt: string; initials: string };
+type Member = { id: string; name: string; phone: string; zone: string; country: string; status: MemberStatus; role: MemberRole; email: string; accountEnabled: boolean; joinedAt: string; initials: string };
 type ProjectRecord = { id: string; name: string; domain: string; budget: string; spent: string; progress: number; place: string; status: "En cours" | "Planifié" | "Finalisation" | "Terminé"; iconName: "health" | "water" | "building" | "light" };
 type Expense = { id: string; recordId?: string; label: string; commission: string; amount: number; status: "À valider" | "Validée"; approvals: number; required: number; submittedAt: string };
-type AuditAction = "CONTRIBUTION_CREATED" | "MEMBER_CREATED" | "PROJECT_CREATED" | "EXPENSE_CREATED" | "EXPENSE_APPROVED" | "PASSWORD_CHANGED";
+type AuditAction = "CONTRIBUTION_CREATED" | "MEMBER_CREATED" | "MEMBER_ACCESS_UPDATED" | "PROJECT_CREATED" | "EXPENSE_CREATED" | "EXPENSE_APPROVED" | "PASSWORD_CHANGED";
 type AuditEntry = { at: string; action: AuditAction; actor: string; recordId: string; detail: string };
 type DataMode = "loading" | "demo" | "server";
 type ServerMetrics = { activeMembers: number; collectedThisMonth: number; contributionCount: number; activeProjects: number };
@@ -26,7 +28,7 @@ type ServerBootstrap = {
   mode: "server";
   actor: { id: string; name: string; role: "ADMIN" | "COLLECTOR" | "COMMISSION_MANAGER" | "CONTROLLER" };
   metrics: ServerMetrics;
-  members: Array<{ memberCode: string; name: string; phone: string | null; zone: string | null; country: string; status: "ACTIVE" | "TO_FOLLOW_UP" | "SUSPENDED"; createdAt: string }>;
+  members: Array<{ memberCode: string; name: string; phone: string | null; zone: string | null; country: string; status: "ACTIVE" | "TO_FOLLOW_UP" | "SUSPENDED"; role: "ADMIN" | "COLLECTOR" | "COMMISSION_MANAGER" | "CONTROLLER" | "MEMBER"; createdAt: string; user: { email: string } | null }>;
   contributions: Array<{ receiptNumber: string; amount: number; channel: string; contributedAt: string; member: { memberCode: string; name: string; zone: string | null } | null }>;
   projects: Array<{ projectCode: string; name: string; domain: string; budget: number; spent: number; progress: number; place: string | null; status: "PLANNED" | "IN_PROGRESS" | "FINALIZATION" | "COMPLETED" }>;
   expenses: Array<{ id: string; expenseNumber: string; label: string; commission: string; amount: number; status: "PENDING" | "APPROVED" | "REJECTED" | "PAID"; required: number; submittedAt: string; _count: { approvals: number } }>;
@@ -73,11 +75,11 @@ const defaultTransactions: Transaction[] = [
 ];
 
 const defaultMembers: Member[] = [
-  { id: "TCK-026184", name: "Sokhna Awa Diop", phone: "+221 77 000 11 22", zone: "Touba Mosquée", country: "Sénégal", status: "Actif", joinedAt: "12 août 2026", initials: "AD" },
-  { id: "TCK-018042", name: "Serigne Fallou Mbacké", phone: "+221 76 000 33 44", zone: "Dakar", country: "Sénégal", status: "Actif", joinedAt: "8 août 2026", initials: "FM" },
-  { id: "TCK-031508", name: "Moussa Faye", phone: "+221 78 000 55 66", zone: "Diourbel", country: "Sénégal", status: "À relancer", joinedAt: "2 août 2026", initials: "MF" },
-  { id: "TCK-042091", name: "Aïssatou Ndiaye", phone: "+33 6 00 00 00 00", zone: "Île-de-France", country: "France", status: "Actif", joinedAt: "28 juillet 2026", initials: "AN" },
-  { id: "TCK-009713", name: "Cheikhouna Gueye", phone: "+221 70 000 77 88", zone: "Touba Guédé", country: "Sénégal", status: "Actif", joinedAt: "21 juillet 2026", initials: "CG" },
+  { id: "TCK-026184", name: "Sokhna Awa Diop", phone: "+221 77 000 11 22", zone: "Touba Mosquée", country: "Sénégal", status: "Actif", role: "Membre", email: "", accountEnabled: false, joinedAt: "12 août 2026", initials: "AD" },
+  { id: "TCK-018042", name: "Serigne Fallou Mbacké", phone: "+221 76 000 33 44", zone: "Dakar", country: "Sénégal", status: "Actif", role: "Collecteur", email: "collecteur@tck.sn", accountEnabled: true, joinedAt: "8 août 2026", initials: "FM" },
+  { id: "TCK-031508", name: "Moussa Faye", phone: "+221 78 000 55 66", zone: "Diourbel", country: "Sénégal", status: "À relancer", role: "Membre", email: "", accountEnabled: false, joinedAt: "2 août 2026", initials: "MF" },
+  { id: "TCK-042091", name: "Aïssatou Ndiaye", phone: "+33 6 00 00 00 00", zone: "Île-de-France", country: "France", status: "Actif", role: "Contrôleur", email: "controle@tck.sn", accountEnabled: true, joinedAt: "28 juillet 2026", initials: "AN" },
+  { id: "TCK-009713", name: "Cheikhouna Gueye", phone: "+221 70 000 77 88", zone: "Touba Guédé", country: "Sénégal", status: "Actif", role: "Membre", email: "", accountEnabled: false, joinedAt: "21 juillet 2026", initials: "CG" },
 ];
 
 const defaultProjects: ProjectRecord[] = [
@@ -100,6 +102,28 @@ const serverRoleLabels: Record<ServerBootstrap["actor"]["role"], Role> = {
   COLLECTOR: "Collecteur",
   COMMISSION_MANAGER: "Responsable commission",
   CONTROLLER: "Contrôleur",
+};
+
+const memberRoleLabels: Record<ServerBootstrap["members"][number]["role"], MemberRole> = {
+  ADMIN: "Administrateur",
+  COLLECTOR: "Collecteur",
+  COMMISSION_MANAGER: "Responsable commission",
+  CONTROLLER: "Contrôleur",
+  MEMBER: "Membre",
+};
+
+const memberRoleValues: Record<MemberRole, ServerBootstrap["members"][number]["role"]> = {
+  Administrateur: "ADMIN",
+  Collecteur: "COLLECTOR",
+  "Responsable commission": "COMMISSION_MANAGER",
+  Contrôleur: "CONTROLLER",
+  Membre: "MEMBER",
+};
+
+const memberStatusValues: Record<MemberStatus, ServerBootstrap["members"][number]["status"]> = {
+  Actif: "ACTIVE",
+  "À relancer": "TO_FOLLOW_UP",
+  Suspendu: "SUSPENDED",
 };
 
 const serverProjectStatuses: Record<ServerBootstrap["projects"][number]["status"], ProjectRecord["status"]> = {
@@ -159,6 +183,7 @@ function parseMoneyLabel(value: string) {
 function auditDetail(entry: ServerBootstrap["audit"][number]) {
   const metadata = entry.metadata || {};
   if (entry.action === "MEMBER_CREATED") return `${metadata.name || "Membre"} · ${metadata.zone || "Zone non renseignée"}`;
+  if (entry.action === "MEMBER_ACCESS_UPDATED") return `${metadata.name || "Membre"} · ${metadata.role || "Rôle mis à jour"} · ${metadata.status || "Statut mis à jour"}`;
   if (entry.action === "CONTRIBUTION_CREATED") return `${new Intl.NumberFormat("fr-FR").format(Number(metadata.amount || 0))} F CFA · ${metadata.channel || "Canal non renseigné"}`;
   if (entry.action === "PROJECT_CREATED") return `${metadata.name || "Projet"} · ${new Intl.NumberFormat("fr-FR").format(Number(metadata.budget || 0))} F CFA`;
   if (entry.action === "EXPENSE_CREATED") return `${metadata.label || "Dépense"} · ${new Intl.NumberFormat("fr-FR").format(Number(metadata.amount || 0))} F CFA`;
@@ -172,6 +197,7 @@ export default function TckConnectPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [memberModalOpen, setMemberModalOpen] = useState(false);
+  const [memberAccess, setMemberAccess] = useState<Member | null>(null);
   const [projectModalOpen, setProjectModalOpen] = useState(false);
   const [expenseModalOpen, setExpenseModalOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -192,6 +218,7 @@ export default function TckConnectPage() {
   const canCollect = role === "Administrateur" || role === "Collecteur";
   const canManageProjects = role === "Administrateur" || role === "Responsable commission";
   const canManageFinances = role === "Administrateur" || role === "Contrôleur";
+  const canManageMembers = dataMode === "server" && role === "Administrateur";
   const filteredTransactions = useMemo(() => transactions.filter((item) => `${item.name} ${item.id} ${item.zone}`.toLowerCase().includes(query.toLowerCase())), [query, transactions]);
 
   const loadServerData = useCallback(async () => {
@@ -215,7 +242,10 @@ export default function TckConnectPage() {
         phone: member.phone || "—",
         zone: member.zone || "Non renseignée",
         country: member.country,
-        status: member.status === "ACTIVE" ? "Actif" : "À relancer",
+        status: member.status === "ACTIVE" ? "Actif" : member.status === "SUSPENDED" ? "Suspendu" : "À relancer",
+        role: memberRoleLabels[member.role],
+        email: member.user?.email || "",
+        accountEnabled: Boolean(member.user),
         joinedAt: date.format(new Date(member.createdAt)),
         initials: initials(member.name),
       })));
@@ -326,9 +356,9 @@ export default function TckConnectPage() {
     window.setTimeout(() => setToast(false), 4000);
   }
 
-  async function serverMutation(path: string, body?: Record<string, unknown>) {
+  async function serverMutation(path: string, body?: Record<string, unknown>, method = "POST") {
     const response = await fetch(path, {
-      method: "POST",
+      method,
       headers: body ? { "Content-Type": "application/json" } : undefined,
       body: body ? JSON.stringify(body) : undefined,
     });
@@ -398,6 +428,9 @@ export default function TckConnectPage() {
       zone: String(form.get("zone") || "Non renseignée").trim(),
       country: String(form.get("country") || "Sénégal"),
       status: "Actif",
+      role: "Membre",
+      email: "",
+      accountEnabled: false,
       joinedAt: new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", year: "numeric" }).format(new Date()),
       initials: name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "TCK",
     };
@@ -407,6 +440,26 @@ export default function TckConnectPage() {
     appendAudit({ at: new Date().toISOString(), action: "MEMBER_CREATED", actor: `${role} démo`, recordId: id, detail: `${record.name} · ${record.zone}` });
     setMemberModalOpen(false);
     notify("Membre conservé sur cet appareil en mode démonstration.");
+  }
+
+  async function saveMemberAccess(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!memberAccess || !canManageMembers) return;
+    const form = new FormData(event.currentTarget);
+    const nextRole = String(form.get("role") || "Membre") as MemberRole;
+    const nextStatus = String(form.get("status") || "Actif") as MemberStatus;
+    try {
+      await serverMutation(`/api/tck/members/${encodeURIComponent(memberAccess.id)}`, {
+        role: memberRoleValues[nextRole],
+        status: memberStatusValues[nextStatus],
+        email: String(form.get("email") || "").trim(),
+        temporaryPassword: String(form.get("temporaryPassword") || ""),
+      }, "PATCH");
+      setMemberAccess(null);
+      notify("Rôle, statut et accès du membre mis à jour dans le registre central.");
+    } catch (error) {
+      notify(error instanceof Error ? error.message : "Accès du membre non modifié", true);
+    }
   }
 
   async function saveProject(event: FormEvent<HTMLFormElement>) {
@@ -517,7 +570,7 @@ export default function TckConnectPage() {
         </header>
         <div className="tck-content">
           {view === "dashboard" && <Dashboard onAdd={() => setModalOpen(true)} onNavigate={changeView} rows={filteredTransactions} records={projectRecords} canCollect={canCollect} actorName={actorName} dataMode={dataMode} metrics={serverMetrics} />}
-          {view === "membres" && <Members query={query} onAdd={() => setMemberModalOpen(true)} records={members} metrics={serverMetrics} />}
+          {view === "membres" && <Members query={query} onAdd={() => setMemberModalOpen(true)} onManage={canManageMembers ? setMemberAccess : undefined} records={members} metrics={serverMetrics} />}
           {view === "contributions" && <Contributions onAdd={() => setModalOpen(true)} rows={filteredTransactions} canAdd={canCollect} metrics={serverMetrics} />}
           {view === "finances" && <Finances expenses={expenses} onAdd={() => setExpenseModalOpen(true)} onApprove={approveExpense} canManage={canManageFinances} />}
           {view === "projets" && <Projects records={projectRecords} onAdd={() => setProjectModalOpen(true)} canAdd={canManageProjects} />}
@@ -528,6 +581,7 @@ export default function TckConnectPage() {
       </main>
       {modalOpen && <ContributionModal onClose={() => setModalOpen(false)} onSave={saveContribution} server={dataMode === "server"} />}
       {memberModalOpen && <MemberModal onClose={() => setMemberModalOpen(false)} onSave={saveMember} server={dataMode === "server"} />}
+      {memberAccess && <MemberAccessModal member={memberAccess} onClose={() => setMemberAccess(null)} onSave={saveMemberAccess} />}
       {projectModalOpen && <ProjectModal onClose={() => setProjectModalOpen(false)} onSave={saveProject} server={dataMode === "server"} />}
       {expenseModalOpen && <ExpenseModal onClose={() => setExpenseModalOpen(false)} onSave={saveExpense} server={dataMode === "server"} />}
       {toast && <div className={`tck-toast ${toastError ? "error" : ""}`}><span>{toastError ? <X size={17} /> : <Check size={17} />}</span><div><strong>{toastError ? "Action requise" : "Opération enregistrée"}</strong><small>{toastText}</small></div></div>}
@@ -551,14 +605,15 @@ function Dashboard({ onAdd, onNavigate, rows, records, canCollect, actorName, da
 function CardHead({ title, subtitle, action, onAction }: { title: string; subtitle: string; action?: string; onAction?: () => void }) { return <div className="tck-card-head"><div><h3>{title}</h3><p>{subtitle}</p></div>{action && <button onClick={onAction}>{action}<ChevronDown size={14} /></button>}</div>; }
 function TransactionsTable({ rows }: { rows: Transaction[] }) { return <div className="tck-table-scroll"><table className="tck-table"><thead><tr><th>Contributeur</th><th>Zone</th><th>Canal</th><th>Montant</th><th>Statut</th><th></th></tr></thead><tbody>{rows.map((item, index) => <tr key={`${item.id}-${index}`}><td><div className="tck-person"><i>{item.initials}</i><span><strong>{item.name}</strong><small>{item.id} · {item.time}</small></span></div></td><td>{item.zone}</td><td>{item.channel}</td><td><strong>{item.amount} F</strong></td><td><Status>Validée</Status></td><td><button className="tck-more" aria-label={`Actions pour ${item.name}`}><MoreHorizontal size={18} /></button></td></tr>)}</tbody></table>{rows.length === 0 && <div className="tck-empty"><Search size={24} /><strong>Aucun résultat</strong><span>Essayez un nom, un identifiant ou une zone.</span></div>}</div>; }
 
-function Members({ query, onAdd, records, metrics }: { query: string; onAdd: () => void; records: Member[]; metrics: ServerMetrics | null }) {
-  const filtered = records.filter((item) => `${item.name} ${item.id} ${item.zone} ${item.country}`.toLowerCase().includes(query.toLowerCase()));
-  const exportMembers = () => downloadCsv("tck-connect-membres.csv", [["Identifiant", "Nom", "Téléphone", "Zone", "Pays", "Statut"], ...filtered.map((item) => [item.id, item.name, item.phone, item.zone, item.country, item.status])]);
-  return <><PageTitle eyebrow="Communauté" title="Registre des membres" text="Une identité TCK unique, du quartier à la diaspora." action={<button className="tck-primary" onClick={onAdd}><UserPlus size={18} />Ajouter un membre</button>} /><div className="tck-summary-strip"><div><UsersRound /><span><strong>{new Intl.NumberFormat("fr-FR").format(metrics?.activeMembers ?? 184235 + records.length)}</strong>Membres actifs</span></div><div><MapPin /><span><strong>{metrics ? new Set(records.map((record) => record.zone)).size : 312}</strong>Zones couvertes</span></div><div><Activity /><span><strong>{metrics ? metrics.contributionCount : "78 %"}</strong>{metrics ? "Contributions ce mois" : "Contribution régulière"}</span></div></div><section className="tck-card tck-members-card"><CardHead title="Membres récents" subtitle={query ? `Résultats pour « ${query} »` : "Inscriptions et mises à jour récentes"} action="Exporter" onAction={exportMembers} /><MembersTable rows={filtered} /></section></>;
+function Members({ query, onAdd, onManage, records, metrics }: { query: string; onAdd: () => void; onManage?: (member: Member) => void; records: Member[]; metrics: ServerMetrics | null }) {
+  const filtered = records.filter((item) => `${item.name} ${item.id} ${item.zone} ${item.country} ${item.role} ${item.email}`.toLowerCase().includes(query.toLowerCase()));
+  const staffCount = records.filter((item) => item.role !== "Membre" && item.status === "Actif").length;
+  const exportMembers = () => downloadCsv("tck-connect-membres.csv", [["Identifiant", "Nom", "Téléphone", "Zone", "Pays", "Rôle", "Statut", "Compte"], ...filtered.map((item) => [item.id, item.name, item.phone, item.zone, item.country, item.role, item.status, item.accountEnabled ? item.email : "Non activé"])]);
+  return <><PageTitle eyebrow="Communauté" title="Registre des membres" text="Une identité TCK unique, du quartier à la diaspora." action={<button className="tck-primary" onClick={onAdd}><UserPlus size={18} />Ajouter un membre</button>} /><div className="tck-summary-strip"><div><UsersRound /><span><strong>{new Intl.NumberFormat("fr-FR").format(metrics?.activeMembers ?? 184235 + records.length)}</strong>Membres actifs</span></div><div><MapPin /><span><strong>{metrics ? new Set(records.map((record) => record.zone)).size : 312}</strong>Zones couvertes</span></div><div><ShieldCheck /><span><strong>{metrics ? staffCount : 2}</strong>Accès opérationnels</span></div></div><section className="tck-card tck-members-card"><CardHead title="Membres récents" subtitle={query ? `Résultats pour « ${query} »` : "Identités, rôles et accès au système central"} action="Exporter" onAction={exportMembers} /><MembersTable rows={filtered} onManage={onManage} /></section></>;
 }
 
-function MembersTable({ rows }: { rows: Member[] }) {
-  return <div className="tck-table-scroll"><table className="tck-table"><thead><tr><th>Membre</th><th>Téléphone</th><th>Zone</th><th>Pays</th><th>Adhésion</th><th>Statut</th></tr></thead><tbody>{rows.map((member) => <tr key={member.id}><td><div className="tck-person"><i>{member.initials}</i><span><strong>{member.name}</strong><small>{member.id}</small></span></div></td><td>{member.phone}</td><td>{member.zone}</td><td>{member.country}</td><td>{member.joinedAt}</td><td><span className={member.status === "Actif" ? "tck-status" : "tck-status tck-status-warn"}><i />{member.status}</span></td></tr>)}</tbody></table>{rows.length === 0 && <div className="tck-empty"><Search size={24} /><strong>Aucun membre</strong><span>Modifiez la recherche ou créez une nouvelle fiche.</span></div>}</div>;
+function MembersTable({ rows, onManage }: { rows: Member[]; onManage?: (member: Member) => void }) {
+  return <div className="tck-table-scroll"><table className="tck-table tck-members-table"><thead><tr><th>Membre</th><th>Zone</th><th>Rôle</th><th>Compte</th><th>Statut</th>{onManage && <th>Administration</th>}</tr></thead><tbody>{rows.map((member) => <tr key={member.id}><td><div className="tck-person"><i>{member.initials}</i><span><strong>{member.name}</strong><small>{member.id} · {member.phone}</small></span></div></td><td>{member.zone}<small>{member.country}</small></td><td><span className={`tck-role tck-role-${member.role === "Membre" ? "member" : "staff"}`}>{member.role}</span></td><td>{member.accountEnabled ? <span className="tck-account"><LockKeyhole size={13} /><span><strong>Activé</strong><small>{member.email}</small></span></span> : <span className="tck-account tck-account-off"><CircleUserRound size={13} />Non activé</span>}</td><td><span className={member.status === "Actif" ? "tck-status" : member.status === "Suspendu" ? "tck-status tck-status-stop" : "tck-status tck-status-warn"}><i />{member.status}</span></td>{onManage && <td><button className="tck-member-manage" onClick={() => onManage(member)}><Settings size={14} />Gérer</button></td>}</tr>)}</tbody></table>{rows.length === 0 && <div className="tck-empty"><Search size={24} /><strong>Aucun membre</strong><span>Modifiez la recherche ou créez une nouvelle fiche.</span></div>}</div>;
 }
 
 function Contributions({ onAdd, rows, canAdd, metrics }: { onAdd: () => void; rows: Transaction[]; canAdd: boolean; metrics: ServerMetrics | null }) {
@@ -584,7 +639,7 @@ function Finances({ expenses, onAdd, onApprove, canManage }: { expenses: Expense
 function Commissions() { return <><PageTitle eyebrow="Organisation" title="Commissions de Touba Ca Kanam" text="Chaque commission dispose de son équipe, sa feuille de route et ses indicateurs." action={<button className="tck-primary"><Plus size={18} />Créer une activité</button>} /><div className="tck-commission-grid">{commissions.map((commission) => <article className="tck-commission-card" key={commission.name}><div className={`tck-commission-icon ${commission.color}`}><commission.icon size={24} /></div><button className="tck-more"><MoreHorizontal size={19} /></button><h3>{commission.name}</h3><p><span><UsersRound size={15} />{commission.members} membres</span><span><FolderKanban size={15} />{commission.projects} projets</span></p><div className="tck-commission-foot"><span><i />Feuille de route active</span><ChevronDown size={16} /></div></article>)}</div></>; }
 
 function Transparency({ auditEntries }: { auditEntries: AuditEntry[] }) {
-  const labels: Record<AuditAction, string> = { CONTRIBUTION_CREATED: "Contribution enregistrée", MEMBER_CREATED: "Membre créé", PROJECT_CREATED: "Projet créé", EXPENSE_CREATED: "Dépense soumise", EXPENSE_APPROVED: "Dépense approuvée", PASSWORD_CHANGED: "Mot de passe modifié" };
+  const labels: Record<AuditAction, string> = { CONTRIBUTION_CREATED: "Contribution enregistrée", MEMBER_CREATED: "Membre créé", MEMBER_ACCESS_UPDATED: "Accès membre modifié", PROJECT_CREATED: "Projet créé", EXPENSE_CREATED: "Dépense soumise", EXPENSE_APPROVED: "Dépense approuvée", PASSWORD_CHANGED: "Mot de passe modifié" };
   const exportAudit = () => downloadCsv("tck-connect-journal-audit.csv", [["Date", "Action", "Acteur", "Référence", "Détail"], ...auditEntries.map((entry) => [entry.at, labels[entry.action], entry.actor, entry.recordId, entry.detail])]);
   return <><PageTitle eyebrow="Confiance & redevabilité" title="Centre de transparence" text="Les données validées deviennent des preuves publiques, lisibles par tous." action={<div className="tck-title-actions"><a className="tck-secondary" href="/tck-connect/public"><ShieldCheck size={17} />Portail public</a><button className="tck-primary" onClick={exportAudit}><Download size={18} />Rapport d’audit</button></div>} /><section className="tck-trust-banner"><div className="tck-trust-score"><span>96<small>%</small></span></div><div><span className="tck-eyebrow">Allocation directe</span><h2>96 % des ressources consacrées aux projets</h2><p>Chaque indicateur publié est relié à une écriture validée et à une pièce justificative.</p></div><ShieldCheck size={75} /></section><div className="tck-transparency-grid"><section className="tck-card"><CardHead title="Chaîne de validation" subtitle="Contrôles appliqués aux dépenses" /><div className="tck-validation-list">{["Demande budgétaire enregistrée", "Pièces justificatives vérifiées", "Quorum de validation atteint", "Paiement rapproché et archivé"].map((label, index) => <div key={label}><span><Check size={15} /></span><p><strong>{label}</strong><small>Contrôle {index + 1} validé</small></p><FileCheck2 size={18} /></div>)}</div></section><section className="tck-card"><CardHead title="Publications" subtitle="Documents disponibles au public" /><div className="tck-report-list"><button><span><ReceiptText /></span><div><strong>Rapport financier — juillet 2026</strong><small>PDF · Publié le 5 août</small></div><Download /></button><button><span><ClipboardCheck /></span><div><strong>Bilan des projets — semestre 1</strong><small>PDF · Publié le 12 juillet</small></div><Download /></button><button><span><ShieldCheck /></span><div><strong>Rapport de contrôle interne</strong><small>PDF · Publié le 30 juin</small></div><Download /></button></div></section></div><section className="tck-card tck-audit-card"><CardHead title="Journal d’audit du MVP" subtitle={`${auditEntries.length} opération${auditEntries.length > 1 ? "s" : ""} tracée${auditEntries.length > 1 ? "s" : ""} sur cet appareil`} action="Exporter" onAction={exportAudit} /><div className="tck-audit-list">{auditEntries.slice(0, 10).map((entry, index) => { const isMember = entry.action === "MEMBER_CREATED"; const isProject = entry.action === "PROJECT_CREATED"; const Icon = isMember ? UserPlus : isProject ? FolderKanban : entry.action.startsWith("EXPENSE") ? Wallet : HandCoins; return <article key={`${entry.at}-${index}`}><span className={isMember ? "member" : isProject ? "project" : "payment"}><Icon size={16} /></span><div><strong>{labels[entry.action]}</strong><p>{entry.detail}</p><small>{entry.actor} · {new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(entry.at))} · {entry.recordId}</small></div><ShieldCheck size={17} /></article>; })}{auditEntries.length === 0 && <div className="tck-empty"><ShieldCheck size={24} /><strong>Journal prêt</strong><span>Les prochaines opérations seront tracées ici.</span></div>}</div></section></>;
 }
@@ -593,6 +648,10 @@ function ContributionModal({ onClose, onSave, server }: { onClose: () => void; o
 
 function MemberModal({ onClose, onSave, server }: { onClose: () => void; onSave: (event: FormEvent<HTMLFormElement>) => void; server: boolean }) {
   return <div className="tck-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><section className="tck-modal" role="dialog" aria-modal="true" aria-labelledby="member-title"><div className="tck-modal-head"><div><span className="tck-eyebrow">Identité communautaire</span><h2 id="member-title">Nouveau membre</h2></div><button onClick={onClose} aria-label="Fermer"><X size={20} /></button></div><form onSubmit={onSave}><label>Nom complet<input name="name" required autoFocus placeholder="Ex. Sokhna Awa Diop" /></label><div className="tck-form-row"><label>Téléphone<input name="phone" required type="tel" placeholder="+221 77 000 00 00" /></label><label>Pays<select name="country" defaultValue="Sénégal"><option>Sénégal</option><option>France</option><option>Italie</option><option>Espagne</option><option>États-Unis</option><option>Mauritanie</option><option>Autre</option></select></label></div><label>Zone ou quartier<input name="zone" required placeholder="Ex. Touba Mosquée" /></label><div className="tck-modal-note"><ShieldCheck size={18} /><span>{server ? "Un identifiant unique sera généré dans le référentiel central et audité." : "Un identifiant local sera généré pour cette démonstration."}</span></div><div className="tck-modal-actions"><button type="button" className="tck-secondary" onClick={onClose}>Annuler</button><button type="submit" className="tck-primary"><UserPlus size={18} />Créer le membre</button></div></form></section></div>;
+}
+
+function MemberAccessModal({ member, onClose, onSave }: { member: Member; onClose: () => void; onSave: (event: FormEvent<HTMLFormElement>) => void }) {
+  return <div className="tck-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><section className="tck-modal tck-access-modal" role="dialog" aria-modal="true" aria-labelledby="member-access-title"><div className="tck-modal-head"><div><span className="tck-eyebrow">Administration sécurisée</span><h2 id="member-access-title">Rôle et accès</h2><p>{member.name} · {member.id}</p></div><button onClick={onClose} aria-label="Fermer"><X size={20} /></button></div><form onSubmit={onSave}><div className="tck-form-row"><label>Rôle dans TCK CONNECT<select name="role" defaultValue={member.role}><option>Membre</option><option>Collecteur</option><option>Responsable commission</option><option>Contrôleur</option><option>Administrateur</option></select></label><label>Statut du membre<select name="status" defaultValue={member.status}><option>Actif</option><option>À relancer</option><option>Suspendu</option></select></label></div><div className="tck-access-section"><div><LockKeyhole size={18} /><span><strong>Compte de connexion</strong><small>{member.accountEnabled ? "Accès actuellement activé" : "Aucun accès numérique pour le moment"}</small></span></div><label>Adresse e-mail<input name="email" type="email" defaultValue={member.email} autoComplete="off" placeholder="agent@tck.sn" /></label><label>{member.accountEnabled ? "Nouveau mot de passe temporaire (facultatif)" : "Mot de passe temporaire pour activer l’accès"}<input name="temporaryPassword" type="password" minLength={12} autoComplete="new-password" placeholder={member.accountEnabled ? "Laisser vide pour ne pas le modifier" : "12 caractères minimum"} /></label><p>Le mot de passe doit contenir majuscule, minuscule, chiffre et caractère spécial. Il n’est jamais affiché après l’enregistrement.</p></div><div className="tck-modal-note"><ShieldCheck size={18} /><span>Les modifications sont réservées aux administrateurs et ajoutées au journal d’audit central.</span></div><div className="tck-modal-actions"><button type="button" className="tck-secondary" onClick={onClose}>Annuler</button><button type="submit" className="tck-primary"><Check size={18} />Enregistrer les accès</button></div></form></section></div>;
 }
 
 function ProjectModal({ onClose, onSave, server }: { onClose: () => void; onSave: (event: FormEvent<HTMLFormElement>) => void; server: boolean }) {
