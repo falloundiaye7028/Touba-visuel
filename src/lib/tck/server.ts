@@ -16,6 +16,7 @@ export async function requireTckRole(allowed: TckRole[]) {
 
   const actor = await prisma.tckMember.findUnique({ where: { userId } });
   if (!actor) throw new TckHttpError(403, "Compte TCK non activé");
+  if (actor.status !== "ACTIVE") throw new TckHttpError(403, "Compte TCK suspendu ou inactif");
   if (!allowed.includes(actor.role)) throw new TckHttpError(403, "Permission insuffisante");
   return actor;
 }

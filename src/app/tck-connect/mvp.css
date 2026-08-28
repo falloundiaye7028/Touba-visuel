@@ -167,6 +167,11 @@
   font-weight: 750;
 }
 
+.tck-session-link-first {
+  margin-top: 0;
+  border-top: 0;
+}
+
 .tck-toast.error {
   border-color: #f0c9c5;
 }
