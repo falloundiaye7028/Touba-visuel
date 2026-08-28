@@ -7,7 +7,7 @@ import {
   CircleUserRound, ClipboardCheck, Download, Droplets, FileCheck2,
   FolderKanban, HandCoins, HeartHandshake, Home, KeyRound, Landmark, Lightbulb, LockKeyhole,
   MapPin, Menu, MessageSquareText, MoreHorizontal, Network, Plus,
-  ReceiptText, Search, Settings, ShieldCheck, TrendingUp, UsersRound, Wallet,
+  Printer, ReceiptText, Search, Settings, ShieldCheck, TrendingUp, UsersRound, Wallet,
   UserPlus, WalletCards, X,
 } from "lucide-react";
 
@@ -16,6 +16,7 @@ type Role = "Administrateur" | "Collecteur" | "Responsable commission" | "Contr�
 type MemberRole = Role | "Membre";
 type MemberStatus = "Actif" | "À relancer" | "Suspendu";
 type Transaction = { name: string; id: string; zone: string; amount: string; channel: string; time: string; initials: string };
+type ContributionReceipt = { receiptNumber: string; amount: number; channel: string; externalReference: string | null; contributedAt: string; status: string; member: { memberCode: string; name: string; zone: string | null }; recordedBy: { memberCode: string; name: string } };
 type Member = { id: string; name: string; phone: string; zone: string; country: string; status: MemberStatus; role: MemberRole; email: string; accountEnabled: boolean; joinedAt: string; initials: string };
 type ProjectRecord = { id: string; name: string; domain: string; budget: string; spent: string; progress: number; place: string; status: "En cours" | "Planifié" | "Finalisation" | "Terminé"; iconName: "health" | "water" | "building" | "light" };
 type Expense = { id: string; recordId?: string; label: string; commission: string; amount: number; status: "À valider" | "Validée"; approvals: number; required: number; submittedAt: string };
@@ -196,6 +197,7 @@ export default function TckConnectPage() {
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [receipt, setReceipt] = useState<ContributionReceipt | null>(null);
   const [memberModalOpen, setMemberModalOpen] = useState(false);
   const [memberAccess, setMemberAccess] = useState<Member | null>(null);
   const [projectModalOpen, setProjectModalOpen] = useState(false);
@@ -356,15 +358,16 @@ export default function TckConnectPage() {
     window.setTimeout(() => setToast(false), 4000);
   }
 
-  async function serverMutation(path: string, body?: Record<string, unknown>, method = "POST") {
+  async function serverMutation<T = unknown>(path: string, body?: Record<string, unknown>, method = "POST") {
     const response = await fetch(path, {
       method,
       headers: body ? { "Content-Type": "application/json" } : undefined,
       body: body ? JSON.stringify(body) : undefined,
     });
-    const payload = await response.json().catch(() => ({})) as { error?: string };
+    const payload = await response.json().catch(() => ({})) as T & { error?: string };
     if (!response.ok) throw new Error(payload.error || "Opération refusée par le serveur TCK");
     await loadServerData();
+    return payload;
   }
   function appendAudit(entry: AuditEntry) {
     const next = [entry, ...auditEntries].slice(0, 100);
@@ -381,8 +384,9 @@ export default function TckConnectPage() {
     const reference = String(form.get("reference") || "").trim();
     if (dataMode === "server") {
       try {
-        await serverMutation("/api/tck/contributions", { memberCode: id, amount: amountNumber, channel, externalReference: reference });
+        const payload = await serverMutation<{ record: ContributionReceipt }>("/api/tck/contributions", { memberCode: id, amount: amountNumber, channel, externalReference: reference });
         setModalOpen(false);
+        setReceipt(payload.record);
         notify("Contribution enregistrée dans PostgreSQL et reçue par le journal d’audit.");
       } catch (error) {
         notify(error instanceof Error ? error.message : "Contribution non enregistrée", true);
@@ -403,6 +407,7 @@ export default function TckConnectPage() {
     window.localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify({ version: 1, records: next }));
     appendAudit({ at: new Date().toISOString(), action: "CONTRIBUTION_CREATED", actor: `${role} démo`, recordId: id, detail: `${new Intl.NumberFormat("fr-FR").format(amountNumber)} F CFA · ${channel}` });
     setModalOpen(false);
+    setReceipt({ receiptNumber: `REC-DEMO-${String(Date.now()).slice(-8)}`, amount: amountNumber, channel, externalReference: reference || null, contributedAt: new Date().toISOString(), status: "VALIDATED", member: { memberCode: id, name, zone: "Saisie directe" }, recordedBy: { memberCode: "DEMO", name: `${role} démo` } });
     notify("Contribution conservée sur cet appareil en mode démonstration.");
   }
 
@@ -579,7 +584,8 @@ export default function TckConnectPage() {
         </div>
         <nav className="tck-bottom-nav" aria-label="Navigation mobile">{allowedNavigation.slice(0, 5).map(({ id, label, icon: Icon }) => <button className={view === id ? "active" : ""} onClick={() => changeView(id)} key={id}><Icon size={19} /><span>{label.split(" ")[0]}</span></button>)}</nav>
       </main>
-      {modalOpen && <ContributionModal onClose={() => setModalOpen(false)} onSave={saveContribution} server={dataMode === "server"} />}
+      {modalOpen && <ContributionModal onClose={() => setModalOpen(false)} onSave={saveContribution} server={dataMode === "server"} members={members} />}
+      {receipt && <ContributionReceiptModal receipt={receipt} onClose={() => setReceipt(null)} />}
       {memberModalOpen && <MemberModal onClose={() => setMemberModalOpen(false)} onSave={saveMember} server={dataMode === "server"} />}
       {memberAccess && <MemberAccessModal member={memberAccess} onClose={() => setMemberAccess(null)} onSave={saveMemberAccess} />}
       {projectModalOpen && <ProjectModal onClose={() => setProjectModalOpen(false)} onSave={saveProject} server={dataMode === "server"} />}
@@ -644,7 +650,42 @@ function Transparency({ auditEntries }: { auditEntries: AuditEntry[] }) {
   return <><PageTitle eyebrow="Confiance & redevabilité" title="Centre de transparence" text="Les données validées deviennent des preuves publiques, lisibles par tous." action={<div className="tck-title-actions"><a className="tck-secondary" href="/tck-connect/public"><ShieldCheck size={17} />Portail public</a><button className="tck-primary" onClick={exportAudit}><Download size={18} />Rapport d’audit</button></div>} /><section className="tck-trust-banner"><div className="tck-trust-score"><span>96<small>%</small></span></div><div><span className="tck-eyebrow">Allocation directe</span><h2>96 % des ressources consacrées aux projets</h2><p>Chaque indicateur publié est relié à une écriture validée et à une pièce justificative.</p></div><ShieldCheck size={75} /></section><div className="tck-transparency-grid"><section className="tck-card"><CardHead title="Chaîne de validation" subtitle="Contrôles appliqués aux dépenses" /><div className="tck-validation-list">{["Demande budgétaire enregistrée", "Pièces justificatives vérifiées", "Quorum de validation atteint", "Paiement rapproché et archivé"].map((label, index) => <div key={label}><span><Check size={15} /></span><p><strong>{label}</strong><small>Contrôle {index + 1} validé</small></p><FileCheck2 size={18} /></div>)}</div></section><section className="tck-card"><CardHead title="Publications" subtitle="Documents disponibles au public" /><div className="tck-report-list"><button><span><ReceiptText /></span><div><strong>Rapport financier — juillet 2026</strong><small>PDF · Publié le 5 août</small></div><Download /></button><button><span><ClipboardCheck /></span><div><strong>Bilan des projets — semestre 1</strong><small>PDF · Publié le 12 juillet</small></div><Download /></button><button><span><ShieldCheck /></span><div><strong>Rapport de contrôle interne</strong><small>PDF · Publié le 30 juin</small></div><Download /></button></div></section></div><section className="tck-card tck-audit-card"><CardHead title="Journal d’audit du MVP" subtitle={`${auditEntries.length} opération${auditEntries.length > 1 ? "s" : ""} tracée${auditEntries.length > 1 ? "s" : ""} sur cet appareil`} action="Exporter" onAction={exportAudit} /><div className="tck-audit-list">{auditEntries.slice(0, 10).map((entry, index) => { const isMember = entry.action === "MEMBER_CREATED"; const isProject = entry.action === "PROJECT_CREATED"; const Icon = isMember ? UserPlus : isProject ? FolderKanban : entry.action.startsWith("EXPENSE") ? Wallet : HandCoins; return <article key={`${entry.at}-${index}`}><span className={isMember ? "member" : isProject ? "project" : "payment"}><Icon size={16} /></span><div><strong>{labels[entry.action]}</strong><p>{entry.detail}</p><small>{entry.actor} · {new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(entry.at))} · {entry.recordId}</small></div><ShieldCheck size={17} /></article>; })}{auditEntries.length === 0 && <div className="tck-empty"><ShieldCheck size={24} /><strong>Journal prêt</strong><span>Les prochaines opérations seront tracées ici.</span></div>}</div></section></>;
 }
 
-function ContributionModal({ onClose, onSave, server }: { onClose: () => void; onSave: (event: FormEvent<HTMLFormElement>) => void; server: boolean }) { return <div className="tck-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><section className="tck-modal" role="dialog" aria-modal="true" aria-labelledby="contribution-title"><div className="tck-modal-head"><div><span className="tck-eyebrow">Collecte sécurisée</span><h2 id="contribution-title">Nouvelle contribution</h2></div><button onClick={onClose} aria-label="Fermer"><X size={20} /></button></div><form onSubmit={onSave}><div className="tck-form-row"><label>Nom du contributeur<input name="memberName" required placeholder="Ex. Awa Diop" /></label><label>Identifiant du membre<input name="memberId" required placeholder="Ex. TCK-026184" /></label></div><div className="tck-form-row"><label>Montant (F CFA)<input name="amount" required min="100" type="number" defaultValue="1000" /></label><label>Canal<select name="channel" defaultValue="Wave"><option>Wave</option><option>Orange Money</option><option>Free Money</option><option>Espèces / Collecteur</option><option>Virement bancaire</option></select></label></div><label>Référence de transaction<input name="reference" required placeholder="Référence opérateur ou reçu" /></label><div className="tck-modal-note"><ShieldCheck size={18} /><span>{server ? "L’opération sera enregistrée dans PostgreSQL et ajoutée au journal d’audit central." : "L’opération restera sur cet appareil dans le journal de démonstration."}</span></div><div className="tck-modal-actions"><button type="button" className="tck-secondary" onClick={onClose}>Annuler</button><button type="submit" className="tck-primary"><Check size={18} />Valider et générer le reçu</button></div></form></section></div>; }
+function ContributionModal({ onClose, onSave, server, members }: { onClose: () => void; onSave: (event: FormEvent<HTMLFormElement>) => void; server: boolean; members: Member[] }) {
+  const eligibleMembers = members.filter((member) => member.status !== "Suspendu");
+  return <div className="tck-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><section className="tck-modal" role="dialog" aria-modal="true" aria-labelledby="contribution-title"><div className="tck-modal-head"><div><span className="tck-eyebrow">Collecte sécurisée</span><h2 id="contribution-title">Nouvelle contribution</h2></div><button onClick={onClose} aria-label="Fermer"><X size={20} /></button></div><form onSubmit={onSave}>{server ? <label>Membre du registre<select name="memberId" required defaultValue=""><option value="" disabled>{eligibleMembers.length ? "Choisir un membre" : "Aucun membre disponible"}</option>{eligibleMembers.map((member) => <option value={member.id} key={member.id}>{member.name} · {member.id} · {member.zone}</option>)}</select></label> : <div className="tck-form-row"><label>Nom du contributeur<input name="memberName" required placeholder="Ex. Awa Diop" /></label><label>Identifiant du membre<input name="memberId" required placeholder="Ex. TCK-026184" /></label></div>}<div className="tck-form-row"><label>Montant (F CFA)<input name="amount" required min="100" max="1000000000" type="number" defaultValue="1000" /></label><label>Canal<select name="channel" defaultValue="Wave"><option>Wave</option><option>Orange Money</option><option>Free Money</option><option>Espèces / Collecteur</option><option>Virement bancaire</option></select></label></div><label>Référence de transaction <small>facultative pour les espèces</small><input name="reference" placeholder="Référence opérateur, virement ou reçu manuel" /></label><div className="tck-modal-note"><ShieldCheck size={18} /><span>{server ? "Le membre est relié au reçu, puis l’opération est enregistrée dans PostgreSQL et le journal d’audit." : "L’opération restera sur cet appareil dans le journal de démonstration."}</span></div><div className="tck-modal-actions"><button type="button" className="tck-secondary" onClick={onClose}>Annuler</button><button type="submit" className="tck-primary" disabled={server && eligibleMembers.length === 0}><Check size={18} />Valider et générer le reçu</button></div></form></section></div>;
+}
+
+function contributionReceiptText(receipt: ContributionReceipt) {
+  return [
+    "TCK CONNECT — REÇU DE CONTRIBUTION",
+    `Reçu : ${receipt.receiptNumber}`,
+    `Date : ${new Intl.DateTimeFormat("fr-FR", { dateStyle: "full", timeStyle: "short" }).format(new Date(receipt.contributedAt))}`,
+    `Membre : ${receipt.member.name}`,
+    `Identifiant : ${receipt.member.memberCode}`,
+    `Zone : ${receipt.member.zone || "Non renseignée"}`,
+    `Montant : ${new Intl.NumberFormat("fr-FR").format(receipt.amount)} F CFA`,
+    `Canal : ${receipt.channel}`,
+    `Référence externe : ${receipt.externalReference || "Non applicable"}`,
+    `Enregistré par : ${receipt.recordedBy.name} (${receipt.recordedBy.memberCode})`,
+    "Statut : VALIDÉE",
+    "",
+    "Ce reçu est identifié de manière unique dans le registre central de Touba Ca Kanam.",
+  ].join("\n");
+}
+
+function downloadContributionReceipt(receipt: ContributionReceipt) {
+  const url = URL.createObjectURL(new Blob([contributionReceiptText(receipt)], { type: "text/plain;charset=utf-8" }));
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `${receipt.receiptNumber}.txt`;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+function ContributionReceiptModal({ receipt, onClose }: { receipt: ContributionReceipt; onClose: () => void }) {
+  const date = new Intl.DateTimeFormat("fr-FR", { dateStyle: "full", timeStyle: "short" }).format(new Date(receipt.contributedAt));
+  return <div className="tck-modal-backdrop tck-receipt-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><section className="tck-modal tck-receipt-modal" role="dialog" aria-modal="true" aria-labelledby="receipt-title"><div className="tck-receipt-print"><div className="tck-receipt-brand"><div className="tck-brand-mark">TCK</div><div><strong>TCK CONNECT</strong><span>Touba Ca Kanam</span></div><ShieldCheck size={28} /></div><div className="tck-receipt-head"><span className="tck-eyebrow">Contribution validée</span><h2 id="receipt-title">Reçu de contribution</h2><p>{receipt.receiptNumber}</p></div><div className="tck-receipt-amount"><span>Montant reçu</span><strong>{new Intl.NumberFormat("fr-FR").format(receipt.amount)} <small>F CFA</small></strong><Status>Validée</Status></div><dl><div><dt>Contributeur</dt><dd>{receipt.member.name}<small>{receipt.member.memberCode} · {receipt.member.zone || "Zone non renseignée"}</small></dd></div><div><dt>Canal</dt><dd>{receipt.channel}</dd></div><div><dt>Référence</dt><dd>{receipt.externalReference || "Saisie directe"}</dd></div><div><dt>Date et heure</dt><dd>{date}</dd></div><div><dt>Enregistré par</dt><dd>{receipt.recordedBy.name}<small>{receipt.recordedBy.memberCode}</small></dd></div></dl><div className="tck-receipt-proof"><ShieldCheck size={18} /><p><strong>Preuve enregistrée</strong><span>Ce numéro de reçu est unique et relié au journal d’audit central.</span></p></div></div><div className="tck-receipt-actions"><button className="tck-secondary" onClick={onClose}>Fermer</button><button className="tck-secondary" onClick={() => downloadContributionReceipt(receipt)}><Download size={17} />Télécharger</button><button className="tck-primary" onClick={() => window.print()}><Printer size={17} />Imprimer / PDF</button></div></section></div>;
+}
 
 function MemberModal({ onClose, onSave, server }: { onClose: () => void; onSave: (event: FormEvent<HTMLFormElement>) => void; server: boolean }) {
   return <div className="tck-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><section className="tck-modal" role="dialog" aria-modal="true" aria-labelledby="member-title"><div className="tck-modal-head"><div><span className="tck-eyebrow">Identité communautaire</span><h2 id="member-title">Nouveau membre</h2></div><button onClick={onClose} aria-label="Fermer"><X size={20} /></button></div><form onSubmit={onSave}><label>Nom complet<input name="name" required autoFocus placeholder="Ex. Sokhna Awa Diop" /></label><div className="tck-form-row"><label>Téléphone<input name="phone" required type="tel" placeholder="+221 77 000 00 00" /></label><label>Pays<select name="country" defaultValue="Sénégal"><option>Sénégal</option><option>France</option><option>Italie</option><option>Espagne</option><option>États-Unis</option><option>Mauritanie</option><option>Autre</option></select></label></div><label>Zone ou quartier<input name="zone" required placeholder="Ex. Touba Mosquée" /></label><div className="tck-modal-note"><ShieldCheck size={18} /><span>{server ? "Un identifiant unique sera généré dans le référentiel central et audité." : "Un identifiant local sera généré pour cette démonstration."}</span></div><div className="tck-modal-actions"><button type="button" className="tck-secondary" onClick={onClose}>Annuler</button><button type="submit" className="tck-primary"><UserPlus size={18} />Créer le membre</button></div></form></section></div>;

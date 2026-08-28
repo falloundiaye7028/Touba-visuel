@@ -1,13 +1,6 @@
-import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { tckContributionSchema } from "@/lib/tck/contribution";
 import { auditData, requireTckRole, tckApiError, tckReference, TCK_STAFF_ROLES } from "@/lib/tck/server";
-
-const createContributionSchema = z.object({
-  memberCode: z.string().trim().min(3).max(80),
-  amount: z.coerce.number().int().min(100).max(1_000_000_000),
-  channel: z.string().trim().min(2).max(80),
-  externalReference: z.string().trim().min(2).max(160).optional(),
-});
 
 export async function GET() {
   try {
@@ -22,10 +15,15 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const actor = await requireTckRole(["ADMIN", "COLLECTOR"]);
-    const parsed = createContributionSchema.safeParse(await request.json());
+    const parsed = tckContributionSchema.safeParse(await request.json());
     if (!parsed.success) return Response.json({ error: "Contribution invalide", issues: parsed.error.flatten() }, { status: 400 });
-    const member = await prisma.tckMember.findUnique({ where: { memberCode: parsed.data.memberCode.toUpperCase() } });
+    const member = await prisma.tckMember.findUnique({ where: { memberCode: parsed.data.memberCode } });
     if (!member) return Response.json({ error: "Membre TCK introuvable" }, { status: 404 });
+    if (member.status === "SUSPENDED") return Response.json({ error: "Ce membre est suspendu" }, { status: 400 });
+    if (parsed.data.externalReference) {
+      const duplicate = await prisma.tckContribution.findUnique({ where: { externalReference: parsed.data.externalReference }, select: { id: true } });
+      if (duplicate) return Response.json({ error: "Cette référence de transaction a déjà été utilisée" }, { status: 409 });
+    }
 
     const contribution = await prisma.$transaction(async (tx) => {
       const { memberCode: _memberCode, ...contributionData } = parsed.data;
@@ -33,7 +31,18 @@ export async function POST(request: Request) {
       await tx.tckAuditEvent.create({ data: { action: "CONTRIBUTION_CREATED", entity: "CONTRIBUTION", entityId: created.id, actorId: actor.id, metadata: auditData({ receiptNumber: created.receiptNumber, memberCode: member.memberCode, amount: created.amount, channel: created.channel }) } });
       return created;
     });
-    return Response.json({ record: contribution }, { status: 201 });
+    return Response.json({
+      record: {
+        receiptNumber: contribution.receiptNumber,
+        amount: contribution.amount,
+        channel: contribution.channel,
+        externalReference: contribution.externalReference,
+        contributedAt: contribution.contributedAt,
+        status: contribution.status,
+        member: { memberCode: member.memberCode, name: member.name, zone: member.zone },
+        recordedBy: { memberCode: actor.memberCode, name: actor.name },
+      },
+    }, { status: 201 });
   } catch (error) {
     return tckApiError(error);
   }
