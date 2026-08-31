@@ -1,6 +1,6 @@
-# IntelligenceImmobilier V1
+# INTELLIGENCE IMMOBILIER V1
 
-**L’intelligence immobilière.** IntelligenceImmobilier est une application SaaS multi-tenant de gestion immobilière pour le Sénégal et l’Afrique francophone.
+**La plateforme intelligente de gestion immobilière.** INTELLIGENCE IMMOBILIER est une application SaaS multi-tenant de gestion immobilière pour le Sénégal et l’Afrique francophone.
 
 ## Prérequis
 

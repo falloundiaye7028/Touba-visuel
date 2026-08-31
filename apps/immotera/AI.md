@@ -1,4 +1,4 @@
-# IntelligenceImmobilier AI
+# Intelligence Immobilier AI
 
 L’assistant suit une architecture tool-based. Les outils disponibles sont `getRentArrears`, `getVacantProperties`, `getExpiringLeases`, `getMonthlyRevenue` et `getOwnerStatements`.
 

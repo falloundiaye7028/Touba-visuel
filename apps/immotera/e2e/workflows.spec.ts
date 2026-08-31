@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("registration and onboarding reach the dashboard", async ({ page }) => {
   await page.goto("/register");
-  await expect(page).toHaveTitle(/IntelligenceImmobilier/);
+  await expect(page).toHaveTitle(/INTELLIGENCE IMMOBILIER/);
   await page.getByLabel("Nom complet").fill("Mamadou Kane");
   await page.getByLabel("Adresse email").fill("mamadou@example.invalid");
   await page.locator('input[name="password"]').fill("IntelImmo2026!");

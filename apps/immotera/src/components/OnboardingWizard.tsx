@@ -2,11 +2,12 @@
 
 import { type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Building2, Check, FileSpreadsheet, House, LoaderCircle, Users } from "lucide-react";
+import { ArrowRight, Check, FileSpreadsheet, House, LoaderCircle, Users } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 
 const steps = ["Organisation", "Propriétaire", "Premier bien", "Import", "Terminé"];
 const initialDraft = {
-  organizationName: "IntelligenceImmobilier Démo Dakar", country: "SN", currency: "XOF", organizationPhone: "+221 ",
+  organizationName: "INTELLIGENCE IMMOBILIER Démo Dakar", country: "SN", currency: "XOF", organizationPhone: "+221 ",
   ownerFirstName: "Aminata", ownerLastName: "Fall", ownerPhone: "+221 77 450 18 32", ownerEmail: "",
   propertyName: "Villa Ndar", propertyType: "Villa", monthlyRent: "850000", propertyAddress: "Route des Almadies, Dakar",
 };
@@ -30,7 +31,7 @@ export function OnboardingWizard() {
     finally { setSaving(false); }
   };
 
-  return <div className="onboarding-card"><aside><div className="landing-brand"><span><Building2 size={19}/></span>INTELLIGENCEIMMOBILIER</div><h2>Configurons votre espace.</h2><p>Quelques informations suffisent pour commencer à gérer votre activité.</p><div>{steps.map((label,index)=><span className={step>=index?"active":""} key={label}><i>{step>index?<Check size={12}/>:index+1}</i>{label}</span>)}</div></aside><form onSubmit={(event)=>void next(event)}><p className="eyebrow">ÉTAPE {step+1} SUR 5</p>
+  return <div className="onboarding-card"><aside><BrandLogo variant="wordmark" light priority/><h2>Configurons votre espace.</h2><p>Quelques informations suffisent pour commencer à gérer votre activité.</p><div>{steps.map((label,index)=><span className={step>=index?"active":""} key={label}><i>{step>index?<Check size={12}/>:index+1}</i>{label}</span>)}</div></aside><form onSubmit={(event)=>void next(event)}><p className="eyebrow">ÉTAPE {step+1} SUR 5</p>
     {step===0&&<><h1>Votre organisation</h1><p>Ces informations apparaîtront sur vos documents et rapports.</p><label><span>Nom de l’agence</span><input required value={draft.organizationName} onChange={(event)=>update("organizationName",event.target.value)}/></label><div className="form-two"><label><span>Pays</span><select value={draft.country} onChange={(event)=>update("country",event.target.value)}><option value="SN">Sénégal</option><option value="CI">Côte d’Ivoire</option></select></label><label><span>Devise</span><select value={draft.currency} onChange={(event)=>update("currency",event.target.value)}><option value="XOF">XOF — FCFA</option><option value="EUR">EUR — Euro</option></select></label></div><label><span>Téléphone</span><input value={draft.organizationPhone} onChange={(event)=>update("organizationPhone",event.target.value)}/></label></>}
     {step===1&&<><div className="step-icon"><Users/></div><h1>Premier propriétaire</h1><p>Associez les biens à leur propriétaire pour calculer les reversements.</p><div className="form-two"><label><span>Prénom</span><input value={draft.ownerFirstName} onChange={(event)=>update("ownerFirstName",event.target.value)}/></label><label><span>Nom</span><input required value={draft.ownerLastName} onChange={(event)=>update("ownerLastName",event.target.value)}/></label></div><label><span>Téléphone</span><input value={draft.ownerPhone} onChange={(event)=>update("ownerPhone",event.target.value)}/></label><label><span>Email</span><input type="email" value={draft.ownerEmail} onChange={(event)=>update("ownerEmail",event.target.value)} placeholder="proprietaire@exemple.sn"/></label></>}
     {step===2&&<><div className="step-icon"><House/></div><h1>Votre premier bien</h1><p>Ajoutez les informations essentielles. Vous pourrez compléter la fiche ensuite.</p><label><span>Nom du bien</span><input required value={draft.propertyName} onChange={(event)=>update("propertyName",event.target.value)}/></label><div className="form-two"><label><span>Type</span><select value={draft.propertyType} onChange={(event)=>update("propertyType",event.target.value)}><option>Villa</option><option>Appartement</option><option>Immeuble</option></select></label><label><span>Loyer mensuel</span><input inputMode="numeric" value={draft.monthlyRent} onChange={(event)=>update("monthlyRent",event.target.value.replace(/\D/g,""))}/></label></div><label><span>Adresse</span><input value={draft.propertyAddress} onChange={(event)=>update("propertyAddress",event.target.value)}/></label></>}

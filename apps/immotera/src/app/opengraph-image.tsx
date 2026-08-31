@@ -1,15 +1,15 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "IntelligenceImmobilier — L’intelligence immobilière";
+export const alt = "INTELLIGENCE IMMOBILIER — La plateforme intelligente de gestion immobilière.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function OpenGraphImage() {
   return new ImageResponse(
-    <div style={{ width: "100%", height: "100%", padding: 72, display: "flex", flexDirection: "column", justifyContent: "space-between", color: "white", background: "linear-gradient(135deg, #0d2c27 0%, #0e725a 65%, #7e9b34 100%)", fontFamily: "Arial, sans-serif" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 28, fontWeight: 800, letterSpacing: 2 }}><div style={{ width: 52, height: 52, borderRadius: 14, background: "#d9f45a", color: "#0d2c27", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 27 }}>I</div>INTELLIGENCEIMMOBILIER</div>
-      <div style={{ display: "flex", flexDirection: "column" }}><div style={{ display: "flex", color: "#d9f45a", fontSize: 21, letterSpacing: 3, fontWeight: 700 }}>L’INTELLIGENCE IMMOBILIÈRE.</div><div style={{ display: "flex", marginTop: 22, maxWidth: 910, fontSize: 68, lineHeight: 1.06, fontWeight: 750, letterSpacing: -3 }}>Pilotez tout votre immobilier depuis un seul espace.</div></div>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 20, color: "#c6d9d3" }}><span>Biens · Loyers · CRM · Finance · Maintenance</span><span>Sénégal · Afrique francophone</span></div>
+    <div style={{ width: "100%", height: "100%", padding: 70, display: "flex", flexDirection: "column", justifyContent: "space-between", color: "white", background: "radial-gradient(circle at 85% 15%, #0b4b54 0%, #061426 38%, #020b18 100%)", fontFamily: "Arial, sans-serif" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 25, fontWeight: 800, letterSpacing: 3 }}><div style={{ width: 54, height: 54, border: "1px solid #25d6ca", borderRadius: 15, background: "#08243a", color: "#6be9df", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>II</div>INTELLIGENCE IMMOBILIER</div>
+      <div style={{ display: "flex", flexDirection: "column" }}><div style={{ display: "flex", color: "#6be9df", fontSize: 20, letterSpacing: 4, fontWeight: 700 }}>PILOTAGE IMMOBILIER, AUGMENTÉ</div><div style={{ display: "flex", marginTop: 22, maxWidth: 960, fontSize: 68, lineHeight: 1.04, fontWeight: 750, letterSpacing: -3 }}>Gérez votre immobilier. L’intelligence fait le reste.</div></div>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 19, color: "#93aab8" }}><span>Biens · Loyers · CRM · Finance · Maintenance · IA</span><span>intelligenceimmobilier.com</span></div>
     </div>,
     size,
   );
