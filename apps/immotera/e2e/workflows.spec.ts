@@ -6,7 +6,7 @@ test("public landing presents the product without unsupported claims", async ({ 
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Gérez votre immobilier");
   await expect(page.getByText("APERÇU PRODUIT · DONNÉES FICTIVES", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "Commencer gratuitement" }).first()).toHaveAttribute("href", "/register");
-  await expect(page.getByRole("link", { name: "Voir une démo" }).first()).toHaveAttribute("href", "/demo");
+  await expect(page.getByRole("link", { name: "Explorer la démo" }).first()).toHaveAttribute("href", "/demo");
   await expect(page.locator("details")).toHaveCount(10);
   await expect(page.locator("body")).not.toContainText("Ils nous font confiance");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -17,7 +17,30 @@ test("login keeps demo credentials private and exposes the safe demo route", asy
   await expect(page.locator('input[name="email"]')).toHaveValue("");
   await expect(page.locator('input[name="password"]')).toHaveValue("");
   await expect(page.locator("body")).not.toContainText("Demo2026");
-  await expect(page.getByRole("link", { name: "Explorer la démo" })).toHaveAttribute("href", "/demo");
+  await expect(page.getByRole("link", { name: "Explorer un environnement de démonstration" })).toHaveAttribute("href", "/demo");
+});
+
+test("real product tabs and structured AI demo are interactive", async ({ page }) => {
+  await page.goto("/");
+  const product = page.locator("#produit");
+  await expect(product.getByRole("heading", { name: /Découvrez/ })).toBeVisible();
+  await product.getByRole("tab", { name: "Paiements" }).click();
+  await expect(product.getByRole("heading", { name: /encaissements rapprochés/ })).toBeVisible();
+  await expect(product.getByAltText(/module Paiements/)).toBeVisible();
+
+  const ai = page.locator("#intelligence");
+  await ai.getByRole("tab", { name: /Quels locataires/ }).click();
+  await expect(ai.getByText("1 975 000 FCFA")).toBeVisible();
+  await expect(ai.getByRole("button", { name: /Préparer les relances/ })).toBeVisible();
+});
+
+test("marketing layout has no horizontal overflow at required breakpoints", async ({ page }) => {
+  await page.goto("/");
+  for (const width of [390, 430, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.waitForTimeout(50);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `overflow at ${width}px`).toBe(true);
+  }
 });
 
 test("registration states and enforces the real password policy", async ({ page, request }) => {

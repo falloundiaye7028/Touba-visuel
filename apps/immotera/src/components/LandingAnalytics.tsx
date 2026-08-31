@@ -4,13 +4,16 @@ import { useEffect } from "react";
 
 export type PublicAnalyticsEvent =
   | "landing_view"
-  | "cta_start_free"
-  | "cta_demo"
+  | "hero_start_trial"
+  | "hero_demo"
+  | "product_demo_tab"
+  | "ai_demo_interaction"
   | "pricing_view"
-  | "pricing_plan_click"
-  | "demo_open"
-  | "register_start"
-  | "register_complete";
+  | "pricing_select"
+  | "excel_import_cta"
+  | "final_cta"
+  | "register_started"
+  | "register_completed";
 
 type AnalyticsDetail = {
   name: PublicAnalyticsEvent;
