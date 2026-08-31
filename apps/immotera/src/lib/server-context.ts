@@ -12,7 +12,7 @@ export async function requireContext(permission?: Permission) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) throw new Error("UNAUTHORIZED");
   const cookieStore = await cookies();
-  const activeOrganizationId = cookieStore.get("immotera.organization")?.value;
+  const activeOrganizationId = cookieStore.get("intelligenceimmobilier.organization")?.value;
   if (!activeOrganizationId) throw new Error("ORGANIZATION_REQUIRED");
   const membership = await db.membership.findUnique({ where: { userId_organizationId: { userId: session.user.id, organizationId: activeOrganizationId } } });
   if (!membership?.isActive) throw new Error("FORBIDDEN");

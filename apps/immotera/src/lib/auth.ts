@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
         const parsed = credentialsSchema.safeParse(rawCredentials);
         if (!parsed.success) return null;
 
-        if (!process.env.DATABASE_URL && parsed.data.email === "demo@immotera.sn" && parsed.data.password === "Demo2026!") {
+        if (!process.env.DATABASE_URL && parsed.data.email === "demo@intelligenceimmobilier.com" && parsed.data.password === "Demo2026!") {
           return { id: "00000000-0000-4000-8000-000000000001", email: parsed.data.email, name: "Mamadou Kane" };
         }
 
@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
   },
   cookies: {
     sessionToken: {
-      name: process.env.NODE_ENV === "production" ? "__Secure-immotera.session-token" : "immotera.session-token",
+      name: process.env.NODE_ENV === "production" ? "__Secure-intelligenceimmobilier.session-token" : "intelligenceimmobilier.session-token",
       options: { httpOnly: true, sameSite: "lax", path: "/", secure: process.env.NODE_ENV === "production" },
     },
   },

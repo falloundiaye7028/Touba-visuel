@@ -17,7 +17,7 @@ const groups: { label?: string; items: NavItem[] }[] = [
   { label: "Gestion locative", items: [{ label: "Locataires", href: "/tenants", icon: KeyRound }, { label: "Contrats", href: "/contracts", icon: FileText }, { label: "Paiements", href: "/payments", icon: WalletCards }, { label: "Impayés", href: "/arrears", icon: CircleDollarSign }] },
   { label: "Finance", items: [{ label: "Dépenses", href: "/expenses", icon: ReceiptText }, { label: "Commissions", href: "/commissions", icon: CircleDollarSign }, { label: "Reversements", href: "/owner-statements", icon: WalletCards }] },
   { label: "Opérations", items: [{ label: "Maintenance", href: "/maintenance", icon: Wrench, alert: true }, { label: "Fournisseurs", href: "/vendors", icon: Users }, { label: "Documents", href: "/documents", icon: FileText }, { label: "Imports", href: "/import", icon: FileSpreadsheet }] },
-  { items: [{ label: "Rapports", href: "/reports", icon: FileSpreadsheet }, { label: "IMMOTERA AI", href: "/ai", icon: Bot }, { label: "Paramètres", href: "/settings", icon: Settings }] },
+  { items: [{ label: "Rapports", href: "/reports", icon: FileSpreadsheet }, { label: "IntelligenceImmobilier AI", href: "/ai", icon: Bot }, { label: "Paramètres", href: "/settings", icon: Settings }] },
 ];
 
 export function AppChrome({ children }: { children: React.ReactNode }) {
@@ -42,7 +42,7 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
     <main className="app-shell">
       <button className={`mobile-shade ${mobileOpen ? "show" : ""}`} aria-label="Fermer le menu" onClick={() => setMobileOpen(false)} />
       <aside className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
-        <div className="brand"><span className="brand-mark"><Building2 size={20} /></span><span>IMMOTERA<small>L’intelligence immobilière.</small></span><button className="sidebar-close" onClick={() => setMobileOpen(false)} aria-label="Fermer"><X size={18}/></button></div>
+        <div className="brand"><span className="brand-mark"><Building2 size={20} /></span><span><strong>INTELLIGENCE<br/>IMMOBILIER</strong><small>L’intelligence immobilière.</small></span><button className="sidebar-close" onClick={() => setMobileOpen(false)} aria-label="Fermer"><X size={18}/></button></div>
         <nav aria-label="Navigation principale">
           {groups.map((group, groupIndex) => <div key={group.label ?? groupIndex}>{group.label && <p className="nav-group">{group.label}</p>}{group.items.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);

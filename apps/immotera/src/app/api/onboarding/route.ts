@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   const demoMode = process.env.DEMO_MODE === "true" || !process.env.DATABASE_URL;
   if (demoMode) {
     const response = NextResponse.json({ organizationId: "00000000-0000-4000-8000-000000000101", demo: true }, { status: 201 });
-    response.cookies.set("immotera.organization", "00000000-0000-4000-8000-000000000101", { httpOnly: true, sameSite: "lax", path: "/", secure: process.env.NODE_ENV === "production" });
+    response.cookies.set("intelligenceimmobilier.organization", "00000000-0000-4000-8000-000000000101", { httpOnly: true, sameSite: "lax", path: "/", secure: process.env.NODE_ENV === "production" });
     return response;
   }
   const session = await getServerSession(authOptions);
@@ -35,6 +35,6 @@ export async function POST(request: Request) {
     return { organizationId: organization.id };
   });
   const response = NextResponse.json(result, { status: 201 });
-  response.cookies.set("immotera.organization", result.organizationId, { httpOnly: true, sameSite: "lax", path: "/", secure: process.env.NODE_ENV === "production" });
+  response.cookies.set("intelligenceimmobilier.organization", result.organizationId, { httpOnly: true, sameSite: "lax", path: "/", secure: process.env.NODE_ENV === "production" });
   return response;
 }

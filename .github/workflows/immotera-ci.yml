@@ -1,4 +1,4 @@
-name: IMMOTERA CI
+name: IntelligenceImmobilier CI
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ jobs:
       run:
         working-directory: apps/immotera
     env:
-      DATABASE_URL: postgresql://immotera:password@localhost:5432/immotera
+      DATABASE_URL: postgresql://intelligenceimmobilier:password@localhost:5432/intelligenceimmobilier
       AUTH_SECRET: ci-only-secret-at-least-32-characters-long
       DEMO_MODE: "true"
     steps:

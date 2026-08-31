@@ -2,7 +2,7 @@
 
 ## Principes
 
-IMMOTERA est un monolithe modulaire Next.js App Router. Les composants serveur restent le choix par défaut ; l’état client est limité aux interactions riches (palette, assistant d’import, formulaires, tableaux). PostgreSQL est la source de vérité en production.
+IntelligenceImmobilier est un monolithe modulaire Next.js App Router. Les composants serveur restent le choix par défaut ; l’état client est limité aux interactions riches (palette, assistant d’import, formulaires, tableaux). PostgreSQL est la source de vérité en production.
 
 ```text
 Navigateur

@@ -1,6 +1,6 @@
-# IMMOTERA V1
+# IntelligenceImmobilier V1
 
-**L’intelligence immobilière.** IMMOTERA est une application SaaS multi-tenant de gestion immobilière pour le Sénégal et l’Afrique francophone.
+**L’intelligence immobilière.** IntelligenceImmobilier est une application SaaS multi-tenant de gestion immobilière pour le Sénégal et l’Afrique francophone.
 
 ## Prérequis
 
@@ -19,7 +19,7 @@ npm run db:seed
 npm run dev
 ```
 
-Ouvrir `http://localhost:3000`. Sans `DATABASE_URL`, l’interface démarre en mode démonstration. Le compte seed est `demo@immotera.sn` / `Demo2026!`.
+Ouvrir `http://localhost:3000`. Sans `DATABASE_URL`, l’interface démarre en mode démonstration. Le compte seed est `demo@intelligenceimmobilier.com` / `Demo2026!`.
 
 ## Commandes
 
