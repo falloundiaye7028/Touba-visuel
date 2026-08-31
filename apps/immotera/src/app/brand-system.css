@@ -836,3 +836,98 @@ html[data-theme="dark"] .premium-shell .ai-messages > div > i { color: var(--ii-
 @media(max-width:480px){.ii-hero-audience{text-align:center}.ii-demo-label{left:2px;bottom:272px}.ii-module-grid{grid-template-columns:1fr}.ii-module-grid article{min-height:160px}.ii-owner-kpis{grid-template-columns:1fr 1fr}.ii-operations-grid article{min-height:0;padding:25px}.ii-pipeline{display:grid;grid-template-columns:1fr 1fr}.ii-security-list{grid-template-columns:1fr}.ii-pilot-section>div,.ii-final-cta>div{width:100%;display:grid}.ii-footer-links{grid-template-columns:1fr 1fr}.ii-footer-complete .ii-footer-legal p:last-child{flex-direction:column;gap:5px}}
 .ii-demo-access{margin-top:15px;min-height:42px;border:1px solid var(--ii-border);border-radius:9px;color:var(--ii-teal-700);display:flex;align-items:center;justify-content:center;gap:8px;font-size:8px;font-weight:800;text-decoration:none}
 .ii-legal-page{min-height:100vh;background:#f3f7f9;color:var(--ii-navy-900)}.ii-legal-page>header{min-height:82px;padding:0 max(24px,calc((100% - 980px)/2));background:var(--ii-navy-950);display:flex;align-items:center;justify-content:space-between}.ii-legal-page>header>a:last-child{color:#9fb2bd;font-size:8px;text-decoration:none}.ii-legal-page>article{width:min(800px,calc(100% - 32px));margin:auto;padding:85px 0}.ii-legal-page h1{max-width:700px;margin:0;font-size:clamp(36px,5vw,62px);line-height:1;letter-spacing:-.055em}.ii-legal-page .lead{max-width:650px;margin:24px 0 55px;color:#687b87;font-size:11px;line-height:1.7}.ii-legal-page article>section{padding:24px 0;border-top:1px solid #d9e4e8}.ii-legal-page h2{margin:0 0 10px;font-size:15px}.ii-legal-page section p{margin:0;color:#6f808b;font-size:9px;line-height:1.7}.ii-legal-page article>footer{margin-top:40px;padding-top:20px;border-top:1px solid #d9e4e8;color:#70818c;display:flex;flex-wrap:wrap;gap:15px;font-size:7px}.ii-legal-page footer a{color:var(--ii-teal-700)}
+
+/* Readable public typography: 12px minimum for supporting text, 14–17px for content. */
+.ii-landing-nav .brand-wordmark strong,
+.ii-footer .brand-wordmark strong { font-size: 13px; }
+.ii-landing-nav .brand-wordmark small,
+.ii-footer .brand-wordmark small { font-size: 9px; }
+.ii-landing-nav nav a,
+.ii-nav-login { font-size: 13px; }
+.ii-button { min-height: 48px; padding-inline: 20px; font-size: 14px; }
+.ii-button.compact { min-height: 42px; }
+.ii-kicker { font-size: 11px; line-height: 1.4; }
+.ii-hero-copy > p:nth-of-type(2) { font-size: 17px; line-height: 1.65; }
+.ii-hero-audience { font-size: 14px!important; line-height: 1.55!important; }
+.ii-explore-link { font-size: 13px; }
+.ii-hero-copy > span { font-size: 12px; }
+.ii-demo-label { font-size: 9px; }
+.ii-floating-metric small { font-size: 10px; }
+.ii-floating-metric b { font-size: 13px; }
+.ii-trust-strip { font-size: 12px; }
+.ii-capabilities span { font-size: 13px; }
+.ii-section-heading > p:last-child,
+.ii-security > div:first-child > p:last-child { font-size: 16px; line-height: 1.65; }
+.ii-module-grid h3 { font-size: 18px; }
+.ii-module-grid p { font-size: 14px; line-height: 1.6; }
+.ii-product-grid header b { font-size: 10px; }
+.ii-mock-body strong { font-size: 16px; }
+.featured .ii-mock-body strong { font-size: 25px; }
+.ii-mock-body span { font-size: 13px; }
+.ii-today-section > div:first-child > p:last-child,
+.ii-owner-section > div:last-child > p,
+.ii-crm-section > div > p,
+.ii-import-section > div > p,
+.ii-pilot-section > p:not(.ii-kicker) { font-size: 16px; }
+.ii-today-section > small { font-size: 12px; }
+.ii-today-list b { font-size: 15px; }
+.ii-ai-section > div > p:nth-of-type(2) { font-size: 16px; }
+.ii-ai-scenarios header { font-size: 12px; }
+.ii-ai-scenarios article > p { min-height: 58px; font-size: 14px; }
+.ii-ai-scenarios b { font-size: 13px; }
+.ii-ai-scenarios small { font-size: 12px; }
+.ii-owner-mock header b { font-size: 14px; }
+.ii-owner-mock header em { font-size: 10px; }
+.ii-owner-kpis small { font-size: 11px; }
+.ii-owner-kpis b { font-size: 18px; }
+.ii-operations-grid p:not(.ii-kicker) { font-size: 16px; }
+.ii-operations-grid li { font-size: 13px; }
+.ii-operations-grid small { font-size: 12px; }
+.ii-pipeline span { font-size: 12px; }
+.ii-crm-section aside header > span { font-size: 13px; }
+.ii-crm-section aside header b { font-size: 15px; }
+.ii-crm-section aside header small { font-size: 12px; }
+.ii-crm-section aside > p { font-size: 14px; }
+.ii-crm-section aside > strong { font-size: 18px; }
+.ii-crm-section aside > div { font-size: 13px; }
+.ii-crm-section aside > small { font-size: 12px; }
+.ii-import-section li small { font-size: 11px; }
+.ii-import-section li b { font-size: 15px; }
+.ii-profile-grid h3 { font-size: 18px; }
+.ii-profile-grid p { font-size: 14px; }
+.ii-security nav a { font-size: 14px; }
+.ii-security-list b { font-size: 15px; }
+.ii-security-list small { font-size: 13px; }
+.ii-pricing-grid article > em { font-size: 10px; }
+.ii-pricing-grid article > p { font-size: 12px; }
+.ii-pricing-grid h3 { font-size: 30px; }
+.ii-pricing-grid h3 small { font-size: 13px; }
+.ii-pricing-grid article > span { font-size: 14px; line-height: 1.5; }
+.ii-pricing-grid li { font-size: 14px; }
+.ii-pricing-grid article > a { height: 46px; font-size: 14px; }
+.ii-pricing-note { font-size: 12px; }
+.ii-faq summary { padding-block: 22px; font-size: 16px; }
+.ii-faq details p { font-size: 14px; }
+.ii-final-cta > p:not(.ii-kicker) { font-size: 16px; }
+.ii-footer p,
+.ii-footer-links nav b,
+.ii-footer-links nav a { font-size: 13px; line-height: 1.5; }
+.ii-demo-access { font-size: 14px; }
+.ii-auth-page .auth-main > div > p:not(.eyebrow):not(.auth-switch):not(.legal-note),
+.ii-auth-page .auth-form label > span { font-size: 13px; }
+.ii-auth-page .auth-form input { font-size: 15px; }
+.ii-auth-page .auth-switch,
+.ii-auth-page .legal-note { font-size: 13px!important; line-height: 1.55; }
+.ii-legal-page > header > a:last-child { font-size: 14px; }
+.ii-legal-page .lead { font-size: 17px; }
+.ii-legal-page section p { font-size: 16px; }
+.ii-legal-page article > footer { font-size: 13px; }
+
+@media (max-width: 780px) {
+  .ii-hero-copy > p:nth-of-type(2) { font-size: 16px; }
+  .ii-capabilities span { font-size: 12px; }
+  .ii-trust-strip { font-size: 11px; }
+  .ii-footer-links nav a,
+  .ii-footer-links nav b,
+  .ii-footer p { font-size: 12px; }
+}
