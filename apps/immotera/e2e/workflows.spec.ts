@@ -1,5 +1,33 @@
 import { expect, test } from "@playwright/test";
 
+test("public landing presents the product without unsupported claims", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle(/INTELLIGENCE IMMOBILIER/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Gérez votre immobilier");
+  await expect(page.getByText("APERÇU PRODUIT · DONNÉES FICTIVES", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Commencer gratuitement" }).first()).toHaveAttribute("href", "/register");
+  await expect(page.getByRole("link", { name: "Voir une démo" }).first()).toHaveAttribute("href", "/demo");
+  await expect(page.locator("details")).toHaveCount(10);
+  await expect(page.locator("body")).not.toContainText("Ils nous font confiance");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
+
+test("login keeps demo credentials private and exposes the safe demo route", async ({ page }) => {
+  await page.goto("/login");
+  await expect(page.locator('input[name="email"]')).toHaveValue("");
+  await expect(page.locator('input[name="password"]')).toHaveValue("");
+  await expect(page.locator("body")).not.toContainText("Demo2026");
+  await expect(page.getByRole("link", { name: "Explorer la démo" })).toHaveAttribute("href", "/demo");
+});
+
+test("legal and trust pages are publicly accessible", async ({ page }) => {
+  for (const path of ["/securite", "/confidentialite", "/conditions", "/mentions-legales"]) {
+    const response = await page.goto(path);
+    expect(response?.ok()).toBe(true);
+    await expect(page.getByRole("link", { name: "Retour au site" })).toBeVisible();
+  }
+});
+
 test("registration and onboarding reach the dashboard", async ({ page }) => {
   await page.goto("/register");
   await expect(page).toHaveTitle(/INTELLIGENCE IMMOBILIER/);

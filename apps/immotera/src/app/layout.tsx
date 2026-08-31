@@ -4,6 +4,18 @@ import { BRAND_NAME, BRAND_SIGNATURE, BRAND_TITLE } from "@/lib/brand";
 import "./globals.css";
 import "./brand-system.css";
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: BRAND_NAME,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description: BRAND_SIGNATURE,
+  url: "https://intelligenceimmobilier.com",
+  offers: { "@type": "AggregateOffer", priceCurrency: "XOF", lowPrice: "19900" },
+  publisher: { "@type": "Organization", name: BRAND_NAME, url: "https://intelligenceimmobilier.com" },
+};
+
 export const metadata: Metadata = {
   title: { default: BRAND_TITLE, template: `%s · ${BRAND_NAME}` },
   description: BRAND_SIGNATURE,
@@ -15,6 +27,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: { card: "summary_large_image", title: BRAND_NAME, description: BRAND_SIGNATURE },
+  alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {
@@ -31,6 +44,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="fr" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
         <Script id="ii-theme-init" strategy="beforeInteractive">{`try{document.documentElement.dataset.theme=localStorage.getItem("ii-theme")==="dark"?"dark":"light"}catch(e){document.documentElement.dataset.theme="light"}`}</Script>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         {children}
       </body>
     </html>

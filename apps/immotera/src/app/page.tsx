@@ -1,135 +1,83 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowRight,
-  BarChart3,
-  Bot,
-  Building2,
-  Check,
-  CircleDollarSign,
-  FileSpreadsheet,
-  House,
-  KeyRound,
-  Menu,
-  ShieldCheck,
-  Sparkles,
-  Users,
-  WalletCards,
-  Wrench,
-} from "lucide-react";
+import { AlertTriangle, ArrowRight, BarChart3, Bot, Building2, CalendarClock, Check, CircleDollarSign, ClipboardCheck, FileSpreadsheet, FolderLock, HandCoins, House, KeyRound, Landmark, Menu, MessageCircle, ShieldCheck, Sparkles, Upload, UserRound, Users, WalletCards, Wrench } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
-import { BRAND_SIGNATURE, BRAND_TITLE, COMPANY_NINEA, COMPANY_RCCM } from "@/lib/brand";
+import { LandingAnalytics } from "@/components/LandingAnalytics";
+import { BRAND_NAME, BRAND_SIGNATURE, BRAND_TITLE, COMPANY_NINEA, COMPANY_RCCM } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: BRAND_TITLE,
-  description: BRAND_SIGNATURE,
+  description: "Logiciel de gestion locative au Sénégal pour centraliser biens, loyers, propriétaires, locataires, paiements, CRM et opérations avec une intelligence métier sécurisée.",
+  keywords: ["logiciel immobilier Sénégal", "gestion locative Sénégal", "logiciel agence immobilière", "gestion biens immobiliers", "logiciel loyers", "plateforme immobilière", "intelligence artificielle immobilier"],
   robots: { index: true, follow: true },
 };
 
-const features = [
-  { icon: Building2, title: "Patrimoine unifié", text: "Biens, immeubles, unités et documents dans une base immobilière fiable." },
-  { icon: WalletCards, title: "Gestion locative", text: "Contrats, échéances, paiements, quittances et impayés toujours à jour." },
-  { icon: Users, title: "Relations maîtrisées", text: "Propriétaires, locataires, prospects et fournisseurs dans un même flux." },
-  { icon: Bot, title: "Intelligence métier", text: "Des réponses utiles issues de vos données, avec des accès strictement contrôlés." },
-];
+const modules = [
+  [Building2, "Biens & immeubles", "Structurez votre patrimoine, ses unités et ses documents."], [UserRound, "Propriétaires", "Consolidez encaissements, dépenses et reversements."],
+  [Users, "Locataires & contrats", "Suivez occupants, baux, échéances et renouvellements."], [WalletCards, "Paiements & impayés", "Visualisez attendu, encaissé, soldes et relances."],
+  [Sparkles, "CRM prospects", "Qualifiez les demandes et rapprochez-les des bons biens."], [Wrench, "Maintenance", "Priorisez tickets, prestataires, coûts et délais."],
+  [FolderLock, "Documents & rapports", "Gardez pièces privées, exports et rapports au même endroit."], [Bot, "Intelligence AI", "Interrogez vos données métier et obtenez des actions claires."],
+] as const;
 
-const capabilities = [
-  [House, "Biens & unités"],
-  [KeyRound, "Contrats & locataires"],
-  [CircleDollarSign, "Finance & recouvrement"],
-  [Wrench, "Maintenance"],
-  [FileSpreadsheet, "Rapports & imports"],
-  [Bot, "Assistant IA"],
+const screens = ["Dashboard", "Biens", "Locataires", "Propriétaires", "Paiements", "Impayés", "CRM", "Maintenance", "Intelligence AI"];
+const scenarios = [
+  ["Quels locataires dois-je relancer aujourd’hui ?", "12 locataires présentent un retard pour un total de 2 530 000 FCFA.", "Voir les impayés · Préparer les relances"],
+  ["Quels contrats expirent bientôt ?", "5 contrats expirent dans les 30 prochains jours.", "Ouvrir les contrats"],
+  ["Quels biens sont vacants depuis plus de 30 jours ?", "4 biens sont concernés dans cet aperçu.", "Analyser les biens"],
+  ["Prépare les reversements propriétaires.", "Les montants sont consolidés et les dossiers à valider sont listés.", "Contrôler avant validation"],
+] as const;
+const profiles = ["Agence immobilière", "Gestionnaire locatif", "Propriétaire", "Promoteur", "SCI / Investisseur", "Entreprise"];
+const faq = [
+  ["Intelligence Immobilier est-il adapté aux agences ?", "Oui. La plateforme réunit portefeuille, gestion locative, CRM, paiements, maintenance, rapports et collaboration."],
+  ["Puis-je importer mes données Excel ?", "Oui. L’assistant accepte CSV et XLSX avec aperçu, correspondance des colonnes, validation et rapport."],
+  ["Puis-je gérer plusieurs propriétaires ?", "Oui. Chaque propriétaire dispose de ses biens, encaissements, dépenses et montants à reverser."],
+  ["Peut-on suivre les impayés ?", "Oui. Les soldes, retards et priorités de relance sont visibles et filtrables."],
+  ["Puis-je utiliser Wave ou Orange Money ?", "Vous pouvez enregistrer et suivre ces modes. Les connexions API dépendent de votre configuration."],
+  ["L’IA peut-elle modifier mes données ?", "Les actions sensibles restent soumises aux droits et à une validation explicite."],
+  ["Mes documents sont-ils privés ?", "Le produit prévoit des documents privés et des accès contrôlés par organisation et par rôle."],
+  ["Puis-je inviter mes collaborateurs ?", "Oui. L’application prévoit des utilisateurs, rôles et permissions."],
+  ["Est-ce adapté aux promoteurs ?", "Oui pour structurer unités, prospects, visites, documents et suivi commercial."],
+  ["Puis-je utiliser la plateforme sur mobile ?", "Oui. Le site et l’application s’adaptent aux écrans mobiles et tablettes."],
 ] as const;
 
 export default function LandingPage() {
-  return (
-    <main className="ii-landing">
-      <section className="ii-hero-shell">
-        <header className="ii-landing-nav">
-          <Link href="/" aria-label="INTELLIGENCE IMMOBILIER — Accueil"><BrandLogo variant="wordmark" light priority /></Link>
-          <nav aria-label="Navigation du site"><a href="#solution">Solution</a><a href="#intelligence">Intelligence AI</a><a href="#securite">Sécurité</a><a href="#tarifs">Tarifs</a></nav>
-          <div><Link href="/login" className="ii-nav-login">Se connecter</Link><Link href="/register" className="ii-button compact">Commencer</Link></div>
-          <button className="ii-menu-button" aria-label="Ouvrir le menu"><Menu size={20}/></button>
-        </header>
+  return <main className="ii-landing"><LandingAnalytics/>
+    <section className="ii-hero-shell">
+      <header className="ii-landing-nav"><Link href="/" aria-label={`${BRAND_NAME} — Accueil`}><BrandLogo variant="wordmark" light priority/></Link><nav aria-label="Navigation du site"><a href="#plateforme">Plateforme</a><a href="#intelligence">Intelligence AI</a><a href="#solutions">Solutions</a><a href="#tarifs">Tarifs</a></nav><div><Link href="/login" className="ii-nav-login">Se connecter</Link><Link href="/register" className="ii-button compact" data-analytics="cta_start_free">Commencer gratuitement</Link></div><button className="ii-menu-button" aria-label="Navigation disponible plus bas"><Menu size={20}/></button></header>
+      <div className="ii-hero"><div className="ii-hero-copy"><p className="ii-kicker ii-official-signature"><Sparkles size={14}/>{BRAND_SIGNATURE}</p><h1>Gérez votre immobilier.<br/><em>L’intelligence fait le reste.</em></h1><p>Gérez vos biens, loyers, propriétaires, locataires, paiements, prospects et opérations depuis une seule plateforme intelligente.</p><p className="ii-hero-audience">Pour les agences, gestionnaires, propriétaires, promoteurs, SCI et équipes immobilières.</p><div className="ii-hero-actions"><Link href="/register" className="ii-button" data-analytics="cta_start_free">Commencer gratuitement <ArrowRight size={16}/></Link><Link href="/demo" className="ii-button ghost" data-analytics="cta_demo,demo_open">Voir une démo</Link></div><a className="ii-explore-link" href="#plateforme">Explorer la plateforme <ArrowRight size={13}/></a><span><ShieldCheck size={14}/>Aucune carte requise · Données isolées par organisation</span></div>
+        <div className="ii-hero-visual" aria-label="Aperçu produit avec données fictives"><div className="ii-brand-halo"/><BrandLogo variant="full" className="ii-official-hero-logo" priority/><div className="ii-demo-label">APERÇU PRODUIT · DONNÉES FICTIVES</div><div className="ii-dashboard-preview"><header><span/><span/><span/><b>TABLEAU DE BORD</b></header><aside><i/><i/><i/><i/><i/></aside><section><div className="ii-preview-heading"><span>Bonjour Mamadou</span><small>Situation du portefeuille de démonstration</small></div><div className="ii-preview-kpis"><i/><i/><i/><i/></div><div className="ii-preview-chart"><b>15,92 M FCFA encaissés</b><div>{[46,61,57,74,69,88,80,95].map(h=><i key={h} style={{height:`${h}%`}}/>)}</div></div></section></div><div className="ii-floating-metric metric-one"><i><BarChart3 size={16}/></i><span><small>Occupation</small><b>91,4 %</b></span></div><div className="ii-floating-metric metric-two"><i><AlertTriangle size={16}/></i><span><small>Impayés</small><b>2,53 M FCFA</b></span></div></div>
+      </div><div className="ii-trust-strip"><span>Gestion locative</span><i/><span>CRM immobilier</span><i/><span>Recouvrement</span><i/><span>Intelligence métier contrôlée</span></div>
+    </section>
+    <section className="ii-capabilities" aria-label="Fonctionnalités principales">{[[House,"Biens & unités"],[KeyRound,"Contrats & locataires"],[CircleDollarSign,"Finance & recouvrement"],[Wrench,"Maintenance"],[FileSpreadsheet,"Rapports & imports"],[Bot,"Assistant IA"]].map(([Icon,label])=>{const I=Icon as typeof House;return <span key={String(label)}><I size={16}/>{String(label)}</span>})}</section>
 
-        <div className="ii-hero">
-          <div className="ii-hero-copy">
-            <p className="ii-kicker ii-official-signature"><Sparkles size={14}/> {BRAND_SIGNATURE}</p>
-            <h1>Gérez votre immobilier.<br/><em>L’intelligence fait le reste.</em></h1>
-            <p>Centralisez vos biens, loyers, propriétaires, locataires et opérations. Détectez les priorités, sécurisez vos revenus et décidez avec une vision claire.</p>
-            <div className="ii-hero-actions"><Link href="/register" className="ii-button">Commencer gratuitement <ArrowRight size={16}/></Link><a href="mailto:contact@intelligenceimmobilier.com" className="ii-button ghost">Demander une démo</a></div>
-            <span><ShieldCheck size={14}/> Aucune carte requise · Données isolées par organisation</span>
-          </div>
+    <section className="ii-solution ii-modules-section" id="plateforme"><div className="ii-section-heading"><p className="ii-kicker">TOUT VOTRE IMMOBILIER EN UN SEUL ENDROIT</p><h2>Une plateforme complète.<br/><em>Une activité plus lisible.</em></h2><p>Chaque module partage la même donnée pour limiter les doubles saisies et rendre les prochaines actions visibles.</p></div><div className="ii-module-grid">{modules.map(([Icon,title,text])=><article key={title}><i><Icon size={21}/></i><h3>{title}</h3><p>{text}</p></article>)}</div></section>
 
-          <div className="ii-hero-visual" aria-label="Aperçu de la plateforme">
-            <div className="ii-brand-halo"/>
-            <BrandLogo variant="full" className="ii-official-hero-logo" priority />
-            <div className="ii-dashboard-preview">
-              <header><span/><span/><span/><b>TABLEAU DE BORD</b></header>
-              <aside><i/><i/><i/><i/><i/></aside>
-              <section>
-                <div className="ii-preview-heading"><span>Bonjour Mamadou</span><small>Situation de votre portefeuille</small></div>
-                <div className="ii-preview-kpis"><i/><i/><i/><i/></div>
-                <div className="ii-preview-chart"><b>15,92 M FCFA encaissés</b><div>{[46,61,57,74,69,88,80,95].map((height) => <i key={height} style={{height: `${height}%`}}/>)}</div></div>
-              </section>
-            </div>
-            <div className="ii-floating-metric metric-one"><i><BarChart3 size={16}/></i><span><small>Occupation</small><b>91,4 %</b></span></div>
-            <div className="ii-floating-metric metric-two"><i><Check size={16}/></i><span><small>Paiement reçu</small><b>850 000 FCFA</b></span></div>
-          </div>
-        </div>
+    <section className="ii-product-showcase"><div className="ii-section-heading"><p className="ii-kicker">LE PRODUIT, PAS UNE PROMESSE ABSTRAITE</p><h2>Voyez réellement<br/><em>ce que vous pilotez.</em></h2><p>Ces maquettes reprennent les modules existants avec des données fictives de démonstration.</p></div><div className="ii-product-grid">{screens.map((title,index)=><article className={index===0?"featured":""} key={title}><header><span/><span/><span/><b>{title}</b></header><div className="ii-mock-body"><i>{title==="Intelligence AI"?<Bot size={20}/>:title==="CRM"?<Sparkles size={20}/>:<Building2 size={20}/>}</i><strong>{title}</strong><span><Check size={12}/>Vue métier structurée</span><span><Check size={12}/>Actions contextualisées</span></div></article>)}</div><Link className="ii-button" href="/demo" data-analytics="cta_demo,demo_open">Explorer la démo <ArrowRight size={16}/></Link></section>
 
-        <div className="ii-trust-strip"><span>128 biens pilotés</span><i/><span>117 unités occupées</span><i/><span>15,92 M FCFA encaissés</span><i/><span>Une seule source de vérité</span></div>
-      </section>
+    <section className="ii-today-section"><div><p className="ii-kicker">INTELLIGENCE OPÉRATIONNELLE</p><h2>À traiter aujourd’hui</h2><p>Intelligence Immobilier vous aide à prioriser les actions qui comptent.</p></div><div className="ii-today-list">{[[CircleDollarSign,"12 loyers en retard"],[CalendarClock,"5 contrats à renouveler"],[Wrench,"3 tickets urgents"],[Users,"7 nouveaux prospects"],[HandCoins,"2 reversements à valider"]].map(([Icon,label])=>{const I=Icon as typeof House;return <span key={String(label)}><i><I size={16}/></i><b>{String(label)}</b><ArrowRight size={14}/></span>})}</div><small>Données fictives illustrant un centre d’actions.</small></section>
 
-      <section className="ii-capabilities" aria-label="Fonctionnalités principales">
-        {capabilities.map(([Icon, label]) => <span key={label}><Icon size={16}/>{label}</span>)}
-      </section>
+    <section className="ii-ai-section ii-ai-upgrade" id="intelligence"><div><p className="ii-kicker"><Sparkles size={13}/>INTELLIGENCE IMMOBILIER AI</p><h2>Votre copilote<br/><em>immobilier.</em></h2><p>Posez une question à vos données. Obtenez une réponse exploitable, des sources métier et une prochaine action.</p><Link href="/register" className="ii-button light" data-analytics="cta_start_free">Commencer gratuitement <ArrowRight size={16}/></Link></div><div className="ii-ai-scenarios">{scenarios.map(([q,a,action],i)=><article key={q}><header><i><Bot size={15}/></i><span>Scénario {i+1}</span></header><p>{q}</p><div><Sparkles size={15}/><span><b>{a}</b><small>{action}</small></span></div></article>)}</div></section>
 
-      <section className="ii-solution" id="solution">
-        <div className="ii-section-heading"><p className="ii-kicker">UNE PLATEFORME, TOUTE VOTRE ACTIVITÉ</p><h2>Du portefeuille à l’encaissement,<br/><em>gardez une longueur d’avance.</em></h2><p>Chaque opération importante devient visible, traçable et actionnable.</p></div>
-        <div className="ii-feature-grid">{features.map((feature, index) => <article key={feature.title}><span>0{index + 1}</span><i><feature.icon size={22}/></i><h3>{feature.title}</h3><p>{feature.text}</p><a href="#intelligence">Découvrir <ArrowRight size={14}/></a></article>)}</div>
-      </section>
+    <section className="ii-owner-section"><div className="ii-owner-mock"><header><Landmark size={18}/><b>Espace propriétaire</b><em>APERÇU FICTIF</em></header><div className="ii-owner-kpis"><span><small>Occupation</small><b>94 %</b></span><span><small>Encaissé</small><b>3,25 M</b></span><span><small>Dépenses</small><b>390 K</b></span><span><small>À reverser</small><b>2,86 M</b></span></div><div className="ii-owner-history"><i/><i/><i/><i/><i/><i/></div></div><div><p className="ii-kicker">ESPACE PROPRIÉTAIRE</p><h2>Offrez plus de transparence à vos propriétaires.</h2><p>Réunissez biens, occupation, loyers encaissés, dépenses, travaux, montant à reverser et historique.</p><a href="mailto:contact@intelligenceimmobilier.com" className="ii-button" data-analytics="cta_demo">Voir une démo <ArrowRight size={16}/></a></div></section>
 
-      <section className="ii-ai-section" id="intelligence">
-        <div>
-          <p className="ii-kicker"><Sparkles size={13}/> INTELLIGENCE IMMOBILIER AI</p>
-          <h2>Posez une question.<br/><em>Obtenez une décision.</em></h2>
-          <p>L’assistant analyse uniquement les données métier autorisées de votre organisation. Il transforme les loyers, contrats, vacances et incidents en prochaines actions claires.</p>
-          <div className="ii-prompt-pills"><span>Quels loyers dois-je relancer ?</span><span>Quels contrats expirent bientôt ?</span><span>Quels biens sous-performent ?</span></div>
-          <Link href="/register" className="ii-button light">Essayer l’assistant <ArrowRight size={16}/></Link>
-        </div>
-        <aside className="ii-ai-demo">
-          <header><i><Bot size={20}/></i><span><b>Intelligence Immobilier AI</b><small>Connecté à vos outils métier · Lecture sécurisée</small></span><em>EN LIGNE</em></header>
-          <div className="ii-ai-question">Quels dossiers dois-je traiter en priorité cette semaine ?</div>
-          <div className="ii-ai-answer"><i><Sparkles size={17}/></i><p><b>5 dossiers peuvent sécuriser 1 865 000 FCFA.</b><span>Commencez par Ibrahima Ba, en retard de 34 jours, puis les deux contrats arrivant à échéance sous 15 jours.</span></p></div>
-          <footer><ShieldCheck size={14}/> Sources métier vérifiées · Aucune requête SQL libre</footer>
-        </aside>
-      </section>
+    <section className="ii-operations-grid"><article><i><WalletCards size={23}/></i><p className="ii-kicker">PAIEMENTS & RECOUVREMENT</p><h2>Suivez vos encaissements sans perdre le contrôle.</h2><p>Loyers attendus, encaissés, impayés, reçus, quittances, paiements partiels et rappels restent rapprochés.</p><ul>{["Espèces","Wave","Orange Money","Virement","Chèque"].map(x=><li key={x}>{x}</li>)}</ul><small>Suivi compatible avec vos modes de paiement. Connexions API selon configuration.</small></article><article><i><MessageCircle size={23}/></i><p className="ii-kicker">COMMUNICATION CLIENT</p><h2>Communiquez plus vite avec vos clients.</h2><p>Préparez une quittance, un partage de bien, une relance, un rappel de visite ou un relevé propriétaire.</p><ul>{["Quittances","Relances","Visites","Relevés"].map(x=><li key={x}>{x}</li>)}</ul><small>Préparé pour WhatsApp Business · disponible selon configuration.</small></article></section>
 
-      <section className="ii-security" id="securite">
-        <div><p className="ii-kicker">LA CONFIANCE PAR CONCEPTION</p><h2>Vos données sont protégées.<br/><em>Votre équipe reste en contrôle.</em></h2><p>Une architecture pensée pour la confidentialité, la traçabilité et la maîtrise des accès.</p></div>
-        <div className="ii-security-list"><span><i><Check/></i><b>Isolation par organisation</b><small>Chaque portefeuille reste strictement séparé.</small></span><span><i><Check/></i><b>Permissions côté serveur</b><small>Les rôles contrôlent chaque action sensible.</small></span><span><i><Check/></i><b>Traçabilité complète</b><small>Les opérations critiques restent auditables.</small></span><span><i><Check/></i><b>Documents privés</b><small>Liens temporaires et accès maîtrisés.</small></span></div>
-      </section>
+    <section className="ii-crm-section"><div><p className="ii-kicker">CRM IMMOBILIER</p><h2>Transformez les demandes<br/><em>en opportunités.</em></h2><p>Faites avancer chaque prospect de Nouveau à Gagné et rapprochez ses critères des biens disponibles.</p><div className="ii-pipeline">{["Nouveau","Contacté","Qualifié","Visite","Négociation","Gagné"].map((s,i)=><span key={s}><i>{i+1}</i>{s}</span>)}</div></div><aside><header><span>AF</span><div><b>Awa Fall</b><small>Appartement F4</small></div><em>92 %</em></header><p>Mermoz / Almadies</p><strong>Budget 600–800k</strong><div><Sparkles size={14}/>92 % de correspondance</div><small>Aperçu produit · données fictives</small></aside></section>
 
-      <section className="ii-pricing" id="tarifs">
-        <div className="ii-section-heading"><p className="ii-kicker">DES PLANS ADAPTÉS À VOTRE CROISSANCE</p><h2>Commencez simplement.</h2><p>Une base professionnelle aujourd’hui, une plateforme capable de grandir demain.</p></div>
-        <div className="ii-pricing-grid">
-          <article><p>SOLO</p><h3>19 900 <small>FCFA / mois</small></h3><span>Pour le gestionnaire indépendant.</span><ul><li><Check/>Jusqu’à 20 biens</li><li><Check/>Gestion locative complète</li><li><Check/>Imports et rapports</li></ul><Link href="/register">Démarrer</Link></article>
-          <article className="featured"><em>LE PLUS CHOISI</em><p>AGENCE</p><h3>49 900 <small>FCFA / mois</small></h3><span>Pour une équipe immobilière structurée.</span><ul><li><Check/>Jusqu’à 150 biens</li><li><Check/>10 collaborateurs</li><li><Check/>Intelligence Immobilier AI</li></ul><Link href="/register">Essayer gratuitement</Link></article>
-          <article><p>ENTREPRISE</p><h3>Sur mesure</h3><span>Pour les grands portefeuilles.</span><ul><li><Check/>Biens illimités</li><li><Check/>API et intégrations</li><li><Check/>Accompagnement dédié</li></ul><a href="mailto:contact@intelligenceimmobilier.com">Nous contacter</a></article>
-        </div>
-      </section>
+    <section className="ii-import-section"><div><p className="ii-kicker">IMPORT EXCEL</p><h2>Passez d’Excel à Intelligence Immobilier sans repartir de zéro.</h2><p>Biens, propriétaires, locataires, contrats et loyers suivent un parcours contrôlé.</p><Link href="/register" className="ii-button" data-analytics="cta_start_free">Importer mes données <Upload size={15}/></Link></div><ol>{[[Upload,"Importer"],[FileSpreadsheet,"Mapper"],[ClipboardCheck,"Vérifier"],[Check,"Valider"]].map(([Icon,label],i)=>{const I=Icon as typeof House;return <li key={String(label)}><i><I size={18}/></i><span><small>0{i+1}</small><b>{String(label)}</b></span></li>})}</ol></section>
 
-      <section className="ii-final-cta"><BrandLogo variant="symbol" light/><p className="ii-kicker">PRÊT À PILOTER AUTREMENT ?</p><h2>Votre immobilier mérite<br/>une intelligence à sa hauteur.</h2><p>Créez votre espace et réunissez enfin toutes vos opérations dans une plateforme claire.</p><Link href="/register" className="ii-button light">Créer mon espace <ArrowRight size={16}/></Link></section>
-      <footer className="ii-footer">
-        <BrandLogo variant="wordmark"/>
-        <div className="ii-footer-legal">
-          <p>© 2026 INTELLIGENCE IMMOBILIER. Tous droits réservés.</p>
-          <p><span>NINEA : {COMPANY_NINEA}</span><span>RCCM : {COMPANY_RCCM}</span></p>
-        </div>
-        <nav><a href="#securite">Sécurité</a><a href="#tarifs">Tarifs</a><a href="mailto:contact@intelligenceimmobilier.com">Contact</a></nav>
-      </footer>
-    </main>
-  );
+    <section className="ii-profiles" id="solutions"><div className="ii-section-heading"><p className="ii-kicker">UNE PLATEFORME POUR CHAQUE MÉTIER IMMOBILIER</p><h2>Vos processus.<br/><em>Une même source de vérité.</em></h2></div><div className="ii-profile-grid">{profiles.map(title=><article key={title}><h3>{title}</h3><p><Check size={13}/>Centraliser l’activité</p><p><Check size={13}/>Prioriser les actions</p><p><Check size={13}/>Partager une vision fiable</p></article>)}</div></section>
+
+    <section className="ii-security" id="securite"><div><p className="ii-kicker">SÉCURITÉ & CONFIANCE</p><h2>Vos données sont protégées.<br/><em>Votre équipe reste en contrôle.</em></h2><p>Des contrôles serveur et des accès structurés, sans promesse de conformité non vérifiée.</p><nav><Link href="/securite">Sécurité</Link><Link href="/confidentialite">Confidentialité</Link></nav></div><div className="ii-security-list">{["Isolation par organisation","Rôles et permissions","Audit des actions","Documents privés","Sauvegardes selon infrastructure","Gestion sécurisée des accès"].map(x=><span key={x}><i><Check/></i><b>{x}</b><small>Contrôle adapté aux capacités et à la configuration.</small></span>)}</div></section>
+
+    <section className="ii-pricing" id="tarifs"><div className="ii-section-heading"><p className="ii-kicker">DES PLANS ADAPTÉS À VOTRE CROISSANCE</p><h2>Commencez simplement.</h2><p>Les prix actuels sont conservés. Les limites contractuelles sont confirmées lors de la souscription.</p></div><div className="ii-pricing-grid">{[["SOLO","19 900",["Gestion locative","Paiements & impayés","Imports & rapports"]],["AGENCE","49 900",["Gestion locative & CRM","Maintenance & rapports","Intelligence AI"]],["ENTREPRISE","Sur mesure",["Rôles & audit","Intégrations selon configuration","Accompagnement dédié"]]].map(([plan,price,items],i)=><article className={i===1?"featured":""} key={String(plan)}>{i===1?<em>LE PLUS CHOISI</em>:null}<p>{String(plan)}</p><h3>{String(price)} {i<2?<small>FCFA / mois</small>:null}</h3><span>{i===0?"Pour le gestionnaire indépendant.":i===1?"Pour une équipe immobilière structurée.":"Pour les grands portefeuilles."}</span><ul>{(items as string[]).map(x=><li key={x}><Check/>{x}</li>)}</ul>{i<2?<Link href="/register" data-analytics="pricing_plan_click,cta_start_free" data-analytics-label={String(plan)}>Commencer gratuitement</Link>:<a href="mailto:contact@intelligenceimmobilier.com" data-analytics="pricing_plan_click" data-analytics-label="ENTREPRISE">Nous contacter</a>}</article>)}</div><p className="ii-pricing-note">Fonctionnalités susceptibles d’évoluer selon l’offre. Aucun quota technique non vérifié n’est présenté comme actif.</p></section>
+
+    <section className="ii-pilot-section"><p className="ii-kicker">EN PHASE DE LANCEMENT</p><h2>Programme pilote disponible.</h2><p>Nous n’affichons ni faux logos ni témoignages inventés. Découvrez le produit avec vos propres cas d’usage.</p><div><a className="ii-button" href="mailto:contact@intelligenceimmobilier.com" data-analytics="cta_demo">Voir une démo</a><Link className="ii-button ghost" href="/register" data-analytics="cta_start_free">Commencer gratuitement</Link></div></section>
+
+    <section className="ii-faq" id="faq"><div className="ii-section-heading"><p className="ii-kicker">QUESTIONS FRÉQUENTES</p><h2>Des réponses claires<br/><em>avant de commencer.</em></h2></div><div>{faq.map(([q,a])=><details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div></section>
+
+    <section className="ii-final-cta"><BrandLogo variant="symbol" light/><p className="ii-kicker">PRÊT À PILOTER AUTREMENT ?</p><h2>Votre gestion immobilière mérite mieux qu’un tableur.</h2><p>Centralisez vos opérations, automatisez vos suivis et utilisez vos données pour prendre de meilleures décisions.</p><div><Link href="/register" className="ii-button light" data-analytics="cta_start_free">Commencer gratuitement <ArrowRight size={16}/></Link><a href="mailto:contact@intelligenceimmobilier.com" className="ii-button ghost" data-analytics="cta_demo">Voir une démo</a></div></section>
+
+    <footer className="ii-footer ii-footer-complete"><div className="ii-footer-brand"><BrandLogo variant="wordmark"/><p>{BRAND_SIGNATURE}</p></div><div className="ii-footer-links"><nav><b>Produit</b><a href="#plateforme">Fonctionnalités</a><a href="#tarifs">Tarifs</a><Link href="/demo">Démo</Link></nav><nav><b>Solutions</b><a href="#solutions">Profils métier</a><a href="#intelligence">Intelligence AI</a><a href="#securite">Sécurité</a></nav><nav><b>Ressources</b><a href="#faq">FAQ</a><Link href="/login">Connexion</Link><Link href="/register">Créer un compte</Link></nav><nav><b>Entreprise</b><a href="mailto:contact@intelligenceimmobilier.com">Contact</a><a href="mailto:contact@intelligenceimmobilier.com">Programme pilote</a></nav><nav><b>Légal</b><Link href="/confidentialite">Confidentialité</Link><Link href="/conditions">Conditions</Link><Link href="/mentions-legales">Mentions légales</Link></nav></div><div className="ii-footer-legal"><p>© 2026 {BRAND_NAME}. Tous droits réservés.</p><p><span>NINEA : {COMPANY_NINEA}</span><span>RCCM : {COMPANY_RCCM}</span></p></div></footer>
+  </main>;
 }
