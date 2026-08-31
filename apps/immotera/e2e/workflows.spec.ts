@@ -20,6 +20,18 @@ test("login keeps demo credentials private and exposes the safe demo route", asy
   await expect(page.getByRole("link", { name: "Explorer la démo" })).toHaveAttribute("href", "/demo");
 });
 
+test("registration states and enforces the real password policy", async ({ page, request }) => {
+  await page.goto("/register");
+  const password = page.locator('input[name="password"]');
+  await expect(password).toHaveAttribute("minlength", "10");
+  await expect(password).toHaveAttribute("pattern", "(?=.*[A-Z])(?=.*\\d).{10,}");
+  await expect(page.getByText("Requis : 10 caractères minimum, une majuscule et un chiffre.")).toBeVisible();
+
+  const response = await request.post("/api/register", { data: { name: "Touba Expert Group", email: "toubainfoshd@gmail.com", password: "tropcourt" } });
+  expect(response.status()).toBe(400);
+  await expect(response.json()).resolves.toMatchObject({ error: "Le mot de passe doit contenir au moins 10 caractères, une majuscule et un chiffre." });
+});
+
 test("legal and trust pages are publicly accessible", async ({ page }) => {
   for (const path of ["/securite", "/confidentialite", "/conditions", "/mentions-legales"]) {
     const response = await page.goto(path);
