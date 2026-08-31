@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BRAND_NAME, BRAND_SIGNATURE, BRAND_TITLE } from "@/lib/brand";
 
 type BrandLogoProps = {
   variant?: "full" | "wordmark" | "symbol";
@@ -15,7 +16,7 @@ export function BrandLogo({ variant = "wordmark", className = "", priority = fal
       <span className={`brand-logo-full ${className}`.trim()}>
         <Image
           src={logoSource}
-          alt="INTELLIGENCE IMMOBILIER — La plateforme intelligente de gestion immobilière"
+          alt={BRAND_TITLE}
           width={1254}
           height={1254}
           priority={priority}
@@ -32,9 +33,9 @@ export function BrandLogo({ variant = "wordmark", className = "", priority = fal
       </span>
       {variant === "wordmark" ? (
         <span className="brand-wordmark">
-          <strong>INTELLIGENCE</strong>
-          <strong>IMMOBILIER</strong>
-          <small>La plateforme intelligente.</small>
+          <strong>{BRAND_NAME.split(" ")[0]}</strong>
+          <strong>{BRAND_NAME.split(" ")[1]}</strong>
+          <small>{BRAND_SIGNATURE}</small>
         </span>
       ) : null}
     </span>

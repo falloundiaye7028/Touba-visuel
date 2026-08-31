@@ -18,10 +18,11 @@ import {
   Wrench,
 } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { BRAND_SIGNATURE, BRAND_TITLE } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "INTELLIGENCE IMMOBILIER — La plateforme intelligente de gestion immobilière.",
-  description: "Gérez votre patrimoine immobilier, vos loyers et vos opérations depuis une plateforme claire, sécurisée et enrichie par l’intelligence métier.",
+  title: BRAND_TITLE,
+  description: BRAND_SIGNATURE,
   robots: { index: true, follow: true },
 };
 
@@ -54,7 +55,7 @@ export default function LandingPage() {
 
         <div className="ii-hero">
           <div className="ii-hero-copy">
-            <p className="ii-kicker"><Sparkles size={14}/> PILOTAGE IMMOBILIER, AUGMENTÉ</p>
+            <p className="ii-kicker ii-official-signature"><Sparkles size={14}/> {BRAND_SIGNATURE}</p>
             <h1>Gérez votre immobilier.<br/><em>L’intelligence fait le reste.</em></h1>
             <p>Centralisez vos biens, loyers, propriétaires, locataires et opérations. Détectez les priorités, sécurisez vos revenus et décidez avec une vision claire.</p>
             <div className="ii-hero-actions"><Link href="/register" className="ii-button">Commencer gratuitement <ArrowRight size={16}/></Link><a href="mailto:contact@intelligenceimmobilier.com" className="ii-button ghost">Demander une démo</a></div>

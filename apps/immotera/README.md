@@ -1,6 +1,6 @@
 # INTELLIGENCE IMMOBILIER V1
 
-**La plateforme intelligente de gestion immobilière.** INTELLIGENCE IMMOBILIER est une application SaaS multi-tenant de gestion immobilière pour le Sénégal et l’Afrique francophone.
+**La plateforme intelligente de gestion immobilière.** INTELLIGENCE IMMOBILIER est une application SaaS multi-tenant de gestion immobilière pour le Sénégal et l’Afrique francophone. La signature officielle et ses règles d’utilisation sont définies dans [BRAND.md](./BRAND.md).
 
 ## Prérequis
 
