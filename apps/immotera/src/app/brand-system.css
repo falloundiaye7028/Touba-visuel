@@ -653,6 +653,9 @@ html[data-theme="dark"] .premium-shell .ai-messages > div > i { color: var(--ii-
 .ii-final-cta > p:not(.ii-kicker) { max-width: 520px; margin: 19px 0 27px; color: #8fa6b4; font-size: 9px; line-height: 1.65; }
 .ii-footer { width: min(1180px, calc(100% - 48px)); min-height: 105px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 25px; }
 .ii-footer p { color: #8a98a3; font-size: 7px; }
+.ii-footer-legal { display: grid; gap: 7px; text-align: center; }
+.ii-footer-legal p { margin: 0; }
+.ii-footer-legal p:last-child { display: flex; justify-content: center; gap: 14px; color: #647684; font-weight: 700; letter-spacing: .035em; }
 .ii-footer nav { display: flex; gap: 20px; }
 .ii-footer nav a { color: #6e7e8a; font-size: 7px; text-decoration: none; }
 

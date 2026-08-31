@@ -18,7 +18,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
-import { BRAND_SIGNATURE, BRAND_TITLE } from "@/lib/brand";
+import { BRAND_SIGNATURE, BRAND_TITLE, COMPANY_NINEA, COMPANY_RCCM } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: BRAND_TITLE,
@@ -122,7 +122,14 @@ export default function LandingPage() {
       </section>
 
       <section className="ii-final-cta"><BrandLogo variant="symbol" light/><p className="ii-kicker">PRÊT À PILOTER AUTREMENT ?</p><h2>Votre immobilier mérite<br/>une intelligence à sa hauteur.</h2><p>Créez votre espace et réunissez enfin toutes vos opérations dans une plateforme claire.</p><Link href="/register" className="ii-button light">Créer mon espace <ArrowRight size={16}/></Link></section>
-      <footer className="ii-footer"><BrandLogo variant="wordmark"/><p>© 2026 INTELLIGENCE IMMOBILIER. Tous droits réservés.</p><nav><a href="#securite">Sécurité</a><a href="#tarifs">Tarifs</a><a href="mailto:contact@intelligenceimmobilier.com">Contact</a></nav></footer>
+      <footer className="ii-footer">
+        <BrandLogo variant="wordmark"/>
+        <div className="ii-footer-legal">
+          <p>© 2026 INTELLIGENCE IMMOBILIER. Tous droits réservés.</p>
+          <p><span>NINEA : {COMPANY_NINEA}</span><span>RCCM : {COMPANY_RCCM}</span></p>
+        </div>
+        <nav><a href="#securite">Sécurité</a><a href="#tarifs">Tarifs</a><a href="mailto:contact@intelligenceimmobilier.com">Contact</a></nav>
+      </footer>
     </main>
   );
 }
