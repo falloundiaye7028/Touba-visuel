@@ -31,6 +31,25 @@ Il n’existe aucun outil de suppression.
 
 Aucune de ces valeurs ne doit être commitée ni ajoutée aux arguments d’un outil.
 
+## Diffusion automatique sur Facebook
+
+Lorsqu’un article passe au statut `publie`, le serveur tente de créer un post
+sur la Page Facebook configurée. Le post contient le titre, l’extrait, les
+hashtags et le lien canonique de l’article. L’identifiant renvoyé par Meta est
+enregistré dans l’article afin qu’une relance ne produise pas de doublon.
+
+Variables serveur à configurer dans Vercel :
+
+- `FACEBOOK_PAGE_ID` — identifiant numérique de la Page Touba Infos ;
+- `FACEBOOK_PAGE_ACCESS_TOKEN` — jeton de Page Meta, traité comme secret ;
+- `FACEBOOK_GRAPH_API_VERSION` — version activée pour l’application Meta au
+  format `vXX.X`.
+
+L’application Meta et le jeton de Page doivent autoriser la gestion des
+publications de la Page. Si la configuration est absente ou si Meta refuse la
+requête, la publication Touba Infos reste valide et l’erreur Facebook est
+journalisée sans exposer le jeton.
+
 ## Protections
 
 - OAuth authorization code avec PKCE S256 et audience liée à l’URL exacte du serveur MCP.

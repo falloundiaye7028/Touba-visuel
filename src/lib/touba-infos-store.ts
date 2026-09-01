@@ -89,6 +89,8 @@ function rowToArticle(r: NonNullable<Row>): ArticleInfo {
     tags: r.tags,
     contenu: r.contenu,
     youtubeId: r.youtubeId ?? undefined,
+    facebookPostId: r.facebookPostId ?? undefined,
+    facebookSharedAt: r.facebookSharedAt?.toISOString(),
   };
 }
 
@@ -119,6 +121,10 @@ function toDb(a: ArticleInfo) {
     tags: a.tags,
     contenu: a.contenu,
     youtubeId: a.youtubeId ?? null,
+    facebookPostId: a.facebookPostId ?? null,
+    facebookSharedAt: a.facebookSharedAt
+      ? new Date(a.facebookSharedAt)
+      : null,
   };
 }
 

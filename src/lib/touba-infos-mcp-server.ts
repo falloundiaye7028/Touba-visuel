@@ -13,6 +13,7 @@ import {
   updateArticleDraftSchema,
   type PublisherRepository,
 } from "./touba-infos-publisher";
+import { sharePublishedArticleById } from "./touba-infos-facebook";
 
 const articleStatusSchema = z.enum(["brouillon", "programme", "publie"]);
 const draftOutputSchema = z.object({
@@ -38,6 +39,13 @@ const publishOutputSchema = z.object({
   publicUrl: z.string().url(),
   adminUrl: z.string().url(),
   idempotentReplay: z.boolean(),
+  facebookStatus: z.enum([
+    "published",
+    "already_published",
+    "not_configured",
+    "failed",
+  ]),
+  facebookPostId: z.string().optional(),
 });
 const statusOutputSchema = z.object({
   articleId: z.string(),
@@ -180,16 +188,36 @@ export function createToubaInfosMcpServer(
     async (input) => {
       try {
         const output = await publishArticle(input, repository);
+        let facebookStatus:
+          | "published"
+          | "already_published"
+          | "not_configured"
+          | "failed" = "failed";
+        let facebookPostId: string | undefined;
+        try {
+          const facebook = await sharePublishedArticleById(
+            output.articleId,
+            repository,
+          );
+          facebookStatus = facebook.status;
+          if ("postId" in facebook) facebookPostId = facebook.postId;
+        } catch (error) {
+          console.error("[touba-infos-facebook]", {
+            articleId: output.articleId,
+            message: error instanceof Error ? error.message : "Erreur inconnue",
+          });
+        }
         await options.onMutation?.();
         logMutation("publish", output.articleId, options.actorId);
+        const result = { ...output, facebookStatus, facebookPostId };
         return {
           content: [
             {
               type: "text",
-              text: `Article publié : ${output.publicUrl}`,
+              text: `Article publié : ${output.publicUrl}. Facebook : ${facebookStatus}.`,
             },
           ],
-          structuredContent: output,
+          structuredContent: result,
         };
       } catch (error) {
         return errorResult(error);
