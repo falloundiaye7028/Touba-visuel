@@ -182,12 +182,16 @@ describe("Touba Infos publisher service", () => {
     );
 
     expect(published.statut).toBe("publie");
-    expect(published.publicUrl).toContain(
-      "https://toubainfos.com/naatal-touba-al-madine-ndam-un-exemple-a-suivre",
+    expect(published.publicUrl).toBe(
+      "https://toubainfos.com/touba-infos/naatal-touba-al-madine-ndam-un-exemple-a-suivre",
     );
     expect(replay.idempotentReplay).toBe(true);
-    expect((await getArticleStatus({ articleId: draft.articleId }, repository)).statut)
-      .toBe("publie");
+    const status = await getArticleStatus(
+      { articleId: draft.articleId },
+      repository,
+    );
+    expect(status.statut).toBe("publie");
+    expect(status.publicUrl).toBe(published.publicUrl);
   });
 
   it("refuse de corriger un article déjà publié", async () => {

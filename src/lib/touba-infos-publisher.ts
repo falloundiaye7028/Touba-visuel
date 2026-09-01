@@ -336,7 +336,7 @@ export function isExplicitPublicationApproval(value: string): boolean {
 }
 
 function publicUrl(slug: string): string {
-  return `${MEDIA_URL}/${slug}`;
+  return `${MEDIA_URL}/touba-infos/${slug}`;
 }
 
 function adminUrl(id: string): string {
