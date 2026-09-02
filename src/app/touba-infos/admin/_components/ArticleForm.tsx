@@ -198,11 +198,18 @@ export default function ArticleForm({
             </select>
           </Field>
           <Field label="Auteur">
-            <select name="auteur" defaultValue={article?.auteur ?? AUTEURS[0].nom} className={inputCls}>
+            <input
+              name="auteur"
+              list="touba-infos-auteurs"
+              defaultValue={article?.auteur ?? AUTEURS[0]?.nom ?? "Rédaction Touba Infos"}
+              className={inputCls}
+              placeholder="Nom de l’auteur"
+            />
+            <datalist id="touba-infos-auteurs">
               {AUTEURS.map((a) => (
-                <option key={a.slug} value={a.nom}>{a.nom}</option>
+                <option key={a.slug} value={a.nom} />
               ))}
-            </select>
+            </datalist>
           </Field>
           <Field label="Mots-clés (séparés par des virgules)">
             <input name="tags" defaultValue={article?.tags.join(", ")} className={inputCls} placeholder="Touba, Magal" />
