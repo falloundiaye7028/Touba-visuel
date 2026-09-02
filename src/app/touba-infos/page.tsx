@@ -27,7 +27,7 @@ export default async function ToubaInfosHome() {
               <div className="aspect-[16/9]">
                 <EditorialImage article={une} emojiSize="text-[9rem]" />
               </div>
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/75 to-transparent p-5 pt-24 sm:p-8 sm:pt-32">
+              <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black via-black/75 to-transparent p-5 pt-24 sm:p-8 sm:pt-32">
                 <CategorieChip categorie={une.categorie} />
                 <h1 className="mt-3 text-2xl font-black leading-tight sm:text-4xl">{une.titre}</h1>
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/75 sm:text-base">{une.extrait}</p>
