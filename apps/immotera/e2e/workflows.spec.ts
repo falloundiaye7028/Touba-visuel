@@ -25,22 +25,36 @@ test("real product tabs and structured AI demo are interactive", async ({ page }
   const product = page.locator("#produit");
   await expect(product.getByRole("heading", { name: /Découvrez/ })).toBeVisible();
   await product.getByRole("tab", { name: "Paiements" }).click();
-  await expect(product.getByRole("heading", { name: /encaissements rapprochés/ })).toBeVisible();
+  await expect(product.getByRole("heading", { name: /vision claire de chaque encaissement/ })).toBeVisible();
   await expect(product.getByAltText(/module Paiements/)).toBeVisible();
 
+  await product.getByRole("tab", { name: "Paiements" }).press("ArrowRight");
+  await expect(product.getByRole("tab", { name: "Propriétaires" })).toHaveAttribute("aria-selected", "true");
+
   const ai = page.locator("#intelligence");
-  await ai.getByRole("tab", { name: /Quels locataires/ }).click();
-  await expect(ai.getByText("1 975 000 FCFA")).toBeVisible();
+  await ai.getByRole("tab", { name: /Quels loyers/ }).click();
+  await expect(ai.getByText("2 530 000 FCFA")).toBeVisible();
   await expect(ai.getByRole("button", { name: /Préparer les relances/ })).toBeVisible();
+
+  await ai.getByRole("tab", { name: /Quels loyers/ }).press("End");
+  await expect(ai.getByRole("tab", { name: /reversements propriétaires/ })).toHaveAttribute("aria-selected", "true");
 });
 
 test("marketing layout has no horizontal overflow at required breakpoints", async ({ page }) => {
   await page.goto("/");
-  for (const width of [390, 430, 768, 1024, 1440]) {
+  for (const width of [375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.waitForTimeout(50);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `overflow at ${width}px`).toBe(true);
   }
+});
+
+test("mobile header keeps a concise primary action visible", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const header = page.locator("header").first();
+  await expect(header.getByRole("link", { name: "Commencer", exact: true })).toBeVisible();
+  await expect(header.getByRole("button", { name: /navigation/i })).toBeVisible();
 });
 
 test("registration states and enforces the real password policy", async ({ page, request }) => {
