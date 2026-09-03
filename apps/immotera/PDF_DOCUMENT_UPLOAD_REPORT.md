@@ -48,6 +48,6 @@ Captures disponibles :
 
 ## Prévisualisation et prérequis avant production
 
-La Preview Vercel est créée depuis cette branche, sans promotion de production. L'environnement Vercel courant contient `AUTH_SECRET` et les URL d'application, mais ne contient pas encore `BLOB_READ_WRITE_TOKEN` / `BLOB_STORE_ID` ni la configuration de base de données nécessaire à la persistance réelle.
+La Preview Vercel n'est pas encore créée : son envoi vers Vercel demande une autorisation explicite distincte. L'environnement Vercel courant contient `AUTH_SECRET` et les URL d'application, mais ne contient pas encore `BLOB_READ_WRITE_TOKEN` / `BLOB_STORE_ID` ni la configuration de base de données nécessaire à la persistance réelle.
 
 Avant toute mise en production, il faut : connecter un Blob Vercel privé, définir `STORAGE_PROVIDER=blob`, `BLOB_READ_WRITE_TOKEN`, `BLOB_STORE_ID`, `DOCUMENT_SIGNING_SECRET` et `DATABASE_URL`, appliquer la migration Prisma, puis vérifier l'antivirus/quarantaine et le travail planifié de purge des fichiers orphelins ou supprimés.
