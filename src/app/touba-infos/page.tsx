@@ -22,24 +22,26 @@ export default async function ToubaInfosHome() {
     return (
       <>
         <section className="border-b border-neutral-200 bg-neutral-950 text-white">
-          <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1.5fr_1fr] lg:py-14">
-            <Link href={`/touba-infos/${une.slug}`} className="group relative overflow-hidden rounded-2xl bg-neutral-900">
+          <div className="mx-auto grid max-w-[1400px] gap-5 px-4 py-7 lg:grid-cols-[minmax(0,2.35fr)_minmax(250px,0.75fr)] lg:items-stretch lg:gap-6 lg:py-9">
+            <Link href={`/touba-infos/${une.slug}`} className="group relative overflow-hidden rounded-2xl bg-neutral-900 shadow-2xl shadow-black/20">
               <div className="aspect-[16/9]">
-                <EditorialImage article={une} emojiSize="text-[9rem]" />
+                <EditorialImage article={une} emojiSize="text-[10rem]" />
               </div>
-              <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black via-black/75 to-transparent p-5 pt-24 sm:p-8 sm:pt-32">
+              <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black via-black/80 to-transparent p-5 pt-28 sm:p-8 sm:pt-36 lg:p-10 lg:pt-44">
                 <CategorieChip categorie={une.categorie} />
-                <h1 className="mt-3 text-2xl font-black leading-tight sm:text-4xl">{une.titre}</h1>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/75 sm:text-base">{une.extrait}</p>
+                <h1 className="mt-3 max-w-5xl text-2xl font-black leading-[1.06] sm:text-4xl lg:text-[42px] xl:text-[46px]">{une.titre}</h1>
+                <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/80 sm:text-base lg:text-[17px]">{une.extrait}</p>
               </div>
             </Link>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-green-300">À la une</p>
-              <h2 className="mt-3 text-2xl font-black leading-tight">L’information utile, au cœur de Touba.</h2>
-              <p className="mt-3 text-sm leading-relaxed text-neutral-300">Suivez les articles publiés par la rédaction, de Touba au monde.</p>
-              <Link href="/touba-infos/fil-info" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-green-300 hover:text-green-200">
-                Voir toutes les actualités <ArrowRight size={16} />
-              </Link>
+            <div className="flex rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6 lg:flex-col lg:justify-end lg:p-7">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-green-300">À la une</p>
+                <h2 className="mt-3 text-2xl font-black leading-tight lg:text-3xl">L’information utile, au cœur de Touba.</h2>
+                <p className="mt-3 text-sm leading-relaxed text-neutral-300">Suivez les articles publiés par la rédaction, de Touba au monde.</p>
+                <Link href="/touba-infos/fil-info" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-green-300 hover:text-green-200">
+                  Voir toutes les actualités <ArrowRight size={16} />
+                </Link>
+              </div>
             </div>
           </div>
         </section>
