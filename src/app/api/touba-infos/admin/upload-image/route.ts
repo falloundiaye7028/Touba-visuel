@@ -50,6 +50,14 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    console.error("[touba-infos/upload-image] BLOB_READ_WRITE_TOKEN absent");
+    return NextResponse.json(
+      { error: "Le stockage d’images n’est pas configuré." },
+      { status: 503 },
+    );
+  }
+
   try {
     const blob = await put(`touba-infos/articles/${safeFileName(file.name)}`, file, {
       access: "public",
@@ -58,7 +66,13 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ url: blob.url, pathname: blob.pathname });
-  } catch {
+  } catch (error) {
+    console.error("[touba-infos/upload-image] Échec Vercel Blob", {
+      message: error instanceof Error ? error.message : String(error),
+      fileName: safeFileName(file.name),
+      fileSize: file.size,
+      fileType: file.type,
+    });
     return NextResponse.json(
       { error: "L’envoi de l’image a échoué. Réessayez." },
       { status: 500 },
