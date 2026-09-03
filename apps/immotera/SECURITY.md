@@ -20,7 +20,11 @@ Menaces prioritaires : accès croisé entre organisations, élévation de privil
 
 ## Documents et uploads
 
-Le fournisseur doit stocker les documents dans un bucket privé. Le serveur génère une URL signée à durée courte après vérification du tenant et de la permission. Limites recommandées : 10 Mo, liste MIME stricte, nom serveur aléatoire, contrôle de signature réelle du fichier, antivirus asynchrone et checksum.
+Le module Documents utilise un stockage privé (`@vercel/blob` en hébergement Vercel, système de fichiers privé uniquement en développement). La limite vient exclusivement de `DOCUMENT_MAX_SIZE_MB` et vaut 20 Mo par défaut. Le serveur contrôle extension, MIME déclaré, correspondance extension/MIME, taille, magic bytes et checksum SHA-256 avant la création de la ligne `Document`.
+
+Le chemin de stockage est aléatoire et préfixé par l’organisation ; le nom original n’est jamais utilisé comme clé. Les lectures passent par une URL applicative HMAC liée au document, au tenant, à la disposition et à une expiration de cinq minutes. La session, la membership active, `documents.read` et `organizationId` sont revérifiés au moment de servir le contenu. Les actions `DOCUMENT_UPLOADED`, `DOCUMENT_VIEWED`, `DOCUMENT_DOWNLOADED` et `DOCUMENT_DELETED` sont auditables sans journaliser le contenu.
+
+La suppression métier est un soft delete. Le blob n’est pas purgé immédiatement afin d’éviter une destruction accidentelle ; une tâche de rétention contrôlée devra purger les blobs après le délai contractuel. Avant production, ajouter une analyse antivirus asynchrone et une quarantaine si le niveau de risque documentaire l’exige.
 
 ## IA
 

@@ -1,4 +1,6 @@
 import { expect, test } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
 
 test("public landing presents the product without unsupported claims", async ({ page }) => {
   await page.goto("/");
@@ -123,4 +125,36 @@ test("CSV import supports preview, mapping and validation", async ({ page }) => 
   await page.getByRole("button", { name: /Valider les données/ }).click();
   await page.getByRole("button", { name: /Lancer l’import/ }).click();
   await expect(page.getByRole("heading", { name: "Import terminé" })).toBeVisible();
+});
+
+test("document library uploads, views and downloads a real PDF", async ({ page }, testInfo) => {
+  const screenshotDirectory = path.join(process.cwd(), "artifacts", "document-upload");
+  await mkdir(screenshotDirectory, { recursive: true });
+  await page.goto("/properties/PROP-004");
+  await page.getByRole("navigation", { name: "Sections de la fiche" }).getByRole("link", { name: "Documents", exact: true }).click();
+  await page.getByRole("button", { name: "Ajouter un document" }).click();
+  const dialog = page.getByRole("dialog", { name: "Ajouter un document" });
+  await dialog.locator('input[type="file"]').setInputFiles("fixtures/documents/sample-property-document.pdf");
+  await dialog.getByLabel("Nom du document").fill("Permis de construire fictif");
+  await dialog.getByLabel("Catégorie").selectOption("Administratif");
+  await dialog.screenshot({ path: path.join(screenshotDirectory, `dialog-${testInfo.project.name}.jpg`), type: "jpeg", quality: 84 });
+  await dialog.getByRole("button", { name: "Ajouter le document" }).click();
+  await expect(page.getByText("Document téléversé avec succès")).toBeVisible();
+  const row = page.locator(".document-library .data-row").filter({ hasText: "Permis de construire fictif" }).first();
+  await expect(row).toBeVisible();
+  await page.locator(".resource-documents").screenshot({ path: path.join(screenshotDirectory, `library-${testInfo.project.name}.jpg`), type: "jpeg", quality: 82 });
+
+  const viewPromise = page.waitForResponse((response) => response.url().includes(`/api/documents/`) && response.url().includes("signed-url?disposition=inline"));
+  await row.getByRole("button", { name: /Voir/ }).click();
+  const viewResult = await (await viewPromise).json() as { url: string };
+  const viewerResponse = await page.request.get(viewResult.url);
+  expect(viewerResponse.ok()).toBe(true);
+  expect(viewerResponse.headers()["content-type"]).toContain("application/pdf");
+
+  const downloadPromise = page.waitForResponse((response) => response.url().includes(`/api/documents/`) && response.url().includes("signed-url?disposition=attachment"));
+  await row.getByRole("button", { name: /Télécharger/ }).click();
+  const downloadResult = await (await downloadPromise).json() as { url: string };
+  const downloadResponse = await page.request.get(downloadResult.url);
+  expect(downloadResponse.ok()).toBe(true);
+  expect(downloadResponse.headers()["content-disposition"]).toContain("attachment");
 });
