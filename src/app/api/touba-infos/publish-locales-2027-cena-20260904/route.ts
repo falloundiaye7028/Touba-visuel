@@ -82,7 +82,7 @@ export async function GET() {
 <p>La réponse pourrait déterminer non seulement la date des territoriales, mais aussi la possibilité ou non d’un couplage avec des élections législatives anticipées en 2027.</p>
 
 <p><em>Touba Infos — Analyse institutionnelle et électorale. Documents examinés : réponses du ministère de l’Intérieur du 28 août 2026 et de la CENA du 31 août 2026 ; ordonnance n°33 de la Cour suprême du 27 août 2026 telle que citée dans ces correspondances ; Code électoral et Constitution du Sénégal.</em></p>`
-  } as const;
+  };
 
   const article = await prisma.infoArticle.upsert({
     where: { slug: SLUG },
