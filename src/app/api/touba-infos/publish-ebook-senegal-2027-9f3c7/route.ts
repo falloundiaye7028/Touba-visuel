@@ -1,45 +1,31 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { put } from "@vercel/blob";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
 const EBOOK_SLUG = "senegal-2027-le-grand-decryptage-des-elections";
 const ARTICLE_SLUG = "touba-infos-publie-senegal-2027-le-grand-decryptage-des-elections";
+const PDF_URL = "/ebooks/senegal-2027-le-grand-decryptage-des-elections.pdf";
+const COVER_URL = "/ebooks/senegal-2027-le-grand-decryptage-cover.png";
 
-export async function POST(request: Request) {
+const articleHtml = `
+<p><strong>Touba Infos publie un nouveau magazine numérique : « Sénégal 2027 : Le Grand Décryptage des Élections ».</strong></p>
+<p>Ce dossier spécial a été conçu pour permettre au public de comprendre les principaux enjeux juridiques et institutionnels liés aux échéances électorales de 2027, sans confondre les textes en vigueur, leur interprétation et les hypothèses politiques.</p>
+<h2>Un dossier consacré aux grandes questions de 2027</h2>
+<p>Le magazine analyse notamment la possibilité d’un couplage entre élections législatives et territoriales, les conditions de dissolution de l’Assemblée nationale prévues par l’article 87 de la Constitution, la durée des mandats locaux, les possibilités de prorogation, le rôle de la loi et du décret, le référendum, les ordonnances ainsi que les conséquences d’un éventuel blocage institutionnel.</p>
+<p>Il revient également sur la jurisprudence électorale récente et présente plusieurs scénarios de calendrier afin d’aider les lecteurs à distinguer ce qui est juridiquement établi de ce qui demeure hypothétique.</p>
+<h2>Téléchargement gratuit</h2>
+<p>Le magazine est mis gratuitement à la disposition des lecteurs de Touba Infos.</p>
+<p><a href="${PDF_URL}" download><strong>→ Télécharger le PDF : Sénégal 2027 - Le Grand Décryptage des Élections</strong></a></p>
+<p><a href="/touba-infos/ebooks/${EBOOK_SLUG}"><strong>→ Voir la fiche du magazine dans la bibliothèque Touba Infos</strong></a></p>
+<h2>Une démarche pédagogique</h2>
+<p>Cette publication n’a pas vocation à annoncer une décision politique qui n’aurait pas encore été officiellement prise. Elle propose une lecture pédagogique des règles constitutionnelles, électorales et institutionnelles applicables, à partir des textes et des précédents étudiés par la rédaction.</p>
+`;
+
+export async function GET() {
   try {
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      return NextResponse.json({ ok: false, error: "BLOB_READ_WRITE_TOKEN manquant" }, { status: 500 });
-    }
-
-    const form = await request.formData();
-    const pdf = form.get("pdf");
-    const cover = form.get("cover");
-
-    if (!(pdf instanceof File) || pdf.type !== "application/pdf") {
-      return NextResponse.json({ ok: false, error: "PDF requis" }, { status: 400 });
-    }
-    if (!(cover instanceof File) || !cover.type.startsWith("image/")) {
-      return NextResponse.json({ ok: false, error: "Couverture image requise" }, { status: 400 });
-    }
-    if (pdf.size > 25 * 1024 * 1024 || cover.size > 8 * 1024 * 1024) {
-      return NextResponse.json({ ok: false, error: "Fichier trop volumineux" }, { status: 400 });
-    }
-
-    const [pdfBlob, coverBlob] = await Promise.all([
-      put("touba-infos/ebooks/senegal-2027-le-grand-decryptage-des-elections.pdf", pdf, {
-        access: "public",
-        addRandomSuffix: true,
-        contentType: "application/pdf",
-      }),
-      put("touba-infos/ebooks/senegal-2027-le-grand-decryptage-cover.png", cover, {
-        access: "public",
-        addRandomSuffix: true,
-        contentType: cover.type || "image/png",
-      }),
-    ]);
+    const now = new Date();
 
     const ebook = await prisma.infoEbook.upsert({
       where: { slug: EBOOK_SLUG },
@@ -49,10 +35,10 @@ export async function POST(request: Request) {
         description:
           "Un magazine spécial de Touba Infos consacré aux enjeux institutionnels, juridiques et électoraux de 2027 : élections locales et législatives, dissolution de l’Assemblée nationale, calendrier électoral, prorogation des mandats, référendum, ordonnances, jurisprudence et scénarios possibles.",
         category: "Politique & Institutions",
-        coverUrl: coverBlob.url,
+        coverUrl: COVER_URL,
         coverFocalX: 50,
         coverFocalY: 50,
-        pdfPathname: pdfBlob.url,
+        pdfPathname: PDF_URL,
         kind: "FREE",
         priceXof: 0,
         status: "PUBLISHED",
@@ -64,23 +50,29 @@ export async function POST(request: Request) {
         description:
           "Un magazine spécial de Touba Infos consacré aux enjeux institutionnels, juridiques et électoraux de 2027 : élections locales et législatives, dissolution de l’Assemblée nationale, calendrier électoral, prorogation des mandats, référendum, ordonnances, jurisprudence et scénarios possibles.",
         category: "Politique & Institutions",
-        coverUrl: coverBlob.url,
+        coverUrl: COVER_URL,
         coverFocalX: 50,
         coverFocalY: 50,
-        pdfPathname: pdfBlob.url,
+        pdfPathname: PDF_URL,
         kind: "FREE",
         priceXof: 0,
         status: "PUBLISHED",
       },
     });
 
-    const now = new Date();
+    await prisma.infoArticle.updateMany({
+      where: { alaUne: true, NOT: { slug: ARTICLE_SLUG } },
+      data: { alaUne: false },
+    });
+
     const article = await prisma.infoArticle.upsert({
       where: { slug: ARTICLE_SLUG },
       update: {
         titre: "TOUBA INFOS PUBLIE « SÉNÉGAL 2027 : LE GRAND DÉCRYPTAGE DES ÉLECTIONS »",
-        sousTitre: "Un magazine spécial pour comprendre, à partir des textes, les grandes questions institutionnelles et électorales qui se posent à l’approche de 2027.",
-        extrait: "Touba Infos met gratuitement à disposition son nouveau magazine numérique consacré au calendrier électoral, à la dissolution, aux élections locales et législatives et aux scénarios institutionnels de 2027.",
+        sousTitre:
+          "Un magazine spécial pour comprendre, à partir des textes, les grandes questions institutionnelles et électorales qui se posent à l’approche de 2027.",
+        extrait:
+          "Touba Infos met gratuitement à disposition son nouveau magazine numérique consacré au calendrier électoral, à la dissolution, aux élections locales et législatives et aux scénarios institutionnels de 2027.",
         categorie: "Politique",
         genre: "Analyse",
         statut: "publie",
@@ -90,7 +82,7 @@ export async function POST(request: Request) {
         tempsLecture: "3 min",
         imageEmoji: "📘",
         imageGradient: "from-green-800 via-emerald-900 to-neutral-950",
-        imageUrl: coverBlob.url,
+        imageUrl: COVER_URL,
         imageFocalX: 50,
         imageFocalY: 50,
         credit: "Touba Infos",
@@ -99,24 +91,16 @@ export async function POST(request: Request) {
         breaking: false,
         epingle: true,
         tags: ["Sénégal 2027", "Élections", "Ebook", "Constitution", "Touba Infos"],
-        contenu: `<p><strong>Touba Infos publie un nouveau magazine numérique : « Sénégal 2027 : Le Grand Décryptage des Élections ».</strong></p>
-<p>Ce dossier spécial a été conçu pour permettre au public de comprendre les principaux enjeux juridiques et institutionnels liés aux échéances électorales de 2027, sans confondre les textes en vigueur, leur interprétation et les hypothèses politiques.</p>
-<h2>Un dossier consacré aux grandes questions de 2027</h2>
-<p>Le magazine analyse notamment la possibilité d’un couplage entre élections législatives et territoriales, les conditions de dissolution de l’Assemblée nationale prévues par l’article 87 de la Constitution, la durée des mandats locaux, les possibilités de prorogation, le rôle de la loi et du décret, le référendum, les ordonnances ainsi que les conséquences d’un éventuel blocage institutionnel.</p>
-<p>Il revient également sur la jurisprudence électorale récente et présente plusieurs scénarios de calendrier afin d’aider les lecteurs à distinguer ce qui est juridiquement établi de ce qui demeure hypothétique.</p>
-<h2>Téléchargement gratuit</h2>
-<p>Le magazine est mis gratuitement à la disposition des lecteurs de Touba Infos.</p>
-<p><a href="${pdfBlob.url}" target="_blank" rel="noopener noreferrer"><strong>→ Télécharger le PDF : Sénégal 2027 - Le Grand Décryptage des Élections</strong></a></p>
-<p><a href="/touba-infos/ebooks/${EBOOK_SLUG}"><strong>→ Voir la fiche du magazine dans la bibliothèque Touba Infos</strong></a></p>
-<h2>Une démarche pédagogique</h2>
-<p>Cette publication n’a pas vocation à annoncer une décision politique qui n’aurait pas encore été officiellement prise. Elle propose une lecture pédagogique des règles constitutionnelles, électorales et institutionnelles applicables, à partir des textes et des précédents étudiés par la rédaction.</p>`,
+        contenu: articleHtml,
       },
       create: {
         id: "ebook-senegal-2027-20260904",
         slug: ARTICLE_SLUG,
         titre: "TOUBA INFOS PUBLIE « SÉNÉGAL 2027 : LE GRAND DÉCRYPTAGE DES ÉLECTIONS »",
-        sousTitre: "Un magazine spécial pour comprendre, à partir des textes, les grandes questions institutionnelles et électorales qui se posent à l’approche de 2027.",
-        extrait: "Touba Infos met gratuitement à disposition son nouveau magazine numérique consacré au calendrier électoral, à la dissolution, aux élections locales et législatives et aux scénarios institutionnels de 2027.",
+        sousTitre:
+          "Un magazine spécial pour comprendre, à partir des textes, les grandes questions institutionnelles et électorales qui se posent à l’approche de 2027.",
+        extrait:
+          "Touba Infos met gratuitement à disposition son nouveau magazine numérique consacré au calendrier électoral, à la dissolution, aux élections locales et législatives et aux scénarios institutionnels de 2027.",
         categorie: "Politique",
         genre: "Analyse",
         statut: "publie",
@@ -126,7 +110,7 @@ export async function POST(request: Request) {
         tempsLecture: "3 min",
         imageEmoji: "📘",
         imageGradient: "from-green-800 via-emerald-900 to-neutral-950",
-        imageUrl: coverBlob.url,
+        imageUrl: COVER_URL,
         imageFocalX: 50,
         imageFocalY: 50,
         credit: "Touba Infos",
@@ -136,17 +120,7 @@ export async function POST(request: Request) {
         epingle: true,
         vues: 0,
         tags: ["Sénégal 2027", "Élections", "Ebook", "Constitution", "Touba Infos"],
-        contenu: `<p><strong>Touba Infos publie un nouveau magazine numérique : « Sénégal 2027 : Le Grand Décryptage des Élections ».</strong></p>
-<p>Ce dossier spécial a été conçu pour permettre au public de comprendre les principaux enjeux juridiques et institutionnels liés aux échéances électorales de 2027, sans confondre les textes en vigueur, leur interprétation et les hypothèses politiques.</p>
-<h2>Un dossier consacré aux grandes questions de 2027</h2>
-<p>Le magazine analyse notamment la possibilité d’un couplage entre élections législatives et territoriales, les conditions de dissolution de l’Assemblée nationale prévues par l’article 87 de la Constitution, la durée des mandats locaux, les possibilités de prorogation, le rôle de la loi et du décret, le référendum, les ordonnances ainsi que les conséquences d’un éventuel blocage institutionnel.</p>
-<p>Il revient également sur la jurisprudence électorale récente et présente plusieurs scénarios de calendrier afin d’aider les lecteurs à distinguer ce qui est juridiquement établi de ce qui demeure hypothétique.</p>
-<h2>Téléchargement gratuit</h2>
-<p>Le magazine est mis gratuitement à la disposition des lecteurs de Touba Infos.</p>
-<p><a href="${pdfBlob.url}" target="_blank" rel="noopener noreferrer"><strong>→ Télécharger le PDF : Sénégal 2027 - Le Grand Décryptage des Élections</strong></a></p>
-<p><a href="/touba-infos/ebooks/${EBOOK_SLUG}"><strong>→ Voir la fiche du magazine dans la bibliothèque Touba Infos</strong></a></p>
-<h2>Une démarche pédagogique</h2>
-<p>Cette publication n’a pas vocation à annoncer une décision politique qui n’aurait pas encore été officiellement prise. Elle propose une lecture pédagogique des règles constitutionnelles, électorales et institutionnelles applicables, à partir des textes et des précédents étudiés par la rédaction.</p>`,
+        contenu: articleHtml,
       },
     });
 
@@ -161,8 +135,8 @@ export async function POST(request: Request) {
       ebook: {
         slug: ebook.slug,
         url: `/touba-infos/ebooks/${ebook.slug}`,
-        pdfUrl: pdfBlob.url,
-        coverUrl: coverBlob.url,
+        pdfUrl: PDF_URL,
+        coverUrl: COVER_URL,
       },
       article: {
         slug: article.slug,
