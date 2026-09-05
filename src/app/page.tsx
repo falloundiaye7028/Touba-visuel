@@ -426,7 +426,7 @@ export default function HomePage() {
 
               {/* Déco lumière */}
               <div
-                className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20 blur-3xl pointer-events-none"
+                className="absolute -top-10 right-0 w-40 h-40 rounded-full opacity-20 blur-3xl pointer-events-none"
                 style={{ background: "#a855f7" }}
               />
             </div>
