@@ -1,0 +1,4 @@
+import Link from "next/link";
+import { BrandLogo } from "@/components/BrandLogo";
+import { COMPANY_NINEA, COMPANY_RCCM } from "@/lib/brand";
+export function PublicLegalPage({eyebrow,title,intro,sections}:{eyebrow:string;title:string;intro:string;sections:Array<[string,string]>}){return <main className="ii-legal-page"><header><Link href="/"><BrandLogo variant="wordmark" light priority/></Link><Link href="/">Retour au site</Link></header><article><p className="ii-kicker">{eyebrow}</p><h1>{title}</h1><p className="lead">{intro}</p>{sections.map(([h,t])=><section key={h}><h2>{h}</h2><p>{t}</p></section>)}<footer><span>NINEA : {COMPANY_NINEA}</span><span>RCCM : {COMPANY_RCCM}</span><a href="mailto:contact@intelligenceimmobilier.com">contact@intelligenceimmobilier.com</a></footer></article></main>}

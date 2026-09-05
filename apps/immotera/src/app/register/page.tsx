@@ -1,0 +1,6 @@
+import Link from "next/link";
+import { Check } from "lucide-react";
+import { AuthForm } from "@/components/AuthForm";
+import { BrandLogo } from "@/components/BrandLogo";
+
+export default function RegisterPage(){return <main className="auth-page ii-auth-page register-page"><section className="auth-aside ii-auth-aside"><Link href="/" aria-label="Retour à l’accueil"><BrandLogo variant="wordmark" light priority/></Link><div className="ii-auth-story"><p>Tout ce qu’il vous faut pour piloter votre portefeuille.</p><ul><li><Check/>Biens, propriétaires et locataires</li><li><Check/>Loyers, quittances et impayés</li><li><Check/>Rapports et reversements</li><li><Check/>Intelligence métier sécurisée</li></ul></div><footer>Essai gratuit · Aucune carte requise</footer></section><section className="auth-main"><div><p className="eyebrow">COMMENCER</p><h1>Créez votre espace.</h1><p>Votre organisation sera strictement isolée.</p><AuthForm mode="register"/><p className="legal-note">En continuant, vous acceptez les <Link href="/conditions">conditions d’utilisation</Link> et la <Link href="/confidentialite">politique de confidentialité</Link>.</p><p className="auth-switch">Déjà un compte ? <Link href="/login">Se connecter</Link></p></div></section></main>}
