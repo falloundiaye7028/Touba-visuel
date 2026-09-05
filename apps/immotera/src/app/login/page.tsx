@@ -1,0 +1,6 @@
+import Link from "next/link";
+import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { AuthForm } from "@/components/AuthForm";
+import { BrandLogo } from "@/components/BrandLogo";
+
+export default function LoginPage(){return <main className="auth-page ii-auth-page"><section className="auth-aside ii-auth-aside"><Link href="/" aria-label="Retour à l’accueil"><BrandLogo variant="wordmark" light priority/></Link><div className="ii-auth-story"><span className="ii-auth-orb"><Sparkles size={22}/></span><p>Votre portefeuille, vos paiements et vos priorités dans un même espace de travail.</p><ul><li><ShieldCheck/>Données isolées par organisation</li><li><Sparkles/>Intelligence métier contrôlée</li></ul></div><footer><ShieldCheck size={16}/> Accès sécurisé par organisation</footer></section><section className="auth-main"><div><p className="eyebrow">BIENVENUE</p><h1>Heureux de vous revoir.</h1><p>Connectez-vous pour piloter votre activité.</p><AuthForm mode="login"/><Link className="ii-demo-access" href="/demo" data-analytics="hero_demo">Explorer un environnement de démonstration <ArrowRight size={15}/></Link><p className="auth-switch">Pas encore de compte ? <Link href="/register">Créer un espace</Link></p></div></section></main>}
