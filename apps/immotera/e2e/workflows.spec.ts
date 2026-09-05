@@ -1,4 +1,6 @@
 import { expect, test } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
 
 test("public landing presents the product without unsupported claims", async ({ page }) => {
   await page.goto("/");
@@ -25,22 +27,36 @@ test("real product tabs and structured AI demo are interactive", async ({ page }
   const product = page.locator("#produit");
   await expect(product.getByRole("heading", { name: /Découvrez/ })).toBeVisible();
   await product.getByRole("tab", { name: "Paiements" }).click();
-  await expect(product.getByRole("heading", { name: /encaissements rapprochés/ })).toBeVisible();
+  await expect(product.getByRole("heading", { name: /vision claire de chaque encaissement/ })).toBeVisible();
   await expect(product.getByAltText(/module Paiements/)).toBeVisible();
 
+  await product.getByRole("tab", { name: "Paiements" }).press("ArrowRight");
+  await expect(product.getByRole("tab", { name: "Propriétaires" })).toHaveAttribute("aria-selected", "true");
+
   const ai = page.locator("#intelligence");
-  await ai.getByRole("tab", { name: /Quels locataires/ }).click();
-  await expect(ai.getByText("1 975 000 FCFA")).toBeVisible();
+  await ai.getByRole("tab", { name: /Quels loyers/ }).click();
+  await expect(ai.getByText("2 530 000 FCFA")).toBeVisible();
   await expect(ai.getByRole("button", { name: /Préparer les relances/ })).toBeVisible();
+
+  await ai.getByRole("tab", { name: /Quels loyers/ }).press("End");
+  await expect(ai.getByRole("tab", { name: /reversements propriétaires/ })).toHaveAttribute("aria-selected", "true");
 });
 
 test("marketing layout has no horizontal overflow at required breakpoints", async ({ page }) => {
   await page.goto("/");
-  for (const width of [390, 430, 768, 1024, 1440]) {
+  for (const width of [375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.waitForTimeout(50);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `overflow at ${width}px`).toBe(true);
   }
+});
+
+test("mobile header keeps a concise primary action visible", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const header = page.locator("header").first();
+  await expect(header.getByRole("link", { name: "Commencer", exact: true })).toBeVisible();
+  await expect(header.getByRole("button", { name: /navigation/i })).toBeVisible();
 });
 
 test("registration states and enforces the real password policy", async ({ page, request }) => {
@@ -109,4 +125,36 @@ test("CSV import supports preview, mapping and validation", async ({ page }) => 
   await page.getByRole("button", { name: /Valider les données/ }).click();
   await page.getByRole("button", { name: /Lancer l’import/ }).click();
   await expect(page.getByRole("heading", { name: "Import terminé" })).toBeVisible();
+});
+
+test("document library uploads, views and downloads a real PDF", async ({ page }, testInfo) => {
+  const screenshotDirectory = path.join(process.cwd(), "artifacts", "document-upload");
+  await mkdir(screenshotDirectory, { recursive: true });
+  await page.goto("/properties/PROP-004");
+  await page.getByRole("navigation", { name: "Sections de la fiche" }).getByRole("link", { name: "Documents", exact: true }).click();
+  await page.getByRole("button", { name: "Ajouter un document" }).click();
+  const dialog = page.getByRole("dialog", { name: "Ajouter un document" });
+  await dialog.locator('input[type="file"]').setInputFiles("fixtures/documents/sample-property-document.pdf");
+  await dialog.getByLabel("Nom du document").fill("Permis de construire fictif");
+  await dialog.getByLabel("Catégorie").selectOption("Administratif");
+  await dialog.screenshot({ path: path.join(screenshotDirectory, `dialog-${testInfo.project.name}.jpg`), type: "jpeg", quality: 84 });
+  await dialog.getByRole("button", { name: "Ajouter le document" }).click();
+  await expect(page.getByText("Document téléversé avec succès")).toBeVisible();
+  const row = page.locator(".document-library .data-row").filter({ hasText: "Permis de construire fictif" }).first();
+  await expect(row).toBeVisible();
+  await page.locator(".resource-documents").screenshot({ path: path.join(screenshotDirectory, `library-${testInfo.project.name}.jpg`), type: "jpeg", quality: 82 });
+
+  const viewPromise = page.waitForResponse((response) => response.url().includes(`/api/documents/`) && response.url().includes("signed-url?disposition=inline"));
+  await row.getByRole("button", { name: /Voir/ }).click();
+  const viewResult = await (await viewPromise).json() as { url: string };
+  const viewerResponse = await page.request.get(viewResult.url);
+  expect(viewerResponse.ok()).toBe(true);
+  expect(viewerResponse.headers()["content-type"]).toContain("application/pdf");
+
+  const downloadPromise = page.waitForResponse((response) => response.url().includes(`/api/documents/`) && response.url().includes("signed-url?disposition=attachment"));
+  await row.getByRole("button", { name: /Télécharger/ }).click();
+  const downloadResult = await (await downloadPromise).json() as { url: string };
+  const downloadResponse = await page.request.get(downloadResult.url);
+  expect(downloadResponse.ok()).toBe(true);
+  expect(downloadResponse.headers()["content-disposition"]).toContain("attachment");
 });

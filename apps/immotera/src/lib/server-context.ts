@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { can, type Permission, type Role } from "@/lib/permissions";
+import { canWithOverrides, type Permission, type Role } from "@/lib/permissions";
 
 export async function requireContext(permission?: Permission) {
   if (!process.env.DATABASE_URL && process.env.NODE_ENV !== "production") {
@@ -17,6 +17,6 @@ export async function requireContext(permission?: Permission) {
   const membership = await db.membership.findUnique({ where: { userId_organizationId: { userId: session.user.id, organizationId: activeOrganizationId } } });
   if (!membership?.isActive) throw new Error("FORBIDDEN");
   const role = membership.role as Role;
-  if (permission && !can(role, permission)) throw new Error("FORBIDDEN");
+  if (permission && !canWithOverrides(role, permission, membership.permissions)) throw new Error("FORBIDDEN");
   return { userId: session.user.id, organizationId: activeOrganizationId, role };
 }
