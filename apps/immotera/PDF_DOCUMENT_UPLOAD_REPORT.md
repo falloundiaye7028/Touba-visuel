@@ -48,6 +48,8 @@ Captures disponibles :
 
 ## Prévisualisation et prérequis avant production
 
-La Preview Vercel est disponible sur `https://intelligenceimmobilier-gw6papu2y-touba-visuel.vercel.app` (statut Ready, HTTP 302 vers le parcours applicatif). Aucune promotion de production n'a été effectuée. L'environnement Vercel courant contient `AUTH_SECRET` et les URL d'application, mais ne contient pas encore `BLOB_READ_WRITE_TOKEN` / `BLOB_STORE_ID` ni la configuration de base de données nécessaire à la persistance réelle.
+La Preview Vercel complète est disponible sur `https://intelligenceimmobilier-j7ubjujci-touba-visuel.vercel.app` (statut Ready). Aucune promotion de production n'a été effectuée. Un Blob privé dédié `intelligenceimmobilier-documents-preview` est connecté en région `cdg1`, et une base Neon PostgreSQL dédiée `intelligenceimmobilier-preview-db` est connectée uniquement à l'environnement Preview. Les deux migrations Prisma ont été appliquées.
 
-Avant toute mise en production, il faut : connecter un Blob Vercel privé, définir `STORAGE_PROVIDER=blob`, `BLOB_READ_WRITE_TOKEN`, `BLOB_STORE_ID`, `DOCUMENT_SIGNING_SECRET` et `DATABASE_URL`, appliquer la migration Prisma, puis vérifier l'antivirus/quarantaine et le travail planifié de purge des fichiers orphelins ou supprimés.
+Le parcours réel a été vérifié de bout en bout sur cette Preview : création d'un compte et d'une organisation temporaires, import d'un PDF fictif lié à un bien, écriture dans Neon, stockage dans le Blob privé, génération d'un lien signé, restitution d'un PDF 1.4 de 695 octets, suppression logique et disparition de la bibliothèque. Les données et le Blob temporaires ont ensuite été supprimés.
+
+Avant toute mise en production, il reste à créer ou relier les ressources de production séparées, appliquer la migration dans cet environnement, puis vérifier l'antivirus/quarantaine et le travail planifié de purge des fichiers orphelins ou supprimés.
