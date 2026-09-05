@@ -127,7 +127,7 @@ export default function Header() {
           </Link>
 
           {/* Nav desktop — liens simples */}
-          <nav className="hidden md:flex items-center gap-5">
+          <nav className="hidden lg:flex items-center gap-5">
             {NAV_SIMPLE.map((link) => (
               <Link
                 key={link.href}
@@ -145,7 +145,7 @@ export default function Header() {
           </nav>
 
           {/* CTA desktop */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/marche-ocass"
               className="flex items-center gap-2 text-white font-bold text-sm px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105"
@@ -165,7 +165,7 @@ export default function Header() {
 
           {/* Bouton menu mobile */}
           <button
-            className="md:hidden text-white p-2"
+            className="lg:hidden text-white p-2"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
@@ -176,7 +176,7 @@ export default function Header() {
 
       {/* Menu mobile */}
       {menuOpen && (
-        <div className="md:hidden bg-vert-900 border-t border-vert-700 px-4 py-4">
+        <div className="lg:hidden bg-vert-900 border-t border-vert-700 px-4 py-4">
           <nav className="flex flex-col gap-1">
 
             {/* Liens simples */}

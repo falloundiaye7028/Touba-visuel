@@ -40,9 +40,9 @@ export default function WhatsAppFloat() {
         aria-label="Contacter ATV sur WhatsApp"
       >
         {/* Pulse rings */}
-        <span className="absolute inset-0 rounded-full animate-ping opacity-30"
+        <span className="absolute inset-2 rounded-full animate-ping opacity-30"
           style={{ background: "#25D366" }} />
-        <span className="absolute inset-0 rounded-full animate-ping opacity-20 delay-300"
+        <span className="absolute inset-2 rounded-full animate-ping opacity-20 delay-300"
           style={{ background: "#25D366", animationDelay: "0.5s" }} />
 
         {/* Icône WhatsApp */}
