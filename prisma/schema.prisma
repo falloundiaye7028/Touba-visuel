@@ -330,6 +330,8 @@ model InfoArticle {
   tags          String[]
   contenu       String    @db.Text
   youtubeId     String?
+  facebookPostId String?   @unique
+  facebookSharedAt DateTime?
   createdAt     DateTime  @default(now())
 
   @@index([statut])
