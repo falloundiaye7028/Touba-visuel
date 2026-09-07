@@ -17,32 +17,38 @@ import Logo from "./Logo";
 
 type NavItem = { label: string; href: string };
 
+// Navigation principale : uniquement les grandes rubriques éditoriales.
+// Les rubriques spécialisées et les formats sont regroupés dans « Plus »
+// afin de garder un en-tête lisible sur desktop comme sur mobile.
 const NAV_PRIMARY: NavItem[] = [
   { label: "Accueil", href: "/touba-infos" },
   { label: "Touba", href: "/touba-infos/rubrique/touba" },
   { label: "Sénégal", href: "/touba-infos/rubrique/senegal" },
   { label: "Politique", href: "/touba-infos/rubrique/politique" },
-  { label: "Société", href: "/touba-infos/rubrique/societe" },
   { label: "Économie", href: "/touba-infos/rubrique/economie" },
+  { label: "Société", href: "/touba-infos/rubrique/societe" },
   { label: "Religion", href: "/touba-infos/rubrique/religion" },
   { label: "Magal", href: "/touba-infos/magal" },
   { label: "Afrique", href: "/touba-infos/rubrique/afrique" },
   { label: "International", href: "/touba-infos/rubrique/international" },
   { label: "Sport", href: "/touba-infos/rubrique/sport" },
   { label: "Culture", href: "/touba-infos/rubrique/culture" },
-  { label: "Vidéos", href: "/touba-infos/videos" },
-  { label: "Ebooks", href: "/touba-infos/ebooks" },
-  { label: "Environnement", href: "/touba-infos/rubrique/environnement" },
-  { label: "Interviews", href: "/touba-infos/rubrique/interviews" },
-  { label: "Analyses", href: "/touba-infos/rubrique/analyses" },
 ];
 
 const NAV_PLUS: NavItem[] = [
+  // Rubriques spécialisées
   { label: "Santé", href: "/touba-infos/rubrique/sante" },
   { label: "Éducation", href: "/touba-infos/rubrique/education" },
+  { label: "Environnement", href: "/touba-infos/rubrique/environnement" },
   { label: "Diaspora", href: "/touba-infos/rubrique/diaspora" },
   { label: "Technologies", href: "/touba-infos/rubrique/technologies" },
+  // Formats éditoriaux
+  { label: "Interviews", href: "/touba-infos/rubrique/interviews" },
+  { label: "Analyses", href: "/touba-infos/rubrique/analyses" },
   { label: "Communiqués", href: "/touba-infos/rubrique/communiques" },
+  { label: "Vidéos", href: "/touba-infos/videos" },
+  { label: "Ebooks", href: "/touba-infos/ebooks" },
+  // Services
   { label: "Fil info", href: "/touba-infos/fil-info" },
   { label: "En direct", href: "/touba-infos/direct" },
   { label: "Publicité", href: "/touba-infos/publicite" },
