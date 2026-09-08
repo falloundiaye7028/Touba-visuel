@@ -1,48 +1,37 @@
-# KIIRAAY INFOS
+# KIIRAAY INFOS — Vercel
 
-Site d’information de Kiiraay au Sénégal et dans la diaspora, avec espace privé de gestion de la cellule de Touba.
+Projet Next.js indépendant dans `apps/kiiraay-infos`. Accueil national, régions, diaspora, Touba, articles, agenda et espace de gestion des membres et cotisations.
 
-## Fonctionnalités
+## Déploiement
 
-- Actualités : National, Régions, Diaspora, Touba, Communiqués.
-- Articles avec auteur, date, résumé, texte, photo par URL HTTPS et vidéo par lien HTTPS.
-- Brouillons et mise à la une ; pages individuelles `/articles/[id]`.
-- Agenda des activités et réunions.
-- Gestion privée dans `/gestion` : articles, cellules, membres, cartes imprimables et cotisations en FCFA.
-- Logo officiel et identité bleu, rouge et blanc.
-
-## Projet indépendant
-
-Ce dossier possède son propre package.json, verrou de dépendances et configuration. Exécuter les commandes dans `apps/kiiraay-infos`, pas à la racine du dépôt Touba-visuel.
-
-Le projet utilise React, Vinext, Cloudflare Workers et D1. Ce n’est pas une application Next.js directement déployable sur Vercel. Le fichier `.openai/hosting.json` conserve le lien avec le site Sites existant ; il ne contient pas de secret. Ne pas créer un second site pour republier ce projet.
-
-## Installation et compilation
-
-Node.js >= 22.13.0. Les scripts de compilation fournis utilisent Bash et les outils GNU, dont timeout (Linux recommandé).
+Créer le projet Vercel `kiiraay-infos` dans l’équipe Touba Visuel, avec le dossier racine `apps/kiiraay-infos` et le framework Next.js. La branche de travail est `codex/kiiraay-infos`. Les autres applications du dépôt sont indépendantes.
 
 ```bash
-cd apps/kiiraay-infos
 npm ci
+npm test
 npm run build
 ```
 
-La sortie est produite dans `dist/`. La compilation ne déploie rien. Le schéma D1 et sa migration sont fournis dans `db/` et `drizzle/`. Les données du site existant ne sont pas exportées vers GitHub.
+## Base de données
 
-## Hébergement et accès
+Créer une base Neon dédiée via Vercel Storage. Configurer `DATABASE_URL` dans l’environnement choisi. Le client Neon HTTP nécessite une URL Neon ; une URL PostgreSQL arbitraire n’est pas équivalente.
 
-La version actuelle est privée et utilise l’identité authentifiée transmise par Sites. `/signin-with-chatgpt` est géré par cette plateforme. Les données sont isolées par identité utilisateur. Les pages publiques présentées sont actuellement des aperçus privés.
+Exécuter `npm run db:migrate` avec DATABASE_URL défini. La migration transactionnelle est idempotente et ne touche que les tables `kiiraay_*`. Aucune migration ne s’exécute pendant la compilation ou les requêtes web.
 
-Pour une ouverture publique ou une migration vers Vercel, il faut adapter l’authentification, les autorisations administratives, l’accès aux publications et la base de données. Ne pas faire confiance à des en-têtes d’identité fournis directement par un visiteur hors du relais authentifié Sites. Une simple copie du code ne fournit ni une base de données externe, ni l’authentification, ni une migration des données.
+Sans base configurée, l’accueil affiche un registre vide et l’administration reste indisponible. Les données du précédent site Sites n’ont pas été migrées.
 
-L’API de lecture des publications ne retourne pas les membres ou les cotisations. Les brouillons sont exclus du flux visiteurs. Aucun fait politique ou article de démonstration n’a été inventé.
+## Compte administrateur
 
-## Vérification de cet export
+Exécuter `npm run admin:setup` dans un terminal de confiance. Le script crée `.admin-credentials.local` avec permissions 0600 et ne divulgue pas le mot de passe dans la console. Conserver le mot de passe dans un gestionnaire de mots de passe, puis enregistrer uniquement la valeur ADMIN_PASSWORD_HASH dans les variables chiffrées Vercel. Ne jamais committer ce fichier. Un seul compte administrateur est prévu dans cette version.
 
-La compilation du projet source réussit. Les contrôles de validation des articles acceptent un brouillon valide et rejettent les dates impossibles, catégories inconnues et URL de médias non HTTPS. Aucun test de navigateur ou déploiement Vercel n’est revendiqué.
+La connexion est dans `/connexion`, l’espace privé dans `/gestion`. Les sessions de 12 heures sont stockées côté serveur sous forme de condensat de jeton aléatoire. Cookie HttpOnly, SameSite Strict, Secure en production ; vérification d’origine sur les écritures. Les tentatives de connexion sont limitées côté base (10 par fenêtre de 15 minutes, globalement).
 
-## Limites actuelles
+La lecture publique expose uniquement les articles et activités publiés. Les fiches membres, cellules et cotisations passent par l’API administrateur. Le rendu de texte React échappe le contenu des articles. Les photos et vidéos sont des liens HTTPS, pas des téléversements.
 
-- Photos et vidéos ajoutées par liens, sans téléversement de fichiers.
-- Cartes imprimables, sans QR de vérification publique.
-- Collaboration entre responsables et accès public à configurer avant ouverture.
+## Validation réalisée
+
+Compilation Next.js et vérification TypeScript réussies. Test du hachage et de la validation du mot de passe réussi. Aucun test avec une base Neon réelle ni migration des anciennes données ne peut être revendiqué avant leur configuration.
+
+## Transition
+
+Cette version remplace l’adaptateur Cloudflare D1 et la connexion ChatGPT de l’export initial. Elle ne modifie pas le site Sites privé déjà hébergé. L’ouverture de la production se fait après configuration de la base, de l’administrateur et vérification des écritures.
