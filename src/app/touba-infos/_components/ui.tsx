@@ -231,10 +231,10 @@ export function AdSlot({
         : "h-20 md:h-24";
   return (
     <div
-      className={`flex ${h} w-full flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-50 text-neutral-400`}
+      className={`flex ${h} w-full flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-50 px-4 text-center text-neutral-700`}
     >
-      <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{label}</span>
-      <span className="mt-1 text-xs">Espace disponible —
+      <span className="text-xs font-bold uppercase tracking-[0.2em]">{label}</span>
+      <span className="mt-2 text-sm leading-relaxed">Espace disponible —
         <Link href="/touba-infos/publicite" className="ml-1 font-semibold text-green-700 hover:underline">
           communiquez sur Touba Infos
         </Link>
