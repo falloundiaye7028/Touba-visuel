@@ -223,12 +223,25 @@ export function AdSlot({
   format?: "banner" | "rectangle" | "leaderboard";
   label?: string;
 }) {
-  const h =
-    format === "rectangle"
-      ? "h-64"
-      : format === "leaderboard"
-        ? "h-24 md:h-28"
-        : "h-20 md:h-24";
+  if (format === "leaderboard") {
+    return (
+      <a
+        href="https://pay.wave.com/m/M_sn_UMbi7rZ15Cq6/c/sn/?amount=7000"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Payer 7 000 FCFA à Touba Ça Kanam avec Wave"
+        className="group block h-24 w-full overflow-hidden rounded-xl bg-green-900 md:h-28"
+      >
+        <img
+          src="https://876xi1t4drtxireu.public.blob.vercel-storage.com/touba-infos/articles/touba-ca-kanam-banner-web-zngj5ildIg1aUUTKwT5oJSW3kTFoJ9.png"
+          alt="Touba Ça Kanam : 7 000 FCFA multipliés par un million de personnes pour atteindre 7 milliards de FCFA"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
+        />
+      </a>
+    );
+  }
+
+  const h = format === "rectangle" ? "h-64" : "h-20 md:h-24";
   return (
     <div
       className={`flex ${h} w-full flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-50 px-4 text-center text-neutral-700`}
