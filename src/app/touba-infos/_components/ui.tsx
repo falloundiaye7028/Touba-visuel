@@ -241,7 +241,25 @@ export function AdSlot({
     );
   }
 
-  const h = format === "rectangle" ? "h-64" : "h-20 md:h-24";
+  if (format === "rectangle") {
+    return (
+      <a
+        href="https://www.der.sn/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Découvrir les programmes de la DER/FJ"
+        className="group block aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#07162c]"
+      >
+        <img
+          src="https://876xi1t4drtxireu.public.blob.vercel-storage.com/touba-infos/articles/exec-184ab3f6-b832-4a33-be41-95c849201434-FXHbHJ0tpH3dG07vOSyr32whCBemoE.png"
+          alt="DER/FJ — Militants de l’entrepreneuriat — Découvrez nos programmes"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
+        />
+      </a>
+    );
+  }
+
+  const h = "h-20 md:h-24";
   return (
     <div
       className={`flex ${h} w-full flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-50 px-4 text-center text-neutral-700`}
