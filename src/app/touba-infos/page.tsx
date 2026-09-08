@@ -155,15 +155,15 @@ function TopHeadlines({ une, manchettes }: { une: ArticleInfo; manchettes: Artic
           <p className="text-xs font-bold uppercase tracking-wider text-neutral-500">Les principales informations du moment</p>
         </div>
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1.55fr)_minmax(420px,1fr)]">
-          <Link href={`/touba-infos/${une.slug}`} className="group relative min-h-[430px] overflow-hidden bg-neutral-950">
-            <div className="absolute inset-0">
-              <EditorialImage article={une} emojiSize="text-[10rem]" />
+          <Link href={`/touba-infos/${une.slug}`} className="group relative isolate flex min-w-0 flex-col overflow-hidden bg-neutral-950 lg:min-h-[430px]">
+            <div className="relative z-0 aspect-video overflow-hidden lg:absolute lg:inset-0 lg:aspect-auto">
+              <EditorialImage article={une} emojiSize="text-[10rem]" priority />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8">
+            <div className="pointer-events-none absolute inset-0 z-10 hidden bg-gradient-to-t from-black via-black/60 to-transparent lg:block" />
+            <div className="relative z-20 p-5 sm:p-8 lg:mt-auto">
               <CategorieChip categorie={une.categorie} />
               <h1 className="mt-3 max-w-4xl text-3xl font-black leading-[1.03] text-white sm:text-4xl xl:text-5xl">{une.titre}</h1>
-              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/80 line-clamp-2 sm:text-base">{une.extrait}</p>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-neutral-200 sm:text-base lg:line-clamp-2">{une.extrait}</p>
             </div>
           </Link>
           <div className="grid gap-4 sm:grid-cols-2">
