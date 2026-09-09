@@ -83,6 +83,7 @@ export default async function ToubaInfosHome() {
                 S’abonner <ArrowRight size={16} />
               </Link>
             </div>
+            <AdSlot format="skyscraper" />
           </aside>
         </section>
 
