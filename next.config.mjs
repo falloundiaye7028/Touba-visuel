@@ -45,6 +45,16 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: "/.well-known/oauth-authorization-server",
+        destination:
+          "/api/touba-infos/oauth/metadata/authorization-server",
+      },
+      {
+        source:
+          "/.well-known/oauth-protected-resource/api/touba-infos/mcp",
+        destination: "/api/touba-infos/oauth/metadata/protected-resource",
+      },
+      {
         source: "/",
         has: [{ type: "host", value: "toubainfos.com" }],
         destination: "/touba-infos",

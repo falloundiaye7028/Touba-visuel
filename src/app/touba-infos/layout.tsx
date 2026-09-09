@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     siteName: "Touba Infos",
     locale: "fr_SN",
     type: "website",
-    url: MEDIA_URL,
+    url: `${MEDIA_URL}/touba-infos`,
     title: "Touba Infos — L'actualité de Touba, du Sénégal et du monde",
     description:
       "Média numérique d'information générale. L'information au cœur de Touba, ouverte sur le monde.",
@@ -57,7 +57,7 @@ export default function ToubaInfosLayout({
                 "@context": "https://schema.org",
                 "@type": "NewsMediaOrganization",
                 name: "Touba Infos",
-                url: MEDIA_URL,
+                url: `${MEDIA_URL}/touba-infos`,
                 logo: `${MEDIA_URL}/touba-infos-logo.png`,
                 slogan:
                   "L'information au cœur de Touba, ouverte sur le monde.",

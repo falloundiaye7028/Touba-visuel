@@ -70,7 +70,7 @@ export async function generateMetadata({
   return {
     title: data.titre,
     description: data.intro,
-    alternates: { canonical: `${MEDIA_URL}/rubrique/${slug}` },
+    alternates: { canonical: `${MEDIA_URL}/touba-infos/rubrique/${slug}` },
   };
 }
 

@@ -10,6 +10,7 @@ import type {
   GenreInfo,
   StatutInfo,
 } from "@/lib/touba-infos";
+import { sharePublishedArticleById } from "@/lib/touba-infos-facebook";
 
 // ── Auth ────────────────────────────────────────────────────────────────────
 export async function loginAction(formData: FormData) {
@@ -42,6 +43,17 @@ async function assert() {
 function revalidateAll() {
   revalidatePath("/touba-infos", "layout");
   revalidatePath("/touba-infos/admin", "layout");
+}
+
+async function shareOnFacebook(articleId: string) {
+  try {
+    await sharePublishedArticleById(articleId);
+  } catch (error) {
+    console.error("[touba-infos-facebook]", {
+      articleId,
+      message: error instanceof Error ? error.message : "Erreur inconnue",
+    });
+  }
 }
 
 function parseTags(v: FormDataEntryValue | null): string[] {
@@ -94,6 +106,7 @@ export async function createArticleAction(formData: FormData) {
   const data = fromForm(formData);
   if (!data.titre) redirect("/touba-infos/admin/articles/new?error=titre");
   const article = await store.adminCreate(data);
+  if (data.statut === "publie") await shareOnFacebook(article.id);
   revalidateAll();
   redirect(`/touba-infos/admin/articles/${article.id}?ok=cree`);
 }
@@ -102,6 +115,7 @@ export async function updateArticleAction(id: string, formData: FormData) {
   await assert();
   const data = fromForm(formData);
   await store.adminUpdate(id, { ...data, miseAJour: new Date().toISOString() });
+  if (data.statut === "publie") await shareOnFacebook(id);
   revalidateAll();
   redirect(`/touba-infos/admin/articles/${id}?ok=maj`);
 }
@@ -125,5 +139,6 @@ export async function toggleAction(
 export async function setStatutAction(id: string, statut: StatutInfo) {
   await assert();
   await store.adminSetStatut(id, statut);
+  if (statut === "publie") await shareOnFacebook(id);
   revalidateAll();
 }

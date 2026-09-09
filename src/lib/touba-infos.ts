@@ -89,6 +89,9 @@ export interface ArticleInfo {
   contenu: string;
   /** Pour les contenus vidéo — id YouTube éventuel */
   youtubeId?: string;
+  /** Identifiant renvoyé par Meta après diffusion automatique sur la Page. */
+  facebookPostId?: string;
+  facebookSharedAt?: string;
 }
 
 export interface VideoInfo {

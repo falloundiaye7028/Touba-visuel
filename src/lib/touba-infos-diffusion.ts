@@ -9,7 +9,7 @@ import { MEDIA_URL, type ArticleInfo, type VideoInfo, type CategorieInfo } from 
 const SITE = MEDIA_URL;
 
 export function urlArticle(slug: string): string {
-  return `${SITE}/${slug}`;
+  return `${SITE}/touba-infos/${slug}`;
 }
 
 function motCle(s: string): string {
