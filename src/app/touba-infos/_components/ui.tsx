@@ -220,7 +220,7 @@ export function AdSlot({
   format = "banner",
   label = "Publicité",
 }: {
-  format?: "banner" | "rectangle" | "leaderboard";
+  format?: "banner" | "rectangle" | "leaderboard" | "skyscraper";
   label?: string;
 }) {
   if (format === "leaderboard") {
@@ -253,6 +253,22 @@ export function AdSlot({
         <img
           src="https://876xi1t4drtxireu.public.blob.vercel-storage.com/touba-infos/articles/exec-184ab3f6-b832-4a33-be41-95c849201434-FXHbHJ0tpH3dG07vOSyr32whCBemoE.png"
           alt="DER/FJ — Militants de l’entrepreneuriat — Découvrez nos programmes"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
+        />
+      </a>
+    );
+  }
+
+  if (format === "skyscraper") {
+    return (
+      <a
+        href="tel:+221776866181"
+        aria-label="Appeler TTP au 77 686 61 81"
+        className="group block aspect-[4/5] w-full overflow-hidden rounded-xl bg-blue-950"
+      >
+        <img
+          src="https://876xi1t4drtxireu.public.blob.vercel-storage.com/touba-infos/articles/exec-f3e932de-ef94-43d6-bdf7-d994c5aaa41f-ed5B3LE1zfuyxcqZlUUDbPV5JdVT2t.png"
+          alt="TTP à Touba — Vente de matériel électroménager et bureautique — 77 686 61 81"
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
         />
       </a>
