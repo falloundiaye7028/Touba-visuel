@@ -4,7 +4,9 @@ import { runVeille } from "@/lib/touba-infos-veille";
 import { autoTraiterSujets } from "@/lib/touba-infos-writer";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+// La veille RSS est rapide, mais la rédaction IA peut traiter plusieurs sujets
+// séquentiellement. 60 s provoquait des timeouts en production.
+export const maxDuration = 300;
 
 /**
  * Déclenche une passe de veille (à appeler par un cron externe).
