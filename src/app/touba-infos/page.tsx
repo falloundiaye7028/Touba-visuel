@@ -84,6 +84,7 @@ export default async function ToubaInfosHome() {
               </Link>
             </div>
             <AdSlot format="skyscraper" />
+            <AdSlot format="intelligence-btp" />
           </aside>
         </section>
 
