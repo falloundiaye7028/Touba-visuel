@@ -51,7 +51,7 @@ export default async function DirectPage() {
             </p>
             <div className="mt-5 flex gap-3">
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/@toubainfostv183"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-bold hover:bg-red-700"
@@ -59,7 +59,7 @@ export default async function DirectPage() {
                 <Youtube size={16} /> YouTube
               </a>
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/toubainfos/?locale=fr_FR"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-[#1877F2] px-4 py-2 text-sm font-bold hover:brightness-95"
