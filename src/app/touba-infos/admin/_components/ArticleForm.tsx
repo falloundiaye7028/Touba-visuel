@@ -34,10 +34,12 @@ export default function ArticleForm({
   article,
   mode,
 }: {
-  action: (formData: FormData) => void | Promise<void>;
+  action: (formData: FormData) => Promise<void | { error: string }>;
   article?: ArticleInfo;
   mode: "new" | "edit";
 }) {
+  const [saveError, setSaveError] = useState("");
+  const [saving, setSaving] = useState(false);
   const [titre, setTitre] = useState(article?.titre ?? "");
   const [sousTitre, setSousTitre] = useState(article?.sousTitre ?? "");
   const [categorie, setCategorie] = useState<string>(article?.categorie ?? "Touba");
@@ -84,7 +86,26 @@ export default function ArticleForm({
   }
 
   return (
-    <form action={action} className="grid gap-6 lg:grid-cols-3">
+    <form
+      onSubmit={async (event) => {
+        event.preventDefault();
+        if (saving) return;
+        const form = event.currentTarget;
+        const data = new FormData(form);
+        setSaving(true);
+        setSaveError("");
+        try {
+          const result = await action(data);
+          if (result?.error) {
+            setSaveError(result.error);
+            form.querySelector<HTMLInputElement>('input[name="slug"]')?.focus();
+          }
+        } finally {
+          setSaving(false);
+        }
+      }}
+      className="grid gap-6 lg:grid-cols-3"
+    >
       {/* Colonne principale */}
       <div className="space-y-4 lg:col-span-2">
         <Field label="Titre" required>
@@ -100,7 +121,8 @@ export default function ArticleForm({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Slug (URL)" hint={mode === "new" ? "auto si vide" : undefined}>
-            <input name="slug" defaultValue={article?.slug} className={inputCls} placeholder="titre-de-larticle" />
+            <input name="slug" defaultValue={article?.slug} className={inputCls} placeholder="titre-de-larticle" aria-invalid={!!saveError} aria-describedby={saveError ? "article-save-error" : undefined} onChange={() => setSaveError("")} />
+            {saveError && <p id="article-save-error" role="alert" className="mt-2 text-sm font-semibold text-red-600">{saveError}</p>}
           </Field>
           <Field label="Temps de lecture">
             <input name="tempsLecture" defaultValue={article?.tempsLecture ?? "3 min"} className={inputCls} />
@@ -305,9 +327,11 @@ export default function ArticleForm({
         <div className="flex flex-col gap-2">
           <button
             type="submit"
+            disabled={saving}
+            aria-busy={saving}
             className="flex items-center justify-center gap-2 rounded-xl bg-green-600 py-3 text-sm font-bold text-white hover:bg-green-700"
           >
-            <Save size={16} /> {mode === "new" ? "Créer l'article" : "Enregistrer"}
+            <Save size={16} /> {saving ? "Enregistrement…" : mode === "new" ? "Créer l'article" : "Enregistrer"}
           </button>
           {article && (
             <Link

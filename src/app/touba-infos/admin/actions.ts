@@ -93,7 +93,13 @@ export async function createArticleAction(formData: FormData) {
   await assert();
   const data = fromForm(formData);
   if (!data.titre) redirect("/touba-infos/admin/articles/new?error=titre");
-  const article = await store.adminCreate(data);
+  let article;
+  try {
+    article = await store.adminCreate(data);
+  } catch (error) {
+    if (error instanceof store.ArticleSlugError) return { error: error.message };
+    throw error;
+  }
   revalidateAll();
   redirect(`/touba-infos/admin/articles/${article.id}?ok=cree`);
 }
@@ -101,7 +107,12 @@ export async function createArticleAction(formData: FormData) {
 export async function updateArticleAction(id: string, formData: FormData) {
   await assert();
   const data = fromForm(formData);
-  await store.adminUpdate(id, { ...data, miseAJour: new Date().toISOString() });
+  try {
+    await store.adminUpdate(id, { ...data, miseAJour: new Date().toISOString() });
+  } catch (error) {
+    if (error instanceof store.ArticleSlugError) return { error: error.message };
+    throw error;
+  }
   revalidateAll();
   redirect(`/touba-infos/admin/articles/${id}?ok=maj`);
 }

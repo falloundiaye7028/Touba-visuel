@@ -7,6 +7,7 @@
 // ============================================================================
 
 import { cache as reactCache } from "react";
+import { Prisma } from "@prisma/client";
 import { promises as fs } from "fs";
 import path from "path";
 import { prisma } from "./db";
@@ -320,11 +321,33 @@ function construireArticle(
   };
 }
 
+export class ArticleSlugError extends Error {
+  constructor(message = "Ce slug est déjà utilisé par un autre article. Modifiez le champ Slug (URL), puis réessayez.") {
+    super(message);
+    this.name = "ArticleSlugError";
+  }
+}
+
+function handleSlugConflict(error: unknown): never {
+  if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+    const target = error.meta?.target;
+    if ((Array.isArray(target) && target.includes("slug")) ||
+        (typeof target === "string" && /(^|_)slug(_|$)/.test(target))) {
+      throw new ArticleSlugError();
+    }
+  }
+  throw error;
+}
+
 export async function adminCreate(input: ArticleInput): Promise<ArticleInfo> {
   const all = await loadAll();
   const article = construireArticle(input, all);
   if (hasDb) {
-    await prisma.infoArticle.create({ data: { id: article.id, ...toDb(article) } });
+    try {
+      await prisma.infoArticle.create({ data: { id: article.id, ...toDb(article) } });
+    } catch (error) {
+      handleSlugConflict(error);
+    }
   } else {
     fileCache = [article, ...all];
     await persistFile();
@@ -339,12 +362,25 @@ export async function adminUpdate(
   const cur = await adminGetById(id);
   if (!cur) return undefined;
   const next: ArticleInfo = { ...cur, ...patch, id };
-  if (patch.slug) next.slug = slugify(patch.slug);
+  // An omitted or blank slug keeps the current URL.
+  next.slug = patch.slug?.trim() ? slugify(patch.slug) : cur.slug;
+  if (!next.slug) throw new ArticleSlugError("Saisissez un slug contenant des lettres ou des chiffres.");
 
   if (hasDb) {
-    await prisma.infoArticle.update({ where: { id }, data: toDb(next) });
+    const owner = await prisma.infoArticle.findUnique({
+      where: { slug: next.slug },
+      select: { id: true },
+    });
+    if (owner && owner.id !== id) throw new ArticleSlugError();
+    try {
+      await prisma.infoArticle.update({ where: { id }, data: toDb(next) });
+    } catch (error) {
+      // The unique constraint also protects against concurrent saves.
+      handleSlugConflict(error);
+    }
   } else {
     const all = await loadFile();
+    if (all.some((a) => a.slug === next.slug && a.id !== id)) throw new ArticleSlugError();
     const idx = all.findIndex((a) => a.id === id);
     if (idx >= 0) all[idx] = next;
     fileCache = all;
