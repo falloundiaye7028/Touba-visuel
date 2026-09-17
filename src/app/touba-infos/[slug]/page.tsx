@@ -22,6 +22,10 @@ import ShareButtons from "../_components/ShareButtons";
 
 const SITE = MEDIA_URL;
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 export async function generateStaticParams() {
   return (await getPublishedSlugs()).map((slug) => ({ slug }));
 }
@@ -84,15 +88,19 @@ export default async function ArticlePage({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
+    "@id": `${url}#article`,
     headline: article.titre,
     description: article.extrait,
     datePublished: article.date,
     dateModified: article.miseAJour ?? article.date,
     articleSection: article.categorie,
     keywords: article.tags.join(", "),
-    author: { "@type": "Person", name: article.auteur },
+    author: article.auteur.toLowerCase().includes("rédaction")
+      ? { "@type": "Organization", name: article.auteur }
+      : { "@type": "Person", name: article.auteur },
     publisher: {
       "@type": "NewsMediaOrganization",
+      "@id": `${SITE}/#organization`,
       name: "Touba Infos",
       logo: {
         "@type": "ImageObject",
@@ -100,7 +108,13 @@ export default async function ArticlePage({
       },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    image: [article.imageUrl ?? `${SITE}/touba-infos-logo.png`],
+    image: {
+      "@type": "ImageObject",
+      url: article.imageUrl ?? `${SITE}/touba-infos-logo.png`,
+      caption: article.legende,
+    },
+    articleBody: stripHtml(article.contenu),
+    isAccessibleForFree: true,
   };
 
   const breadcrumbLd = {

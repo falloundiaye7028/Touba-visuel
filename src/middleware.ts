@@ -92,6 +92,16 @@ export async function middleware(req: NextRequest) {
   }
   if (host === "toubainfos.com") {
     const p = pathname;
+    // Canonicalise les URL internes /touba-infos/* vers les URL publiques /*.
+    // On préserve l'espace d'administration (/touba-infos/admin).
+    if (p.startsWith("/touba-infos") && !p.startsWith("/touba-infos/admin")) {
+      const cleanPath = p.slice("/touba-infos".length) || "/";
+      const dest = new URL(
+        cleanPath + req.nextUrl.search,
+        "https://toubainfos.com",
+      );
+      return NextResponse.redirect(dest, 308);
+    }
     const passthrough =
       p.startsWith("/touba-infos") ||
       p.startsWith("/api") ||
