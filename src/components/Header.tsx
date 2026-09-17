@@ -20,7 +20,7 @@ const DROPDOWNS = [
     links: [
       { href: "/magal",       label: "⏳ Magal 2026",   desc: "Pack communication Magal de Touba" },
       { href: "/tabaski",     label: "🌙 Tabaski",       desc: "Carte de vœux gratuite" },
-      { href: "/touba-infos", label: "📰 Touba Infos",   desc: "Actualités mourides & locales" },
+      { href: "https://toubainfos.com", label: "📰 Touba Infos",   desc: "Actualités mourides & locales" },
     ],
   },
 ];

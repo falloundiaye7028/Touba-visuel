@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MockupLateral from "@/components/MockupLateral";
@@ -19,14 +18,6 @@ export default function SiteChrome({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const isToubaInfos = pathname?.startsWith("/touba-infos");
-
-  if (isToubaInfos) {
-    // Touba Infos fournit son propre habillage via son layout dédié.
-    return <>{children}</>;
-  }
-
   return (
     <>
       <ScrollProgress />

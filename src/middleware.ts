@@ -82,57 +82,6 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // Touba Infos : média à la racine
-  if (host === "www.toubainfos.com") {
-    const dest = new URL(
-      req.nextUrl.pathname + req.nextUrl.search,
-      "https://toubainfos.com",
-    );
-    return NextResponse.redirect(dest, 308);
-  }
-  if (host === "toubainfos.com") {
-    const p = pathname;
-    // Canonicalise les URL internes /touba-infos/* vers les URL publiques /*.
-    // On préserve l'espace d'administration (/touba-infos/admin).
-    if (
-      p.startsWith("/touba-infos") &&
-      !p.startsWith("/touba-infos/admin") &&
-      !/\.[a-zA-Z0-9]+$/.test(p)
-    ) {
-      const cleanPath = p.slice("/touba-infos".length) || "/";
-      const dest = new URL(
-        cleanPath + req.nextUrl.search,
-        "https://toubainfos.com",
-      );
-      return NextResponse.redirect(dest, 308);
-    }
-    // Fusion de la rubrique Magal vers le dossier /magal (une seule URL canonique).
-    if (p === "/rubrique/magal") {
-      const dest = new URL("/magal" + req.nextUrl.search, "https://toubainfos.com");
-      return NextResponse.redirect(dest, 308);
-    }
-    const passthrough =
-      p.startsWith("/touba-infos") ||
-      p.startsWith("/api") ||
-      p.startsWith("/_next") ||
-      p.startsWith("/images") ||
-      p.startsWith("/splash") ||
-      p === "/robots.txt" ||
-      p === "/sitemap.xml" ||
-      p === "/manifest.json" ||
-      p === "/sw.js" ||
-      /\.[a-zA-Z0-9]+$/.test(p);
-    if (!passthrough) {
-      const target = p === "/" ? "/touba-infos" : `/touba-infos${p}`;
-      const url = req.nextUrl.clone();
-      url.pathname = target;
-      // Transmet le chemin réécrit au layout serveur (habillage média).
-      const rewriteHeaders = new Headers(req.headers);
-      rewriteHeaders.set("x-pathname", target);
-      return NextResponse.rewrite(url, { request: { headers: rewriteHeaders } });
-    }
-  }
-
   // ── 1. Protection /admin ──────────────────────────────────────────────────
   if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
     const adminSecret = req.headers.get("x-admin-secret") || req.cookies.get("admin-token")?.value;
@@ -201,7 +150,6 @@ export async function middleware(req: NextRequest) {
   response.headers.delete("X-Powered-By");
   const noStore =
     pathname.startsWith("/api/") ||
-    pathname.startsWith("/touba-infos/admin") ||
     isSamaApp ||
     isServerAction;
   response.headers.set(

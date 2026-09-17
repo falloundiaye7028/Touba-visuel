@@ -42,20 +42,6 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: "/",
-        has: [{ type: "host", value: "toubainfos.com" }],
-        destination: "/touba-infos",
-      },
-      {
-        source: "/",
-        has: [{ type: "host", value: "www.toubainfos.com" }],
-        destination: "/touba-infos",
-      },
-    ];
-  },
 };
 
 export default nextConfig;
