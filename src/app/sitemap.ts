@@ -51,12 +51,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const infosRubriques = [...CATEGORIES_INFO, ...CATEGORIES_PLUS].map((c) => ({
-    url: `${INFOS}/rubrique/${slugCategorie(c as CategorieInfo)}`,
-    lastModified: new Date(),
-    changeFrequency: "daily" as const,
-    priority: 0.7,
-  }));
+  const infosRubriques = [...CATEGORIES_INFO, ...CATEGORIES_PLUS]
+    .filter((c) => slugCategorie(c as CategorieInfo) !== "magal")
+    .map((c) => ({
+      url: `${INFOS}/rubrique/${slugCategorie(c as CategorieInfo)}`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 0.7,
+    }));
 
   const infosArticles = articlesInfos.map((a) => ({
     url: `${INFOS}/${a.slug}`,

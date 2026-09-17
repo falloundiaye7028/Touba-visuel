@@ -92,8 +92,8 @@ export default function ToubaInfosLayout({
                   logo: {
                     "@type": "ImageObject",
                     url: `${MEDIA_URL}/touba-infos-logo.png`,
-                    width: 512,
-                    height: 512,
+                    width: 800,
+                    height: 278,
                   },
                   slogan:
                     "L'information au cœur de Touba, ouverte sur le monde.",

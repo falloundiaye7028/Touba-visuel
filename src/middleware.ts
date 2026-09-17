@@ -102,6 +102,11 @@ export async function middleware(req: NextRequest) {
       );
       return NextResponse.redirect(dest, 308);
     }
+    // Fusion de la rubrique Magal vers le dossier /magal (une seule URL canonique).
+    if (p === "/rubrique/magal") {
+      const dest = new URL("/magal" + req.nextUrl.search, "https://toubainfos.com");
+      return NextResponse.redirect(dest, 308);
+    }
     const passthrough =
       p.startsWith("/touba-infos") ||
       p.startsWith("/api") ||
