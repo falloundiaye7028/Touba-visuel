@@ -94,7 +94,11 @@ export async function middleware(req: NextRequest) {
     const p = pathname;
     // Canonicalise les URL internes /touba-infos/* vers les URL publiques /*.
     // On préserve l'espace d'administration (/touba-infos/admin).
-    if (p.startsWith("/touba-infos") && !p.startsWith("/touba-infos/admin")) {
+    if (
+      p.startsWith("/touba-infos") &&
+      !p.startsWith("/touba-infos/admin") &&
+      !/\.[a-zA-Z0-9]+$/.test(p)
+    ) {
       const cleanPath = p.slice("/touba-infos".length) || "/";
       const dest = new URL(
         cleanPath + req.nextUrl.search,
